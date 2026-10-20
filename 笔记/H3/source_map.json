@@ -1,0 +1,1637 @@
+{
+  "paper": {
+    "title": "H³: Hybrid Architecture Using High Bandwidth Memory and High Bandwidth Flash for Cost-Efficient LLM Inference",
+    "venue": "IEEE Computer Architecture Letters, 25(1), 49–52 (2026)",
+    "doi": "10.1109/LCA.2026.3660969",
+    "source_type": "pdf",
+    "language": "en",
+    "source_path": "/home/kurisu/Desktop/论文/文献/Ha et al. - 2026 - H³ Hybrid Architecture Using High Bandwidth Memory and High Bandwidth Flash for Cost-Efficient LLM.pdf"
+  },
+  "blocks": [
+    {
+      "id": "abstract",
+      "page": 1,
+      "type": "heading",
+      "original_text": "Abstract",
+      "translation": "摘要",
+      "confidence": "high",
+      "anchor": "abstract",
+      "order": 1
+    },
+    {
+      "id": "S001",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 2,
+      "original_text": "Abstract—Large language model (LLM) inference requires massive memory capacity to process long sequences, posing a challenge due to the capacity limitations of high bandwidth memory (HBM). High bandwidth flash (HBF) is an emerging memory device based on NAND flash that offers HBM-comparable bandwidth with much larger capacity, but suffers from disadvantages such as longer access latency, lower write endurance, and higher power consumption. This paper proposes H³, a hybrid architecture designed to effectively utilize both HBM and HBF by leveraging their respective strengths. By storing read-only data in HBF and other data in HBM, H³-equipped systems can process more requests at once with the same number of GPUs than HBM-only systems, making H³ suitable for gigantic read-only use cases in LLM inference, particularly those employing a shared pre-computed key-value cache. Simulation results show that a GPU system with H³ achieves up to 2.69x higher throughput per power compared to a system with HBM-only. This result validates the cost-effectiveness of H³ for handling LLM inference with gigantic read-only data.",
+      "translation": "摘要——大语言模型（LLM）推理在处理长序列时需要巨大的内存容量，而高带宽内存（HBM）的容量限制给这一需求带来了挑战。高带宽闪存（HBF）是一种基于 NAND 闪存的新兴存储器件，能够提供与 HBM 相当的带宽和大得多的容量，但也存在访问延迟更长、写入耐久性更低、功耗更高等缺点。本文提出 H³，这是一种旨在发挥 HBM 与 HBF 各自优势、有效利用二者的混合架构。通过将只读数据存入 HBF、将其他数据存入 HBM，配备 H³ 的系统能够在 GPU 数量相同的情况下，同时处理比仅使用 HBM 的系统更多的请求。因此，H³ 适用于 LLM 推理中的超大规模只读应用场景，尤其是采用共享预计算键值缓存的场景。仿真结果表明，采用 H³ 的 GPU 系统，其单位功耗吞吐量最高可达到仅使用 HBM 系统的 2.69 倍。这一结果验证了 H³ 在处理含超大规模只读数据的 LLM 推理时的成本效益。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            37.90757369995117,
+            153.458251953125,
+            288.99102783203125,
+            295.92431640625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S002",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 3,
+      "original_text": "Index Terms—High bandwidth memory, high bandwidth flash, large language model.",
+      "translation": "关键词——高带宽内存、高带宽闪存、大语言模型。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            37.907432556152344,
+            303.8927917480469,
+            288.9759826660156,
+            320.83563232421875
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-1",
+      "page": 1,
+      "type": "heading",
+      "original_text": "I. Introduction",
+      "translation": "I. 引言",
+      "confidence": "high",
+      "anchor": "section-1",
+      "order": 4
+    },
+    {
+      "id": "S003",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 5,
+      "original_text": "LARGE language models (LLMs) continue to evolve, moving from simple chatbots to research assistant, agentic AI, and multimodal AI [1]. Throughout this evolution, the sequence length required by LLM inference is increasing dramatically (e.g., the latest Llama 4 supports sequence lengths up to 10 M [2].). There is active research on efficiently processing such long sequences [3], [4] and on precomputed key-value (KV) caches for long sequence data shared by multiple requests [5]. In [5], when requests arrive, these pre-computed KV caches are read without writing. Processing extremely long sequences in this way during LLM inference requires large memory capacity and results in gigantic KV cache reads. For example, assuming Llama 3.1 405B [6] inference, the capacity of the shared precomputed KV cache of 1 M and 10 M sizes is approximately 540 GB and 5.4 TB, respectively, requiring dozens of GPUs just to store these values.",
+      "translation": "大语言模型（LLM）不断演进，正从简单的聊天机器人走向研究助手、智能体 AI 和多模态 AI [1]。在这一演进过程中，LLM 推理所需的序列长度急剧增长（例如，最新的 Llama 4 支持长达 10 M 的序列 [2]）。目前，研究者正积极探索如何高效处理这类长序列 [3]、[4]，以及如何为多个请求共享的长序列数据预先计算键值（KV）缓存 [5]。在文献 [5] 中，请求到达后只读取这些预计算 KV 缓存，而不进行写入。LLM 推理以这种方式处理超长序列时，需要很大的内存容量，并产生海量 KV 缓存读取。例如，假设执行 Llama 3.1 405B [6] 推理，长度分别为 1 M 和 10 M 的共享预计算 KV 缓存，其容量约为 540 GB 和 5.4 TB，仅存储这些数据就需要数十个 GPU。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            37.908302307128906,
+            347.7865295410156,
+            288.9817199707031,
+            537.084716796875
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S004",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 6,
+      "original_text": "From a hardware perspective, high bandwidth memory (HBM) capacity is insufficient compared to the increasing amount of data during LLM inference. To overcome this HBM capacity shortfall, high bandwidth flash (HBF), which vertically stacks NAND flash to mimic HBM, has been proposed [7]. HBF offers bandwidth similar to HBM and larger capacity than HBM, but suffers from disadvantages such as longer access latency, lower write endurance, and higher power consumption per bit than HBM. Therefore, sub-system architectures and use cases that can highlight the advantages of HBF while offsetting its disadvantages are needed.",
+      "translation": "从硬件角度看，相较于 LLM 推理期间不断增长的数据量，高带宽内存（HBM）的容量不足。为克服 HBM 容量不足的问题，人们提出了高带宽闪存（HBF）：它通过垂直堆叠 NAND 闪存来仿照 HBM 的形式 [7]。HBF 提供与 HBM 相近的带宽和更大的容量，但也存在访问延迟更长、写入耐久性更低、每比特功耗更高等缺点。因此，需要能够突出 HBF 优势、同时弥补其不足的子系统架构与应用场景。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            37.91230773925781,
+            539.0742797851562,
+            288.99169921875,
+            644.6807861328125
+          ]
+        },
+        {
+          "page": 1,
+          "bbox": [
+            300.92401123046875,
+            270.8544921875,
+            551.9677734375,
+            292.7781982421875
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S005",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 7,
+      "original_text": "In this paper, we propose a hybrid architecture for effectively utilizing HBF, considering its strengths and weaknesses. The key contributions of this paper are as follows:",
+      "translation": "本文结合 HBF 的优势与不足，提出一种能够有效利用 HBF 的混合架构。本文的主要贡献如下：",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            300.92401123046875,
+            294.7677001953125,
+            551.98583984375,
+            340.59503173828125
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S006",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 8,
+      "original_text": "We propose H³, a hybrid architecture that can effectively utilize HBM and HBF.",
+      "translation": "我们提出 H³，一种能够有效利用 HBM 和 HBF 的混合架构。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            300.92401123046875,
+            294.7677001953125,
+            551.98583984375,
+            340.59503173828125
+          ]
+        },
+        {
+          "page": 1,
+          "bbox": [
+            312.7770080566406,
+            342.593505859375,
+            551.9825439453125,
+            376.4600524902344
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S007",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 9,
+      "original_text": "We explore a use case well-suited for H³.",
+      "translation": "我们探索了一个适合 H³ 的应用场景。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            312.7770080566406,
+            342.593505859375,
+            551.9825439453125,
+            376.4600524902344
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S008",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 10,
+      "original_text": "We demonstrate the cost-effectiveness of H³ through a simulation-based performance evaluation.",
+      "translation": "我们通过基于仿真的性能评估，展示了 H³ 的成本效益。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            312.7770080566406,
+            342.593505859375,
+            551.9825439453125,
+            376.4600524902344
+          ]
+        },
+        {
+          "page": 1,
+          "bbox": [
+            321.8404541015625,
+            378.4585266113281,
+            488.71624755859375,
+            388.421142578125
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-2",
+      "page": 1,
+      "type": "heading",
+      "original_text": "II. Motivation",
+      "translation": "II. 研究动机",
+      "confidence": "high",
+      "anchor": "section-2",
+      "order": 11
+    },
+    {
+      "id": "section-2-a",
+      "page": 1,
+      "type": "heading",
+      "original_text": "A. Gigantic Read-Only Use Case",
+      "translation": "A. 超大规模只读应用场景",
+      "confidence": "high",
+      "anchor": "section-2-a",
+      "order": 12
+    },
+    {
+      "id": "S009",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 13,
+      "original_text": "During LLM inference, many data types exhibit read-only behavior. For example, LLM weight parameters are repeatedly read. Specifically, Llama 3.1 405B [6] requires approximately 405 GB to store model weights in FP8 precision. This means that 405 GB of reads occur each time a batch is processed.",
+      "translation": "在 LLM 推理过程中，许多类型的数据呈现只读行为。例如，LLM 的权重参数会被反复读取。具体而言，以 FP8 精度存储 Llama 3.1 405B [6] 的模型权重约需 405 GB。这意味着每处理一个批次，就会产生 405 GB 的读取量。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            300.9230041503906,
+            437.5879211425781,
+            551.9775390625,
+            495.376953125
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S010",
+      "page": 1,
+      "pages": [
+        1
+      ],
+      "type": "paragraph",
+      "order": 14,
+      "original_text": "Particularly, in cache-augmented generation (CAG) [5], which has recently attracted considerable research attention, when the LLM receives a query, it reads the gigantic shared precomputed KV cache, performs a computation, and then outputs a response (Fig. 1). In other words, the shared pre-computed KV cache is inherently read-only. In CAG, attention computation uses shared KV attention, which amortizes memory access overhead, preventing significant latency increase even with a large batch size. Therefore, increasing the batch size can lead to substantial gains in throughput. However, due to the limited capacity of the HBM on GPUs [8], running CAG with large batch sizes is challenging. Storing the gigantic shared pre-computed KV cache on HBM requires more GPUs, increasing cost and overall system power requirements.",
+      "translation": "尤其是在近期受到广泛研究关注的缓存增强生成（CAG）[5] 中，当 LLM 收到查询时，会读取超大规模共享预计算 KV 缓存，执行计算，然后输出响应（图 1）。换言之，共享预计算 KV 缓存在本质上是只读的。在 CAG 中，注意力计算采用共享 KV 注意力机制，能够摊薄内存访问开销，使得即使采用较大的批量大小，延迟也不会显著增加。因此，增大批量大小可以大幅提高吞吐量。然而，由于 GPU 上的 HBM 容量有限 [8]，以大批量运行 CAG 仍面临挑战。将超大规模共享预计算 KV 缓存存储在 HBM 中需要更多 GPU，从而增加成本和整个系统的功耗需求。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            300.9230041503906,
+            497.366455078125,
+            551.99072265625,
+            662.7515869140625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F001"
+      ]
+    },
+    {
+      "id": "F001",
+      "page": 1,
+      "type": "figure",
+      "image_path": "assets/figure-01.png",
+      "bbox": [
+        314,
+        150,
+        529,
+        228
+      ],
+      "caption_id": "C001",
+      "confidence": "high",
+      "order": 15
+    },
+    {
+      "id": "C001",
+      "page": 1,
+      "type": "caption",
+      "original_text": "The concept of cache augmented generation (CAG) [5], a representative example of a gigantic read-only use case.",
+      "translation": "缓存增强生成（CAG）[5] 的概念，这是超大规模只读应用场景的一个代表性示例。",
+      "confidence": "high",
+      "refs": [
+        "F001"
+      ],
+      "order": 16
+    },
+    {
+      "id": "section-2-b",
+      "page": 1,
+      "type": "heading",
+      "original_text": "B. High Bandwidth Flash",
+      "translation": "B. 高带宽闪存",
+      "confidence": "high",
+      "anchor": "section-2-b",
+      "order": 17
+    },
+    {
+      "id": "S011",
+      "page": 1,
+      "pages": [
+        1,
+        2
+      ],
+      "type": "paragraph",
+      "order": 18,
+      "original_text": "As shown in Fig. 2, HBF is a device that supports high bandwidth by vertically stacking NAND flash dies and connecting the base die and NAND flash dies with through silicon vias (TSVs). Currently, various memory and flash vendors are developing HBF aiming to support bandwidth similar to HBM and much larger capacity than HBM [7]. Since HBF is not yet a commercially available device, in this paper, we will assume its target specifications [7]. The expected advantages of HBF are 1) up to 16x larger capacity than HBM, and 2) similar bandwidth to HBM, and the expected disadvantages are 1) slower access (ns vs. μs), 2) lower write endurance, and 3) up to 4x higher power consumption than HBM.",
+      "translation": "如图 2 所示，HBF 通过垂直堆叠 NAND 闪存裸片，并采用硅通孔（TSV）连接基底裸片与 NAND 闪存裸片，实现高带宽。目前，多家内存与闪存厂商正在研发 HBF，目标是提供与 HBM 相近的带宽和远大于 HBM 的容量 [7]。由于 HBF 尚未成为商用器件，本文采用其目标规格作为假设 [7]。HBF 的预期优势包括：1）容量最高可达 HBM 的 16 倍；2）带宽与 HBM 相近。其预期缺点包括：1）访问更慢（ns 级与 μs 级的差别）；2）写入耐久性更低；3）功耗最高可达 HBM 的 4 倍。",
+      "source_regions": [
+        {
+          "page": 1,
+          "bbox": [
+            300.92401123046875,
+            693.9912719726562,
+            551.98046875,
+            715.906005859375
+          ]
+        },
+        {
+          "page": 2,
+          "bbox": [
+            42.11998748779297,
+            169.94654846191406,
+            293.2063293457031,
+            287.50537109375
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F002"
+      ]
+    },
+    {
+      "id": "F002",
+      "page": 2,
+      "type": "figure",
+      "image_path": "assets/figure-02.png",
+      "bbox": [
+        74,
+        64,
+        267,
+        132
+      ],
+      "caption_id": "C002",
+      "confidence": "high",
+      "order": 19
+    },
+    {
+      "id": "C002",
+      "page": 2,
+      "type": "caption",
+      "original_text": "The concept of HBF.",
+      "translation": "HBF 的概念。",
+      "confidence": "high",
+      "refs": [
+        "F002"
+      ],
+      "order": 20
+    },
+    {
+      "id": "S012",
+      "page": 2,
+      "pages": [
+        2
+      ],
+      "type": "paragraph",
+      "order": 21,
+      "original_text": "Since HBF has clear advantages and disadvantages, it can only be effectively used in certain use cases, and the gigantic read-only use case mentioned in Section II-A can be an effective use case. Gigantic KV cache data and weight parameters can be stored due to the large capacity of HBF, and the low write endurance of HBF is no longer a disadvantage because they have a read-only data pattern. We will discuss a way to overcome the slow access latency of HBF later in this paper.",
+      "translation": "由于 HBF 的优缺点都很明显，只有在特定应用场景中才能有效利用它，而第 II-A 节提到的超大规模只读场景就是一个合适的例子。HBF 的大容量能够容纳超大规模 KV 缓存数据和权重参数；由于这些数据的访问模式是只读的，HBF 较低的写入耐久性也就不再构成劣势。本文后续将讨论一种克服 HBF 访问延迟较长问题的方法。",
+      "source_regions": [
+        {
+          "page": 2,
+          "bbox": [
+            42.11900329589844,
+            289.494873046875,
+            293.18939208984375,
+            383.14923095703125
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-3",
+      "page": 2,
+      "type": "heading",
+      "original_text": "III. Proposed Architecture and Its Usage",
+      "translation": "III. 所提架构及其使用方式",
+      "confidence": "high",
+      "anchor": "section-3",
+      "order": 22
+    },
+    {
+      "id": "section-3-a",
+      "page": 2,
+      "type": "heading",
+      "original_text": "A. H³: Hybrid Architecture Using HBM and HBF",
+      "translation": "A. H³：使用 HBM 与 HBF 的混合架构",
+      "confidence": "high",
+      "anchor": "section-3-a",
+      "order": 23
+    },
+    {
+      "id": "S013",
+      "page": 2,
+      "pages": [
+        2
+      ],
+      "type": "paragraph",
+      "order": 24,
+      "original_text": "As mentioned in Section II-B, since HBF is a device with both advantages and disadvantages, its use alone has limitations. Therefore, we propose H³, a hybrid architecture that utilizes both HBM and HBF, aiming to highlight the advantages of HBF and compensate for its shortcomings. There can be various implementation methods for hybrid architectures. For example, one method places the HBM and HBF directly next to the GPU’s shoreline. However, this method has the disadvantage of reducing the number of HBMs due to the limited shoreline space on the GPU. To maximize the bandwidth of the HBM and HBF, as shown in Fig. 3(a), the HBMs in the H³ are connected to the GPU’s shoreline, and the HBMs and HBFs are daisy-chained. Within the HBM base die, memory access is divided into two paths by address decoder & router: one accessing the HBM and the other accessing the HBF. Consequently, the GPU can directly access the HBF through the HBM base die (Fig. 3(b)). In other words, both the HBM and HBF serve as the GPU’s main memory. Since both HBM and HBF are used as main memory, the host uses the unified address space with divided memory regions when accessing HBM or HBF (Fig. 3(c)).",
+      "translation": "如第 II-B 节所述，HBF 同时具有优势和不足，因此单独使用它存在局限。为此，我们提出同时利用 HBM 与 HBF 的混合架构 H³，旨在发挥 HBF 的优势并弥补其不足。混合架构可以有多种实现方式。例如，一种方式是将 HBM 和 HBF 都直接布置在 GPU 的芯片边缘接口区域（shoreline）旁。但由于 GPU 边缘接口空间有限，这种方式会减少可连接的 HBM 数量。为最大化 HBM 与 HBF 的带宽，如图 3(a) 所示，H³ 将 HBM 连接到 GPU 的边缘接口，并以菊花链方式连接 HBM 与 HBF。在 HBM 基底裸片内部，地址译码器与路由器将内存访问分成两条路径：一条访问 HBM，另一条访问 HBF。因此，GPU 可以通过 HBM 基底裸片直接访问 HBF（图 3(b)）。换言之，HBM 与 HBF 均作为 GPU 的主存。由于二者都用作主存，主机访问 HBM 或 HBF 时采用统一地址空间，并在其中划分不同的内存区域（图 3(c)）。",
+      "source_regions": [
+        {
+          "page": 2,
+          "bbox": [
+            42.1201171875,
+            435.95086669921875,
+            293.191650390625,
+            673.0650634765625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F003"
+      ]
+    },
+    {
+      "id": "F003",
+      "page": 2,
+      "type": "figure",
+      "image_path": "assets/figure-03.png",
+      "bbox": [
+        332,
+        64,
+        531,
+        300
+      ],
+      "caption_id": "C003",
+      "confidence": "high",
+      "order": 25
+    },
+    {
+      "id": "C003",
+      "page": 2,
+      "type": "caption",
+      "original_text": "H³ Architecture overview.",
+      "translation": "H³ 架构概览。",
+      "confidence": "high",
+      "refs": [
+        "F003"
+      ],
+      "order": 26
+    },
+    {
+      "id": "S014",
+      "page": 2,
+      "pages": [
+        2
+      ],
+      "type": "paragraph",
+      "order": 27,
+      "original_text": "In Fig. 3(b), it is assumed that the GPU, HBM base die, and HBF base die are connected via a die-to-die (D2D) interface and the bandwidth between the GPU and the HBM base die is equal to the bandwidth between each base die and the core die. We also assumed that the HBM and HBF controller are located on their own base die. This is subject to change depending on silicon area availability.",
+      "translation": "在图 3(b) 中，我们假设 GPU、HBM 基底裸片与 HBF 基底裸片通过裸片间（D2D）接口连接，并且 GPU 与 HBM 基底裸片之间的带宽，等于各基底裸片与其核心裸片之间的带宽。我们还假设 HBM 和 HBF 控制器分别位于各自的基底裸片上。具体安排可能随可用硅面积而变化。",
+      "source_regions": [
+        {
+          "page": 2,
+          "bbox": [
+            42.120155334472656,
+            675.0546264648438,
+            293.1885986328125,
+            756.7568969726562
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-3-b",
+      "page": 2,
+      "type": "heading",
+      "original_text": "B. Usage: LLM With Gigantic Read-Only Data",
+      "translation": "B. 应用：包含超大规模只读数据的 LLM",
+      "confidence": "high",
+      "anchor": "section-3-b",
+      "order": 28
+    },
+    {
+      "id": "S015",
+      "page": 2,
+      "pages": [
+        2
+      ],
+      "type": "paragraph",
+      "order": 29,
+      "original_text": "H³ is suitable for LLM inference with the gigantic model weights and shared pre-computed KV cache described in Section II. These values, which are gigantic and read-only, are well-suited for the HBF supporting large capacity and having limited write endurance. Therefore, the model weights and shared pre-computed KV caches are stored in the HBF. In addition, the generated KV caches and other data are stored in the HBM. Fig. 4 explains how it works. In Fig. 4, when accessing HBF, hop latency may be added, but since LLM inference is memory bandwidth-bound, hop latency can be sufficiently hidden. Since the data access pattern of LLM inference is deterministic [9], we expect that it will be possible to allocate data suitable for the HBM and the HBF with the support of deep learning framework. Processing a particular operation may require data stored in both the HBM and HBF. However, because the tensors required for the operation can be accurately predicted, tensor-level scheduling is possible, making contention between the HBM and HBF manageable.",
+      "translation": "H³ 适用于第 II 节所述的、包含超大规模模型权重与共享预计算 KV 缓存的 LLM 推理。这些数据规模庞大且只读，非常适合容量大但写入耐久性有限的 HBF。因此，模型权重与共享预计算 KV 缓存存储在 HBF 中，而推理过程中生成的 KV 缓存及其他数据存储在 HBM 中。图 4 展示了其工作方式。在图 4 中，访问 HBF 可能引入额外的跳转延迟，但由于 LLM 推理受内存带宽限制，这一延迟可以被充分隐藏。由于 LLM 推理的数据访问模式具有确定性 [9]，我们预计在深度学习框架的支持下，可以将数据分配到适合的 HBM 或 HBF 中。处理某个特定操作时，可能同时需要存储在 HBM 和 HBF 中的数据。但由于能够准确预测该操作所需的张量，可以进行张量级调度，从而使 HBM 与 HBF 之间的资源争用得到管理。",
+      "source_regions": [
+        {
+          "page": 2,
+          "bbox": [
+            305.1361999511719,
+            480.15850830078125,
+            556.2017211914062,
+            696.97900390625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F004"
+      ]
+    },
+    {
+      "id": "F004",
+      "page": 2,
+      "type": "figure",
+      "image_path": "assets/figure-04.png",
+      "bbox": [
+        337,
+        329,
+        528,
+        417
+      ],
+      "caption_id": "C004",
+      "confidence": "high",
+      "order": 30
+    },
+    {
+      "id": "C004",
+      "page": 2,
+      "type": "caption",
+      "original_text": "A description of how HBM and HBF are accessed in LLM inference with gigantic shared pre-computed KV cache.",
+      "translation": "在采用超大规模共享预计算 KV 缓存的 LLM 推理中，HBM 与 HBF 的访问方式。",
+      "confidence": "high",
+      "refs": [
+        "F004"
+      ],
+      "order": 31
+    },
+    {
+      "id": "S016",
+      "page": 2,
+      "pages": [
+        2,
+        3
+      ],
+      "type": "paragraph",
+      "order": 32,
+      "original_text": "The advantage of applying H³ to gigantic read-only use cases is that it supports larger capacity allowing for larger batch processing with the same number of GPUs. Larger batch processing leads to improved throughput, ultimately resulting in cost savings when running an LLM inference system. Using HBF for read-only use cases also has the additional benefit of reducing garbage collection and wear-leveling overhead.",
+      "translation": "将 H³ 应用于超大规模只读场景的优势在于，它提供更大的容量，使系统在 GPU 数量相同的情况下能够处理更大的批次。更大的批次能够提高吞吐量，最终降低 LLM 推理系统的运行成本。将 HBF 用于只读场景，还具有减少垃圾回收和磨损均衡开销的额外好处。",
+      "source_regions": [
+        {
+          "page": 2,
+          "bbox": [
+            305.1367492675781,
+            695.3485107421875,
+            556.2173461914062,
+            756.7554931640625
+          ]
+        },
+        {
+          "page": 3,
+          "bbox": [
+            37.90800094604492,
+            65.29450988769531,
+            288.9635009765625,
+            87.20925903320312
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-3-c",
+      "page": 3,
+      "type": "heading",
+      "original_text": "C. Optimization: Latency Hiding Buffer",
+      "translation": "C. 优化：延迟隐藏缓冲区",
+      "confidence": "high",
+      "anchor": "section-3-c",
+      "order": 33
+    },
+    {
+      "id": "S017",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 34,
+      "original_text": "As HBF is inherently NAND flash-based, it has longer access latency than HBM. Therefore, hiding its long latency is essential for using it as memory. To compensate for the long NAND flash latency, the latency hiding buffer (LHB), which is a kind of prefetch buffer, is integrated into the base die of either HBM or HBF of the H³ (In Fig. 3(b), LHB is in the base die of HBM). For LLM inference, the next layer can be processed only after the previous layer is completed, and the model weight and KV cache required for computation in one layer are pre-determined. In other words, LLM inference has a deterministic and sequential data pattern [9]. Therefore, the data required for computation can be accurately predicted in advance and the latency of NAND flash can be hidden by continuously bringing the data required for the computation to the LHB. To effectively utilize the LHB, the deep learning framework needs to be modified to provide prefetching hints. Since prefetching hints are deterministic and the prefetched data unit is at the coarse-grained tensor-level, the prefetching overhead is expected to be small. Expected size and silicon area overhead of the LHB will be discussed later.",
+      "translation": "由于 HBF 基于 NAND 闪存，其访问延迟比 HBM 更长。因此，将其用作内存时，隐藏这一长延迟至关重要。为弥补 NAND 闪存的长延迟，H³ 在 HBM 或 HBF 的基底裸片中集成了延迟隐藏缓冲区（LHB），它是一种预取缓冲区（在图 3(b) 中，LHB 位于 HBM 基底裸片中）。对于 LLM 推理，只有在前一层完成后才能处理下一层，而每一层计算所需的模型权重和 KV 缓存都是预先确定的。换言之，LLM 推理具有确定性、顺序性的数据访问模式 [9]。因此，可以提前准确预测计算所需的数据，并通过持续将这些数据预取到 LHB 中，隐藏 NAND 闪存的延迟。为有效利用 LHB，需要修改深度学习框架，使其提供预取提示。由于预取提示具有确定性，且预取数据采用粗粒度的张量级单位，预计预取开销较小。后文将讨论 LHB 的预期容量和硅面积开销。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            37.90785217285156,
+            122.10231018066406,
+            288.9843444824219,
+            347.2657165527344
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-4",
+      "page": 3,
+      "type": "heading",
+      "original_text": "IV. Evaluation",
+      "translation": "IV. 评估",
+      "confidence": "high",
+      "anchor": "section-4",
+      "order": 35
+    },
+    {
+      "id": "section-4-a",
+      "page": 3,
+      "type": "heading",
+      "original_text": "A. Experimental Setup",
+      "translation": "A. 实验设置",
+      "confidence": "high",
+      "anchor": "section-4-a",
+      "order": 36
+    },
+    {
+      "id": "S018",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 37,
+      "original_text": "1) Method: As the HBF is a device under development, actual measurements are impossible. Therefore, an in-house simulator based on analytical modeling, proven in previous studies [3], [4], [10], is developed to evaluate the performance of H³-equipped system. The in-house simulator estimates execution time, throughput, throughput per power consumption based on computation time, data transfer time, and communication time between GPUs. Computation time is calculated based on the number of operations of the LLM model and the GPU performance. Data transfer time of HBM and HBF is calculated based on the LLM model size, KV cache size, and bandwidth of devices. When calculating data transfer time, data is partitioned and duplicated to optimize performance by considering tensor parallelism (TP) and data parallelism. In addition, communication time between GPUs is calculated assuming ring all-reduce that occurs when applying TP.",
+      "translation": "1）方法：由于 HBF 仍处于研发阶段，无法进行实际测量。因此，我们基于已在先前研究 [3]、[4]、[10] 中得到验证的分析建模方法，开发了内部模拟器，以评估配备 H³ 的系统的性能。该模拟器根据计算时间、数据传输时间和 GPU 间通信时间，估算执行时间、吞吐量及单位功耗吞吐量。计算时间依据 LLM 模型的运算量和 GPU 性能计算。HBM 与 HBF 的数据传输时间依据 LLM 模型大小、KV 缓存大小和器件带宽计算。计算数据传输时间时，会考虑张量并行（TP）和数据并行，通过数据分片与复制优化性能。此外，GPU 间通信时间按采用 TP 时发生的环形全归约（ring all-reduce）进行计算。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            37.90700149536133,
+            399.9849548339844,
+            288.9774475097656,
+            589.3832397460938
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S019",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 38,
+      "original_text": "2) Workload: Llama 3.1 405B [6] is selected as the workload for performance evaluation. The selected Llama 3.1 405B is sufficiently representative because it is large enough to be comparable to the latest frontier LLMs, and the pre-computed KV cache is related to the context window size but not to the model weights size. The original Llama 3.1 405B has a context window of 128 K, but to evaluate long sequence processing performance, we assume support for 1 M and 10 M. We assume that input sequence length (ISL) and output sequence length (OSL) are 1 K each, and the remainder except for ISL and OSL is occupied by the shared pre-computed KV cache. In the current experimental environment, the shared pre-computed KV cache occupies approximately 35% and 84% of the total capacity for 1 M and 10 M cases, respectively.",
+      "translation": "2）工作负载：选择 Llama 3.1 405B [6] 作为性能评估的工作负载。该模型具有充分的代表性，因为其规模足以与最新的前沿 LLM 相比，而且预计算 KV 缓存的大小取决于上下文窗口大小，与模型权重大小无关。原始 Llama 3.1 405B 的上下文窗口为 128 K，但为评估长序列处理性能，我们假设它支持 1 M 和 10 M。输入序列长度（ISL）与输出序列长度（OSL）均假设为 1 K，除 ISL 和 OSL 外，其余部分由共享预计算 KV 缓存占据。在当前实验环境中，1 M 与 10 M 场景的共享预计算 KV 缓存分别约占总容量的 35% 和 84%。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            37.906951904296875,
+            591.2719116210938,
+            288.9903869628906,
+            756.7579345703125
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S020",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 39,
+      "original_text": "3) HBF Specifications: We assume the GPU is the B200, the latest GPU currently available [8]. In the B200, HBM3e, supporting 192 GB and 8 TB/s per GPU (24 GB and 1 TB/s per cube), is mounted. Based on the relative performance of HBF in Section II-B, we assume the HBF has a capacity of 3 TB, approximately 16x larger than the HBM3e, and a bandwidth of 8 TB/s, the same as the HBM3e. The thermal design power (TDP) per cube of HBM3e and HBF is assumed to be 40 W and 160 W, respectively, considering the per-cube capacity and the power consumption per bit of current NAND flash. Power estimation is based on current NAND flash technology. However, we expect that power consumption of HBF will be further reduced through power optimization during the HBF development process.",
+      "translation": "3）HBF 规格：我们假设采用当时最新可用的 B200 GPU [8]。B200 配备 HBM3e，每个 GPU 的容量为 192 GB、带宽为 8 TB/s（每个堆栈的容量为 24 GB、带宽为 1 TB/s）。根据第 II-B 节中 HBF 的相对性能，我们假设 HBF 容量为 3 TB，约为 HBM3e 的 16 倍；带宽为 8 TB/s，与 HBM3e 相同。考虑每个堆栈的容量及当前 NAND 闪存的每比特功耗，假设 HBM3e 与 HBF 的每堆栈热设计功耗（TDP）分别为 40 W 和 160 W。功耗估算基于当前 NAND 闪存技术。不过，我们预计在 HBF 研发过程中进行功耗优化，将进一步降低其功耗。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            300.9244079589844,
+            199.8514862060547,
+            551.9869384765625,
+            353.3764953613281
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S021",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 40,
+      "original_text": "4) Hardware Configuration: We assume a DGX-style system [8]. Experiments with 1 M sequence length use 8 GPUs, while those with 10 M sequence length use 32 GPUs. These numbers of GPUs are the minimum number of GPUs required to run each sequence length for the HBM-only case. Therefore, in the 10 M case, communication between GPU servers occurs through a scale-out fabric (e.g., InfiniBand) rather than a scale-up fabric (e.g., NVLink).",
+      "translation": "4）硬件配置：我们假设采用类似 DGX 的系统 [8]。序列长度为 1 M 的实验使用 8 个 GPU，序列长度为 10 M 的实验使用 32 个 GPU。这些数量是在仅使用 HBM 的情况下，运行相应序列长度所需的最少 GPU 数。因此，在 10 M 场景中，GPU 服务器之间通过横向扩展互连（例如 InfiniBand）通信，而非纵向扩展互连（例如 NVLink）。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            300.9234313964844,
+            355.2740783691406,
+            551.9921264648438,
+            449.0203552246094
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-4-b",
+      "page": 3,
+      "type": "heading",
+      "original_text": "B. Experimental Results",
+      "translation": "B. 实验结果",
+      "confidence": "high",
+      "anchor": "section-4-b",
+      "order": 41
+    },
+    {
+      "id": "S022",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 42,
+      "original_text": "1) Batch Size: By storing the gigantic shared pre-computed KV cache in the HBF, more free capacity is available in the HBM, allowing GPUs with H³ to process larger batch sizes. Fig. 5 shows the processable batch sizes for the 1 M and 10 M cases, depending on the number of GPUs. In the 1 M case, shown in Fig. 5(a), when using H³, batch sizes up to 2.6x larger can be processed than when using HBM alone. Similarly, in the 10 M case, shown in Fig. 5(b), using H³ allows for batch sizes up to 18.8x larger than using HBM alone. There are various factors that contribute to improving throughput, but increasing batch size is clearly the most important factor.",
+      "translation": "1）批量大小：将超大规模共享预计算 KV 缓存存储在 HBF 中，可以释放更多 HBM 容量，使采用 H³ 的 GPU 能够处理更大的批次。图 5 展示了不同 GPU 数量下，1 M 与 10 M 场景能够处理的批量大小。在图 5(a) 所示的 1 M 场景中，采用 H³ 时可处理的批量大小最高为仅使用 HBM 时的 2.6 倍。同样，在图 5(b) 所示的 10 M 场景中，采用 H³ 时可处理的批量大小最高为仅使用 HBM 时的 18.8 倍。提高吞吐量的因素有多种，但增大批量大小显然是最重要的因素。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            300.9234313964844,
+            483.677978515625,
+            551.9976196289062,
+            613.2864990234375
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F005"
+      ]
+    },
+    {
+      "id": "F005",
+      "page": 3,
+      "type": "figure",
+      "image_path": "assets/figure-05.png",
+      "bbox": [
+        299,
+        63,
+        553,
+        154
+      ],
+      "caption_id": "C005",
+      "confidence": "high",
+      "order": 43
+    },
+    {
+      "id": "C005",
+      "page": 3,
+      "type": "caption",
+      "original_text": "Maximum batch size based on number of GPUs (x means that it cannot be run due to insufficient memory capacity.).",
+      "translation": "不同 GPU 数量下的最大批量大小（× 表示因内存容量不足而无法运行）。",
+      "confidence": "high",
+      "refs": [
+        "F005"
+      ],
+      "order": 44
+    },
+    {
+      "id": "S023",
+      "page": 3,
+      "pages": [
+        3
+      ],
+      "type": "paragraph",
+      "order": 45,
+      "original_text": "An interesting observation is that a single GPU with H³ can run a 1 M case, and a 10 M case can be run with two GPUs. This observation shows that long sequences can be processed at extremely low cost, in spite of performance degradation.",
+      "translation": "一个有趣的观察是：配备 H³ 的单个 GPU 就能够运行 1 M 场景，而两个 GPU 即可运行 10 M 场景。这表明，即使性能有所下降，仍可以以极低的成本处理长序列。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            300.92462158203125,
+            611.66650390625,
+            551.9862670898438,
+            661.1123657226562
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S024",
+      "page": 3,
+      "pages": [
+        3,
+        4
+      ],
+      "type": "paragraph",
+      "order": 46,
+      "original_text": "2) Throughput: Processing larger batch sizes leads to improved throughput. Fig. 6 shows tokens per second (TPS) per request, a metric for throughput mainly determined by the batch size and execution time of the LLM inference system. Throughput of H³ is 1.25x higher in the 1 M case and 6.14x higher in the 10 M case. This means that when applying H³, more tokens can be generated in the same execution time, which directly leads to a reduction in LLM service costs. Furthermore, from this result, it can be predicted that the throughput gap will increase as the sequence length increases.",
+      "translation": "2）吞吐量：处理更大的批次能够提高吞吐量。图 6 展示了每个请求的每秒 token 数（TPS），这是一项吞吐量指标，主要由 LLM 推理系统的批量大小和执行时间决定。在 1 M 和 10 M 场景中，H³ 的吞吐量分别达到基线的 1.25 倍和 6.14 倍。这意味着采用 H³ 后，可以在相同执行时间内生成更多 token，从而直接降低 LLM 服务成本。此外，由此可以推测，随着序列长度增长，吞吐量差距还会扩大。",
+      "source_regions": [
+        {
+          "page": 3,
+          "bbox": [
+            300.923583984375,
+            663.0010375976562,
+            552.0060424804688,
+            756.7552490234375
+          ]
+        },
+        {
+          "page": 4,
+          "bbox": [
+            42.11992263793945,
+            187.12709045410156,
+            293.17547607421875,
+            209.05081176757812
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": [
+        "F006"
+      ]
+    },
+    {
+      "id": "F006",
+      "page": 4,
+      "type": "figure",
+      "image_path": "assets/figure-06.png",
+      "bbox": [
+        40,
+        63,
+        294,
+        155
+      ],
+      "caption_id": "C006",
+      "confidence": "high",
+      "order": 47
+    },
+    {
+      "id": "C006",
+      "page": 4,
+      "type": "caption",
+      "original_text": "Comparison of throughput and throughput per power.",
+      "translation": "吞吐量与单位功耗吞吐量的对比。",
+      "confidence": "high",
+      "refs": [
+        "F006"
+      ],
+      "order": 48
+    },
+    {
+      "id": "S025",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 49,
+      "original_text": "3) Throughput Per Power: To demonstrate that H³ is more cost-effective despite the addition of HBF which consumes more power, we also conducted a throughput per power evaluation. Throughput per power is calculated by dividing the simulated throughput by the total TDP (including GPU TDP, assuming 680 W without HBM or HBF [8]). As shown in Fig. 6(b), despite the higher TDP of the H³-equipped GPU, it achieves up to 2.69x higher throughput per power. These results imply that H³ can be used to cost-effectively handle gigantic read-only LLM inference.",
+      "translation": "3）单位功耗吞吐量：为了说明即使加入功耗更高的 HBF，H³ 仍具有更好的成本效益，我们还评估了单位功耗吞吐量。该指标通过仿真吞吐量除以总 TDP 计算得到，总 TDP 包括 GPU 的 TDP（假设不含 HBM 或 HBF 时为 680 W [8]）。如图 6(b) 所示，尽管配备 H³ 的 GPU 的 TDP 更高，其单位功耗吞吐量最高仍可达到基线的 2.69 倍。这些结果表明，H³ 可用于以较好的成本效益处理超大规模只读 LLM 推理。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            42.11967468261719,
+            207.4309844970703,
+            293.1857604980469,
+            328.5977478027344
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S026",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 50,
+      "original_text": "4) Bandwidth Reduction of HBF: Although we assume that the HBF has the same bandwidth as the HBM, practical issues during productization may lead to supporting a lower bandwidth. Therefore, we examine the performance impact of halving the HBF bandwidth in the H³. Fig. 6 shows that even with the HBF bandwidth halved, throughput of H³ in the 1 M is still better than that of the HBM-only. Furthermore, in the 10 M case, throughput per power of H³ is still 2.09x higher. For H³, since not all data is stored in HBF, the overall performance is not reduced by the bandwidth reduction rate of HBF.",
+      "translation": "4）HBF 带宽降低：虽然我们假设 HBF 的带宽与 HBM 相同，但产品化过程中的实际问题可能使其只能支持较低带宽。因此，我们考察了 H³ 中 HBF 带宽减半对性能的影响。图 6 表明，即使 HBF 带宽减半，H³ 在 1 M 场景中的吞吐量仍优于仅使用 HBM 的系统。此外，在 10 M 场景中，H³ 的单位功耗吞吐量仍为基线的 2.09 倍。由于 H³ 并非将全部数据都存储在 HBF 中，整体性能不会按 HBF 带宽的下降比例同步降低。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            42.118675231933594,
+            330.4953308105469,
+            293.18988037109375,
+            448.1539306640625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-4-c",
+      "page": 4,
+      "type": "heading",
+      "original_text": "C. Silicon Area Overhead of Latency Hiding Buffer",
+      "translation": "C. 延迟隐藏缓冲区的硅面积开销",
+      "confidence": "high",
+      "anchor": "section-4-c",
+      "order": 51
+    },
+    {
+      "id": "S027",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 52,
+      "original_text": "To calculate silicon area overhead, we should first determine the capacity requirement of the LHB. It is calculated by the bandwidth and the access latency of the HBF. To supply data to the GPU with full bandwidth without stopping, double buffering is assumed.",
+      "translation": "为计算硅面积开销，首先需要确定 LHB 的容量需求。该需求由 HBF 的带宽和访问延迟计算得到。为了持续以满带宽向 GPU 提供数据，这里假设采用双缓冲。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            42.1204719543457,
+            476.0093688964844,
+            293.1910095214844,
+            533.7894287109375
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "E001",
+      "page": 4,
+      "equation_number": "1",
+      "latex": "Capacity_{LHB} = 2 \\times BW_{HBF} \\times Latency_{HBF}.",
+      "bbox": [
+        69,
+        541,
+        293.2,
+        552.8
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "type": "equation",
+      "order": 53
+    },
+    {
+      "id": "S028",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 54,
+      "original_text": "In Eq. (1), $Capacity_{LHB}$, $BW_{HBF}$, and $Latency_{HBF}$ denote the size of the LHB, bandwidth per cube of HBF, and access latency of HBF, respectively. Referring to Section IV-A, the $BW_{HBF}$ is 1 TB/s. $Latency_{HBF}$ is assumed to be 20 μs, based on the read access latency of publicly available SLC NAND flash [11]. Therefore, the LHB capacity requirement is 40 MB. Since 20 μs latency observed in current commodity NAND flash products is expected to improve further when HBF becomes commercially available, the LHB capacity requirement is expected to decrease below 40 MB.",
+      "translation": "在式（1）中，$Capacity_{LHB}$、$BW_{HBF}$ 和 $Latency_{HBF}$ 分别表示 LHB 的容量、HBF 每堆栈带宽以及 HBF 访问延迟。根据第 IV-A 节，$BW_{HBF}$ 为 1 TB/s。基于公开可用的 SLC NAND 闪存读取访问延迟 [11]，假设 $Latency_{HBF}$ 为 20 μs。因此，LHB 的容量需求为 40 MB。由于预计在 HBF 商用时，当前商品化 NAND 闪存产品的 20 μs 延迟会进一步改善，LHB 的容量需求有望降至 40 MB 以下。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            42.12068557739258,
+            559.12548828125,
+            293.182861328125,
+            677.0513916015625
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S029",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 55,
+      "original_text": "Based on the capacity requirement, the silicon area of the LHB can be calculated. In this paper, we assume the latest 3 nm SRAM, considering the base die process around the time HBF is commercialized in the future. The 3 nm SRAM is known to have a bit density of 0.021 μm² [12]. Therefore, the area of 40 MB SRAM core is 6.72 mm². Assuming a 20% overhead for the additional circuitry, the total area is estimated to be 8.06 mm². This is approximately 6.7% of the base die area of 121 mm², an acceptable value considering the free space of the base die. For reference, 121 mm² is the base die area of the currently commercialized HBM, and it is expected that the area will increase further in future HBM and custom HBM.",
+      "translation": "根据容量需求，可以计算 LHB 的硅面积。考虑到未来 HBF 商用时基底裸片可能采用的工艺，本文假设采用最新的 3 nm SRAM。已知 3 nm SRAM 的比特密度为 0.021 μm² [12]。因此，40 MB SRAM 核心的面积为 6.72 mm²。假设附加电路带来 20% 的开销，总面积估计为 8.06 mm²，约占 121 mm² 基底裸片面积的 6.7%。考虑到基底裸片上的空余空间，这一开销是可接受的。作为参考，121 mm² 是当前已商用 HBM 的基底裸片面积，预计未来 HBM 与定制 HBM 的基底裸片面积还将进一步增大。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            42.12046432495117,
+            679.0409545898438,
+            293.1897888183594,
+            748.7808227539062
+          ]
+        },
+        {
+          "page": 4,
+          "bbox": [
+            305.13568115234375,
+            65.29652404785156,
+            556.213623046875,
+            135.03494262695312
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "section-5",
+      "page": 4,
+      "type": "heading",
+      "original_text": "V. Conclusion and Future Work",
+      "translation": "V. 结论与未来工作",
+      "confidence": "high",
+      "anchor": "section-5",
+      "order": 56
+    },
+    {
+      "id": "S030",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 57,
+      "original_text": "This paper proposes H³, a hybrid architecture that effectively integrates HBM and HBF to address the capacity limitations of HBM for long sequence LLM inference. H³ leverages the deterministic nature of LLM workloads to strategically place data: the massive read-only shared KV cache and the model weights are stored in the HBF, while the frequently accessed generated KV caches are stored in the low-latency HBM. To mitigate the inherent high latency of HBF, a latency hiding buffer is introduced. Simulation results demonstrate that the proposed architecture can handle significantly larger batch sizes compared to an HBM-only configuration and achieves up to 2.69x higher throughput per power, proving its potential to realize a cost-effective infrastructure for LLM inference with gigantic read-only data.",
+      "translation": "本文提出 H³，这是一种有效整合 HBM 与 HBF 的混合架构，旨在解决长序列 LLM 推理中 HBM 容量受限的问题。H³ 利用 LLM 工作负载的确定性，进行有针对性的数据放置：将海量只读共享 KV 缓存和模型权重存储在 HBF 中，将频繁访问的生成 KV 缓存存储在低延迟 HBM 中。为缓解 HBF 固有的高延迟，架构引入了延迟隐藏缓冲区。仿真结果表明，相较于仅使用 HBM 的配置，该架构能够处理显著更大的批次，单位功耗吞吐量最高可达其 2.69 倍，证明了它在构建面向超大规模只读数据 LLM 推理的高成本效益基础设施方面的潜力。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            305.13592529296875,
+            164.58587646484375,
+            556.1959838867188,
+            331.2989196777344
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "S031",
+      "page": 4,
+      "pages": [
+        4
+      ],
+      "type": "paragraph",
+      "order": 58,
+      "original_text": "H³ is one of several architectures for utilizing HBF. There are various ways to use HBM and HBF together (e.g., hybrid stacking of HBM and HBF), and in certain cases, it may be possible to use HBF alone. Therefore, future work will focus on exploring optimal architectures that can exploit the benefits of HBF and other applications suitable for HBF.",
+      "translation": "H³ 是利用 HBF 的多种架构之一。HBM 与 HBF 可以通过多种方式配合使用，例如混合堆叠 HBM 与 HBF；在某些情况下，也可能单独使用 HBF。因此，未来工作将重点探索能够发挥 HBF 优势的最优架构，以及其他适合 HBF 的应用。",
+      "source_regions": [
+        {
+          "page": 4,
+          "bbox": [
+            305.13592529296875,
+            329.6780090332031,
+            556.1875,
+            403.0282897949219
+          ]
+        }
+      ],
+      "confidence": "high",
+      "refs": []
+    },
+    {
+      "id": "R001",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[1] G. Comanici et al., “Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next generation agentic capabilities,” 2025, arXiv:2507.06261.",
+      "translation": "[1] 《Gemini 2.5：推进高级推理、多模态、长上下文与下一代智能体能力的前沿》。2025 年，arXiv:2507.06261。",
+      "confidence": "high",
+      "order": 59
+    },
+    {
+      "id": "R002",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[2] Meta, “Llama 4,” 2025. [Online]. Available: https://www.llama.com/docs/model-cards-and-prompt-formats/llama4/",
+      "translation": "[2] Meta，《Llama 4》。2025 年，在线资源。",
+      "confidence": "high",
+      "order": 60
+    },
+    {
+      "id": "R003",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[3] S. Choi, M. Rhee, E. Kim, K. Shin, Y. Joo, and H. Kim, “PNM meets sparse attention: Enabling multi-million tokens inference at scale,” IEEE Comput. Archit. Lett., vol. 24, no. 2, pp. 353–356, Jul.-Dec. 2025.",
+      "translation": "[3] 《当近内存处理（PNM）遇上稀疏注意力：实现可扩展的数百万 token 推理》。《IEEE Computer Architecture Letters》，第 24 卷第 2 期，第 353–356 页，2025 年 7–12 月。",
+      "confidence": "high",
+      "order": 61
+    },
+    {
+      "id": "R004",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[4] M. Rhee, S. Choi, E. Kim, J. Sim, Y. Joo, and H. Kim, “MoSKA: Mixture of shared KV attention for efficient long-sequence LLM inference,” IEEE Comput. Archit. Lett., vol. 24, no. 2, pp. 365–368, Jul.-Dec. 2025.",
+      "translation": "[4] 《MoSKA：用于高效长序列 LLM 推理的混合共享 KV 注意力》。《IEEE Computer Architecture Letters》，第 24 卷第 2 期，第 365–368 页，2025 年 7–12 月。",
+      "confidence": "high",
+      "order": 62
+    },
+    {
+      "id": "R005",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[5] B. J. Chan, C.-T. Chen, J.-H. Cheng, and H.-H. Huang, “Don’t do rag: When cache-augmented generation is all you need for knowledge tasks,” in Proc. ACM Web Conf., 2025, pp. 893–897.",
+      "translation": "[5] 《无需 RAG：当缓存增强生成足以满足知识任务需求时》。ACM Web 会议论文集，2025 年，第 893–897 页。",
+      "confidence": "high",
+      "order": 63
+    },
+    {
+      "id": "R006",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[6] A. Dubey et al., “The Llama 3 herd of models,” 2024. arXiv:2407.21783.",
+      "translation": "[6] 《Llama 3 模型家族》。2024 年，arXiv:2407.21783。",
+      "confidence": "high",
+      "order": 64
+    },
+    {
+      "id": "R007",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[7] SanDisk, “Memory-Centric AI: Sandisk’s high bandwidth flash will redefine AI infrastructure,” 2025. [Online]. Available: https://www.sandisk.com/company/newsroom/blogs/2025/memory-centric-AI-sandisks-high-bandwidth-flash-will-redefine-ai-infrastructure",
+      "translation": "[7] SanDisk，《以内存为中心的 AI：SanDisk 高带宽闪存将重新定义 AI 基础设施》。2025 年，在线资源。",
+      "confidence": "high",
+      "order": 65
+    },
+    {
+      "id": "R008",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[8] NVIDIA, “Nvidia blackwell architecture technical brief,” 2025. [Online]. Available: https://resources.nvidia.com/en-us-blackwell-architecture?ncid=no-ncid,",
+      "translation": "[8] NVIDIA，《NVIDIA Blackwell 架构技术简介》。2025 年，在线资源。",
+      "confidence": "high",
+      "order": 66
+    },
+    {
+      "id": "R009",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[9] D. Abts et al., “The GROQ software-defined scale-out tensor streaming multiprocessor: From chips-to-systems architectural overview,” in Proc. IEEE Hot Chips 34 Symp.2022, pp. 1–69.",
+      "translation": "[9] 《GROQ 软件定义、横向扩展的张量流多处理器：从芯片到系统的架构概述》。IEEE Hot Chips 34 研讨会论文集，2022 年，第 1–69 页。",
+      "confidence": "high",
+      "order": 67
+    },
+    {
+      "id": "R010",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[10] R. Patwari, A. Sirasao, and D. Das, “Forecasting LLM inference performance via hardware-agnostic analytical modeling,” 2025, arXiv:2508.00904.",
+      "translation": "[10] 《通过与硬件无关的分析建模预测 LLM 推理性能》。2025 年，arXiv:2508.00904。",
+      "confidence": "high",
+      "order": 68
+    },
+    {
+      "id": "R011",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[11] Q. Wei, Y. Li, Z. Jia, M. Zhao, Z. Shen, and B. Li, “Reinforcement learning-assisted management for convertible SSDS,” in Proc. Des. Automat. Conf., 2023, pp. 1–6.",
+      "translation": "[11] 《面向可转换 SSD 的强化学习辅助管理》。设计自动化会议（DAC）论文集，2023 年，第 1–6 页。",
+      "confidence": "high",
+      "order": 69
+    },
+    {
+      "id": "R012",
+      "page": 4,
+      "type": "reference",
+      "original_text": "[12] S.-Y. Wu et al., “A 3 nm CMOS finflex platform technology with enhanced power efficiency and performance for mobile SoC and high performance computing applications,” in Proc. Int. Electron Devices Meeting, 2022, pp. 27.5.1–27.5.4.",
+      "translation": "[12] 《面向移动 SoC 与高性能计算应用、提升能效和性能的 3 nm CMOS FinFlex 平台技术》。国际电子器件会议（IEDM）论文集，2022 年，第 27.5.1–27.5.4 页。",
+      "confidence": "high",
+      "order": 70
+    },
+    {
+      "id": "N001",
+      "page": 1,
+      "type": "note",
+      "original_text": "Received 4 January 2026; revised 31 January 2026; accepted 1 February 2026. Date of publication 4 February 2026; date of current version 17 February 2026. (Corresponding author: Minho Ha.)",
+      "translation": "2026 年 1 月 4 日收稿；2026 年 1 月 31 日修订；2026 年 2 月 1 日接收。发表日期为 2026 年 2 月 4 日；当前版本日期为 2026 年 2 月 17 日。（通讯作者：Minho Ha。）",
+      "confidence": "high",
+      "order": 71
+    },
+    {
+      "id": "N002",
+      "page": 1,
+      "type": "note",
+      "original_text": "The authors are with SK hynix Inc., Icheon-Si 17336, South Korea (e-mail: minho1.ha@sk.com; euiseok.kim@sk.com; hoshik.kim@sk.com).",
+      "translation": "作者均就职于韩国 SK 海力士公司，地址为韩国利川市，邮编 17336（电子邮箱：minho1.ha@sk.com；euiseok.kim@sk.com；hoshik.kim@sk.com）。",
+      "confidence": "high",
+      "order": 72
+    },
+    {
+      "id": "N003",
+      "page": 1,
+      "type": "note",
+      "original_text": "Digital Object Identifier 10.1109/LCA.2026.3660969",
+      "translation": "数字对象标识符（DOI）：10.1109/LCA.2026.3660969。",
+      "confidence": "high",
+      "order": 73
+    }
+  ],
+  "figures": [
+    {
+      "id": "F001",
+      "page": 1,
+      "caption_id": "C001",
+      "image_path": "assets/figure-01.png",
+      "bbox": [
+        314,
+        150,
+        529,
+        228
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S010",
+      "original_caption": "The concept of cache augmented generation (CAG) [5], a representative example of a gigantic read-only use case.",
+      "caption_translation": "缓存增强生成（CAG）[5] 的概念，这是超大规模只读应用场景的一个代表性示例。",
+      "confidence": "high"
+    },
+    {
+      "id": "F002",
+      "page": 2,
+      "caption_id": "C002",
+      "image_path": "assets/figure-02.png",
+      "bbox": [
+        74,
+        64,
+        267,
+        132
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S011",
+      "original_caption": "The concept of HBF.",
+      "caption_translation": "HBF 的概念。",
+      "confidence": "high"
+    },
+    {
+      "id": "F003",
+      "page": 2,
+      "caption_id": "C003",
+      "image_path": "assets/figure-03.png",
+      "bbox": [
+        332,
+        64,
+        531,
+        300
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S013",
+      "original_caption": "H³ Architecture overview.",
+      "caption_translation": "H³ 架构概览。",
+      "confidence": "high"
+    },
+    {
+      "id": "F004",
+      "page": 2,
+      "caption_id": "C004",
+      "image_path": "assets/figure-04.png",
+      "bbox": [
+        337,
+        329,
+        528,
+        417
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S015",
+      "original_caption": "A description of how HBM and HBF are accessed in LLM inference with gigantic shared pre-computed KV cache.",
+      "caption_translation": "在采用超大规模共享预计算 KV 缓存的 LLM 推理中，HBM 与 HBF 的访问方式。",
+      "confidence": "high"
+    },
+    {
+      "id": "F005",
+      "page": 3,
+      "caption_id": "C005",
+      "image_path": "assets/figure-05.png",
+      "bbox": [
+        299,
+        63,
+        553,
+        154
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S022",
+      "original_caption": "Maximum batch size based on number of GPUs (x means that it cannot be run due to insufficient memory capacity.).",
+      "caption_translation": "不同 GPU 数量下的最大批量大小（× 表示因内存容量不足而无法运行）。",
+      "confidence": "high"
+    },
+    {
+      "id": "F006",
+      "page": 4,
+      "caption_id": "C006",
+      "image_path": "assets/figure-06.png",
+      "bbox": [
+        40,
+        63,
+        294,
+        155
+      ],
+      "placement_hint": "near_first_substantive_mention",
+      "placed_after": "S024",
+      "original_caption": "Comparison of throughput and throughput per power.",
+      "caption_translation": "吞吐量与单位功耗吞吐量的对比。",
+      "confidence": "high"
+    }
+  ],
+  "equations": [
+    {
+      "id": "E001",
+      "page": 4,
+      "equation_number": "1",
+      "latex": "Capacity_{LHB} = 2 \\times BW_{HBF} \\times Latency_{HBF}.",
+      "bbox": [
+        69,
+        541,
+        293.2,
+        552.8
+      ],
+      "confidence": "medium",
+      "image_path": null
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "printed_page": 49,
+      "block_ids": [
+        "abstract",
+        "S001",
+        "S002",
+        "section-1",
+        "S003",
+        "S004",
+        "S005",
+        "S006",
+        "S007",
+        "S008",
+        "section-2",
+        "section-2-a",
+        "S009",
+        "S010",
+        "F001",
+        "C001",
+        "section-2-b",
+        "S011",
+        "N001",
+        "N002",
+        "N003"
+      ]
+    },
+    {
+      "page": 2,
+      "printed_page": 50,
+      "block_ids": [
+        "S011",
+        "F002",
+        "C002",
+        "S012",
+        "section-3",
+        "section-3-a",
+        "S013",
+        "F003",
+        "C003",
+        "S014",
+        "section-3-b",
+        "S015",
+        "F004",
+        "C004",
+        "S016"
+      ]
+    },
+    {
+      "page": 3,
+      "printed_page": 51,
+      "block_ids": [
+        "S016",
+        "section-3-c",
+        "S017",
+        "section-4",
+        "section-4-a",
+        "S018",
+        "S019",
+        "S020",
+        "S021",
+        "section-4-b",
+        "S022",
+        "F005",
+        "C005",
+        "S023",
+        "S024"
+      ]
+    },
+    {
+      "page": 4,
+      "printed_page": 52,
+      "block_ids": [
+        "S024",
+        "F006",
+        "C006",
+        "S025",
+        "S026",
+        "section-4-c",
+        "S027",
+        "E001",
+        "S028",
+        "S029",
+        "section-5",
+        "S030",
+        "S031",
+        "R001",
+        "R002",
+        "R003",
+        "R004",
+        "R005",
+        "R006",
+        "R007",
+        "R008",
+        "R009",
+        "R010",
+        "R011",
+        "R012"
+      ]
+    }
+  ],
+  "glossary": [
+    {
+      "term": "H³",
+      "expansion": "Hybrid architecture using HBM and HBF",
+      "translation": "H³ 混合架构",
+      "note": ""
+    },
+    {
+      "term": "HBM",
+      "expansion": "high bandwidth memory",
+      "translation": "高带宽内存",
+      "note": ""
+    },
+    {
+      "term": "HBF",
+      "expansion": "high bandwidth flash",
+      "translation": "高带宽闪存",
+      "note": ""
+    },
+    {
+      "term": "LLM",
+      "expansion": "large language model",
+      "translation": "大语言模型",
+      "note": ""
+    },
+    {
+      "term": "KV cache",
+      "expansion": "key-value cache",
+      "translation": "键值缓存／KV 缓存",
+      "note": ""
+    },
+    {
+      "term": "shared pre-computed KV cache",
+      "expansion": "shared pre-computed key-value cache",
+      "translation": "共享预计算 KV 缓存",
+      "note": ""
+    },
+    {
+      "term": "generated KV cache",
+      "expansion": "generated key-value cache",
+      "translation": "生成 KV 缓存",
+      "note": ""
+    },
+    {
+      "term": "CAG",
+      "expansion": "cache-augmented generation",
+      "translation": "缓存增强生成",
+      "note": ""
+    },
+    {
+      "term": "LHB",
+      "expansion": "latency hiding buffer",
+      "translation": "延迟隐藏缓冲区",
+      "note": ""
+    },
+    {
+      "term": "TSV",
+      "expansion": "through silicon via",
+      "translation": "硅通孔",
+      "note": ""
+    },
+    {
+      "term": "D2D",
+      "expansion": "die-to-die",
+      "translation": "裸片间接口",
+      "note": ""
+    },
+    {
+      "term": "base die",
+      "expansion": "base die",
+      "translation": "基底裸片",
+      "note": ""
+    },
+    {
+      "term": "core die",
+      "expansion": "core die",
+      "translation": "核心裸片",
+      "note": ""
+    },
+    {
+      "term": "cube",
+      "expansion": "memory cube / stack",
+      "translation": "堆栈",
+      "note": ""
+    },
+    {
+      "term": "shoreline",
+      "expansion": "GPU shoreline",
+      "translation": "芯片边缘接口区域",
+      "note": ""
+    },
+    {
+      "term": "TP",
+      "expansion": "tensor parallelism",
+      "translation": "张量并行",
+      "note": ""
+    },
+    {
+      "term": "TDP",
+      "expansion": "thermal design power",
+      "translation": "热设计功耗",
+      "note": ""
+    },
+    {
+      "term": "ISL",
+      "expansion": "input sequence length",
+      "translation": "输入序列长度",
+      "note": ""
+    },
+    {
+      "term": "OSL",
+      "expansion": "output sequence length",
+      "translation": "输出序列长度",
+      "note": ""
+    },
+    {
+      "term": "throughput per power",
+      "expansion": "throughput divided by power",
+      "translation": "单位功耗吞吐量",
+      "note": ""
+    },
+    {
+      "term": "wear-leveling",
+      "expansion": "wear-leveling",
+      "translation": "磨损均衡",
+      "note": ""
+    }
+  ]
+}

@@ -1,0 +1,1032 @@
+        Mooncake: Trading More Storage for Less
+Computation -- A KVCache-centric Architecture for
+
+                      Serving LLM Chatbot
+
+  Ruoyu Qin, Moonshot AI and Tsinghua University; Zheming Li, Weiran He, and
+        Jialei Cui, Moonshot AI; Feng Ren, Mingxing Zhang, Yongwei Wu, and
+               Weimin Zheng, Tsinghua University; Xinran Xu, Moonshot AI
+
+                         https://www.usenix.org/conference/fast25/presentation/qin
+
+          This paper is included in the Proceedings of the
+  23rd USENIX Conference on File and Storage Technologies.
+
+                         February 25­27, 2025 · Santa Clara, CA, USA
+
+                                                  ISBN 978-1-939133-45-8
+
+                                                          Open access to the Proceedings
+                                                        of the 23rd USENIX Conference on
+
+                                                            File and Storage Technologies
+                                                                      is sponsored by
+MOONCAKE: Trading More Storage for Less Computation ­
+A KVCache-centric Architecture for Serving LLM Chatbot
+
+Ruoyu Qin1 Zheming Li1 Weiran He Jialei Cui Feng Ren
+ Mingxing Zhang2 Yongwei Wu Weimin Zheng Xinran Xu2
+                     Moonshot AI Tsinghua University
+
+                        Abstract                                              Request Capacity Ratio (%)  100  Mooncake                     vLLM Prefix Caching
+                                                                                                               vLLM                         vLLM Chunked Prefill
+MOONCAKE is the serving platform for Kimi, an LLM chat-
+bot service developed by Moonshot AI. This platform features                                              80                                +157%
+a KVCache-centric disaggregated architecture that not only                                                                                         +59%
+separates prefill and decoding clusters but also efficiently                                              60             Threshold I +498%
+utilizes the underexploited CPU, DRAM, SSD and NIC re-
+sources of the GPU cluster to establish a disaggregated KV-                                               40                                Threshold II
+Cache. At the core of MOONCAKE is its KVCache-centric                                                                                              Threshold III
+global cache and a scheduler designed to maximize through-                                                20
+put while adhering to stringent latency-related Service Level
+Objectives (SLOs).                                                                                        0    100 200300 500 1000
+
+   Our experiments demonstrate that MOONCAKE excels in                                                         Time between Tokens (ms)
+scenarios involving long-context inputs. In tests using real
+traces, MOONCAKE increases the effective request capacity                     Figure 1: The experiment of the effective request capacity of
+by 59%498% when compared to baseline methods, all while                       MOONCAKE under the real-world conversation workload and
+complying with SLOs. Currently, MOONCAKE is operational                       different TBT SLOs. In this experiment, MOONCAKE and
+across thousands of nodes, processing over 100 billion tokens                 three baseline systems utilize 16 8×A800 nodes each. More
+daily. In practical deployments, MOONCAKE's innovative                        on §5.2.
+architecture enables Kimi to handle 115% and 107% more
+requests on NVIDIA A800 and H800 clusters, respectively,                      it is necessary to decouple and restructure them into several
+compared to previous systems.                                                 disaggregated resource pools, each optimized for different but
+                                                                              collaborative goals. For example, many other researchers [7­
+1 Introduction                                                                9] have suggested separating prefill servers from decoding
+                                                                              servers, because these two stages of LLM serving have very
+With the rapid adoption of large language models (LLMs) in                    different computational characteristics.
+various scenarios [1­4], the workloads for LLM serving have
+become significantly diversified. These workloads differ in                      Further advancing this disaggregation strategy, we have en-
+input/output length, distribution of arrival, and, most impor-                gineered a disaggregated KVCache by pooling CPU, DRAM,
+tantly, demand different kinds of Service Level Objectives                    SSD and RDMA resources of the GPU cluster, referred to as
+(SLOs). As a Model as a Service (MaaS) provider, one of the                   MOONCAKE Store. This novel architecture harnesses under-
+primary goals of Kimi [5] is to solve an optimization problem                 utilized resources to enable efficient near-GPU prefix caching,
+with multiple complex constraints. The optimization goal is                   significantly enhancing the global cache capacity and inter-
+to maximize overall effective throughput, which directly im-                  node transfer bandwidth. The resultant distributed KVCache
+pacts revenue, while the constraints reflect varying levels of                system embodies the principle of trading more storage for
+SLOs. These SLOs typically involve meeting latency-related                    less computation. Thus, as demonstrated in Figure 1, it sub-
+requirements, mainly the time to first token (TTFT) and the                   stantially boosts Kimi's maximum throughput capacity in
+time between tokens (TBT).                                                    meeting the required SLOs for many important real-world
+                                                                              scenarios. Later in this paper, we will first delve into a mathe-
+   To achieve this goal, a prerequisite is to make the best use               matical analysis of this strategy's benefits for LLM serving
+of the various kinds of resources available in the GPU cluster.               and empirically assess its efficacy using real-world data (§2.2).
+Specifically, although GPU servers are currently provided as                  Then, we will detail the design choices made in implementing
+highly integrated nodes (e.g., DGX/HGX supercomputers [6]),                   this petabyte-level disaggregated cache, which is intercon-
+                                                                              nected via an RDMA network up to 8×400 Gbps (§3.2).
+    1 Ruoyu Qin's part of work done as an intern at Moonshot AI, contributed
+equally with Zheming Li.                                                         Building on this idea, we also found that the scheduling
+                                                                              of KVCache is central to LLM serving, and hence propose a
+    2 Corresponding to zhang_mingxing@mail.tsinghua.edu.cn, xuxin-            corresponding disaggregated architecture. Figure 2 presents
+ran@moonshot.cn.
+
+USENIX Association  23rd USENIX Conference on File and Storage Technologies 155
+KVCache-      Prefill Pool    Prefill Instance                                                                         Prefill Instance                          Prefill Stage
+   centric                    GPU/VRAM                                                                                 GPU/VRAM                                  Optimization Goal
+
+Conductor                                                       PP/SP                                                                                            max Cache Reuse
+Cache-aware                                                                                                                                                      s.t.
+                                 Local    Paged KVCache                                                                   Local    Paged KVCache                 TTFT SLO,
+     Prefill                  Chunked                                                                                  Chunked                                   MFU Lower Bound,
+  Scheduler                                                                                                                                                      KVCache < DRAM
+                                 Prefill                                                                                  Prefill
+  KVCache                     Scheduler                                                                                Scheduler                                 Decoding Stage
+   Balance                                                                                                                                                       Optimization Goal
+  Scheduler                   CPU/DRAM/SSD                                                                             CPU/DRAM/SSD
+                                                                                                                                                                 max Throughput
+Load-balance  Mooncake Store          Distributed KVCache Pool                                                                         Distributed KVCache Pool  s.t.
+  Decoding                                                                                                       RDMA
+  Scheduler                                                                                                            RDMA                                        TBT SLO,
+                                                                                                           RDMA                                                    KVCache < VRAM
+                                                                                                                           KVCache Transfer Engine
+                              CPU/DRAM/SSD
+                                                                                                                          RDMA
+
+                                                                                                                              CPU/DRAM/SSD
+
+                              Distributed KVCache Pool                                                                 Distributed KVCache Pool
+
+              Decoding Pool   GPU/VRAM                                                                                 GPU/VRAM
+                                                 Paged KVCache                                                                            Paged KVCache
+
+                                 Local                                                                                    Local
+                              Scheduler                                                                                Scheduler
+
+                              Decoding Instance                                                                        Decoding Instance
+
+                                                Figure 2: MOONCAKE Architecture.
+
+our current KVCache-centric disaggregated architecture                                                                 replicates hot KVCache blocks without requiring precise pre-
+for LLM serving, named MOONCAKE. For each request, the                                                                 dictions of future KVCache usage. Experimental results show
+global scheduler (Conductor) will select a pair of prefill and                                                         that our KVCache-centric scheduling can significantly lower
+decoding instances and schedule the request in the following                                                           TTFT in real-world scenarios.
+steps: 1) transfer as much reusable KVCache as possible to
+the selected prefill instance; 2) complete the prefill stage in                                                           We will also describe the main design choices made during
+chunks/layers and continuously stream the output KVCache                                                               its implementation, especially those not covered in current
+to the corresponding decoding instance; 3) load the KVCache                                                            research. For example, regarding P/D disaggregation, there
+and add the request to the continuous batching process at the                                                          are currently debates on its feasibility in large-scale practice
+decoding instance for generating request outputs.                                                                      due to bandwidth requirements and trade-offs associated with
+                                                                                                                       chunked prefill (e.g., Sarathi-Serve [10]). We demonstrate,
+   Although this process seems straightforward, the selection                                                          through comparison with vLLM, that with a highly optimized
+policy is complex due to many restrictions. In the prefill stage,                                                      transfer engine, the communication challenges can be man-
+the main objective is to reuse the KVCache as much as possi-                                                           aged, and P/D disaggregation is preferable for scenarios with
+ble to avoid redundant computation. However, the distributed                                                           stringent SLO limits (§5.2). Additionally, we discuss how to
+KVCache pool faces challenges in terms of both capacity and                                                            implement a separate prefill node pool that seamlessly han-
+access latency. Thus Conductor is responsible for scheduling                                                           dles the dynamic distribution of context length. We employ a
+requests with KVCache-awareness and executing scheduling                                                               chunked pipeline parallelism (CPP) mechanism to scale the
+operations such as swapping and replication accordingly. The                                                           processing of a single request across multiple nodes, which
+hottest blocks should be replicated to multiple nodes to avoid                                                         is necessary for reducing the TTFT of long-context inputs.
+fetching congestion, while the coldest ones should be swapped                                                          Compared to traditional sequence parallelism (SP) based so-
+out to reduce reserving costs. In contrast, the decoding stage                                                         lutions, CPP reduces network consumption and simplifies the
+has different optimization goals and constraints. The aim is to                                                        reliance on frequent elastic scaling (§3.3).
+aggregate as many tokens as possible in a decoding batch to
+improve the Model FLOPs Utilization (MFU). However, this                                                                  MOONCAKE is currently the serving platform of Kimi and
+objective is restricted not only by the TBT SLO but also by                                                            has successfully handled exponential workload growth (more
+the total size of aggregated KVCache that can be contained                                                             than 100 billion tokens a day). According to our historical
+in the VRAM.                                                                                                           statistics, the innovative architecture of MOONCAKE enables
+                                                                                                                       Kimi to handle 115% and 107% more requests on the A800
+   In §4, we will detail our KVCache-centric request schedul-                                                          and H800 clusters, respectively, compared to previous sys-
+ing algorithm, which balances instance loads and user expe-                                                            tems.
+rience as measured by TTFT and TBT SLOs. This includes
+a heuristic-based automated hotspot migration scheme that                                                                 To ensure the reproducibility of our results while safe-
+                                                                                                                       guarding proprietary information, we also provide detailed
+
+156 23rd USENIX Conference on File and Storage Technologies                                                                                                      USENIX Association
+experimental outcomes using a dummy model mirroring the           Notation  Description                 Value
+architecture of LLaMA3-70B, based on replayed traces of           l
+actual workloads. These traces, along with the KVCache            d         Num layers                  80
+transfer infrastructure of MOONCAKE, are open-sourced at          a, b
+https://github.com/kvcache-ai/Mooncake.                           gqa       Model dimension             8192
+                                                                  s
+   In end-to-end experiments using public datasets and real       G         Constant coefficients in Equation 1 4, 22
+workloads, MOONCAKE excels in long-context scenarios.             Bh2d
+Compared to the baseline method, MOONCAKE can achieve             Bnic      Num q heads / Num kv heads  8
+up to a 498% increase in the effective request capacity while     n, p
+meeting SLOs. In §5.3, we compare MOONCAKE Store with                       Tensor element size         2 B (BFloat16)
+the local cache design and find that the global cache design of
+MOONCAKE Store significantly improves the cache hit rate.                   GPU computation throughput  8×312 TFLOPS
+In our experiments, the cache hit rate is up to 2.36× higher
+than that of the local cache, resulting in up to 48% savings                Host-to-device bandwidth    128 GB/s
+in prefill computation time. MOONCAKE, to the best of our
+knowledge, is the first system to demonstrate the significant               NIC bandwidth               800 Gbps
+benefits of using a distributed KVCache pool to share KV-
+Cache across different chat sessions and queries in large-scale             Prompt and matched prefix length, respectively
+deployment scenarios. We also evaluate the performance of
+the transfer engine that supports high-speed RDMA transfers       Table 1: Notations and parameters. Model and machine pa-
+in MOONCAKE, which shows it is approximately 2.4× and             rameters are set according to LLaMA3-70B and 8×A800.
+4.6× faster than existing solutions (§5.4).
+                                                                  cessive token generations for the same request, referred to as
+2 Preliminary and Problem Definition                              the time between tokens (TBT).
+
+2.1 Service Level Objectives of LLM Serving                          In real deployments, if the monitor detects unmet SLOs, we
+                                                                  need to either add inference resources or reject some incoming
+Modern large language models (LLMs) are based on the              requests. However, due to the current contingent supply of
+Transformer architecture, which utilizes attention mecha-         GPUs, elastically scaling out the inference cluster is typically
+nisms and multilayer perceptrons (MLP) to process input.          unfeasible. Therefore, we proactively reject requests that are
+Popular Transformer-based models, such as GPT [11] and            predicted not to meet the SLOs to alleviate the cluster's load.
+LLaMA [12], employ a decoder-only structure. Each infer-          Our main objective is to maximize overall throughput while
+ence request is logically divided into two stages: the prefill    adhering to SLOs, a concept referred to as goodput in other
+stage and the decoding stage.                                     research [8, 15].
+
+   During the prefill stage, all input tokens are processed in    2.2 More Storage for Less Computation
+parallel, and hence it is typically computationally intensive.
+This stage generates the first output token while storing inter-  To meet the stringent SLOs described above, a commonly
+mediate results of computed keys and values, referred to as       adopted solution is to cache previously generated KVCache
+the KVCache. The decoding stage then uses this KVCache            and reuse it upon finding a prefix match. However, existing
+to autoregressively generate new tokens. It processes only        approaches [16­18] typically restrict caching to local HBM
+one token at a time per batch due to the limitation of autore-    and DRAM, assuming that the transfer bandwidth required for
+gressive generation, which makes it memory-constrained and        global scheduling would be prohibitively high. But, as we will
+causes computation time to increase sublinearly with batch        described later in §5.3, the capacity of local DRAM supports
+size. Thus, a widely used optimization in the decoding stage      only up to 50% of the theoretical cache hit rate, making the
+is continuous batching [13, 14]. Before each iteration, the       design of a global cache essential. In this section, we present
+scheduler checks the status and adds newly arrived requests       a mathematical analysis of the actual bandwidth necessary to
+to the batch while removing completed requests.                   benefit from this strategy, explaining why distributed caching
+                                                                  is advantageous, especially for larger models like LLaMA3-
+   Due to the distinct characteristics of the prefill and decod-  70B. More experimental results will be given later in §5.4.2.
+ing stages, MaaS providers set different metrics to measure
+their corresponding Service Level Objectives (SLOs). Specif-         We base our analysis on the model using notations de-
+ically, the prefill stage is mainly concerned with the latency    scribed in Table 1 and incorporate specific parameters of
+between the request arrival and the generation of the first to-   LLaMA3-70B. Essentially, current popular LLMs are au-
+ken, known as the time to first token (TTFT). On the other        toregressive language models where each token's KVCache
+hand, the decoding stage focuses on the latency between suc-      depends only on itself and preceding tokens. Therefore,
+                                                                  KVCache corresponding to the same input prefix can be
+                                                                  reused without affecting output accuracy. If a current request's
+                                                                  prompt of length n shares a common prefix of length p with
+                                                                  previously cached KVCache, its prefill process can be opti-
+                                                                  mized as follows:
+
+                                                                         q[p : n], k[p : n], v[p : n] = MLP(hidden[p : n])
+
+                                                                         k[1 : n], v[1 : n]  KVCache + (k[p : n], v[p : n])
+
+                                                                         o[p : n] = Attention(q[p : n], k[1 : n], v[1 : n])
+
+                                                                         KVCache  (k[1 : n], v[1 : n])
+
+USENIX Association  23rd USENIX Conference on File and Storage Technologies 157
+   Given input length n, the FLOPS of the prefill stage can be   Prefill Instance                          Decoding Instance
+calculated as:                                                                    s2: Incremental Prefill
+                                                                                                                                 GPU  s4: Decoding
+                                                                      GPU
+
+f lops(n) = l × (an2d + bnd2)  (1)                               (s1): KVCache Reuse
+
+                                                                 Prefix KVCache       Incremental                                     Full KVCache
+                                                                                       KVCache
+
+Thus, reusing KVCache approximately reduces the compu-           CPU    Layer-wise                                               CPU
+tation cost of prefill by l × (ap2d + bpd2). However, this re-        Load and Store*
+quires transferring the cached KVCache into the prefill GPU's                                                                         Async Load
+HBM, with a size of p×l ×(2×d/gqa)×s. Assuming the av-
+erage computation throughput is G and the average KVCache        Prefix KVCache       Incremental                                     Full KVCache
+loading speed is B (where B is determined by the minimum                               KVCache
+of Bh2d and Bnic), the reuse of KVCache is beneficial in terms
+of TTFT if:                                                                                                s3: KVCache Transfer
+
+                                                                      Figure 3: Workflow of inference instances.
+
+B  2ds                                                           skipped if no prefix cache exists. This selection balances three
+G > gqa × (apd + bd2)          (2)                               objectives: reusing as much KVCache as possible, balancing
+                                                                 the workloads of different prefill nodes, and guaranteeing the
+In such scenarios, reusing the KVCache not only reduces          TTFT SLO. It leads to a KVCache-centric scheduling that
+GPU time and costs but also enhances the user experience         will be further discussed in §4.
+by improving TTFT. The criteria for bandwidth B relative to      2) Incremental Prefill: The prefill node completes the prefill
+computation throughput G are more readily met with larger        stage using prefix cache and stores the newly generated in-
+values of d, which is proportional to the model size. For exam-  cremental KVCache back into CPU memory. If the number
+ple, when running LLaMA3-70B on a machine with 8×A800            of uncached input tokens exceeds a certain threshold, the
+GPUs and assuming a prefix length of 8192, Equation 2 yields     prefill stage is split into multiple chunks and executed in a
+a minimum required B of 6 GB/s. The requirement for B will       pipeline manner. This threshold is selected to fully utilize the
+be enlarged to 19 GB/s for an 8×H800 machine. Moreover,          corresponding GPU's computational power and is typically
+in practical scenarios, because the transfer stages cannot be    larger than 1000 tokens. The reason for using chunked but
+perfectly overlapped with each other, the actual bandwidth       still disaggregated prefill nodes is explained in §3.3.
+requirement is even higher. However, as we will demonstrate      3) KVCache Transfer: MOONCAKE Store is deployed in each
+in §5.4.2, a fully utilized 100 Gbps NIC per NVIDIA A800         node to manage and transfer these caches. This step is asyn-
+HGX network is sufficient to meet these criteria.                chronously executed and overlapped with the above incre-
+                                                                 mental prefill step, streaming the KVCache generated by each
+3 Design of MOONCAKE                                             model layer to the destination decoding node's CPU memory
+                                                                 to reduce waiting time.
+3.1 Overview                                                     4) Decoding: After all the KVCache is received in the CPU
+                                                                 memory of the decoding node, the request joins the next batch
+As depicted in Figure 2, MOONCAKE employs a disaggre-            in a continuous batching manner. The decoding node is pre-
+gated architecture that not only separates prefill from decod-   selected by Conductor based on its current load to ensure it
+ing nodes but also groups the CPU, DRAM, SSD, and RDMA           does not violate the TBT SLO.
+resources of the GPU cluster to implement a disaggregated
+KVCache. To schedule all these disaggregated components, at      3.2 MOONCAKE Store: Cache of KVCache
+its center, MOONCAKE implements a global scheduler named
+Conductor. Conductor is responsible for dispatching requests     Central to MOONCAKE is its efficient implementation of a
+based on the current distribution of the KVCache and work-       distributed global cache of KVCache, referred to as MOON-
+load characteristics. MOONCAKE Store, detailed in §3.2,          CAKE Store. As described in §2.2, reusing cached KVCache
+manages the storage and transfer of these KVCache blocks.        not only cuts computation costs but also improves user experi-
+                                                                 ence by reducing the TTFT, particularly when the aggregated
+   Specifically, Figure 3 demonstrates the typical workflow      bandwidth is fully utilized. However, achieving full utiliza-
+of a request. Once tokenizing is finished, the conductor se-     tion is challenging because the bandwidth can reach up to
+lects a pair of prefill nodes and a decoding node, and starts a  8×400 Gbps, comparable to DRAM bandwidth.
+workflow comprising four steps:
+1) KVCache Reuse: The selected prefill node (group) receives        We first introduce how MOONCAKE Store manages KV-
+a request that includes the raw input, the block keys of the     Cache in §3.2.1, including its storage scheme and eviction
+prefix cache that can be reused, and the block keys of the       policy. In §3.2.2, we describe the object-based APIs and mem-
+full cache allocated to the request. It loads the prefix cache   ory transfer APIs of MOONCAKE Store. In §3.2.3, we will
+from remote CPU memory into GPU memory based on the              detail the design of MOONCAKE Store's transfer engine, a
+prefix cache block keys to bootstrap the request. This step is
+
+158 23rd USENIX Conference on File and Storage Technologies                                                                      USENIX Association
+high-performance, zero-copy KVCache transfer system de-           3.2.3 Transfer Engine
+signed to maximize the benefits of using multiple RDMA
+NICs per machine. It enhances execution efficiency and relia-     To efficiently implement the above APIs, a transfer engine
+bility through techniques such as topology-aware path selec-      is designed to achieve several key objectives: 1) Effectively
+tion and endpoint pooling.                                        distribute transfer tasks across multiple RDMA NIC devices;
+                                                                  2) Abstract the complexities of RDMA connection manage-
+3.2.1 KVCache Management                                          ment from the APIs; and 3) Appropriately handle temporary
+                                                                  network failures. This transfer engine has been meticulously
+In MOONCAKE Store, all KVCache is stored as paged blocks          engineered to fulfill each of these goals.
+within a distributed cache pool. The block size, i.e., the num-
+ber of tokens contained in each block, is determined by the       Network Setup The benefits of MOONCAKE rely on a
+model size and the optimal network transmission size, typi-       high-bandwidth network interconnect. Currently, we use stan-
+cally ranging from 16 to 512 tokens. Each block is attached       dard HGX machines where each A800 GPU is paired with
+with a hash key determined by both its own hash and its prefix    a 100/200 Gbps NIC, and each H800 GPU is paired with a
+for deduplication. The same hash key may have multiple repli-     200/400 Gbps NIC, which is comparable to memory band-
+cas across different nodes to mitigate hot-cache access latency,  width and existing libraries (other than NCCL) fail to fully
+controlled by our cache-load-balancing policy described in        utilize this capacity. As for NCCL, it cannot gracefully handle
+§4.2.                                                             dynamic topology changes due to the addition or removal of
+                                                                  nodes/NICs and does not support DRAM-to-DRAM pathes.
+   MOONCAKE Store allocates space for each cache block            In contrast, the transfer engine endeavors to find alternative
+in the cache pool and logs metadata such as the block key         paths upon failure.
+and its address. When the cache pool is full, MOONCAKE
+Store employs a LRU (Least Recently Used) strategy to evict          To address congestion, the network utilizes RoCEv2 tuned
+an existing cache block--unless the block is currently being      by cloud providers. In the scheduler, we mitigate congestion
+accessed by an ongoing request--and overwrites the evicted        by increasing the number of replicas for hot KVCaches (§4.2).
+block's space with the new block.
+                                                                  Topology-aware path selection. Modern inference servers
+3.2.2 Interface                                                   often consist of multiple CPU sockets, DRAM, GPUs, and
+                                                                  RDMA NIC devices. Although it's technically possible to
+At the higher layer, MOONCAKE Store offers object-based           transfer data from local DRAM or VRAM to a remote location
+APIs such as put, get, and change_replica. These facil-           using any RDMA NIC, these transfers can be limited by the
+itate the caching of KVCache in a disaggregated manner,           bandwidth constraints of the Ultra Path Interconnect (UPI)
+organizing mini blocks of KVCache as memory objects and           or PCIe Switch. To overcome these limitations, MOONCAKE
+enabling Conductor to adjust the number of replicas for each      Store implements a topology-aware path selection algorithm.
+KVCache block to achieve higher bandwidth aggregation.
+These functions are supported by a set of synchronous batch          Before processing requests, each server generates a topol-
+transfer APIs, detailed in Listings 1.                            ogy matrix and broadcasts it across the cluster. This matrix
+                                                                  categorizes network interface cards (NICs) into "preferred"
+   Transfer operations are available for both DRAM and            and "secondary" lists for various types of memory, which
+GPU VRAM and will utilize GPU Direct RDMA when op-                types are specified during memory registration. Under normal
+timal, provided that the specified memory region has been         conditions, a NIC from the preferred list is selected for trans-
+pre-registered. The completion of these operations can be         fers, facilitating RDMA operations within the local NUMA
+monitored asynchronously via the getTransferStatus API,           or GPU Direct RDMA through the local PCIe switch only. In
+which reports whether transfers are ongoing or have encoun-       case of failures, NICs from both lists may be utilized. The pro-
+tered errors.                                                     cess involves identifying the appropriate local and target NICs
+                                                                  based on the memory addresses, establishing a connection,
+   Listing 1: Memory transfer APIs in MOONCAKE Store.             and executing the data transfer.
+
+int registerLocalMemory(void *vaddr, size_t len,                     For instance, as illustrated in Figure 4, to transfer data from
+                                    const string &type);          buffer 0 (assigned to cpu:0) in the local node to buffer 1 (as-
+                                                                  signed to cpu:1) in the target node, the engine first identifies
+BatchID allocateBatchID(size_t batch_size);                       the preferred NICs for cpu:0 using the local server's topol-
+int submitTransfer(BatchID batch_id,                              ogy matrix and selects one, such as mlx5_1, as the local NIC.
+                                                                  Similarly, the target NIC, such as mlx5_3, is selected based on
+                              const vector<Request> &entries);    the target memory address. This setup enables establishing an
+int getTransferStatus(BatchID batch_id,                           RDMA connection from mlx5_1@local to mlx5_3@target
+                                                                  to carry out RDMA read and write operations.
+                                  int request_index,
+                                  Status &status);                   To further maximize bandwidth utilization, a single re-
+int freeBatchID(BatchID batch_id);                                quest's transfer is internally divided into multiple slices at a
+
+USENIX Association  23rd USENIX Conference on File and Storage Technologies 159
+                                                              mlx5_0 mlx5_1 cuda:0 cuda:1 mlx5_2 mlx5_3 cuda:2 cuda:3
+
+Virtual Address Space        Registered                                          Memory Controller  PCIe Switch                     PCIe Switch             Memory Controller
+                             Buffer                           cpu:0                                                                                                           cpu:1
+       Buffer 0 at Socket 0                                                                         CPU 0            Interconnect   CPU 1
+             DRAM (cpu:0)    BatchTransfer
+                             ­ Read/Write                                                                                  16 GT/s
+       Buffer 1 at Socket 1
+             DRAM (cpu:1)               Buffer 1 at Socket 1                                                                        Preferred NICs
+                                              DRAM (cpu:1)
+           ...
+                                                                                                    Topology matrix
+          Buffer 0 at GPU 0
+           VRAM (cuda:0)                                                                            {
+                                                                                                       "cpu:0":[["mlx5_0","mlx5_1"],["mlx5_2","mlx5_3"]],
+                                                                                                       "cpu:1":[["mlx5_2","mlx5_3"],["mlx5_0","mlx5_1"]],   Secondary NICs
+                                                                                                       "cuda:0":[["mlx5_0"],["mlx5_1","mlx5_2","mlx5_3"]],
+                                                                                                       ...
+
+                                                                                                    }
+
+a) Batch transfer interface                                                                         b) Topology-aware path selection
+
+                             Figure 4: Transfer engine of MOONCAKE Store.
+
+granularity of 16 KB. Each slice might use a different path,                                        is primarily driven by the fact that online services typically
+enabling collaborative work among all RDMA NICs.                                                    have more stringent SLOs. While chunked prefill reduces de-
+                                                                                                    coding interference, it remains challenging to simultaneously
+Endpoint management. MOONCAKE Store employs a pair                                                  maximize MFU during the prefill stage and meet the TBT
+of endpoints to represent the connection between a local                                            SLO during the decoding stage. We will demonstrate this in
+RDMA NIC and a remote RDMA NIC. In practice, each                                                   the end-to-end experiments in §5.2. Another important rea-
+endpoint includes one or more RDMA queue pair objects.                                              son is that we think prefill nodes require different cross-node
+Connections in MOONCAKE Store are established in an on                                              parallelism settings to handle long contexts as the available
+demand manner; endpoints remain unpaired until the first                                            context length of recent LLMs is increasing rapidly, from 8k
+request is made.                                                                                    to 128k and even up to 1 million tokens [20]. Typically, for
+                                                                                                    such long context requests, the input tokens can be 10 to 100
+   To prevent a large number of endpoints from slowing down                                         times larger than the output tokens, making optimizing the
+request processing, MOONCAKE Store employs endpoint                                                 TTFT crucial. Due to the abundant parallelism in long con-
+pooling, which caps the maximum number of active connec-                                            text prefill, using more than a single 8×GPU node to process
+tions. We use the SIEVE [19] algorithm to manage endpoint                                           them in parallel is desirable. However, extending tensor paral-
+eviction. If a connection fails due to link errors, it is removed                                   lelism (TP) across more than one node requires two expensive
+from the endpoint pools on both sides and re-established dur-                                       RDMA-based all-reduce operations per layer, significantly
+ing the next data transfer attempt.                                                                 reducing the MFU of prefill nodes.
+
+Failure handing. In a multi-NIC environment, one com-                                                  Recently, many works have proposed sequence parallelism
+mon failure scenario is the temporary unavailability of a spe-                                      (SP) [21­27]. SP partitions the input sequences of requests
+cific NIC, while other routes may still connect two nodes.                                          across different nodes to achieve acceleration, allowing even
+MOONCAKE Store is designed to adeptly manage such tem-                                              long requests to meet the TTFT SLO. However, when ap-
+porary failures effectively. If a connection is identified as                                       plied to shorter input requests, SP results in a lower MFU
+unavailable, MOONCAKE Store automatically identifies an                                             compared to using single-node TP only. Recent research [15]
+alternative, reachable path and resubmits the request to a dif-                                     proposes elastic sequence parallelism to dynamically scale up
+ferent RDMA NIC device. Furthermore, MOONCAKE Store                                                 or down the SP group. Although possible, this adds complex-
+is capable of detecting problems with other RDMA resources,                                         ity to our architecture. Additionally, SP still requires frequent
+including RDMA contexts and completion queues. It tem-                                              cross-node communication, which lowers the MFU and com-
+porarily avoids using these resources until the issue, such as a                                    petes with network resources for transferring KVCache across
+downed link, is resolved.                                                                           nodes.
+
+3.3 MOONCAKE's Prefill Pool                                                                            To address this, MOONCAKE leverages the autoregressive
+                                                                                                    property of decoder-only transformers and implements chun-
+Unlike the inviolable decoding nodes, the necessity and                                             ked pipeline parallelism (CPP) for long context prefill. We
+best practices for designing a separate and elastic prefill                                         group every X nodes in the prefill cluster into a pipelined
+pool remain under debate. For example, although many re-                                            prefill node group. For each request, its input tokens are par-
+searchers [7­9] share our intuition to use a disaggregated                                          titioned into chunks, each no longer than the pre f ill_chunk.
+architecture, it is worth discussing whether this separation is                                     Different chunks of the same request can be processed simul-
+still necessary with the introduction of chunked prefill [10].                                      taneously by different nodes, thus parallelizing the processing
+                                                                                                    and reducing TTFT.
+   However, after careful consideration, we decided to main-
+tain MOONCAKE's disaggregated architecture. This decision                                              CPP offers two main benefits: 1) Similar to pipeline par-
+
+160 23rd USENIX Conference on File and Storage Technologies                                                                                                 USENIX Association
+allelism in training, it requires cross-node communication                  20                            19.65
+only at the boundaries of each pipeline stage, which can be
+easily overlapped with computation. This leads to better MFU      TTFT (s)                 Average
+and less network resource contention with KVCache trans-                    15
+fer. 2) It naturally fits both short and long contexts, bringing
+no significant overhead for short context prefill and avoid-                10
+ing frequent dynamic adjustment of node partitioning. This
+pipeline-based acceleration method has been explored in train-              5   3.07  3.58          5.27
+ing systems [28], but to our knowledge, this is the first appli-
+cation in the inference stage, as long context inference has      Glo0bal CachLeoAcwalaCreache ALwoaadrebalancingRandom
+only recently emerged.
+                                                                                Figure 5: The prefill scheduling experiment.
+4 Scheduling
+                                                                  TTFTs are computed in parallel, rendering the processing
+4.1 Prefill Global Scheduling                                     time negligible compared to the inference time.
+
+Previous research on LLM serving typically uses a load-              More difficulty lies in predicting the transfer time because
+balancing strategy that evaluates the load on each instance       it is determined not only by the size of the transferred data
+based on the number of assigned requests. In MOONCAKE,            but also by the current network status, especially whether the
+however, the selection of prefill instances considers additional  sending node is under congestion. This also necessitates the
+factors--not just load but also the prefix cache hit length and   replication of hot KVCache blocks, which will be discussed
+the distribution of reusable KVCache blocks. While there is a     in §4.2.
+preference to route requests to prefill instances with longer
+prefix cache lengths to reduce computation costs, it may be       4.2 Cache Load Balancing
+beneficial to schedule them to other nodes to ensure over-
+all system balance and meet TTFT SLOs. To address these           In MOONCAKE, each prefill instance has its own set of local
+complexities, we propose a cache-aware global scheduling          prefix caches. The usage frequency of these caches varies
+algorithm that accounts for both the prefill time due to the      significantly. For example, system prompts are accessed by
+prefix cache and the local queuing time.                          almost every request, whereas caches storing content from
+                                                                  a local long document may be used by only one user. As
+   Algorithm 1 details the mechanism for our KVCache-             discussed in §4.1, Conductor's role is crucial in achieving an
+centric prefill scheduling. For every new request, block keys     optimal balance between cache matching and instance load.
+are then compared one by one against each prefill instance's      Thus, from the perspective of the distributed cache system,
+cache keys to identify the prefix match length (pre f ix_len)     load balancing also plays an important role. Specifically, it
+With this matching information, Conductor estimates the cor-      involves strategizing on how to back up caches to ensure that
+responding execution time based on the request length and         global prefill scheduling can achieve both high cache hits and
+pre f ix_len (which varies by instance), using a polynomial       low load.
+regression model fitted with offline data. It then adds the
+estimated waiting time for that request to get the TTFT on           A straw-man solution to this KVCache scheduling problem
+that instance. Finally, Conductor assigns the request to the      could be collecting the global usages of each block, using a
+instance with the shortest TTFT and updates the cache and         prediction model to forecast their future usages, and making
+queue times for that instance accordingly. If the SLO is not      scheduling decisions accordingly. However, unlike the estima-
+achievable, Conductor directly returns the HTTP 429 Too           tion of prefill time, workloads are highly dynamic and change
+Many Requests response status code to the upper layers.           significantly over time. Especially for a MaaS provider ex-
+                                                                  periencing rapid growth in its user base, it is impossible to
+   The backbone of this scheduling framework is straightfor-      accurately predict future usages. Thus, we propose a heuristic-
+ward, but complexities are hidden in the engineering imple-       based automated hotspot migration scheme to enhance cache
+mentation of various components. For example, to predict the      load balancing.
+computation time of the prefill stage for a request, we employ
+a predictive model derived from offline test data. This model        As previously noted, requests may not always be directed
+estimates the prefill duration based on the request's length      to the prefill instance with the longest prefix cache length due
+and prefix cache hit length. Thanks to the regular computation    to high instance load. In such cases, Conductor forwards the
+pattern of Transformers, the error bound of this prediction is    cache's location and the request to an alternative instance if
+small as long as enough offline data is available. The queu-      the estimated additional prefill time is shorter than the trans-
+ing time for a request is calculated by aggregating the prefill   fer time. This instance proactively retrieves the KVCache
+times of all queued requests. In practical implementations,       from the holder and stores it locally. More importantly, we
+                                                                  prefer to compute the input tokens if the best remote prefix
+                                                                  match length is no larger than the current local reusable prefix
+
+USENIX Association  23rd USENIX Conference on File and Storage Technologies 161
+Algorithm 1 KVCache-centric Scheduling Algorithm                          5 Evaluation
+
+Input: prefill instance pool P, decoding instance pool D, request R,      As described before, according to historical statistics of Kimi,
+                                                                          MOONCAKE enables Kimi to handle 115% and 107% more
+     cache block size B.                                                  requests on the A800 and H800 clusters, respectively, com-
+                                                                          pared to our previous systems based on vLLM. To further
+Output: the prefill and decoding instances (p, d) to process R.           validate this results and ensure reproducibility, in this section,
+                                                                          we conduct a series of end-to-end and ablation experiments on
+1: block_keys  PrefixHash(R.prompt_tokens, B)                             MOONCAKE with a dummy LLaMA3-70B model to address
+                                                                          the following questions: 1) Does MOONCAKE outperform
+2: TTFT, p  inf, 0/                                                       existing LLM inference systems in real-world scenarios? 2)
+                                                                          Compared to conventional prefix caching methods, does the
+3: best_len, best_instance  FindBestPrefixMatch(P, block_keys)            design of MOONCAKE Store significantly improve MOON-
+                                                                          CAKE's performance?
+4: for instance  P do
+                                                                          5.1 Setup
+5:       if        best_len       >  kvcache_balancing_threshold  then
+             instance.prefix_len                                          Testbed. During the reproducing experiments, the system
+                                                                          was deployed on a high-performance computing node cluster
+6: prefix_len  best_len                                                   to evaluate its performance. Each node in the cluster is con-
+                                                                          figured with eight NVIDIA-A800-SXM4-80GB GPUs and
+7: transfer_len  best_len - instance.prefix_len                           four 200 Gbps RDMA NICs. The KVCache block size in
+                                                                          MOONCAKE Store is set to 256. For deploying MOONCAKE,
+8:           Ttransfer  EstimateKVCacheTransferTime(transfer_len)         each node operates as either a prefill instance or a decoding
+                                                                          instance based on the startup parameters. For deploying other
+9: else                                                                   systems, each node hosts a single instance.
+                                                                          Metric. Specifically, we measure the TTFT and TBT of
+10: prefix_len  instance.prefix_len                                       each request, where the TBT is calculated as the average of
+                                                                          the longest 10% of the token arrival intervals. As mentioned
+11:          Ttransfer  0                                                 in §2, the threshold for TTFT is set to 30 s, and TBT thresh-
+                                                                          olds are set to 100 ms, 200 ms, and 300 ms, depending on
+12: Tqueue  EstimatePrefillQueueTime(instance)                            the scenario. We consider requests with both TTFT and TBT
+                                                                          below their respective thresholds as effective requests, and
+13: Tprefill  EstimatePrefillExecutionTime(                               the proportion of effective requests among all requests as the
+                      len(R.prompt_tokens), prefix_len)                   effective request capacity. For brevity, the subsequent experi-
+                                                                          ments not mentioning TTFT are assumed to meet the TTFT
+14: if TTFT > Ttransfer + Tqueue + Tprefill then                          threshold. To more intricately compare the caching perfor-
+                                                                          mance, we also measure the GPU time during the prefill stage
+15:          TTFT  Ttransfer + Tqueue + Tprefill                          and the cache hit rate for each request.
+                                                                          Baseline. We employ vLLM [14], one of the state-of-the-art
+16:          p  instance                                                  open-source LLM serving systems, as our experimental base-
+                                                                          line. vLLM features continuous batching and PagedAttention
+17: d, TBT  SelectDecodingInstance(D)                                     technologies, significantly enhancing inference throughput.
+                                                                          Despite its strengths, vLLM's architecture, which couples the
+18: if TTFT > TTFT_SLO or TBT > TBT_SLO then                              prefill and decoding stages, can disrupt decoding especially in
+                                                                          scenarios involving long contexts. Recent updates to vLLM
+19: reject R; return                                                      have integrated features like prefix caching and chunked pre-
+                                                                          fill to improve performance metrics in long-context scenarios,
+20:  if   best_len     > kvcache_balancing_threshold then                 such as TTFT and TBT. In our experiments, we also compare
+         p.prefix_len                                                     these features of vLLM. In our experiments, we utilize the
+                                                                          latest release (v0.5.1) of vLLM. Due to limitations in the
+21: TransferKVCache(best_instance, p)                                     current implementation, we test the prefix cache and chunked
+                                                                          prefill features of this version separately.
+22: return (p, d)
+
+multiplied by a threshold1 Both strategies not only reduce
+the prefill time for requests but also facilitate the automatic
+replication of hotspot caches, allowing for their broader dis-
+tribution across multiple instances.
+
+   To validate the effectiveness of our strategy, we conduct a
+scheduling experiment that compares random scheduling and
+load-balancing scheduling with our strategy. We further com-
+pare the local cache-aware scheduling described in §4.1 and
+the global cache-aware scheduling described in this section
+that considers cache load balancing. In random scheduling,
+a prefill instance is selected arbitrarily for each request. In
+load-balancing scheduling, the instance with the lightest load
+is chosen. Specifically, we build a MOONCAKE cluster con-
+sisting of 16 8×A800 nodes, and replay the conversation trace
+detailed in §5.2.1 for the experiment. We assess the perfor-
+mance of each scheduling algorithm based on the TTFTs. The
+experimental results, depicted in Figure 5, demonstrate that
+our KVCache-centric scheduling algorithms outperform ran-
+dom and load-balancing scheduling. By incorporating cache
+load balancing, the global cache-aware algorithm reduces the
+average TTFT by an additional 14% compared to the local
+cache-aware algorithm.
+
+    1This threshold is currently adjusted manually but can be adaptively
+adjusted by an algorithm in the future.
+
+162 23rd USENIX Conference on File and Storage Technologies               USENIX Association
+Avg Input Len    Conversation  Tool&Agent  Synthetic              Request Capacity Ratio (%)  100  Mooncake  vLLM Prefix Caching
+Avg Output Len   12035         8596        15325                                                   vLLM      vLLM Chunked Prefill
+Cache Ratio      343           182         149
+Arrival Pattern  40%           59%         66%                                                80             +64%
+Num Requests     Timestamp     Timestamp   Poisson                                                                  +42%
+                 12031         23608       3993                                                                             +22%
+
+                                                                                              60
+
+                   Table 2: Workload Statistics.                                              40             Threshold I
+                                                                                                                         Threshold II
+5.2 End-to-end Performance                                                                    20                                Threshold III
+
+In our end-to-end experiments, we evaluate the request han-                                   0    100 200300 500 1000
+dling capabilities of MOONCAKE and baseline systems under
+various workloads. Specifically, we measure the maximum                                            Time between Tokens (ms)
+throughput that remains within the defined SLO thresholds.
+We employ three types of workloads in our tests: two real-        Figure 6: The experiment of the effective request capacity of
+world traces sampled from Kimi that represent online con-         MOONCAKE under the tool&agent workload.
+versations and tool&agent interactions, respectively, and a
+synthetic workload to cover different inference scenarios. We     ing datasets: ShareGPT [32], Leval [29], and LooGLE [30].
+will first describe the unique characteristics of these work-     ShareGPT comprises multi-turn conversations with short in-
+loads and then discuss the results. Lastly, we analyze the GPU    put lengths. Leval serves as a benchmark for evaluating model
+computation time during the prefill stage, further demonstrat-    performance over long contexts, simulating scenarios where
+ing the advantages of MOONCAKE Store in enhancing cache           requests involve lengthy system prompts typical of tool and
+utilization and reducing computation costs.                       agent interactions. LooGLE is tailored for long-context QA
+                                                                  and summarization tasks, featuring input lengths of up to 100k
+5.2.1 Workload                                                    tokens and including both multi-turn QA and single-turn sum-
+                                                                  marizations, making it well-suited for long text summarization
+Conversation workload. Chatbots [1, 5] represent one of           and QA scenarios. Overall, the synthetic workload has the
+the most prevalent applications of LLMs, making conversa-         longest average input length. Despite having the highest pro-
+tional requests a highly representative workload for LLM in-      portion of prefix caching, its cache hits are quite dispersed,
+ference. As shown in Table 2, the conversation workload con-      thus requiring a substantial cache capacity.
+tains a significant portion of long-context requests--reaching
+up to 128k tokens and averaging around 12k tokens--which is          During preprocessing, each conversation turn was mapped
+comparable to the data lengths found in current long-context      into a separate request, incorporating both the input and out-
+datasets [29, 30]. Moreover, the workload has an average of       puts from previous interactions. For datasets featuring mul-
+approximately 40% prefix caching ratio brought about by           tiple questions with the same lengthy prompt, each question
+multi-turn conversations. We sampled 1 hour of conversation       and its preceding prompt were treated as a single request. We
+traces from an online inference cluster, where each record        combined the processed datasets in a 1:1:1 ratio, preserving
+includes the input and output lengths along with timestamps       the sequential relationships within the multi-turn dialogue
+of arrival. Requests are dispatched according to these times-     requests while randomly shuffling them. Since the datasets do
+tamps and are preemptively terminated once the model output       not specify arrival times, we simulated realistic conditions by
+reaches the predetermined length.                                 dispatching requests at a defined rate using a Poisson process.
+Tool&Agent workload. Recent studies [31] involving
+LLMs deployed as tools or agents to perform tasks have been       5.2.2 Effective Request Capacity
+increasing. These tasks are typically characterized by the in-
+corporation of pre-designed, often lengthy, system prompts        To assess the maximum number of requests that can adhere
+that are fully repetitive. We collected traces of the tool&agent  to the SLOs under different workloads, we test four system
+workload, also sampled over a 1-hour period. As indicated         configurations: MOONCAKE, vLLM, vLLM with the prefix
+in Table 2, this workload exhibits a high proportion of prefix    caching feature, and vLLM with the chunked prefill feature,
+caching, with shorter input and output lengths.                   each utilizing 16 nodes.
+Synthetic workload. The synthetic workload was con-               Conversation workload. The results for this workload are
+structed from a combination of publicly available datasets.       presented in Figure 1. This workload, characterized by vary-
+We categorized the requests in the real trace into three types:   ing input lengths and longer output lengths, causes significant
+short conversations, tool and agent calls, and long text sum-     fluctuations in TBT for the vLLM system due to the lengthy
+marization and QA. For each category, we selected the follow-     contexts in the prefill stage. While chunked prefill reduces
+                                                                  decoding interference, balancing the enhancement of MFU
+
+USENIX Association                                    23rd USENIX Conference on File and Storage Technologies 163
+                                 Mooncake  vLLM Prefix Caching                                        Mooncake         vLLM Prefix Caching
+                                 vLLM      vLLM Chunked Prefill                                       vLLM
+                                                                                                                       vLLM Chunked Prefill
+
+Request Capacity Ratio (%)  100            +62%                              Prefill GPU Time (s)     1.56x1.43x1.90x                   2.76x2.59x3.33x
+                                                  +40%
+                            80                            +28%                                     2                   2.12x1.40x2.68x
+
+                            60                                                                     1
+
+                            40             Threshold I
+                                                       Threshold II
+                            20                                Threshold III            0 Conversation Tool&Agent Synthetic
+
+                            0    100 200300 500 1000                         Figure 8: Average GPU time of each request during the prefill
+                                                                             stage under different workloads.
+
+                                 Time between Tokens (ms)
+
+Figure 7: The experiment of the effective request capacity of                longest prefill GPU time due to its longer input lengths and
+MOONCAKE under the synthetic workload.                                       lower prefix cache ratio. The synthetic workload, featuring
+                                                                             the highest prefix cache ratio and dispersed cache hotspots,
+in the prefill stage with the TBT constraints in the decoding                achieves optimal cache hit rates within MOONCAKE's global
+stage remains challenging. Despite meeting the TTFT SLO,                     cache pool. Consequently, despite having the longest aver-
+its effective request capacity is still suboptimal. Compared to              age input lengths, it requires less prefill GPU time than the
+vLLM, MOONCAKE achieves a very significant increase in                       conversation workload. Finally, the tool&agent workload ex-
+effective request capacity.                                                  hibits the shortest prefill GPU time because it has the shortest
+Tool&Agent workload. In contrast, the tool&agent work-                       average input length and a relatively high prefix cache ratio.
+load has a high proportion of prefix caching and shorter output
+lengths, favoring the vLLM system as the short prefill time                     Across different systems, MOONCAKE significantly re-
+minimally impacts output. However, as illustrated in Figure 6,               duces GPU time by fully utilizing global cache for prefix
+vLLM and vLLM with chunked prefill experience more severe                    caching, achieving reductions of 36%, 53%, and 64% for con-
+disruptions in decoding due to longer prefill processing times,              versation, tool&agent, and synthetic workloads, respectively,
+resulting in a lower effective caching capacity than vLLM                    compared to vLLM. vLLM featuring prefix caching uses lo-
+with prefix caching. MOONCAKE uses a global cache pool                       cal cache stored on HBM, where the cache capacity is far
+to significantly increase caching capacity and optimize cache                lower than that of MOONCAKE. Its prefill GPU time is 1.43×
+utilization through internode transfers, excelling in scenarios              and 1.40× higher than MOONCAKE for the conversation and
+with high prefix caching. As a result, it enhances effective                 tool&agent workloads, respectively. However, in the synthetic
+caching capacity by 42% compared to vLLM with prefix                         workload, where cache hotspots are more dispersed, the prefill
+caching under the 200 ms threshold.                                          GPU time of vLLM with prefix caching is nearly equivalent
+Synthetic workload. The synthetic workload features the                      to vLLM, and is 2.59× that of MOONCAKE. vLLM with
+longest average input lengths and dispersed cache hotspots                   chunked prefill sacrifices some prefill efficiency to maintain
+which leads to poor cache utilization under smaller cache ca-                lower TBT during the decoding stage, resulting in the longest
+pacities. As depicted in Figure 7, most requests processed by                prefill GPU times, which are 1.90×, 2.68×, and 3.33× that
+MOONCAKE maintain a TBT within 100 ms, whereas about                         of MOONCAKE for the three workloads.
+20% of requests handled by vLLM exceed 300 ms. The per-
+formance of systems with prefix caching and chunked prefill                  5.3 MOONCAKE Store
+is similar to vLLM, as they fail to mitigate the impact of long
+contexts on the decoding stage. Compared to vLLM, MOON-                      To address Question 2, we examine the effects of MOON-
+CAKE increases effective request capacity by 40% under the                   CAKE Store's global cache pool on system performance. Our
+200 ms threshold.                                                            analysis reveals that although using local DRAM to construct
+                                                                             KVCache memory increases cache capacity than HBM only,
+5.2.3 Prefill GPU Time                                                       restricting the cache to a single node still leads to suboptimal
+                                                                             cache utilization. We will first conduct a quantitative anal-
+Prefill GPU time is positively correlated with requests' TTFT                ysis of cache capacity requirements and then showcase the
+and serving cost and is determined by requests' input lengths                benefits through practical workload experiments.
+and cache hit rates. We analyze the average GPU time during
+the prefill stage under different workloads, as shown in Fig-                5.3.1 Quantitative Analysis of Cache Capacity
+ure 8. For MOONCAKE, the conversation workload incurs the
+                                                                             Considering the LLaMA3-70B model, the KVCache size
+                                                                             required for a single token is 320 KB. Despite the possibility
+
+164 23rd USENIX Conference on File and Storage Technologies                                                                             USENIX Association
+            Conversation                                                       Synthetic                                                                                                  10th  100th  1000th            10000th
+            Tool&Agent                                                         All
+                                                                                                                                                                          Conversation          Tool&Agent                Synthetic
+
+Cache Hit Rate0.6                                                                                                                                                 8
+                                                                                                                                                   Replica Count  6
+            75% max                                                                                                                                               4
+                                                                                                                                                                  2
+0.4         46% max                                                                                                                                               0 0 1000 2000 3000            0 1000 2000 3000      0  500         1000
+                                                                                                                                                                                                            Time (s)
+                                                                                                                                                                                 Time (s)                                Time (s)
+
+            48% max
+
+0.2                                                                       41% max                                                                               Figure 11: Replication count of cache keys across various
+                                                                                                                                                                workloads. We continuously monitor and record the keys and
+      0.0                                                                                                                                                       counts of all cache blocks every 30 seconds, subsequently
+            104 105 106 107 108 109                                                                                                                             ranking the cache keys by the cumulative counts from all sam-
+                      Cache Capacity (tokens)                                                                                                                   ples. This figure depicts the temporal variation in replication
+                                                                                                                                                                numbers for cache keys ranked at the 10th, 100th, 1000th, and
+Figure 9: Quantitative analysis of prefix cache hit rates with                                                                                                  10,000th positions.
+varying cache capacities. We consider only the sequence of
+requests and do not account for factors such as prefill com-                                                                                                    to 1 to isolate the impact of the decoding stage. Each node in
+putation time or the replication of hotspots in the cache. The                                                                                                  the local cache setup has a 3M token capacity but can only
+dashed line for 3M tokens capacity represents the local cache                                                                                                   access its own cache. The global scheduler is programmed
+capacity, with the intersection points indicating the ratio of                                                                                                  to direct requests to nodes with higher prefix match ratios to
+the cache hit rate to the theoretical maximum hit rate.                                                                                                         maximize cache utilization. Conversely, in the global cache
+                                                                                                                                                                setup, each node also has a 3M token capacity but can share
+            Local Cache                                                        Global Cache                                                                     caches across all nodes, supported by proactive inter-node
+                                                                                                                                                                cache migration. The experimental data, shown in Figure 10,
+            1.38x   2.36x                                                 1.5                                                                                   indicates that the global cache achieves higher cache hit rates
+                                                                                                                                                                and shorter average prefill GPU computation times across all
+60Cache Hit Rate (%)                                                                   0.76x         0.52x                                                      tested workloads. Compared to the local cache, the global
+                                                    Prefill GPU Time (s)  1.0                                                                                   cache exhibits a maximum increase of 136% in cache hit rate
+     2.22x                                                                                                                                                      and a reduction of up to 48% in prefill computation time.
+40                                                                                            0.74x
+
+20                                                                        0.5
+
+C0onversatiToonol&AgenSt ynthetic                                         0C.0onversatiToonol&AgenSt ynthetic                                                   5.3.3 Cache Replica
+
+Figure 10: Cache hit rates and average GPU computation time                                                                                                     Building upon the cache load balancing scheduling strategy
+for prefill in global and local caches.                                                                                                                         discussed in §4.2, the cache keys in MOONCAKE Store may
+                                                                                                                                                                have replicas distributed across different machines, thereby
+of reserving approximately 1 TB of DRAM for local caching,                                                                                                      reducing access latency for hot caches. To further investi-
+this setup only supports storage for about 3 million tokens,                                                                                                    gate the system's dynamic behavior, we count the number of
+which proves insufficient. Figure 9 displays theoretical cache                                                                                                  cache replicas for keys across three workloads, as shown in
+hit rates under various workloads and their combinations.                                                                                                       Figure 11.
+The findings indicate that a local cache with a 3M token
+capacity does not achieve 50% of the theoretical maximum                                                                                                           It can be observed that in the conversation and tool&agent
+hit rate in most scenarios. We also determine that, in these                                                                                                    workloads, there are highly concentrated hot caches (e.g., the
+workloads, a cache capacity of 50M tokens nearly reaches the                                                                                                    top 100 keys), which, after the system stabilizes, have replicas
+theoretical maximum hit rate of 100%, which require to pool                                                                                                     on almost every instance in the prefill pool. In contrast, the
+at least 20 nodes' DRAM. The results highlight that a global                                                                                                    synthetic workload has fewer shared prefix caches, resulting
+cache significantly enhances capacity over local caches, thus                                                                                                   in fewer replicas and potential fluctuations, even for the top
+improving cache hit rates and reducing GPU times.                                                                                                               10 blocks. This demonstrates that our scheduling strategy in
+                                                                                                                                                                §4.2 effectively provides replicas for hot caches, particularly
+                                                                                                                                                                in scenarios with highly concentrated prefix caches.
+
+5.3.2 Practical Workload Experiment                                                                                                                             5.4 KVCache Transfer Performance
+
+To evaluate the effectiveness of global versus local caching                                                                                                    5.4.1 Transfer Engine
+mechanisms, we focus on two metrics: cache hit rate and
+average GPU computation time for prefill. We configure a                                                                                                        MOONCAKE's transfer engine is designed to facilitate effi-
+cluster with 10 prefill nodes and restrict all request outputs                                                                                                  cient cache transfers between nodes. We compare its latency
+
+USENIX Association                                                                                             23rd USENIX Conference on File and Storage Technologies 165
+                                 Transfer Engine                        TCP  Gloo                  Schedule  Transfer                                               Decode
+                 4 x 200 Gbps NICs                                                                 Prefill   Load Cache
+              4                                                   8 x 400 Gbps NICs
+Latency (s)                                       Latency (s)  4
+
+                                                                                               30
+                                                                                                                                                    6
+              2                                                2                               Latency (s)
+                  7.5x                                                       16.2x                                                                  Latency (s)20
+
+                  2.4x                                                       4.6x                                                                                4
+
+              00  25 50 75 100 00                                            25 50 75 100      10                                                                2
+                  Cache Size (GB)                                            Cache Size (GB)
+
+                  Figure 12: Latency of inter-node cache transfer.                             0 8k 16k 32k 64k 128k                                             0 8k 16k 32k 64k 128k
+                                                                                                           Prompt Length                                                     Prompt Length
+
+                                                  Transfer Time (s)          Theoretical Time  (a) Prefix cache ratio 0%. (b) Prefix cache ratio 95%.
+
+Avg TTFT (s)  4                                                      3       Real Time
+                    TTFT of Recomputation
+                                                                     2                         Figure 14: End-to-end latency breakdown of MOONCAKE. In
+              2                                                                                the figure, Prefill represents the time for layer-wise prefill that
+                                                                     1                         integrates cache loading and storing, and Decode represents
+              00 100 200 300 400                                                               the time to decode 128 tokens. All processes with diagonal
+                      BandWidth (Gbps)                               00 100 200 300 400        stripes can proceed asynchronously with model inference and
+                                                                             BandWidth (Gbps)  do not affect MOONCAKE's throughput.
+                 (a) Average TTFT.
+                                                                        (b) Transfer time.
+
+Figure 13: The synthetic workload experiment with varying                                      network congestion, as demonstrated by the substantial diver-
+network bandwidths.                                                                            gence between actual and theoretical transfer times illustrated
+                                                                                               in Figure 13b. Consequently, we recommend a minimum
+with other popular schemes, considering two alternative base-                                  network bandwidth of 100 Gbps to ensure optimal system
+lines: torch.distributed with a Gloo backend and TCP-                                          performance.
+based transfers. All schemes are tested with a concurrency
+level of 64 and a minimum transfer granularity of 128 KB. As                                   5.4.3 E2E Latency Breakdown
+depicted in Figure 12, the transfer engine consistently exhibits
+significantly lower latency than the alternative methods. In the                               The latency of a single inference request in MOONCAKE
+scenario of transferring 40 GB of data, corresponding to the                                   can be decomposed into five components: 1) scheduling and
+cache size for LLaMA3-70B with 128k tokens, the transfer                                       queuing time; 2) layer-wise prefill time; 3) cache transfer time;
+engine achieves bandwidth of 87 GB/s and 190 GB/s under                                        4) time required for the decoding node to load cache from
+network configurations of 4×200 Gbps and 8×400 Gbps, re-                                       DRAM to HBM; and 5) decoding time. We experimentally
+spectively. These rates are approximately 2.4× and 4.6×                                        analyze the proportion of these five components under settings
+faster than those achieved using the TCP protocol. The code                                    with prefix cache ratios of 0% and 95%, as shown in Figure 14.
+of this transfer engine will also be open sourced later as it is
+a decoupled and basic tool that can be used in many scenar-                                       First, it is evident from the figure that the introduction of
+ios (e.g., it is also used in the checkpoint transfer service of                               prefix caching significantly reduces the prefill time. Specif-
+Moonshot AI).                                                                                  ically, with an input length of 128k tokens, prefix caching
+                                                                                               reduces the prefill time by 92%. Furthermore, the overhead
+5.4.2 Bandwidth Demand by MOONCAKE                                                             introduced by MOONCAKE has minimal impact on the sys-
+                                                                                               tem's performance. The Schedule, Transfer, and Load Cache
+MOONCAKE's global cache pool relies on efficient inter-node                                    components can proceed asynchronously with model infer-
+cache transfers to hide cache transfer times within GPU com-                                   ence and therefore do not affect MOONCAKE's throughput.
+putation times. We evaluate the impact of network bandwidth                                    Moreover, the increase in TTFT due to these overheads is
+on the system's performance by simulating a range of band-                                     smaller than the reduction achieved by prefix caching. Even
+widths from 24 Gbps to 400 Gbps and measuring the transfer                                     when accounting for the overhead, prefix caching in MOON-
+time and TTFT under the synthetic workload described in                                        CAKE can reduce TTFT by 86% with an input length of 128k
+§5.2.1. Figure 13a shows that the average TTFT of requests                                     tokens.
+decreases as bandwidth increases. When the total communi-
+cation bandwidth exceeds 100 Gbps, the average TTFT re-                                        5.5 P/D Ratio
+mains below 2 s, significantly less than the TTFT of the re-
+computation baseline. However, when bandwidth falls below                                      As a deployed P/D disaggregation system, in this section, we
+100 Gbps, system performance is significantly compromised.                                     explore the impact of different P/D ratios on system perfor-
+This is marked by a sharp increase in TTFT and evident                                         mance. We define the P/D ratio as the number of prefill nodes
+                                                                                               to decoding nodes. Using the clusters comprising 16 nodes
+
+166 23rd USENIX Conference on File and Storage Technologies                                                                                                         USENIX Association
+Effective Request Ratio (%)                                                                                                     Prefix caching is also widely adopted to enable the reuse
+                                                          Avg TTFT (s)                                                       of KVCache across multiple requests, reducing computa-
+                                                                                                               Avg TBT (ms)  tional overhead in LLM inference systems [14, 34]. Prompt
+100                                           TTFT                                                                           Cache [16] precomputes and stores frequently used text KV-
+ 95                                                                                                                          Cache on inference servers, facilitating their reuse and sig-
+ 90                                           TBT   50                                                                       nificantly reducing inference latency. SGLang [17] leverages
+ 85                                                                                                                          RadixAttention, which uses a least recently used (LRU) cache
+ 80                                        4                                                                                 within a radix tree structure to efficiently enable automatic
+   5P116DP10D7P9D8P8D9P7D10P61D1P5D                                                                                          sharing across various reuse patterns.
+                                                                                        40
+                                           2                                                                                    Among these approaches, CachedAttention [38], a con-
+                                                                                                                             current work with us, proposes a hierarchical KV caching
+                                           5P116DP10D7P9D8P8D9P7D10P61D1P5D                                                  system that utilizes cost-effective memory and storage media
+                                                                                                                             to accommodate KVCache for all requests. The architecture
+(a) Effective request capacity (b) Latency with varying P/D ra-                                                              of MOONCAKE shares many design choices with CachedAt-
+                                                                                                                             tention. However, in long-context inference, the KVCache
+with varying P/D ratio.              tio.                                                                                    becomes extremely large, requiring high capacity and efficient
+                                                                                                                             data transfer along with KVCache-centric global scheduling.
+Figure 15: The impact of the P/D ratio on the system perfor-                                                                 Additionally, MOONCAKE is not a standalone cache service,
+mance. P is short for prefill nodes and D is short for decoding                                                              it incorporates both a memory-efficient cache storage mecha-
+nodes.                                                                                                                       nism and a cache-aware scheduling strategy, further improv-
+                                                                                                                             ing prefix caching efficiency.
+but with varying P/D ratios, we measure the average TTFT
+and TBT under the synthetic workload described in §5.2.1.                                                                       The benefits of a distributed KVCache pool depend on
+We then calculate the effective request capacity as introduced                                                               the cache hit rate, which increases as the per-token cache
+in §5.2.2, setting the thresholds for TTFT and TBT to 10                                                                     size decreases under a fixed capacity. Consequently, orthogo-
+seconds and 100 milliseconds, respectively. Increasing the                                                                   nal techniques such as KVCache compression [39­41] and
+number of prefill nodes reduces TTFT but increases TBT, and                                                                  KVCache-friendly attention architectures [42, 43] can further
+vice versa (Figure 15b). Therefore, we need to find a balance                                                                enhance our approach.
+between TTFT and TBT. Figure 15a demonstrates that when
+the P/D ratio is approximately 1:1, MOONCAKE achieves its                                                                    7 Conclusion
+highest effective request capacity, indicating that the loads on
+the prefill and decoding clusters are relatively balanced.                                                                   This paper presents MOONCAKE, a KVCache-centric disag-
+                                                                                                                             gregated architecture designed for efficiently serving LLMs,
+   We also note that some prior work [7, 9] has proposed                                                                     particularly in long-context scenarios. We discuss the neces-
+dynamically switching the roles of nodes between prefill and                                                                 sity, challenges, and design choices involved in balancing
+decoding. However, in practical deployments, we find that the                                                                the goal of maximizing overall effective throughput while
+statistical characteristics of online traffic are generally stable.                                                          meeting latency-related SLO requirements.
+Therefore, we choose to fix the P/D ratio while continuously
+monitoring the loads of the prefill and decoding clusters, only                                                              Acknowledgments
+switching node roles when significant load fluctuations occur.
+                                                                                                                             We thank the anonymous reviewers and our shepherd, Mr.
+6 Related Work                                                                                                               Kan Wu, for their valuable feedback. The authors affili-
+                                                                                                                             ated with Tsinghua University are all in the Department
+Significant efforts have been dedicated to enhancing the effi-                                                               of Computer Science and Technology, Beijing National Re-
+ciency of LLM serving systems through scheduling, memory                                                                     search Center for Information Science and Technology (BN-
+management, and resource dissaggregation. Production-grade                                                                   Rist), Tsinghua University, China. This work is supported by
+systems like FasterTransformer [33], TensorRT-LLM [34],                                                                      National Key Research & Development Program of China
+and DeepSpeed Inference [35] are designed to significantly                                                                   (2022YFB4502004), Natural Science Foundation of China
+boost throughput. Orca [13] employs iteration-level schedul-                                                                 (62141216) and Tsinghua University Initiative Scientific Re-
+ing to facilitate concurrent processing at various stages, while                                                             search Program, Young Elite Scientists Sponsorship Program
+vLLM [14] leverages dynamic KVCache management to op-                                                                        by CAST (2022QNRC001), and Beijing HaiZhi XingTu Tech-
+timize memory. FlexGen [36], Sarathi-Serve [10], and Fast-                                                                   nology Co., Ltd.
+Serve [37] incorporate innovative scheduling and swapping
+strategies to distribute workloads effectively across limited
+hardware, often complementing each other's optimizations.
+Further optimizations [7­9] lead to the separation of prefill
+and decoding stages, leading to the disaggregated architecture
+of MOONCAKE. Our design of MOONCAKE builds on these
+developments, particularly drawing from the open-source
+community of vLLM, for which we are deeply appreciative.
+
+USENIX Association                                                                          23rd USENIX Conference on File and Storage Technologies 167
+References                                                      [11] Alec Radford, Jeffrey Wu, Rewon Child, David Luan,
+                                                                      Dario Amodei, Ilya Sutskever, et al. Language mod-
+[1] OpenAI. Introducing chatgpt. https://openai.com/                  els are unsupervised multitask learners. OpenAI blog,
+     blog/chatgpt, 2022.                                              1(8):9, 2019.
+
+[2] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert,      [12] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier
+    Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov,               Martinet, Marie-Anne Lachaux, Timothée Lacroix, Bap-
+     Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al.          tiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar,
+     Llama 2: Open foundation and fine-tuned chat models.             et al. Llama: Open and efficient foundation language
+     arXiv preprint arXiv:2307.09288, 2023.                           models. arXiv preprint arXiv:2302.13971, 2023.
+
+[3] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan,           [13] Gyeong-In Yu, Joo Seong Jeong, Geon-Woo Kim, Soo-
+     Henrique Ponde de Oliveira Pinto, Jared Kaplan, Harri            jeong Kim, and Byung-Gon Chun. Orca: A distributed
+     Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman,             serving system for transformer-based generative mod-
+     et al. Evaluating large language models trained on code.         els. In 16th USENIX Symposium on Operating Systems
+     arXiv preprint arXiv:2107.03374, 2021.                           Design and Implementation (OSDI 22), pages 521­538,
+                                                                      2022.
+
+[4] Charles Packer, Vivian Fang, Shishir G Patil, Kevin         [14] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying
+     Lin, Sarah Wooders, and Joseph E Gonzalez. Memgpt:               Sheng, Lianmin Zheng, Cody Hao Yu, Joseph Gonzalez,
+    Towards llms as operating systems. arXiv preprint                 Hao Zhang, and Ion Stoica. Efficient memory man-
+     arXiv:2310.08560, 2023.                                          agement for large language model serving with page-
+                                                                      dattention. In Proceedings of the 29th Symposium on
+[5] Moonshot AI. Kimi. https://kimi.moonshot.cn,                      Operating Systems Principles, pages 611­626, 2023.
+     2023.
+                                                                [15] Bingyang Wu, Shengyu Liu, Yinmin Zhong, Peng Sun,
+[6] NVIDIA. Nvidia h100 tensor core gpu archi-                        Xuanzhe Liu, and Xin Jin. Loongserve: Efficiently serv-
+                                                                      ing long-context large language models with elastic se-
+tecture.    https://resources.nvidia.com/                             quence parallelism. In Proceedings of the ACM SIGOPS
+                                                                      30th Symposium on Operating Systems Principles, pages
+en-us-tensor-core, 2022.                                              640­654, 2024.
+
+[7] Pratyush Patel, Esha Choukse, Chaojie Zhang, Aashaka        [16] In Gim, Guojun Chen, Seung-seob Lee, Nikhil Sarda,
+     Shah, Íñigo Goiri, Saeed Maleki, and Ricardo Bianchini.          Anurag Khandelwal, and Lin Zhong. Prompt cache:
+     Splitwise: Efficient generative llm inference using phase        Modular attention reuse for low-latency inference. Pro-
+     splitting. In 2024 ACM/IEEE 51st Annual International            ceedings of Machine Learning and Systems, 6:325­338,
+    Symposium on Computer Architecture (ISCA), pages                  2024.
+    118­132. IEEE, 2024.
+
+[8] Yinmin Zhong, Shengyu Liu, Junda Chen, Jianbo Hu,           [17] Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Jeff
+    Yibo Zhu, Xuanzhe Liu, Xin Jin, and Hao Zhang. Dist-              Huang, Chuyue Sun, Cody Hao Yu, Shiyi Cao, Chris-
+     serve: Disaggregating prefill and decoding for goodput-          tos Kozyrakis, Ion Stoica, Joseph E Gonzalez, et al.
+     optimized large language model serving. In 18th                  Efficiently programming large language models using
+    USENIX Symposium on Operating Systems Design and                  sglang. arXiv preprint arXiv:2312.07104, 2023.
+    Implementation (OSDI 24), pages 193­210, 2024.
+                                                                [18] Vikranth Srivatsa, Zijian He, Reyna Abhyankar, Dong-
+[9] Cunchen Hu, Heyang Huang, Liangliang Xu, Xusheng                  ming Li, and Yiying Zhang. Preble: Efficient distributed
+     Chen, Jiang Xu, Shuang Chen, Hao Feng, Chenxi Wang,              prompt scheduling for llm serving. 2024.
+     Sa Wang, Yungang Bao, et al. Inference without interfer-
+     ence: Disaggregate llm inference for mixed downstream      [19] Yazhuo Zhang, Juncheng Yang, Yao Yue, Ymir Vig-
+    workloads. arXiv preprint arXiv:2401.11181, 2024.                 fusson, and KV Rashmi. Sieve is simpler than lru: an
+                                                                      efficient turn-key eviction algorithm for web caches. In
+[10] Amey Agrawal, Nitin Kedia, Ashish Panwar, Jayashree              21st USENIX Symposium on Networked Systems Design
+      Mohan, Nipun Kwatra, Bhargav Gulavani, Alexey Tu-               and Implementation (NSDI 24), pages 1229­1246, 2024.
+      manov, and Ramachandran Ramjee. Taming throughput-
+      latency tradeoff in llm inference with sarathi-serve. In  [20] Google. Our next-generation model: Gemini
+      18th USENIX Symposium on Operating Systems Design
+      and Implementation (OSDI 24), pages 117­134, 2024.        1.5.   https://blog.google/technology/ai/
+
+                                                                google-gemini-next-generation-model-february-2024,
+
+                                                                2024.
+
+168 23rd USENIX Conference on File and Storage Technologies            USENIX Association
+[21] Sam Ade Jacobs, Masahiro Tanaka, Chengming Zhang,            [31] Joon Sung Park, Joseph O'Brien, Carrie Jun Cai, Mered-
+      Minjia Zhang, Leon Song, Samyam Rajbhandari, and                  ith Ringel Morris, Percy Liang, and Michael S Bernstein.
+      Yuxiong He. Deepspeed ulysses: System optimizations               Generative agents: Interactive simulacra of human be-
+      for enabling training of extreme long sequence trans-             havior. In Proceedings of the 36th annual acm sympo-
+      former models. arXiv preprint arXiv:2309.14509, 2023.             sium on user interface software and technology, pages
+                                                                        1­22, 2023.
+[22] Hao Liu, Matei Zaharia, and Pieter Abbeel. Ring atten-
+      tion with blockwise transformers for near-infinite con-     [32] Sharegpt teams. https://sharegpt.com/.
+      text. In NeurIPS 2023 Foundation Models for Decision
+      Making Workshop, 2023.                                      [33] NVIDIA Corporation. Fastertransformer. https://
+                                                                        github.com/NVIDIA/FasterTransformer, 2019.
+[23] William Brandon, Aniruddha Nrusimha, Kevin Qian,
+      Zachary Ankner, Tian Jin, Zhiye Song, and Jonathan          [34] NVIDIA Corporation. Tensorrt-llm. https://github.
+      Ragan-Kelley. Striped attention: Faster ring attention for        com/NVIDIA/TensorRT-LLM, 2023.
+      causal transformers. arXiv preprint arXiv:2311.09431,
+      2023.                                                       [35] Reza Yazdani Aminabadi, Samyam Rajbhandari, Am-
+                                                                        mar Ahmad Awan, Cheng Li, Du Li, Elton Zheng,
+[24] Dacheng Li, Rulin Shao, Anze Xie, Eric P Xing,                     Olatunji Ruwase, Shaden Smith, Minjia Zhang, Jeff
+      Joseph E Gonzalez, Ion Stoica, Xuezhe Ma, and Hao                 Rasley, et al. Deepspeed-inference: enabling efficient in-
+      Zhang. Lightseq:: Sequence level parallelism for dis-             ference of transformer models at unprecedented scale. In
+      tributed training of long context transformers. In Work-          SC22: International Conference for High Performance
+      shop on Advancing Neural Network Training: Computa-               Computing, Networking, Storage and Analysis, pages
+      tional Efficiency, Scalability, and Resource Optimization         1­15. IEEE, 2022.
+      (WANT@ NeurIPS 2023), 2023.
+                                                                  [36] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan
+[25] Vijay Anand Korthikanti, Jared Casper, Sangkug Lym,                Li, Max Ryabinin, Beidi Chen, Percy Liang, Christopher
+      Lawrence McAfee, Michael Andersch, Mohammad                       Ré, Ion Stoica, and Ce Zhang. Flexgen: High-throughput
+      Shoeybi, and Bryan Catanzaro. Reducing activation re-             generative inference of large language models with a
+      computation in large transformer models. Proceedings              single gpu. In International Conference on Machine
+      of Machine Learning and Systems, 5:341­353, 2023.                 Learning, pages 31094­31116. PMLR, 2023.
+
+[26] Shenggui Li, Fuzhao Xue, Chaitanya Baranwal, Yong-           [37] Bingyang Wu, Yinmin Zhong, Zili Zhang, Gang Huang,
+      bin Li, and Yang You. Sequence parallelism: Long                  Xuanzhe Liu, and Xin Jin. Fast distributed inference
+      sequence training from system perspective. In Proceed-            serving for large language models. arXiv preprint
+      ings of the 61st Annual Meeting of the Association for            arXiv:2305.05920, 2023.
+      Computational Linguistics (Volume 1: Long Papers),
+      pages 2391­2404, 2023.                                      [38] Bin Gao, Zhuomin He, Puru Sharma, Qingxuan Kang,
+                                                                        Djordje Jevdjic, Junbo Deng, Xingkun Yang, Zhou Yu,
+[27] Jiarui Fang and Shangchun Zhao. Usp: A unified se-                 and Pengfei Zuo. Cost-efficient large language model
+      quence parallelism approach for long context generative           serving for multi-turn conversations with cachedatten-
+      ai. arXiv preprint arXiv:2405.07719, 2024.                        tion. In 2024 USENIX Annual Technical Conference
+                                                                        (USENIX ATC 24), pages 111­126, 2024.
+[28] Zhuohan Li, Siyuan Zhuang, Shiyuan Guo, Danyang
+      Zhuo, Hao Zhang, Dawn Song, and Ion Stoica. Terapipe:       [39] Yuhan Liu, Hanchen Li, Yihua Cheng, Siddhant Ray,
+      Token-level pipeline parallelism for training large-scale         Yuyang Huang, Qizheng Zhang, Kuntai Du, Jiayi Yao,
+      language models. In International Conference on Ma-               Shan Lu, Ganesh Ananthanarayanan, et al. Cachegen:
+      chine Learning, pages 6543­6552. PMLR, 2021.                      Kv cache compression and streaming for fast large lan-
+                                                                        guage model serving. In Proceedings of the ACM SIG-
+[29] Chenxin An, Shansan Gong, Ming Zhong, Xingjian                     COMM 2024 Conference, pages 38­56, 2024.
+      Zhao, Mukai Li, Jun Zhang, Lingpeng Kong, and
+      Xipeng Qiu. L-eval: Instituting standardized evalua-        [40] Coleman Hooper, Sehoon Kim, Hiva Mohammadzadeh,
+      tion for long context language models. arXiv preprint             Michael W Mahoney, Yakun Sophia Shao, Kurt Keutzer,
+      arXiv:2307.11088, 2023.                                           and Amir Gholami. Kvquant: Towards 10 million con-
+                                                                        text length llm inference with kv cache quantization.
+[30] Jiaqi Li, Mengmeng Wang, Zilong Zheng, and Muhan                   arXiv preprint arXiv:2401.18079, 2024.
+      Zhang. Loogle: Can long-context language mod-
+      els understand long contexts? arXiv preprint
+      arXiv:2311.04939, 2023.
+
+USENIX Association  23rd USENIX Conference on File and Storage Technologies 169
+[41] Zirui Liu, Jiayi Yuan, Hongye Jin, Shaochen Zhong,
+      Zhaozhuo Xu, Vladimir Braverman, Beidi Chen, and
+      Xia Hu. Kivi: A tuning-free asymmetric 2bit quanti-
+      zation for kv cache. arXiv preprint arXiv:2402.02750,
+      2024.
+
+[42] Aixin Liu, Bei Feng, Bin Wang, Bingxuan Wang, Bo Liu,
+      Chenggang Zhao, Chengqi Dengr, Chong Ruan, Damai
+      Dai, Daya Guo, et al. Deepseek-v2: A strong, econom-
+      ical, and efficient mixture-of-experts language model.
+      arXiv preprint arXiv:2405.04434, 2024.
+
+[43] William Brandon, Mayank Mishra, Aniruddha
+      Nrusimha, Rameswar Panda, and Jonathan Ragan
+      Kelly. Reducing transformer key-value cache size with
+      cross-layer attention. arXiv preprint arXiv:2405.12981,
+      2024.
+
+170 23rd USENIX Conference on File and Storage Technologies    USENIX Association
+

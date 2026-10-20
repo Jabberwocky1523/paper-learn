@@ -1,0 +1,5 @@
+.agents/
+.claude/
+.venv/
+tmp/
+images/
