@@ -10,18 +10,18 @@
 - **Version / 版本**：[arXiv:2609.39131v2](https://arxiv.org/abs/2609.39131v2) [cs.LG]，2026-10-05。仅依据本地 PDF 标识，未另行核实会议或期刊发表状态。
 - **Source / 来源**：本地用户提供的 `Characterizing High Bandwidth Flash for LLM Serving.pdf`，共 10 页。
 
-| Author / 作者 | Affiliation / 单位 | Email / 邮箱 |
-| --- | --- | --- |
-| Zack Yu | UC Berkeley / 加州大学伯克利分校 | zack.yu@berkeley.edu |
-| Chloe Wong | UC Berkeley / 加州大学伯克利分校 | chloe.wong@berkeley.edu |
-| Coleman Hooper | UC Berkeley / 加州大学伯克利分校 | chooper@berkeley.edu |
-| Minjae Lee | FuriosaAI，Seoul, South Korea / 韩国首尔 | minjae.lee@furiosa.ai |
-| Wonjun Kang | FuriosaAI，Seoul, South Korea / 韩国首尔 | kangwj1995@furiosa.ai |
-| Youngjin Cho | FuriosaAI，Seoul, South Korea / 韩国首尔 | youngjin.cho@furiosa.ai |
-| Michael W. Mahoney | UC Berkeley；ICSI；LBNL | mahoneymw@stat.berkeley.edu |
-| Yakun Sophia Shao | UC Berkeley / 加州大学伯克利分校 | ysshao@berkeley.edu |
-| Kurt Keutzer | UC Berkeley / 加州大学伯克利分校 | keutzer@berkeley.edu |
-| Amir Gholami | UC Berkeley；ICSI | amirgh@berkeley.edu |
+| Author / 作者      | Affiliation / 单位                       | Email / 邮箱                |
+| ------------------ | ---------------------------------------- | --------------------------- |
+| Zack Yu            | UC Berkeley / 加州大学伯克利分校         | zack.yu@berkeley.edu        |
+| Chloe Wong         | UC Berkeley / 加州大学伯克利分校         | chloe.wong@berkeley.edu     |
+| Coleman Hooper     | UC Berkeley / 加州大学伯克利分校         | chooper@berkeley.edu        |
+| Minjae Lee         | FuriosaAI，Seoul, South Korea / 韩国首尔 | minjae.lee@furiosa.ai       |
+| Wonjun Kang        | FuriosaAI，Seoul, South Korea / 韩国首尔 | kangwj1995@furiosa.ai       |
+| Youngjin Cho       | FuriosaAI，Seoul, South Korea / 韩国首尔 | youngjin.cho@furiosa.ai     |
+| Michael W. Mahoney | UC Berkeley；ICSI；LBNL                  | mahoneymw@stat.berkeley.edu |
+| Yakun Sophia Shao  | UC Berkeley / 加州大学伯克利分校         | ysshao@berkeley.edu         |
+| Kurt Keutzer       | UC Berkeley / 加州大学伯克利分校         | keutzer@berkeley.edu        |
+| Amir Gholami       | UC Berkeley；ICSI                        | amirgh@berkeley.edu         |
 
 ## 阅读说明 / Reading Notes
 
@@ -597,16 +597,16 @@ $$
 
 **中文表注:** 表 1：单堆栈内存假设。GB 和 TB 使用十进制单位。遵循 MemExplorer [34]，HBF 读取能耗设为 HBM 的两倍；但 H³ 报告的功耗最高可达四倍 [9]。鉴于已公开的 HBF 写入规格有限，我们使用典型 SSD 写入参数，并假设 SLC 耐久性为 100,000 次 P/E 循环。由于激活写入保持在 HBM，相较于读取流量，HBF 写入流量很小，因此建模能耗对具体的 HBF 写入代价假设不太敏感。
 
-| Parameter / 参数 | HBM | HBF |
-| --- | --- | --- |
-| Capacity / 容量（GB） | 24 [23] | 375 [9] |
-| Read bandwidth / 读带宽（GB/s） | 1,000 [14] | 1,000 [9] |
-| Write bandwidth / 写带宽（GB/s） | 1,000 [14] | 8 |
-| Read startup / 读取启动（μs） | 0.1 [22] | 20 [9] |
-| Write startup / 写入启动（μs） | 0.1 [22] | 250 |
-| Read energy / 读能耗（pJ/bit） | 3.4 [24] | 6.8 [34] |
-| Write energy / 写能耗（pJ/bit） | 3.4 [24] | 100 |
-| Assumed P/E cycles / 假设擦写次数 | — | 100,000 [30] |
+| Parameter / 参数                  | HBM        | HBF          |
+| --------------------------------- | ---------- | ------------ |
+| Capacity / 容量（GB）             | 24 [23]    | 375 [9]      |
+| Read bandwidth / 读带宽（GB/s）   | 1,000 [14] | 1,000 [9]    |
+| Write bandwidth / 写带宽（GB/s）  | 1,000 [14] | 8            |
+| Read startup / 读取启动（μs）     | 0.1 [22]   | 20 [9]       |
+| Write startup / 写入启动（μs）    | 0.1 [22]   | 250          |
+| Read energy / 读能耗（pJ/bit）    | 3.4 [24]   | 6.8 [34]     |
+| Write energy / 写能耗（pJ/bit）   | 3.4 [24]   | 100          |
+| Assumed P/E cycles / 假设擦写次数 | —          | 100,000 [30] |
 
 **原表截图 / Original table:**
 
@@ -622,14 +622,14 @@ $$
 
 **中文表注:** 表 2：4 nm 工艺下的算术运算能耗参数，由 7 nm 参数乘以 0.546 缩放得到 [31, 32, 39]。
 
-| Operation type j / 运算类型 | Energy e_j / 能耗（pJ/op） |
-| --- | --- |
-| FP16 multiply–accumulate / FP16 乘累加 | 0.38 |
-| FP32 addition / FP32 加法 | 0.22 |
-| FP32 multiplication / FP32 乘法 | 0.71 |
-| FP32 exponentiation / FP32 指数运算 | 7.4 |
-| FP32 division / FP32 除法 | 5.6 |
-| FP32 square root / FP32 平方根 | 11.1 |
+| Operation type j / 运算类型            | Energy e_j / 能耗（pJ/op） |
+| -------------------------------------- | -------------------------- |
+| FP16 multiply–accumulate / FP16 乘累加 | 0.38                       |
+| FP32 addition / FP32 加法              | 0.22                       |
+| FP32 multiplication / FP32 乘法        | 0.71                       |
+| FP32 exponentiation / FP32 指数运算    | 7.4                        |
+| FP32 division / FP32 除法              | 5.6                        |
+| FP32 square root / FP32 平方根         | 11.1                       |
 
 **原表截图 / Original table:**
 
@@ -653,14 +653,14 @@ $$
 
 **中文表注:** 表 3：工作负载与并行配置。TP/EP 表示张量/专家并行及对应的分组规模；DPA 表示数据并行注意力。2×TP8/EP8 使用两个八 GPU 副本。1× 与 5× 轨迹分别包含 100k 和 500k 轮。Qwen 使用单独的 25k 轮工作负载。
 
-| Model / 模型 | GPUs / GPU 数 | Turns / 轮数 | Parallelism / 并行方式 |
-| --- | --- | --- | --- |
-| Qwen3-32B | 1 | 25k | TP1 |
-| Llama-3.1-405B | 8 | 100k | TP8 |
-| GLM-5.2 | 16 | 100k | TP16/EP16 + DPA |
-| GLM-5.2 | 16 | 100k | 2×TP8/EP8 + DPA |
-| GLM-5.2 | 16 | 500k | TP16/EP16 + DPA |
-| GLM-5.2 | 16 | 500k | 2×TP8/EP8 + DPA |
+| Model / 模型   | GPUs / GPU 数 | Turns / 轮数 | Parallelism / 并行方式 |
+| -------------- | ------------- | ------------ | ---------------------- |
+| Qwen3-32B      | 1             | 25k          | TP1                    |
+| Llama-3.1-405B | 8             | 100k         | TP8                    |
+| GLM-5.2        | 16            | 100k         | TP16/EP16 + DPA        |
+| GLM-5.2        | 16            | 100k         | 2×TP8/EP8 + DPA        |
+| GLM-5.2        | 16            | 500k         | TP16/EP16 + DPA        |
+| GLM-5.2        | 16            | 500k         | 2×TP8/EP8 + DPA        |
 
 **原表截图 / Original table:**
 
@@ -720,17 +720,17 @@ $$
 
 **中文表注:** 表 4：单 GPU、25k 轮、权重驻留 HBM 的 Qwen3-32B 调度实验。共享位置 4 HBM＋4 HBF 将八个堆栈位置分开分配。H³ 在八个 HBM 堆栈之外再增加八个 HBF 堆栈。FCFS 为先来先服务。“Cache aware, 10%”预留 10% 准入余量（混合配置的对应行加粗）。Clock 表示工作负载完成时间。设备与主机命中率分别为已接纳输入 token 中由设备内存（HBM/HBF）与主机存储（DRAM/SSD）提供的比例。Life 依据公式（8）估算 HBF 写入耐久寿命。破折号表示 HBF 寿命不适用于纯 HBM 配置，因为 HBM 不受闪存编程/擦除次数限制。
 
-| Memory / 内存 | Scheduling / 调度 | Clock / 时间（s） | Energy / 能耗（MJ） | HBM KV writes / 写入（TB） | HBF KV writes / 写入（TB） | Device hit / 设备命中（%） | Host hit / 主机命中（%） | Life / 寿命（年） |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 8 HBM | FCFS / 先来先服务 | 19,033.77 | 2.323 | 158.54 | 0.00 | 0.16 | 96.36 | — |
-| 8 HBM | Cache aware / 缓存感知 | 18,479.17 | 2.274 | 148.41 | 0.00 | 6.61 | 89.92 | — |
-| 8 HBM | Cache aware, 10% / 缓存感知＋10% 余量 | 16,313.41 | 2.245 | 69.35 | 0.00 | 56.79 | 39.73 | — |
-| 4 HBM + 4 HBF | FCFS / 先来先服务 | 23,228.20 | 2.983 | 8.23 | 147.15 | 7.30 | 89.23 | 0.75 |
-| 4 HBM + 4 HBF | Cache aware / 缓存感知 | 20,821.73 | 2.849 | 7.91 | 93.00 | 41.72 | 54.80 | 1.06 |
-| **4 HBM + 4 HBF** | **Cache aware, 10% / 缓存感知＋10% 余量** | **16,614.28** | **2.703** | **6.89** | **7.48** | **96.06** | **0.47** | **10.57** |
-| 8 HBM + 8 HBF | FCFS / 先来先服务 | 13,552.76 | 2.758 | 9.16 | 106.79 | 32.84 | 63.69 | 1.21 |
-| 8 HBM + 8 HBF | Cache aware / 缓存感知 | 10,930.78 | 2.659 | 7.32 | 21.81 | 86.87 | 9.66 | 4.77 |
-| **8 HBM + 8 HBF** | **Cache aware, 10% / 缓存感知＋10% 余量** | **10,419.17** | **2.640** | **6.88** | **6.69** | **96.46** | **0.06** | **14.82** |
+| Memory / 内存     | Scheduling / 调度                         | Clock / 时间（s） | Energy / 能耗（MJ） | HBM KV writes / 写入（TB） | HBF KV writes / 写入（TB） | Device hit / 设备命中（%） | Host hit / 主机命中（%） | Life / 寿命（年） |
+| ----------------- | ----------------------------------------- | ----------------- | ------------------- | -------------------------- | -------------------------- | -------------------------- | ------------------------ | ----------------- |
+| 8 HBM             | FCFS / 先来先服务                         | 19,033.77         | 2.323               | 158.54                     | 0.00                       | 0.16                       | 96.36                    | —                 |
+| 8 HBM             | Cache aware / 缓存感知                    | 18,479.17         | 2.274               | 148.41                     | 0.00                       | 6.61                       | 89.92                    | —                 |
+| 8 HBM             | Cache aware, 10% / 缓存感知＋10% 余量     | 16,313.41         | 2.245               | 69.35                      | 0.00                       | 56.79                      | 39.73                    | —                 |
+| 4 HBM + 4 HBF     | FCFS / 先来先服务                         | 23,228.20         | 2.983               | 8.23                       | 147.15                     | 7.30                       | 89.23                    | 0.75              |
+| 4 HBM + 4 HBF     | Cache aware / 缓存感知                    | 20,821.73         | 2.849               | 7.91                       | 93.00                      | 41.72                      | 54.80                    | 1.06              |
+| **4 HBM + 4 HBF** | **Cache aware, 10% / 缓存感知＋10% 余量** | **16,614.28**     | **2.703**           | **6.89**                   | **7.48**                   | **96.06**                  | **0.47**                 | **10.57**         |
+| 8 HBM + 8 HBF     | FCFS / 先来先服务                         | 13,552.76         | 2.758               | 9.16                       | 106.79                     | 32.84                      | 63.69                    | 1.21              |
+| 8 HBM + 8 HBF     | Cache aware / 缓存感知                    | 10,930.78         | 2.659               | 7.32                       | 21.81                      | 86.87                      | 9.66                     | 4.77              |
+| **8 HBM + 8 HBF** | **Cache aware, 10% / 缓存感知＋10% 余量** | **10,419.17**     | **2.640**           | **6.88**                   | **6.69**                   | **96.46**                  | **0.06**                 | **14.82**         |
 
 **原表截图 / Original table:**
 
@@ -800,11 +800,11 @@ $$
 
 **中文表注:** 表 5：在八 GPU、八路张量并行（TP8）、1× 轨迹（100k 轮）和 10% 调度余量下，Llama-3.1-405B 的权重放置。X＋Y 表示每 GPU 有 X 个 HBM 和 Y 个 HBF 堆栈。8＋0 为纯 HBM；H³ 在 HBM 之外增加 HBF 堆栈。Time 为工作负载完成时间。TPOT 为各请求首 token 之后每输出 token 时间的平均值。箭头表示越低越好。粗体表示各列最小值。
 
-| Configuration / 配置 | Time / 时间（s）↓ | Energy / 能耗（MJ）↓ | TPOT（ms）↓ |
-| --- | --- | --- | --- |
-| 8+0, HBM weights / HBM 权重 | 39,666 | 53.60 | **90.85** |
-| H³ 8+8, HBM weights / HBM 权重 | 21,439 | **40.70** | 438.61 |
-| H³ 8+8, HBF weights / HBF 权重 | **21,423** | 42.06 | 438.27 |
+| Configuration / 配置           | Time / 时间（s）↓ | Energy / 能耗（MJ）↓ | TPOT（ms）↓ |
+| ------------------------------ | ----------------- | -------------------- | ----------- |
+| 8+0, HBM weights / HBM 权重    | 39,666            | 53.60                | **90.85**   |
+| H³ 8+8, HBM weights / HBM 权重 | 21,439            | **40.70**            | 438.61      |
+| H³ 8+8, HBF weights / HBF 权重 | **21,423**        | 42.06                | 438.27      |
 
 **原表截图 / Original table:**
 
@@ -836,16 +836,16 @@ $$
 
 **中文表注:** 表 6：16 GPU 和 10% 调度余量下，GLM-5.2 的架构、放置与并行方式。X＋Y 表示每 GPU 的 X 个 HBM 与 Y 个 HBF 堆栈。H³ 在 HBM 之外增加 HBF，共享位置设计则把八个位置分配给二者。TP16 使用一个 TP16/EP16 的 16 GPU 副本，2×TP8 使用两个 TP8/EP8 的八 GPU 副本，两者均使用 DPA。HBM/HBF 表示全部权重位于该层。Split 将选定专家放在 HBM，其余专家放在 HBF，其他权重放在 HBM，采用离线专家查找并假设理想专家均衡。1×/5× 分别含 100k/500k 轮，对应原始/延长上下文。Time 为工作负载完成时间，TPOT 为各请求首 token 之后每输出 token 时间的平均值。在 5× 轨迹的已测共享位置配置中，4＋4 完成时间最短，6＋2 能耗最低。粗体表示全部配置中各指标列的最小值。图 6 展示其中六种配置的时间与能耗取舍。
 
-| Architecture / 架构 | Stacks / 堆栈 | Parallelism / 并行 | Weights / 权重 | 1× Time（s） | 1× Energy（MJ） | 1× TPOT（ms） | 5× Time（s） | 5× Energy（MJ） | 5× TPOT（ms） |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| HBM-only / 纯 HBM | 8+0 | TP16 | HBM | 11,354 | 9.11 | **218.72** | 198,411 | 91.99 | **191.93** |
-| H³ | 8+8 | TP16 | HBM | 4,543 | **7.19** | 279.15 | 28,279 | **37.62** | 355.63 |
-| H³ | 8+8 | TP16 | HBF | 4,538 | 9.54 | 278.01 | 27,036 | 48.17 | 333.66 |
-| H³ | 8+8 | 2×TP8 | HBF | **4,204** | 10.31 | 230.67 | **24,385** | 52.06 | 280.43 |
-| H³ | 8+8 | 2×TP8 | Split / 分层 | 4,433 | 7.79 | 252.61 | 25,661 | 40.89 | 307.66 |
-| Shared-site / 共享位置 | 2+6 | TP16 | Split / 分层 | 6,073 | 8.51 | 342.12 | 35,809 | 44.81 | 406.36 |
-| Shared-site / 共享位置 | 4+4 | TP16 | Split / 分层 | 5,264 | 7.99 | 322.72 | 33,459 | 41.97 | 423.71 |
-| Shared-site / 共享位置 | 6+2 | TP16 | Split / 分层 | 4,981 | 7.69 | 302.87 | 39,019 | 40.28 | 410.47 |
+| Architecture / 架构    | Stacks / 堆栈 | Parallelism / 并行 | Weights / 权重 | 1× Time（s） | 1× Energy（MJ） | 1× TPOT（ms） | 5× Time（s） | 5× Energy（MJ） | 5× TPOT（ms） |
+| ---------------------- | ------------- | ------------------ | -------------- | ------------ | --------------- | ------------- | ------------ | --------------- | ------------- |
+| HBM-only / 纯 HBM      | 8+0           | TP16               | HBM            | 11,354       | 9.11            | **218.72**    | 198,411      | 91.99           | **191.93**    |
+| H³                     | 8+8           | TP16               | HBM            | 4,543        | **7.19**        | 279.15        | 28,279       | **37.62**       | 355.63        |
+| H³                     | 8+8           | TP16               | HBF            | 4,538        | 9.54            | 278.01        | 27,036       | 48.17           | 333.66        |
+| H³                     | 8+8           | 2×TP8              | HBF            | **4,204**    | 10.31           | 230.67        | **24,385**   | 52.06           | 280.43        |
+| H³                     | 8+8           | 2×TP8              | Split / 分层   | 4,433        | 7.79            | 252.61        | 25,661       | 40.89           | 307.66        |
+| Shared-site / 共享位置 | 2+6           | TP16               | Split / 分层   | 6,073        | 8.51            | 342.12        | 35,809       | 44.81           | 406.36        |
+| Shared-site / 共享位置 | 4+4           | TP16               | Split / 分层   | 5,264        | 7.99            | 322.72        | 33,459       | 41.97           | 423.71        |
+| Shared-site / 共享位置 | 6+2           | TP16               | Split / 分层   | 4,981        | 7.69            | 302.87        | 39,019       | 40.28           | 410.47        |
 
 **原表截图 / Original table:**
 
@@ -909,13 +909,13 @@ $$
 
 **中文表注:** 表 7：相对于同模型、同工作负载纯 HBM 能耗的节能贡献。Llama 为 Llama-3.1-405B，GLM 为 GLM-5.2。X＋Y 为每 GPU 的 HBM＋HBF 堆栈数；1×/5× 对应 100k/500k 轮原始/延长轨迹。8＋8 列采用 H³ 且权重位于 HBM；6＋2 和 4＋4 采用共享位置专家放置。条目以百分点计：正值表示节能，负值表示新增代价。“避免 prefill”仅计计算，其他节省为剩余项；加粗的总计可能因四舍五入而略有差异。
 
-| Contribution / 贡献 | Llama 8+8 1× | GLM 6+2 1× | GLM 8+8 1× | GLM 4+4 5× | GLM 8+8 5× |
-| --- | --- | --- | --- | --- | --- |
-| Reduced weight reads / 权重读取减少 | +15.22 | +14.06 | +19.50 | +51.28 | +55.14 |
-| Increased KV/index reads / KV/索引读取增加 | −13.16 | −0.69 | −0.63 | −1.39 | −0.61 |
-| Avoided repeated prefill / 避免重复 prefill | +20.25 | 0.00 | 0.00 | 0.00 | 0.00 |
-| Other net savings / 其他净节省 | +1.74 | +2.21 | +2.21 | +4.49 | +4.58 |
-| **Net energy savings / 净能耗节省** | **24.06%** | **15.58%** | **21.09%** | **54.37%** | **59.10%** |
+| Contribution / 贡献                         | Llama 8+8 1× | GLM 6+2 1× | GLM 8+8 1× | GLM 4+4 5× | GLM 8+8 5× |
+| ------------------------------------------- | ------------ | ---------- | ---------- | ---------- | ---------- |
+| Reduced weight reads / 权重读取减少         | +15.22       | +14.06     | +19.50     | +51.28     | +55.14     |
+| Increased KV/index reads / KV/索引读取增加  | −13.16       | −0.69      | −0.63      | −1.39      | −0.61      |
+| Avoided repeated prefill / 避免重复 prefill | +20.25       | 0.00       | 0.00       | 0.00       | 0.00       |
+| Other net savings / 其他净节省              | +1.74        | +2.21      | +2.21      | +4.49      | +4.58      |
+| **Net energy savings / 净能耗节省**         | **24.06%**   | **15.58%** | **21.09%** | **54.37%** | **59.10%** |
 
 **原表截图 / Original table:**
 
@@ -1301,46 +1301,46 @@ $$
 
 ## Terminology / 术语对照
 
-| Term / 术语 | Expansion / 英文展开或说明 | 中文译法 |
-| --- | --- | --- |
-| HBF | high-bandwidth flash | 高带宽闪存 |
-| HBM | high-bandwidth memory | 高带宽内存 |
-| LLM serving | large language model serving | 大语言模型服务 |
-| KV cache | key–value cache | 键值缓存／KV 缓存 |
-| agentic workload | agentic workload | 智能体工作负载 |
-| hierarchical storage | hierarchical storage system | 分层存储系统 |
-| shared-site design | shared-site design | 共享位置设计 |
-| site | stack connection site | 堆栈连接位置 |
-| H³ | HBM–HBF chained architecture | H³ 混合架构 |
-| buffered cache-aware scheduling | cache-aware scheduling with admission headroom | 带准入余量的缓存感知调度 |
-| admission fraction | admission fraction b | 准入比例 |
-| admission headroom | admission headroom | 准入余量 |
-| latency hiding buffer | hardware latency hiding buffer | 延迟隐藏缓冲区 |
-| locked footprint | currently locked footprint | 锁定数据占用量 |
-| cache churn | repeated cache eviction and movement | 缓存反复迁移／缓存抖动 |
-| residency | cache residency | 驻留状态 |
-| demotion | movement to a colder memory tier | 下沉 |
-| offload / reload | cache offload / reload | 卸载／回载 |
-| prefill / decode | prefill / autoregressive decoding | 预填充／解码 |
-| chunked prefill | chunked prefill | 分块预填充 |
-| session-sticky routing | session-sticky routing | 会话粘性路由 |
-| TP | tensor parallelism | 张量并行 |
-| EP | expert parallelism | 专家并行 |
-| DPA | data-parallel attention | 数据并行注意力 |
-| MLA | multi-head latent attention | 多头潜在注意力 |
-| MoE | mixture of experts | 混合专家 |
-| FFN | feed-forward network | 前馈网络 |
-| GEMM | general matrix multiplication | 通用矩阵乘法 |
-| TPOT | time per output token after the first | 首 token 后的平均每输出 token 时间 |
-| completion time | fixed-workload completion time | 固定工作负载完成时间 |
-| modeled energy | activity/traffic-based modeled energy | 建模能耗 |
-| P/E cycles | program/erase cycles | 编程／擦除次数 |
-| SLC | single-level cell | 单层单元 |
-| write amplification | write amplification | 写放大 |
-| wear leveling | wear leveling | 磨损均衡 |
-| LRU | least recently used | 最近最少使用 |
-| index-first placement | index-first placement | 索引优先放置 |
-| Split | weights split across memory tiers | 分层权重放置 |
+| Term / 术语                     | Expansion / 英文展开或说明                     | 中文译法                           |
+| ------------------------------- | ---------------------------------------------- | ---------------------------------- |
+| HBF                             | high-bandwidth flash                           | 高带宽闪存                         |
+| HBM                             | high-bandwidth memory                          | 高带宽内存                         |
+| LLM serving                     | large language model serving                   | 大语言模型服务                     |
+| KV cache                        | key–value cache                                | 键值缓存／KV 缓存                  |
+| agentic workload                | agentic workload                               | 智能体工作负载                     |
+| hierarchical storage            | hierarchical storage system                    | 分层存储系统                       |
+| shared-site design              | shared-site design                             | 共享位置设计                       |
+| site                            | stack connection site                          | 堆栈连接位置                       |
+| H³                              | HBM–HBF chained architecture                   | H³ 混合架构                        |
+| buffered cache-aware scheduling | cache-aware scheduling with admission headroom | 带准入余量的缓存感知调度           |
+| admission fraction              | admission fraction b                           | 准入比例                           |
+| admission headroom              | admission headroom                             | 准入余量                           |
+| latency hiding buffer           | hardware latency hiding buffer                 | 延迟隐藏缓冲区                     |
+| locked footprint                | currently locked footprint                     | 锁定数据占用量                     |
+| cache churn                     | repeated cache eviction and movement           | 缓存反复迁移／缓存抖动             |
+| residency                       | cache residency                                | 驻留状态                           |
+| demotion                        | movement to a colder memory tier               | 下沉                               |
+| offload / reload                | cache offload / reload                         | 卸载／回载                         |
+| prefill / decode                | prefill / autoregressive decoding              | 预填充／解码                       |
+| chunked prefill                 | chunked prefill                                | 分块预填充                         |
+| session-sticky routing          | session-sticky routing                         | 会话粘性路由                       |
+| TP                              | tensor parallelism                             | 张量并行                           |
+| EP                              | expert parallelism                             | 专家并行                           |
+| DPA                             | data-parallel attention                        | 数据并行注意力                     |
+| MLA                             | multi-head latent attention                    | 多头潜在注意力                     |
+| MoE                             | mixture of experts                             | 混合专家                           |
+| FFN                             | feed-forward network                           | 前馈网络                           |
+| GEMM                            | general matrix multiplication                  | 通用矩阵乘法                       |
+| TPOT                            | time per output token after the first          | 首 token 后的平均每输出 token 时间 |
+| completion time                 | fixed-workload completion time                 | 固定工作负载完成时间               |
+| modeled energy                  | activity/traffic-based modeled energy          | 建模能耗                           |
+| P/E cycles                      | program/erase cycles                           | 编程／擦除次数                     |
+| SLC                             | single-level cell                              | 单层单元                           |
+| write amplification             | write amplification                            | 写放大                             |
+| wear leveling                   | wear leveling                                  | 磨损均衡                           |
+| LRU                             | least recently used                            | 最近最少使用                       |
+| index-first placement           | index-first placement                          | 索引优先放置                       |
+| Split                           | weights split across memory tiers              | 分层权重放置                       |
 
 <a id="reading-tips"></a>
 
