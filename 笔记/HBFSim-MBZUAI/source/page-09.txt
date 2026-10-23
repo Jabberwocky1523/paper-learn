@@ -1,0 +1,80 @@
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+0.4
+0.2
+0.1
+0.05
+1 2 4 8 16 40
+Page read time tR (μs)
+)s(
+TOPT
+Long OUTPUT Balanced Long INPUT page,soprogramtimesfrom37.5to600𝜇s,writecredits,andwrite
+timeoutleaveTPOTunchanged,andthethermalthrottlingceiling
+addsatmost0.2%.Forread-heavydecode,anHBFdesignshould
+thereforespendonplanesandreadtimebeforeinterfacespeed.
+5 DISCUSSION
+0.4 0.8 1.5 3.1 4 8 16 Limitations.Ourcasestudiesreproduceonedecodingstepper
+G1⋅8 G2⋅8G2⋅16G3⋅16 Planes per die
+workload,seventokensperrunningsequence,andoneprefillwin-
+Interface per stack (TB/s)
+dowperworkloadforthewritepathandthemappingcomparison,
+withoutgarbagecollection,soTPOTomitsitsinterferencewith
+Figure9:TPOTofLlama-3.1-70Bat2HBM+6HBF,KVfirst,
+reads.Wemodeloneaccelerator;tensororpipelineparallelism
+whenoneHBFparameterchanges(logarithmicaxis).Dashed:
+wouldgiveeachashareoftheweightsandKV.Thestudiescom-
+defaultsetting.InterfacepointsgivetheOCPspeedgradeand
+bineanH200computeprofile,extendedbeyonditsmeasuredbatch
+channelsperstack;8-channelstackshavehalftheplanes.
+of16,withHBM4andHBF,apairingthatdoesnotexisttoday,
+soHBFtimingandenduranceremainassumptions.Thelifetime
+noQwen3-235B-A22B,soweapplythesametokenratetoit;with estimatesapplyapublishedservingloadaroundtheclocktothe
+188KiBofKVpertokenagainst320KiB,itwrites41%less.HBFSim HBFwriteshareandwriteamplificationthatHBFSimmeasures,
+measurestheshareofthisKVthatreachesHBFwithweightsfirst andassumeperfectwearleveling.
+(87.5–100%)andreplayseachworkload’sKVwritesandreleases ExtendingHBFSim.Newmemorypoliciesusethepolicyin-
+(about1TiB,twicethestack’scapacity)throughoneHBFstackwith terface,newFTLschemesthehostmappinginterface,newHBF
+garbagecollection,whichgivestheflashbyteserasedperwritten generationsthedeviceconfiguration,andnewmodels,traces,and
+byteinsteadystate,thequantitythatconsumesP/Ecycles.With GPUstheirdescriptors,importers,oroperatorprofiles.
+eithermappingthisis1.0within0.1%:KVisappendedandfreedin
+bulk,sooneblockwithnovalidpageleftiserasedperMiBwritten. 6 RELATEDWORK
+Block-levelmappingprograms1.5–3.5%fewerpages,becausepages HBFandhybridHBM–flashmemory.H3[7]andSKhynix[27]
+thatwaitinthedeviceDRAMfortheirblock’sunwrittenprefix evaluatehybridHBM+HBForganizationswithprojecteddevice
+aredroppedwhenasequenceends,buttheirblockisstillerased. parameters.FlashAccelco-designsdatalayoutandstorageman-
+Assuming100,000P/Ecycles,asfortheSLCNANDusedinHBF agementforHBF[32].Petruccietal.compareHBFwithLPDDR
+designs[32],Table3givestheresultinglifetime:24–83months analyticallyandidentifywritesasthelimitforoffloadingKVto
+forLlama-3.1-70Band40–141monthsforQwen3-235B-A22B,in flash [21]. HBFSim lets such designs be compared on the same
+proportiontotheHBFstacksthatsharethewritesandthesame workloads;ourenduranceresultsquantifythewriteproblemthey
+witheithermapping:howlongHBFlastsissetbyhowmuchKV pointout.
+reachesflash. Memory and storage simulators. Ramulator 2.0 [16] and
+Takeaway5:HBFenduranceisafirst-ordersystemcon- DRAMsim3[14]modelDRAMatthecommandlevel.MQSim[29]
+straint.Underbaselineinferenceworkloads,KVspillgenerates andFEMU[13]modelSSDsbehindanNVMeinterface,withmap-
+enoughwritestomakeprojectedHBFlifetimeamajorchallenge ping,GC,andwearlevelinginsidethedevice,andCylon[34]emu-
+evenwhenperformanceisacceptable.PracticalHBFsystemsthere- latesCXLSSDswithaDRAMcacheinthedevice.HBFSimfollows
+forerequirewritereductionandendurance-awaremanagement. MQSim’sapproachtotheflashorganizationandCylon’sdevice
+4.5 WhichHBFParametersMatter? classfortheCXLSSD,buttreatsHBFasmemorywithahost-side
+FTLwhosemetadatacompeteswiththeapplicationinHBM.
+TheHBFspecificationisstilladraft,soweaskwhichdevicepa-
+LLMservingsimulators.Vidur[1],LLMServingSim[3],Fron-
+rameterstheresultsdependon,takingLlama-3.1-70Bonthethree
+tier[6],andASTRA-sim[33]simulatescheduling,computation,
+workloadsat2HBM+6HBFwithKVfirst,whereastepreads
+andcommunicationforLLMinference,LLMCompass[36]adds
+29–49GiBofweightsfromHBF(69–83mspertoken),andchanging
+operator-levelmodelingwithmappingsearch,andGTSim[4]and
+oneparameteratatime(Figure9).
+Accel-Sim[10,20]modelGPUmicroarchitecture.Theyrepresent
+Only the rate at which the flash array senses pages matters.
+memorybyitscapacityandbandwidth;HBFSimmodelsthede-
+Doublingthepagereadtimeto8𝜇sraisesTPOTby30–42%,16𝜇s
+vicesatthetransactionlevel,flashmanagementincluded,undera
+by 91–126%, and the 40𝜇s of conventional NAND by 3.7–4.8×;
+validatedscheduler.
+halvingtheplanesperdieatequalcapacityhasthesameeffectas
+7 CONCLUSION
+doublingthereadtime(29–40%for8planes,87–121%for4).The
+interfacedoesnotmatter:speedgrade3doublesgrade2’s1.5TB/s HBFcouldgiveacceleratorsanorderofmagnitudemorememory,
+andchangesTPOTby0.1%,andgrades1and2on8channelsare but only if systems use it in ways that suit flash. HBFSim lets
+equally 29–40% slower, only because their stacks have half the researchers test these choices before hardware exists. Our case
+planes.Aplanesensesone4KiBpageperreadtime,soastack’s studiessupportfivetakeaways.HBFismostvaluableundercapacity
+256planesdeliver0.26TB/sat4𝜇s,asixthoftheinterface.The pressure,whereitkeepsTPOT11.0–19.0×lowerthanhostDRAM
+writesideisinvisibleindecode,evenwithoutthedeviceDRAM: and86.6–154.1×lowerthananNVMeSSD.Conventionalcache
+withKVfirstastepappendsitsKVinHBMandprogramsnoHBF replacementisapoorfitforHBM–HBFtiering:nopolicymatches

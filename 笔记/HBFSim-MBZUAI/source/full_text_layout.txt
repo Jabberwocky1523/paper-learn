@@ -1,0 +1,734 @@
+                                         HBFSim: A Simulator for Exploring HBF in Memory Hierarchies
+                                                                   for LLMs
+                                                                        Jinheng Li                                                        Guosheng Wang
+                                             Mohamed bin Zayed University of Artificial Intelligence                 Mohamed bin Zayed University of Artificial Intelligence
+                                                     Abu Dhabi, United Arab Emirates                                         Abu Dhabi, United Arab Emirates
+                                                          jinheng.li@mbzuai.ac.ae                                              guosheng.wang@mbzuai.ac.ae
+
+                                                                     Hongchao Du                                                             Shangyu Wu
+                                             Mohamed bin Zayed University of Artificial Intelligence                 Mohamed bin Zayed University of Artificial Intelligence
+                                                     Abu Dhabi, United Arab Emirates                                         Abu Dhabi, United Arab Emirates
+
+
+
+
+arXiv:2610.23503v1 [cs.AR] 16 Oct 2026
+                                                         hongchao.du@mbzuai.ac.ae                                                shangyu.wu@mbzuai.ac.ae
+
+                                                                          Qiao Li                                                          Chun Jason Xue
+                                             Mohamed bin Zayed University of Artificial Intelligence                 Mohamed bin Zayed University of Artificial Intelligence
+                                                     Abu Dhabi, United Arab Emirates                                         Abu Dhabi, United Arab Emirates
+                                                           qiao.li@mbzuai.ac.ae                                                   jason.xue@mbzuai.ac.ae
+
+                                         ABSTRACT                                                                    KEYWORDS
+                                         High Bandwidth Flash (HBF) has recently emerged as a promising              High Bandwidth Flash, Memory-system Simulation, LLM Work-
+                                         technology that provides terabyte-scale accelerator-local capacity at       loads, KV Cache
+                                         bandwidths approaching HBM, with a potential cost-per-bit advan-            ACM Reference Format:
+                                         tage over HBM. However, its NAND foundation brings long latency,            Jinheng Li, Guosheng Wang, Hongchao Du, Shangyu Wu, Qiao Li, and Chun
+                                         out-of-place updates, and finite write endurance directly into the          Jason Xue. 2026. HBFSim: A Simulator for Exploring HBF in Memory Hier-
+                                         accelerator memory hierarchy, making its effects on performance             archies for LLMs. In International Conference on Resilience, AI and Cyber-
+                                         and lifetime difficult to predict. To study this emerging design space,     Systems (RACS ’26), November 17–20, 2026, Fukuoka, Japan. ACM, New York,
+                                         we present HBFSim, an LLM-aware event-driven simulator for het-             NY, USA, 11 pages. https://doi.org/10.1145/3848591.3856870
+                                         erogeneous HBM+HBF memory systems that preserves application-
+                                         level memory semantics while modeling flash-internal behavior.              1    INTRODUCTION
+                                         HBFSim models HBM, HBF with host-managed flash translation,                 Memory capacity has emerged as a primary bottleneck in serv-
+                                         and conventional capacity tiers in one simulation driven by a cal-          ing large language models (LLMs). Model weights occupy tens to
+                                         ibrated serving frontend. Using HBFSim, we study decoding of                hundreds of gigabytes, while key–value (KV) state grows linearly
+                                         Llama-3.1-70B and Qwen3-235B-A22B under three workloads that                with context length and request concurrency, quickly exceeding
+                                         differ in their input and output lengths. HBF serves data that does         accelerator memory capacity. For example, an 8B model serving
+                                         not fit in HBM 11.0–19.0× faster than host DRAM; HBM is better              eight concurrent 128K-context sessions can exhaust the HBM of
+                                         used to hold the running sequences’ KV cache than as a cache for            a modern GPU (e.g., the 131 GiB of HBM3e on an NVIDIA H200),
+                                         HBF; and at a published peak load of Llama-3.1-70B, HBF lasts 2.0           while long-context serving for 70B-class models may exceed the
+                                         to 6.9 years, in proportion to the stacks that share the KV writes.         memory capacity of an entire eight-GPU node [5, 11, 17, 22]. High
+                                         The artifact is available at https://github.com/FlashLabAE/HBFSim           Bandwidth Flash (HBF) has recently emerged as a promising ap-
+                                         and will track public HBF device data as it becomes available.              proach for extending accelerator-local memory capacity. SanDisk’s
+                                                                                                                     disclosed HBF design targets a 16-die, 512 GB flash stack that deliv-
+                                         CCS CONCEPTS                                                                ers up to 1.6 TB/s [24, 25], enabling multi-terabyte accelerator-local
+                                                                                                                     memory systems without host-memory accesses. The same disclo-
+                                         • Computing methodologies → Simulation tools; • Computer
+                                                                                                                     sure targets 8–16× HBM capacity at similar cost and bandwidth,
+                                         systems organization → Heterogeneous (hybrid) systems; • Infor-
+                                                                                                                     making capacity per dollar, rather than higher speed, the main
+                                         mation systems → Flash memory.
+                                                                                                                     motivation for HBF [24].
+                                                                                                                        Unlike conventional DRAM expansion, HBF brings asymmet-
+                                                                                                                     ric read and write performance, page programming, flash transla-
+                                                                                                                     tion layer (FTL) management, write amplification, and finite pro-
+                                                                                                                     gram/erase endurance into the accelerator memory hierarchy. Its
+                                         This work is licensed under a Creative Commons Attribution-NonCommercial-   effect on LLM serving is difficult to predict because no public HBF
+                                         NoDerivatives 4.0 International License.                                    hardware is available for validation [28]. Nevertheless, system archi-
+                                         RACS ’26, November 17–20, 2026, Fukuoka, Japan                              tects must decide on memory organization, placement policies, and
+                                         © 2026 Copyright held by the owner/author(s).
+                                         ACM ISBN 979-8-4007-3035-1/2026/11.                                         provisioning before production devices become available. For ex-
+                                         https://doi.org/10.1145/3848591.3856870                                     ample, moving read-only weights to HBF mainly exercises its read
+RACS ’26, November 17–20, 2026, Fukuoka, Japan                                                                                                        Li et al.
+
+
+                              Weights         KV cache, 1M-token context                       five simple rules: HBF pays off only under capacity pressure;
+                    H200      8 HBM4 stacks                           8×H200
+                   131 GiB       384 GiB                              1051 GiB                 HBM should hold the running KV and HBF the weights, with
+       Kimi K3                                                      2608+27 = 2635
+   Qwen3.8-2.4T                                                     2235+92 = 2327
+                                                                                               KV written to flash only when it must leave HBM; generic
+DeepSeek-V4-Pro                                                     1490+10 = 1500             cache replacement loses to this placement unless a step fits
+ Llama 3.1 405B         377                     +504              881                          in HBM with room to spare; the FTL should preserve the
+   DeepSeek-V3                625                 +69 694
+                                                                                               flash array’s parallelism; and endurance, set by how much
+    Qwen3-235B     219        +188     407
+  Llama 3.1 70B 66       +320         386                                                      KV reaches flash, is a first-order constraint.
+   Llama 3.1 8B        7+128 135
+
+               0        200          400      600           800      1000        1200
+                                     Weights + KV cache (GiB)                           2 BACKGROUND
+                                                                                        2.1 Memory Demand of LLM Serving
+Figure 1: Weights (one byte per parameter) and BF16 KV                                  A serving system’s memory holds the model weights, which every
+cache of a 1M-token context against the HBM of one H200,                                request reuses; the KV cache, the per-layer keys and values of every
+eight HBM4 stacks, and an eight-H200 node.                                              processed token, which decoding reads instead of recomputing; and
+path and frees HBM for the growing KV cache, whereas placing mu-                        activations, which are small by comparison. For Llama-3.1-70B a
+table KV state in HBF creates program traffic and consumes write                        BF16 KV cache takes 320 KiB per token [5], 320 GiB for 1M tokens.
+endurance. Therefore, it is necessary to study the performance of                       Serving systems allocate KV in fixed-size blocks [11] and retain
+HBM+HBF memory hierarchies under realistic LLM serving work-                            the blocks of finished requests so that later requests with the same
+loads before committing to a design. Because such hardware is                           prefix skip its prefill [22, 37], so the KV footprint grows beyond
+unavailable, a simulator is required to evaluate these trade-offs.                      the active requests. Figure 1 shows the weights and the KV cache
+    Existing simulators each cover one level of this hierarchy: DRAM                    of 1M tokens, in one request or retained across many: for small
+simulators [14, 16] stop at the memory controller, SSD simula-                          models the KV cache dominates, every model from 70B up exceeds
+tors [13, 29] put flash behind a storage interface, and LLM serving                     eight HBM4 stacks, and the newest open models, with 1.6T to 2.8T
+simulators [4, 10, 36] represent memory by capacity and bandwidth.                      parameters, exceed even an eight-H200 node with their weights
+None connects the placement of LLM data to both completion time                         alone, while hybrid or compressed attention keeps their KV small.
+and physical flash traffic.                                                                The two phases of a request access this data differently. Prefill
+    HBFSim addresses this limitation. It models HBM, HBF with a                         processes the prompt, produces its KV, and is usually compute-
+host-managed FTL, and conventional capacity tiers in one event                          bound; chunked prefill lets it share a batch with decoding work [2].
+system, coupled in a closed loop with a serving frontend whose                          Each decoding step generates one token per request: it reuses the
+scheduler and GPU compute are calibrated against measurements,                          weights across the batch, reads every running request’s KV, and
+and it accepts address-level traces as well as production request                       appends one token’s KV per layer, so it is usually bound by memory
+traces. Using HBFSim, we study decoding of Llama-3.1-70B and                            bandwidth, and its traffic grows with model size, batch, and context.
+Qwen3-235B-A22B under three workloads that differ in their input                        When weights and KV exceed HBM, systems offload to host DRAM
+and output lengths. We find that HBF serves the data that does not                      or SSDs [15, 22, 26], at access costs set by the slower tier and its
+fit in HBM 11.0–19.0× faster than host DRAM; that HBM should                            interconnect.
+hold the running sequences’ KV, because caching HBF with LRU or
+FIFO rereads nearly the whole working set once it exceeds HBM,                          2.2    High Bandwidth Flash
+and that KV should be written to HBF only when it must leave                            HBF stacks NAND flash dies on a logic base die and connects them
+HBM; and that the FTL costs little on the read path as long as its                      to the accelerator through an HBM-like interface in the same pack-
+layout keeps reads parallel, while HBF’s lifetime depends on the                        age [24, 25]. The OCP HBF specification [19] defines stacks with
+amount of KV that reaches flash. These findings connect HBF’s                           up to 16 channels and three speed grades. For example, at speed
+potential cost-per-bit advantage to measurable latency and wear                         grade 2 each channel carries 96 GB/s of payload, or about 1.5 TB/s
+rather than to a single capacity or bandwidth number.                                   per stack, and SanDisk targets 512 GB per stack. An HBF stack
+    This paper makes the following contributions:                                       therefore offers 8-16 times the capacity of an HBM stack at a similar
+      • Workloads at two granularities. HBFSim takes fine-                              interface bandwidth.
+        grained address-level traces, with one record per memory                           However, HBF still behaves like NAND. A page read takes mi-
+        access, and coarse-grained request traces, which its frontend                   croseconds, compared to tens of nanoseconds of DRAM, so HBF
+        expands into the series of weight and KV accesses that each                     reaches its bandwidth only with many reads in flight. Data is pro-
+        request causes.                                                                 grammed, not overwritten: a page program takes tens of microsec-
+      • A coupled and fast memory-system model. HBM, HBF                                onds and occupies its bank, and a block must be erased before its
+        with a host-managed FTL, and external tiers (host DRAM,                         pages are programmed again. The specification assigns address
+        CXL SSDs, and NVMe SSDs) share one timeline and interact                        mapping, garbage collection (GC), and wear leveling to host soft-
+        as in a real system, for example through the FTL’s tables in                    ware; the device itself performs neither GC nor copyback [19]. Each
+        HBM.                                                                            block tolerates a limited number of program/erase (P/E) cycles,
+      • Preliminary takeaways for HBF. Decoding Llama-3.1-                              and no P/E rating for HBF has been published. Host decisions thus
+        70B and Qwen3-235B-A22B under three workloads yields                            shape both performance and lifetime: what the host places in HBF
+HBFSim                                                                                                                                           RACS ’26, November 17–20, 2026, Fukuoka, Japan
+
+
+      Serving frontend                               batch time                                                      whereas production request traces cover long periods of serving
+       Request traces          Scheduler             Compiler               GPU timing                               but record no memory accesses.
+      arrivals, lengths,    batching, paged      layer DAG: reads,       calibrated kernels,
+       prefix hashes        KV, prefix cache      writes, prefetch        memory overlap                                The levels of the memory hierarchy are coupled. Existing
+                                                             object accesses                                         simulators model one level in isolation, but in an HBM+HBF sys-
+      Memory policies                                        objects → device addresses                              tem the two levels jointly determine performance. What HBF must
+
+
+                                                                                                   memory feedback
+                     Peer mode
+        each object in either memory; HBM
+                                                             Tiered mode
+                                                   HBM caches HBF in 4 MiB lines:
+                                                                                                                     serve depends on what HBM can hold, and the traffic HBF gener-
+      first to the weights or the running KV      LRU, FIFO, decayed LFU; write-back                                 ates in turn consumes HBM capacity and bandwidth. Placement
+                                                transactions with dependencies                                       decisions therefore shift load between the tiers rather than simply
+      Device engine                                  one timeline, per-resource calendars
+                                                                                                                     adding a slower level beneath HBM, so neither tier can be simulated
+              Host FTL: mapping, GC, wear leveling
+                                                                                                                     independently.
+                tables, GC copies
+           HBM
+                                     HBF device                         Other tiers                                     The number of events is huge. One decoding step of a 70B
+                           channels, planes, page buffers;        host DRAM, CXL SSD,
+         channels,
+                            read, program, erase timing;            NVMe SSD: link,
+                                                                                                                     model reads tens of millions of flash pages, each passing through
+        arbitration
+                           device DRAM buffer and cache             controller, media                                about a dozen shared resources, from the plane and flash channel
+results: time per output token, bytes per object class and device, programs and erases per block                     to the TSVs and ECC engine. Because slower memory changes
+                                                                                                                     batching, these accesses must be simulated in a closed loop rather
+                                                                                                                     than replayed.
+Figure 2: HBFSim structure: three layers. Feedback from the
+                                                                                                                        As shown in Figure 2, layers in HBFSim communicate through
+device engine closes the loop to the scheduler, and the host
+                                                                                                                     narrow interfaces. The frontend describes work in terms of model
+FTL keeps its tables and GC copies in HBM.
+                                                                                                                     objects such as weight tensors and KV blocks. Policies map objects
+                                                                                                                     to devices and emit transaction graphs with explicit dependencies.
+determines the traffic HBF sees, and the host’s flash translation                                                    The engine contains no LLM-specific logic. This separation lets
+layer (FTL) determines how many erases each write costs.                                                             users change one layer, for example, add a caching policy or an
+2.3      Questions for HBM+HBF Systems                                                                               FTL, without touching the others.
+
+Before HBF hardware is available, system designers need to answer                                                    3.1    Serving Frontend
+five questions. Is HBF a better capacity tier than host DRAM or                                                      HBFSim accepts workloads at two granularities. In an address-level
+SSDs? How much HBM should accompany it? Which data should                                                            trace, a record is one memory access with optional data class, ar-
+stay in HBM, and should HBM act as a cache for HBF or as sepa-                                                       rival time, and layer annotations; such traces are replayed directly.
+rately addressed memory? How should the FTL handle KV writes?                                                        Detailed instruction-and-address tracing and cycle-level simulation
+How long will HBF last under serving traffic? The answers depend                                                     incur substantial costs even for a small inference workload. For
+on each other through the serving loop: slower memory stretches                                                      Qwen2.5-1.5B-Instruct (bfloat16, batch size 1), a 32-token prefill
+decoding steps, which changes how requests are batched and there-                                                    followed by two fixed-token decode steps required 43.4 minutes for
+fore the memory traffic itself. Answering them requires running a                                                    trace collection on an RTX 4000 Ada with NVBit [30]. The resulting
+real serving scheduler against memory models that include flash                                                      1,030-kernel traces occupy 98.3 GiB uncompressed, or 7.46 GiB in
+management, with the two coupled in a closed loop.                                                                   the compressed format consumed by Accel-Sim2.0 [20]. Full trace-
+                                                                                                                     driven simulation already takes 19.9 wall-clock hours even for a
+3     HBFSIM DESIGN                                                                                                  small model. For larger models, both the trace size and simulation
+HBFSim is a closed-loop simulator of LLM serving on accelerator                                                      time would become prohibitively large, rendering this approach
+memory built from HBM, HBF, and other capacity tiers. Figure 2                                                       unrealistic.
+shows its three layers. A serving frontend turns request traces into                                                     In a request-level trace, a record is one inference request: its
+batches and the requests in each batch into memory accesses. A                                                       arrival time, prompt and output lengths, and prefix hashes [22, 31].
+policy layer decides in which memory each object is stored and how                                                   It contains no detailed memory accesses. Which bytes an inference
+data moves between tiers. A device engine executes the memory                                                        step touches does not depend on the values it computes, only on
+transactions on models of HBM, HBF, or external capacity tiers,                                                      the model architecture and on which requests the scheduler runs
+and feeds the outcome of that work back to the frontend, which                                                       with how many tokens (for MoE models, also on the routed experts,
+schedules the next batch based on the feedback. Slower memory                                                        which depend on the values and are therefore an input, recorded
+therefore reshapes batching as it would on a real system: longer                                                     or synthetic). The frontend, ServeLoop, therefore regenerates the
+iterations let more requests queue before the next one starts, and                                                   accesses of every step. Its scheduler replays the trace with vLLM’s
+when KV no longer fits, the scheduler moves some KV to a slower                                                      continuous batching and chunked prefill [2, 11, 35], including paged
+tier or preempts requests, which shrinks the batch. Three challenges                                                 KV, prefix sharing, and preemption. A compiler turns each iteration
+shape this design.                                                                                                   into the byte ranges that every operator reads or writes in weight
+   Workloads and device accesses differ in granularity and                                                           tensors, KV blocks, and embedding rows, leaving addresses and
+semantics. A serving system works with requests, weights, and KV                                                     memories to the policies. A decoding step of Llama-3.1-70B under
+blocks; HBM serves data bursts of tens of bytes; and HBF is accessed                                                 the workload with 32 sequences and 6K tokens of context becomes
+like memory but programs flash pages (e.g., 4 KiB) in order, erases                                                  1.8 × 105 such transactions.
+whole flash blocks, and leaves its FTL to the host. Address-level                                                        The generated accesses are verified at three levels. Batching:
+traces preserve individual accesses but can only cover short runs,                                                   given the same service times, the scheduler forms the same batches
+RACS ’26, November 17–20, 2026, Fukuoka, Japan                                                                                              Li et al.
+
+
+as vLLM (Section 3.5). Addresses: the byte ranges and their order             HBF. As in the OCP specification, the model separates the device
+match 6,568 held-out warp streams captured with NVBit on an                from its host-side management. The device has independent trans-
+A100; the H200 we model has no capture, so its KV is read block by         mit and receive timelines for each channel, ordered page sensing
+block, which changes the time per output token (TPOT) by at most           within each bank, page buffers, ECC, and TSV transfers. It programs
+0.55% against the A100 order. Volume: the frontend counts each             the pages of a block in order and, as the specification requires, erases
+byte once, whereas prefill kernels refetch the same KV for other           a block when its first page is written. The organization of flash into
+query heads or tiles, which GPU caches partly absorb, so prefill           channels, dies, planes, and blocks and the timing of reads, programs,
+traffic is a lower bound.                                                  and erases follow MQSim [29]. We reimplemented them because
+   HBFSim times every batch, prefill and decode alike, using an            MQSim’s FTL runs inside an SSD, whereas HBF’s runs on the host,
+operator-level GPU model. It decomposes each batch into opera-             and HBF operations must share one timeline with HBM and the
+tors and computes each operator’s time from three components: a            serving frontend. Like an SSD, and beyond the specification, each
+fixed overhead, a compute time, and a memory-access time. The              stack has a device-managed DRAM that buffers writes until a page
+compute time is derived from the operator’s FLOPs and a compute-           is full and caches recently read pages. The host runs the FTL. It
+throughput coefficient fitted to measured kernels. We obtain the           maps logical pages to physical ones and runs garbage collection,
+memory-access time from HBFSim’s detailed simulation of HBM                which picks victim blocks by their number of valid pages with
+and HBF accesses, rather than an ideal-bandwidth assumption. To            a small weight for wear; static wear leveling is implemented but
+stay anchored to real GPU behavior, we fit each operator’s fixed           switched off in our studies. Since the specification forbids the device
+overhead, compute throughput, and memory bandwidth from mea-               from moving valid data, garbage collection reads live pages into a
+sured kernels to establish a baseline time. During simulation, we          copy buffer in HBM and writes them back. We implemented three
+replace the baseline’s ideal memory time with the simulated access         mappings and keep each one’s index in HBM. Page-level mapping
+time, while retaining the measured kernel’s additional memory              has an 8-byte entry per 4 KiB page; the whole table lives in flash as
+overhead beyond the GPU’s peak bandwidth. The batch time is                translation pages, and HBM caches part of it. Extent mapping keeps
+then the sum of all operator times. This design ensures that HBF           a sorted list of runs of consecutive pages, 48 B per run. Both write
+latency and bandwidth directly affect each operator’s memory time,         by appending and spread consecutive pages over all planes. Block-
+and thus the batch time, while the compute portion stays tied to           level mapping has one entry per 1 MiB logical block and keeps the
+measured GPU performance.                                                  block in one physical block on one plane, each page at a fixed offset.
+                                                                           We model two consequences: NAND programs a block’s pages in
+                                                                           order, so a page whose predecessors have not been written yet
+3.2     Memory Policies                                                    waits in the device DRAM; and any write that is not an in-order
+HBFSim provides two ways to organize HBM and HBF. In peer                  append copies the whole block to a fresh one. We do not stripe
+mode, HBM and HBF form one address space, and each object is               blocks over planes, because a copy would then move a 1.5 GiB stripe.
+stored in one of them. HBM is filled in a priority order and the rest      Every mapping gets 0.1% of the HBF capacity in HBM, 3.1 GiB of
+overflows to HBF: weights first places the weights, then KV blocks         the 96 GiB of two HBM4 stacks, and its lookups compete with the
+in address order, retained prefixes included; KV first places the          application’s traffic: with page-level mapping, one Llama-3.1-70B
+running sequences’ KV, then the weights, then the retained prefixes.       decoding step at 2 HBM + 6 HBF issues 1.0–1.7×107 lookups, one
+In tiered mode, HBM caches objects stored in the HBF or other              per flash page read.
+capacity tier in 4 MiB lines with LRU, FIFO, or decayed-LFU [23]              Other tiers. Host DRAM, CXL SSDs, and NVMe SSDs share one
+replacement; decayed LFU evicts the line with the fewest recent            model consisting of a link, a controller, and media queues. A CXL
+accesses and halves all access counts periodically, as in frequency-       SSD adds a device-side DRAM cache with FIFO replacement.
+based replacement [23]. Dirty data is tracked at 4 KiB granularity,
+and dirty KV is written back either eagerly, while compute leaves          3.4    Simulation Speed
+the link idle [12], or only when its line is evicted. KV released before   To make full-iteration simulation tractable, we combine coarse-
+eviction is discarded without being written.                               grained HBM approximation with exact HBF acceleration. Only
+                                                                           HBM is approximated: scheduling transfers per 4 KiB chunk and
+                                                                           pseudo-channel rather than per 32-byte burst runs an all-HBM for-
+3.3     Device Engine                                                      ward pass 24.8× faster (134.7× for sequential reads), while keeping
+HBM. An HBM stack follows the JEDEC organization of its gen-               batch completion times within 0.04%.
+eration, set by the number of channels and pseudo-channels and                For HBF, the bottleneck is reserving roughly a dozen shared
+the pin rate. The following study uses HBM4 for analysis [8], with         resources per page, as in SimpleSSD [9]; here we reduce per-
+32 channels of two pseudo-channels at 8 Gb/s per pin, or 2 TB/s            reservation overhead without sacrificing accuracy. A first-fit calen-
+per stack. Because our studies concern capacity tiers, HBFSim mod-         dar organizes each resource’s idle intervals into 64-interval leaves
+els HBM at the pseudo-channel level rather than at the command             labeled with their maximum duration, so searches immediately
+level of DRAM simulators such as Ramulator 2.0 [16]. Requests are          bypass leaves with insufficient space. Multi-page reads are batched
+split into pseudo-channel transfers, groups of four pseudo-channels        into groups of one page per plane to share stage-time calculations,
+share an arbitration queue and a service timeline, and an average ac-      reuse calendar lookup states across groups, and compute stride
+cess latency and a bandwidth efficiency account for row activation         addresses from the first page, while the FTL updates free space
+and refresh.                                                               only for planes whose state changes. Page grouping speeds up
+ HBFSim                                                                                                                                                             RACS ’26, November 17–20, 2026, Fukuoka, Japan
+
+
+                     1                                                                                 Peer mode                                   Table 1: Memory devices of capacity tiers.
+                                                                                                       Tiered mode
+
+
+
+
+                                                                Host time on one core
+                                                                                           1h          No flash reads                     Device               Bandwidth    Latency and other parameters
+
+
+
+
+Fraction of cases
+                                                                                                                                          HBM4 stack, 48 GiB   2.0 TB/s    42 ns read
+                                                                                        10 min                                            HBF stack, 512 GiB   1.5 TB/s    4 𝜇 s read, 75 𝜇 s program;
+                    0.5
+                                                                                                                                                                           device DRAM of 0.1% of flash
+                                            A100 layers (64)                                                                              Host DRAM, PCIe 5.0 54 GB/s      9.3 𝜇 s per transfer (measured)
+                                            H200 layers (64)                             1 min                                            CXL SSD             36 GB/s link 40 𝜇 s NAND read, 6.6 GB/s NAND;
+                                            A100 batches (46)
+                                                                                                                 dashed: 2.7×105                                           DRAM cache of 5% of flash, FIFO
+                                            H200 batches (86)                                                        page reads/s         NVMe SSD            16 GB/s link same NAND as the CXL SSD
+                                                                                          10 s
+                     0
+                          0     10     20       30     40                                        105           107         109
+                               (a) Absolute error (%)                                                  (b) Flash page reads         Table 2: Workloads at the representative decode step: prompt
+                                                                                                                                    and output tokens per request, mean context of the running
+                                                                                                                                    sequences (Ctx), KV read per step (KV, GiB), and working set
+ Figure 3: Calibration and simulation cost. (a) Absolute error
+                                                                                                                                    of weights and KV (WS, GiB).
+ of predicted time for held-out layer shapes and for complete-
+ request batches. (b) Host time of the 405 configurations of                                                                                                                           70B         235B
+ Section 4 against their flash page reads; configurations with-                                                                           Workload         INPUT OUTPUT       Ctx   KV       WS   KV      WS
+ out flash reads sit on the vertical axis.                                                                                                Long OUTPUT          2K         6K 5.2K 51.2 118.9 30.1 253.0
+                                                                                                                                          Balanced             4K         4K 6.3K 61.1 128.8 35.9 258.9
+                                                                                                                                          Long INPUT           6K         2K 7.3K 70.9 138.6 41.7 264.7
+a Llama-3.1-70B batch (7.3M page reads) by 1.48×, and lazy FTL
+recounting accelerates ten write batches (3.2M page programs)
+by 1.55×. Every page still reserves all resources in strict order                                                                   own accounting on every run (programs by cause must sum to the
+without pruning or rounding idle intervals, yielding bit-identical                                                                  physical programs; valid, invalid, and free pages to the capacity),
+completion times across all 82,449 transactions in the batch.                                                                       the test suite compares HBM scheduling, HBF reads and writes, and
+   Wall-clock time then tracks flash page reads at roughly 2.7 × 105                                                                GC against reference models, and every result records the hashes
+reads/s per core (Figure 3b); all 405 configurations in Section 4 took                                                              of its inputs, configuration, and binary.
+80.0 core-hours on an Apple M2 Ultra and an M5 Pro.
+                                                                                                                                    4     CASE STUDIES
+ 3.5                          Calibration and Validation
+                                                                                                                                    We use HBFSim to answer the questions of Section 2.3 with two
+Three components are calibrated against hardware (Figure 3a). The                                                                   models and three workloads.
+scheduler is checked against vLLM 0.26’s: both receive the same
+requests and the same measured batch times, and over 282 batches                                                                    4.1     Setup
+in ten test cases with staggered arrivals, shared prefixes, prefix                                                                  System. We model one accelerator package with eight memory
+eviction, and preemption, they form the same batches with the                                                                       stacks, each an HBM4 stack or an HBF stack (Table 1); we write
+same token ranges, prefix hits, and completion times. The operator                                                                  2 HBM + 6 HBF for a package of two HBM and six HBF stacks
+model is fitted to kernel measurements: on an A100 and an H200                                                                      (2:6 in the figures, 2H6F in Table 3). We compare 1 HBM + 7 HBF,
+NVL we timed the Marlin GEMMs and FlashAttention-2 paged                                                                            2 HBM + 6 HBF, 4 HBM + 4 HBF, and 6 HBM + 2 HBF, whose HBM
+attention that vLLM uses with 8-bit weights, inside whole layers                                                                    holds 43.4, 91.9, 188.9, and 285.9 GiB of data. The HBF stacks follow
+under CUDA graphs, over 525 shapes per GPU spanning batch,                                                                          OCP speed grade 2, with 16 channels, one die per channel, 16 planes
+query, and context sizes, and fitted each operator’s fixed overhead,                                                                per die, and blocks of 256 pages of 4 KiB. Like an SSD, each HBF
+compute rate, and memory rate by least squares. We then predict                                                                     stack has a device DRAM of 0.1% of its flash that serves as write
+64 whole-layer shapes that never entered the fit: the mean absolute                                                                 buffer and read cache. Unless noted otherwise, the host FTL uses
+error is 5.8% on the A100 and 5.0% on the H200, and the largest,                                                                    page-level mapping and caches translation pages in 0.1% of the HBF
+41.8% on the A100, occurs in Llama-3.1-70B layers whose batch                                                                       capacity, reserved in HBM. We serve Llama-3.1-70B [5] with 8-bit
+mixes long and short contexts. Finally we run complete requests on                                                                  weights (67.7 GiB) and a BF16 KV cache (320 KiB per token), and
+each GPU, from the embedding to the output head, and compare                                                                        Qwen3-235B-A22B with FP8 weights (223.0 GiB for the 128 experts
+each batch’s time: predicted and measured batch times differ by                                                                     of each of its 94 MoE layers) and a BF16 KV cache (188 KiB per
+10.2% on average on the A100 (Llama-3.1-8B, 46 batches) and by                                                                      token); the figures label them 70B and 235B. Public traces carry no
+5.8% on the H200 (Llama-3.1-8B and Llama-3.1-70B, 86 batches);                                                                      expert routes, so the 235B model routes every token to a uniformly
+for Llama-3.1-70B on the H200, the time to first token differs by                                                                   random top-8 of its 128 experts, seeded by the token’s prefix; at 32
+9.3–13.6% and TPOT by 4.6–7.0%. The host DRAM path is fitted to                                                                     sequences a decode step reads 197.9 GiB of the 223 GiB of weights.
+measured pinned-memory copies between an H200 NVL and its                                                                           GPU compute follows the H200 NVL operator profile (Section 3.5),
+host (issue time, bandwidth per direction, fixed latency).                                                                          which covers batches of up to 16; for larger batches we keep the
+   HBM4 and HBF cannot be calibrated yet. Their interfaces follow                                                                   per-FLOP and per-byte costs measured at 16.
+the specifications; HBM’s access latency and bandwidth efficiency                                                                      Workloads. A decode step reads the KV of every running se-
+and HBF’s internal timing (4 𝜇s page read, 75 𝜇s program) and par-                                                                  quence, so what distinguishes workloads is how much context the
+allelism are assumptions users can replace. Every default parameter                                                                 sequences hold and how that context was produced. We character-
+records its source, published, from the literature, or assumed; 18 of                                                               ize a workload by its input:output length ratio and compare three
+the 30 parameter groups are assumptions. The engine checks its                                                                      (Table 2): long OUTPUT (2K prompt tokens, 6K output tokens),
+RACS ’26, November 17–20, 2026, Fukuoka, Japan                                                                                              Li et al.
+
+
+                             HBF         Host DRAM   CXL SSD     NVMe SSD     11.0–14.4× faster than host DRAM, 16.1–21.3× faster than the CXL
+(a)                                70B                         235B
+                                                                              SSD, and 86.6–115.0× faster than the NVMe SSD for Llama-3.1-70B,
+                  10                                                          and 18.6–19.0×, 66.8–154.1×, and 150.3–154.1× faster for Qwen3-
+
+      TPOT (s)
+                   1                                                          235B-A22B. The step time is roughly the tier read divided by the
+                  0.1
+                                                                              tier’s bandwidth: six on-package HBF stacks serve 157 GiB in 0.17 s,
+                                                                              PCIe-attached host DRAM in 3.2 s, and the NVMe SSD’s NAND
+                 0.01
+                                                                              at 6.6 GB/s in 26 s. The CXL SSD’s device DRAM (5% of its flash,
+                          2 HBM + 6 HBF                    2 HBM + CXL SSD    153.6 GiB) holds the spill of Llama-3.1-70B and of the first two
+                          2 HBM + host DRAM + CXL SSD      2 HBM + NVMe SSD
+                          2 HBM + host DRAM + NVMe SSD     8 HBM + CXL SSD    Qwen3-235B-A22B workloads, so the CXL SSD stays within 1.5× of
+                          8 HBM + host DRAM + CXL SSD                         host DRAM there; the 157 GiB spill of long INPUT exceeds it and
+(b)                               70B                          235B
+                                                                              the CXL SSD is as slow as the NVMe SSD (26.0 s). We keep all 32
+                  10                                                          sequences in every system, so each tier serves the same spill; a real
+
+      TPOT (s)
+                   1                                                          system would shrink the batch.
+                  0.1
+                                                                                 An off-package tier occupies none of the package’s eight stack
+                                                                              sites, which can then hold HBM. Figure 4b therefore compares
+                 0.01
+                         Long Balanced       Long     Long Balanced    Long   seven systems on eight sites, all with KV first: 2 HBM + 6 HBF;
+                        OUTPUT              INPUT    OUTPUT           INPUT   2 HBM with the HBF’s capacity off package as a CXL or NVMe SSD,
+                                                                              alone or behind 256 GiB of host DRAM (one accelerator’s share
+Figure 4: Mean TPOT at the decode step of each workload                       of a 2 TiB server), leaving six sites empty; and 8 HBM with the
+(logarithmic axes). (a) HBF against the other capacity tiers at               CXL SSD, alone or behind host DRAM. With two HBM stacks, the
+2 HBM + 6 HBF, peer mode with the weights placed first in                     weights that do not fit in HBM come from the tier in every step:
+HBM. (b) The tiers as systems with eight stack sites: 2 HBM +                 2 HBM + 6 HBF is 9.3–12.5× faster than 2 HBM + host DRAM +
+6 HBF, or 2 or 8 HBM with the HBF’s capacity off package as                   CXL SSD for Llama-3.1-70B and 19.1–19.5× for Qwen3-235B-A22B.
+a CXL SSD or an NVMe SSD, alone or behind 256 GiB of host                     Host DRAM holds the first 256 GiB of the tier, which covers both
+DRAM; KV placed first in HBM.                                                 models’ weights, so the SSD behind it is never read and the NVMe
+                                                                              and CXL variants coincide. The SSDs alone are 13.5–18.3× (CXL)
+balanced (4K and 4K), and long INPUT (6K and 2K), 8K tokens per               and 70.8–98.0× (NVMe) slower than 2 HBM + 6 HBF for Llama-3.1-
+request in each. The public traces of Mooncake [22] and Qwen [31]             70B, and 66.9–99.3× and 154.3–157.2× for Qwen3-235B-A22B. With
+are input-heavy (at most 29% of their requests have more than 62.5%           eight HBM stacks (384 GiB), both working sets fit, no step reads the
+of their tokens in the output), so no output-heavy workload can               off-package tier, and TPOT is 49–55 ms: 1.4–1.5× below 2 HBM +
+be drawn from them; their median request holds 5.5K–7.3K tokens.              6 HBF for Llama-3.1-70B and 2.9× below it for Qwen3-235B-A22B.
+Prompts are private, so no KV is shared. We replay each workload              An off-package tier thus wins only when the sites it frees go to
+through the scheduler with 32 sequences per batch and a prefix                HBM and the step fits in that HBM; then a cheap tier serves as well
+cache that retains 1M tokens (320 GiB of KV for Llama-3.1-70B,                as a fast one.
+188 GiB for Qwen3-235B-A22B). The first batch’s requests arrive                  Takeaway 1: HBF is most valuable under memory-capacity
+spread over one request’s lifetime, so in the steady state the run-           pressure. It offers little benefit when the working set fits in HBM,
+ning sequences are at every stage of their lifetimes. Among the               but substantially outperforms offloading to CPU memory, CXL
+steps in which every batch slot is busy while requests wait and               SSDs, and NVMe SSDs once spilling occurs, for example when
+the prefix cache is full, we take the one whose running sequences             Qwen3-235B-A22B serves 32 sequences whose 253–265 GiB work-
+hold the median context and install its state as replayed, each KV            ing set exceeds the 188.9 GiB of HBM at 4 HBM + 4 HBF. Under
+block at its replayed address. We then measure a short window                 a fixed stack budget, however, adding more HBM can hurt per-
+instead of a full replay: each sequence prefills a private 16-token           formance if the resulting loss of HBF bandwidth outweighs the
+suffix, which resumes it as a running request and yields its first            reduction in spill traffic.
+token, and decodes seven more; TPOT is the mean time of these
+seven decode steps. The three workloads hold 5.2K, 6.3K, and 7.3K
+                                                                              4.3    How Much HBM, and What Should It Hold?
+tokens of context on average, so a step reads 51–71 GiB of KV for             Capacity and placement. We vary the split between HBM and
+Llama-3.1-70B and 30–42 GiB for Qwen3-235B-A22B, 40% more                     HBF (Figure 5). In peer mode, HBM should give priority to the
+under long INPUT than under long OUTPUT, and writes one token                 running sequences’ KV. The working set of Llama-3.1-70B (119–
+of KV per sequence.                                                           139 GiB) fits at 4 HBM + 4 HBF, where KV first and tiered mode
+                                                                              reach the compute-bound 49–54 ms. At 2 HBM + 6 HBF, KV first
+4.2              HBF Versus Other Capacity Tiers                              takes 69–83 ms and weights first 75–95 ms, 4–14% more: it fills the
+At 2 HBM + 6 HBF with weights first, the capacity tier serves 38–             HBM left after the weights with KV blocks in address order, retained
+65 GiB of running KV per step for Llama-3.1-70B and 145–157 GiB               prefixes included, and leaves 38–65 GiB of running KV in HBF per
+for Qwen3-235B-A22B, whose 223 GiB of weights exceed HBM:                     step, whereas KV first reads only weights from HBF (29–49 GiB).
+115 GiB of weights and all 30–42 GiB of running KV. We keep this              At 1 HBM + 7 HBF even KV first reads 8–28 GiB of running KV
+placement and replace the six HBF stacks with host DRAM, a CXL                per step from HBF (89–98 ms). Under long OUTPUT, weights first
+SSD, or an NVMe SSD of the same capacity (Figure 4a). HBF decodes             still takes 75 ms at 4 HBM + 4 HBF, where the working set fits,
+HBFSim                                                                                                                      RACS ’26, November 17–20, 2026, Fukuoka, Japan
+
+
+                  Peer, weights first   Peer, KV first     Tiered, LRU       Tiered, FIFO                  Tiered, decayed LFU                 Working set fits in HBM
+                          Long OUTPUT                                       Balanced                                                           Long INPUT
+                                                                                                                    300
+  70B
+            240                                          240
+            160                                          160                                                        200
+
+TPOT (ms)   80                                            80                                                        100
+              0                                           0                                                             0
+                   1:7            2:6       4:4                  1:7           2:6                  4:4                            1:7               2:6              4:4
+            300
+  235B
+                                                         300                                                        300
+            200                                          200                                                        200
+TPOT (ms)   100                                          100                                                        100
+              0                                           0                                                           0
+                   1:7            2:6       4:4                  1:7           2:6                  4:4                            1:7               2:6              4:4
+                                                                         HBM:HBF stacks
+
+
+Figure 5: Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to the running sequences’ KV;
+tiered mode replaces by LRU, FIFO, or decayed LFU and writes back on eviction.
+
+because the added HBM fills with retained prefixes while 31 GiB                                       2:6 HBM:HBF                                    4:4 HBM:HBF
+                                                                                                                                         240
+of running KV per step still come from HBF. The working set of                              150
+
+
+                                                                                TPOT (ms)
+Qwen3-235B-A22B (253–265 GiB) exceeds HBM at all three splits.                                                                           160
+                                                                                            100
+Its decode step is dominated by the 198 GiB of expert weights it
+                                                                                            50                                           80
+reads, so KV first falls only gradually, from 163–170 ms at 1 HBM +
+7 HBF and 152–160 ms at 2 HBM + 6 HBF to 115–128 ms at 4 HBM                                 0                                            0
+                                                                                                  Zipf 1     Zipf 1.5   Zipf 2                   Zipf 1    Zipf 1.5    Zipf 2
++ 4 HBF, and weights first is 4–7% behind. At 1 HBM + 7 HBF the                                    64%        46%        34%                      64%       46%         34%
+step takes only 7% longer than at 2 HBM + 6 HBF: seven HBF stacks              Expert popularity (share of experts a step reads)
+serve the experts. The three workloads differ little: their contexts
+differ by 1K tokens, and TPOT follows (69, 76, and 83 ms with KV              Figure 6: Qwen3-235B-A22B under skewed expert popularity
+first at 2 HBM + 6 HBF): a step’s cost depends on how much context            (balanced workload; legend as in Figure 5): a token’s top-8
+it reads, not on how it was produced.                                         experts are drawn with weight (𝑟 + 1) −𝛼 over a seeded per-
+    Tiered mode. Tiered mode matches peer mode with KV first                  layer rank 𝑟 . Tick labels: share of the experts a step reads.
+when the working set fits in HBM and, with LRU or FIFO, is 1.7–
+2.2× slower for Llama-3.1-70B and 1.3–2.4× for Qwen3-235B-A22B
+when it does not. Each step reads the working set in the same order,             Hot experts. The uniform router is the worst case for a cache.
+a cyclic pattern larger than HBM, so LRU evicts almost every 4 MiB            We therefore rerun Qwen3-235B-A22B with a Zipf router of ex-
+line before it is reused and the step rereads the whole working               ponent 𝛼 (Figure 6), so that a step reads 64%, 46%, and 34% of the
+set from HBF, 117–137 GiB for Llama-3.1-70B and 231–243 GiB for               experts at 𝛼 = 1, 1.5, and 2 instead of 88%. At 4 HBM + 4 HBF, where
+Qwen3-235B-A22B, instead of only the spill. This is why 4 HBM                 𝛼 = 1.5 leaves 135–147 GiB in 188.9, decayed LFU takes 0.83–0.87
++ 4 HBF is slower than 2 HBM + 6 HBF for Qwen3-235B-A22B in                   of the KV-first time and LRU 0.89–1.00; at 𝛼 = 2 they take 0.78 and
+tiered mode (275–291 against 201–211 ms): four HBF stacks serve               0.81–0.83: the cache keeps every layer’s hot experts, whereas the
+the same reread instead of six. At 1 HBM + 7 HBF the single HBM               address-ordered split keeps whole early layers and misses those
+stack, which also absorbs every refill as a write, becomes the limit          of the late ones. At 2 HBM + 6 HBF the split still wins at every
+at 1.4–1.6 TB/s of its 2.0.                                                   exponent: decayed LFU stays 1.07–1.10× above KV first, because
+    Replacement. No policy wins everywhere. FIFO rereads the                  the 26 whole layers in HBM save their cold experts too while the
+same bytes as LRU in another order: within 1% of LRU for Qwen3-               cache spends its remainder on cold lines that rarely recur, and LRU
+235B-A22B and 1–20% faster for Llama-3.1-70B. Decayed LFU keeps               and FIFO 1.4–1.5× above.
+the lines read most often: for Llama-3.1-70B at 2 HBM + 6 HBF it                 When each mode wins. One quantity separates the two modes
+keeps the running KV in HBM and refills the weights every step,               in Figures 5 and 6: the set a step reads against the HBM capacity.
+the division of KV first, and takes 84–90 ms, 37–48% less than LRU.           Peer mode with KV first wins whenever that set exceeds HBM, and
+At 1 HBM + 7 HBF, where the running KV (51–71 GiB) no longer                  the margin must be real: at 𝛼 = 1 and 4 HBM + 4 HBF the 180 GiB
+fits, the same policy is the slowest, 261–308 ms, 1.4× LRU: it evicts         set, 144 GiB of weights and 36 of KV, nominally fits in 188.9, yet
+its newest lines first. For Qwen3-235B-A22B it cuts LRU’s time by             FIFO rereads 193 GiB per step, the set in 4 MiB lines, and LRU 161.
+7–10% at 1 HBM + 7 HBF and 22–31% at the next two splits but                  Tiered mode wins only when the set fits with room to spare and its
+stays 1.0–1.8× above KV first: a newly filled line starts with a count        reuse is spread across layers, which an address-ordered split cannot
+of one, so the expert weights, which every step reads once, keep              follow; where the set fits outright, the two modes are equal.
+being evicted and refilled.                                                      Takeaway 2: Under the evaluated workloads and 4 MiB
+                                                                              cache-line configuration, the tested replacement policies in-
+                                                                              cur substantial refill traffic when the active working set ex-
+                                                                              ceeds HBM capacity. None of the evaluated policies matches peer
+RACS ’26, November 17–20, 2026, Fukuoka, Japan                                                                                                                                             Li et al.
+
+
+                                                HBM:HBF stacks                                                                   Page-level                Extent             Block
+                                          1:7     2:6      4:4        6:2                     Index (MiB)                      Decode                                            Prefill
+                                                                                            1000
+                         Long OUTPUT                Balanced              Long INPUT                                                                                150
+
+
+
+
+                                                                                                                                                 Request time (s)
+                                                                                                                   400
+
+
+
+                                                                                                       TPOT (ms)
+                                                                                             100
+                                                                                                                                                                    100
+Throughput
+               0.4
+                                                                                              10                   200
+                                                                                                                                                                    50
+(k tokens/s)   0.2                                                                             1
+                                                                                                                     0                                               0
+                                                                                                                          Long Balanced Long                               Long Balanced Long
+               0.0                                                                                                       OUTPUT        INPUT                              OUTPUT        INPUT
+                     8     16   32   64         8    16   32     64   8     16   32    64
+                                                    Batch size
+                                                                                            Figure 8: Page-level, extent, and block mapping for Llama-
+Figure 7: Decode throughput of Qwen3-235B-A22B against                                      3.1-70B at 2 HBM + 6 HBF, weights first: the index kept for the
+the batch size, peer mode with KV first.                                                    pages a decode step touches (bar: largest workload; whisker:
+                                                                                            smallest), decode TPOT, and request time in the prefill win-
+mode with KV first once the set a step reads exceeds HBM, and                               dows of Section 4.3.
+they beat it only when that set fits with room to spare, because
+                                                                                            Table 3: Estimated HBF lifetime in months at the published
+none captures the distinct access patterns, mutability, and lifetimes
+                                                                                            H200 peak load of Llama-3.3-70B (5,000-token prompts, 500-
+of inference data. Effective HBF management therefore requires
+                                                                                            token outputs), with 100,000 P/E cycles.
+inference-aware placement and migration rather than generic cache
+replacement.                                                                                Workload                          1H7F            2H6F                           4H4F            6H2F
+    Batch size. We repeat the Qwen3-235B-A22B study in peer mode                            Llama-3.1-70B
+with KV first at batches of 8, 16, 32, and 64, each from its own replay                       Long OUTPUT                      83.0            71.2                           47.4             23.7
+                                                                                              Balanced                         83.0            75.9                           50.6             25.3
+(Figure 7). Throughput grows 2.1–3.0× from batch 8 to 64 at 6 HBM                             Long INPUT                       83.0            71.1                           54.2             27.1
++ 2 HBF and 2.9–3.5× at 2 HBM + 6 HBF and 1 HBM + 7 HBF,                                    Qwen3-235B-A22B
+while TPOT grows from 37 ms to 67–117 ms and from 74–84 ms to                                 Long OUTPUT                     141.4           121.2                           80.8             40.4
+                                                                                              Balanced                        141.4           121.2                           80.8             43.1
+186–205 ms. The working set grows with the batch, to 283, 295, and                            Long INPUT                      141.4           121.2                           80.8             46.2
+306 GiB at batch 64; only long OUTPUT still fits in the 285.9 GiB of
+6 HBM + 2 HBF, its 520 tokens/s compare with 420 and 353 for the
+other two, and tiered mode with LRU, 67 ms where the working set                                Address translation. We compare the three mappings of Sec-
+fits, takes 503 and 672 ms once it exceeds HBM by 3% and 7%. With                           tion 3.3 at 2 HBM + 6 HBF with weights first, so that the running KV
+one to four HBM stacks the expert weights come from HBF in any                              is read from HBF (Figure 8). A decode step writes almost nothing,
+case; the second pair of HBM stacks is worth 38% of throughput at                           so we also run the prefill windows of Section 4.3 (46–47 GiB of
+batch 8 but 9% at batch 64.                                                                 new KV each). All three receive the same 3.1 GiB of HBM, but only
+    Write path. A decode step writes too little KV to compare ways                          page-level mapping uses a sizable part of it: 97–152 MiB of transla-
+of writing it, so we also serve 112, 56, and 38 requests of the three                       tion pages for the pages a decode step touches, against 0.9 MiB for
+workloads from an empty KV state at 2 HBM + 6 HBF (outputs                                  the extent index and 10 MiB for the block index. Extent mapping
+capped at 8 tokens), which writes 46–47 GiB of KV per workload.                             stays within 0.5% of page-level mapping in decode and in prefill:
+Writing the KV that does not fit in HBM straight to HBF, writing all                        KV is written and read in long runs, so one index entry serves many
+KV into HBM and to HBF when its line is evicted, and draining it                            pages. Block-level mapping is 4.2–4.3× slower in decode (324–399
+to HBF in the background give the same mean request time within                             against 75–95 ms), because a block lies on one plane, which reads
+1.5%, because prefill is compute-bound and each HBF stack buffers                           its 256 pages one after another in about 1.0 ms, whereas the other
+writes in its device DRAM. The background drain, however, writes                            two mappings spread the same pages over all planes; prefill, which
+70–71 GiB to flash, 1.2–1.6× as much as write-back on eviction (45–                         spends more of its time in compute, hides part of this and is 1.5×
+60 GiB). In decode, KV first never programs an HBF page, while                              slower.
+tiered mode with LRU programs 61,000–65,000 pages per step for                                  Takeaway 4: HBF mapping should preserve internal par-
+Qwen3-235B-A22B as it evicts dirty KV.                                                      allelism rather than maximize address granularity. Decode
+    Takeaway 3: KV data should be prioritized in HBM and                                    reads weights and KV in long sequential runs, so one translation
+moved to HBF only under capacity pressure. KV is continu-                                   serves many pages. An extent mapping that stripes each run across
+ously appended during decoding, making its placement a primary                              all planes matches a page-level table at a fraction of its memory,
+determinant of HBF write traffic. Allocating KV to HBF only when                            whereas a block-level mapping that keeps each block on a single
+it must leave HBM incurs no performance loss in our experiments,                            plane serializes its page reads and slows decoding considerably.
+whereas proactive migration creates avoidable writes for KV entries                             Lifetime. A decode step writes one token of KV per sequence,
+that may be freed shortly.                                                                  so wear comes from new KV written into flash, and we estimate
+                                                                                            lifetime at a published peak load. TensorRT-LLM reaches 489 output
+4.4              Flash Translation and Endurance                                            tokens/s per H200 for Llama-3.3-70B, which has the architecture
+In decode, HBF mostly serves reads, so we ask what the FTL costs                            of Llama-3.1-70B, with 5,000-token prompts and 500-token out-
+on the read path and how fast writes wear HBF.                                              puts [18], 1.64 GiB/s of new KV per GPU. The published table has
+HBFSim                                                                                                           RACS ’26, November 17–20, 2026, Fukuoka, Japan
+
+
+                                   Long OUTPUT         Balanced          Long INPUT   page, so program times from 37.5 to 600 𝜇s, write credits, and write
+            0.4                                                                       timeout leave TPOT unchanged, and the thermal throttling ceiling
+
+
+TPOT (s)
+                                                                                      adds at most 0.2%. For read-heavy decode, an HBF design should
+            0.2
+                                                                                      therefore spend on planes and read time before interface speed.
+            0.1
+           0.05                                                                       5   DISCUSSION
+                   1   2   4   8   16 40      0.4 0.8 1.5 3.1        4 8 16           Limitations. Our case studies reproduce one decoding step per
+                   Page read time tR (μs)    G1⋅8 G2⋅8 G2⋅16 G3⋅16 Planes per die
+                                            Interface per stack (TB/s)                workload, seven tokens per running sequence, and one prefill win-
+                                                                                      dow per workload for the write path and the mapping comparison,
+                                                                                      without garbage collection, so TPOT omits its interference with
+Figure 9: TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first,                           reads. We model one accelerator; tensor or pipeline parallelism
+when one HBF parameter changes (logarithmic axis). Dashed:                            would give each a share of the weights and KV. The studies com-
+default setting. Interface points give the OCP speed grade and                        bine an H200 compute profile, extended beyond its measured batch
+channels per stack; 8-channel stacks have half the planes.                            of 16, with HBM4 and HBF, a pairing that does not exist today,
+                                                                                      so HBF timing and endurance remain assumptions. The lifetime
+no Qwen3-235B-A22B, so we apply the same token rate to it; with                       estimates apply a published serving load around the clock to the
+188 KiB of KV per token against 320 KiB, it writes 41% less. HBFSim                   HBF write share and write amplification that HBFSim measures,
+measures the share of this KV that reaches HBF with weights first                     and assume perfect wear leveling.
+(87.5–100%) and replays each workload’s KV writes and releases                           Extending HBFSim. New memory policies use the policy in-
+(about 1 TiB, twice the stack’s capacity) through one HBF stack with                  terface, new FTL schemes the host mapping interface, new HBF
+garbage collection, which gives the flash bytes erased per written                    generations the device configuration, and new models, traces, and
+byte in steady state, the quantity that consumes P/E cycles. With                     GPUs their descriptors, importers, or operator profiles.
+either mapping this is 1.0 within 0.1%: KV is appended and freed in
+bulk, so one block with no valid page left is erased per MiB written.                 6   RELATED WORK
+Block-level mapping programs 1.5–3.5% fewer pages, because pages                      HBF and hybrid HBM–flash memory. H3 [7] and SK hynix [27]
+that wait in the device DRAM for their block’s unwritten prefix                       evaluate hybrid HBM+HBF organizations with projected device
+are dropped when a sequence ends, but their block is still erased.                    parameters. FlashAccel co-designs data layout and storage man-
+Assuming 100,000 P/E cycles, as for the SLC NAND used in HBF                          agement for HBF [32]. Petrucci et al. compare HBF with LPDDR
+designs [32], Table 3 gives the resulting lifetime: 24–83 months                      analytically and identify writes as the limit for offloading KV to
+for Llama-3.1-70B and 40–141 months for Qwen3-235B-A22B, in                           flash [21]. HBFSim lets such designs be compared on the same
+proportion to the HBF stacks that share the writes and the same                       workloads; our endurance results quantify the write problem they
+with either mapping: how long HBF lasts is set by how much KV                         point out.
+reaches flash.                                                                           Memory and storage simulators. Ramulator 2.0 [16] and
+   Takeaway 5: HBF endurance is a first-order system con-                             DRAMsim3 [14] model DRAM at the command level. MQSim [29]
+straint. Under baseline inference workloads, KV spill generates                       and FEMU [13] model SSDs behind an NVMe interface, with map-
+enough writes to make projected HBF lifetime a major challenge                        ping, GC, and wear leveling inside the device, and Cylon [34] emu-
+even when performance is acceptable. Practical HBF systems there-                     lates CXL SSDs with a DRAM cache in the device. HBFSim follows
+fore require write reduction and endurance-aware management.                          MQSim’s approach to the flash organization and Cylon’s device
+4.5               Which HBF Parameters Matter?                                        class for the CXL SSD, but treats HBF as memory with a host-side
+                                                                                      FTL whose metadata competes with the application in HBM.
+The HBF specification is still a draft, so we ask which device pa-
+                                                                                         LLM serving simulators. Vidur [1], LLMServingSim [3], Fron-
+rameters the results depend on, taking Llama-3.1-70B on the three
+                                                                                      tier [6], and ASTRA-sim [33] simulate scheduling, computation,
+workloads at 2 HBM + 6 HBF with KV first, where a step reads
+                                                                                      and communication for LLM inference, LLMCompass [36] adds
+29–49 GiB of weights from HBF (69–83 ms per token), and changing
+                                                                                      operator-level modeling with mapping search, and GTSim [4] and
+one parameter at a time (Figure 9).
+                                                                                      Accel-Sim [10, 20] model GPU microarchitecture. They represent
+   Only the rate at which the flash array senses pages matters.
+                                                                                      memory by its capacity and bandwidth; HBFSim models the de-
+Doubling the page read time to 8 𝜇s raises TPOT by 30–42%, 16 𝜇s
+                                                                                      vices at the transaction level, flash management included, under a
+by 91–126%, and the 40 𝜇s of conventional NAND by 3.7–4.8×;
+                                                                                      validated scheduler.
+halving the planes per die at equal capacity has the same effect as
+doubling the read time (29–40% for 8 planes, 87–121% for 4). The                      7   CONCLUSION
+interface does not matter: speed grade 3 doubles grade 2’s 1.5 TB/s                   HBF could give accelerators an order of magnitude more memory,
+and changes TPOT by 0.1%, and grades 1 and 2 on 8 channels are                        but only if systems use it in ways that suit flash. HBFSim lets
+equally 29–40% slower, only because their stacks have half the                        researchers test these choices before hardware exists. Our case
+planes. A plane senses one 4 KiB page per read time, so a stack’s                     studies support five takeaways. HBF is most valuable under capacity
+256 planes deliver 0.26 TB/s at 4 𝜇s, a sixth of the interface. The                   pressure, where it keeps TPOT 11.0–19.0× lower than host DRAM
+write side is invisible in decode, even without the device DRAM:                      and 86.6–154.1× lower than an NVMe SSD. Conventional cache
+with KV first a step appends its KV in HBM and programs no HBF                        replacement is a poor fit for HBM–HBF tiering: no policy matches
+RACS ’26, November 17–20, 2026, Fukuoka, Japan                                                                                                                          Li et al.
+
+
+peer mode with KV first once the set a step reads exceeds HBM,                             [18] NVIDIA. 2026. TensorRT-LLM Performance Overview. https://nvidia.github.io/
+and a cache wins only when that set fits with room to spare. HBM                                TensorRT-LLM/performance/perf-overview.html.
+                                                                                           [19] Open Compute Project. 2026. OCP HBF Architecture Specification, Ver-
+should hold the running sequences’ KV and HBF the read-only                                     sion 0.7.0. https://www.opencompute.org/documents/ocp-hbf-architecture-
+weights; KV should move to HBF only when it must leave HBM.                                     specification-v0-7-0-final-pdf.
+                                                                                           [20] Junrui Pan, Weili An, Cesar Avalos Baddouh, Christin David Bose, Ni Kang,
+The mapping should preserve the flash array’s parallelism, which an                             Aaron Barnes, Ahmad Alawneh, Fangjia Shen, Yechen Liu, Anusuya Nallathambi,
+extent index does at a fraction of a page table’s memory. Endurance                             Atthin Chandrashekar, and Timothy G. Rogers. 2026. Architecting the Next
+is a first-order constraint: at a published peak load of Llama-3.1-70B,                         Generation of Asynchronous, Distributed GPUs for the AI Era. https://doi.org/
+                                                                                                10.48550/arXiv.2608.22602 arXiv:2608.22602 [cs.AR]
+HBF lasts 2.0 to 6.9 years, in proportion to the stacks that share                         [21] Vinicius Petrucci, Felippe Zacarias, and Vishal Tanna. 2026. Is High-Bandwidth
+the KV writes. We release HBFSim so that others can replace our                                 Flash All You Need?. In 3rd Workshop on Hot Topics in System Infrastructure
+assumptions with measurements.                                                                  (HotInfra). https://hotinfra.org/2026/papers/hotinfra26-final83.pdf
+                                                                                           [22] Ruoyu Qin, Zheming Li, Weiran He, Jialei Cui, Feng Ren, Mingxing Zhang,
+REFERENCES                                                                                      Yongwei Wu, Weimin Zheng, and Xinran Xu. 2025. Mooncake: Trading More
+                                                                                                Storage for Less Computation – A KVCache-centric Architecture for Serving
+ [1] Amey Agrawal, Nitin Kedia, Jayashree Mohan, Ashish Panwar, Nipun Kwatra,                   LLM Chatbot. In Proceedings of the 23rd USENIX Conference on File and Storage
+     Bhargav S. Gulavani, Ramachandran Ramjee, and Alexey Tumanov. 2024. Vidur: A               Technologies. Traces released at https://github.com/kvcache-ai/Mooncake.
+     Large-Scale Simulation Framework for LLM Inference. In Proceedings of Machine         [23] John T. Robinson and Murthy V. Devarakonda. 1990. Data Cache Management
+     Learning and Systems (MLSys).                                                              Using Frequency-Based Replacement. In Proceedings of the 1990 ACM SIGMETRICS
+ [2] Amey Agrawal, Nitin Kedia, Ashish Panwar, Jayashree Mohan, Nipun Kwatra,                   Conference on Measurement and Modeling of Computer Systems. 134–142. https:
+     Bhargav S. Gulavani, Alexey Tumanov, and Ramachandran Ramjee. 2024. Tam-                   //doi.org/10.1145/98457.98523
+     ing Throughput-Latency Tradeoff in LLM Inference with Sarathi-Serve. In 18th          [24] SanDisk. 2025.         High Bandwidth Flash (HBF) Fact Sheet.             https:
+     USENIX Symposium on Operating Systems Design and Implementation (OSDI ’24).                //documents.sandisk.com/content/dam/asset-library/en_us/assets/public/
+ [3] Jaehong Cho, Minsu Kim, Hyunmin Choi, Guseul Heo, and Jongse Park. 2024.                   sandisk/collateral/company/Sandisk-HBF-Fact-Sheet.pdf. Accessed 2026-07-26.
+     LLMServingSim: A HW/SW Co-Simulation Infrastructure for LLM Inference                 [25] SanDisk. 2025. Scaling Beyond the Wall: Inside SanDisk’s High Bandwidth
+     Serving at Scale. In IEEE International Symposium on Workload Characterization             Flash for AI. https://www.sandisk.com/company/newsroom/blogs/2025/scaling-
+     (IISWC).                                                                                   beyond-the-wall-inside-sandisks-high-bandwidth-flash-for-ai. Accessed 2026-
+ [4] Yitong Ding, Jiawei Huang, Renyang Guan, Yangjie Zhou, Zihan Liu, Yu Feng,                 05-22.
+     Shixuan Sun, Mingyi Guo, Jingwen Leng, and Jian Weng. 2026. GPU-Tile-Sim: A           [26] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi
+     Tile-Centric GPU Simulation Framework for LLM Hardware-Software Co-Design.                 Chen, Percy Liang, Christopher Ré, Ion Stoica, and Ce Zhang. 2023. FlexGen:
+     arXiv:2607.11262 [cs.DC] https://arxiv.org/abs/2607.11262                                  High-Throughput Generative Inference of Large Language Models with a Single
+ [5] Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad                    GPU. In Proceedings of the 40th International Conference on Machine Learning
+     Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Amy Yang, Angela Fan,                (ICML).
+     et al. 2024. The Llama 3 Herd of Models. arXiv preprint arXiv:2407.21783 (2024).      [27] SK hynix. 2026. H3 : A Hybrid HBM+HBF Architecture for LLM Inference. Inter-
+     https://arxiv.org/abs/2407.21783                                                           national Solid-State Circuits Conference (ISSCC).
+ [6] Yicheng Feng, Xin Tan, Yangtao Deng, Yimin Jiang, Yibo Zhu, and Hong Xu.              [28] SK hynix. 2026. SK hynix and Sandisk Begin Global Standardization of Next-
+     2026. Frontier: Towards Comprehensive and Accurate LLM Inference Simulation.               Generation Memory ‘HBF’. https://news.skhynix.com/en/sk-hynix-and-sandisk-
+     arXiv:2605.21312 [cs.DC] https://arxiv.org/abs/2605.21312                                  begin-global-standardization-ofnext-generation-memory-hbf/. Accessed 2026-
+ [7] Minho Ha, Euiseok Kim, and Hoshik Kim. 2026. H3: Hybrid Architecture Using                 07-26.
+     High Bandwidth Memory and High Bandwidth Flash for Cost-Efficient LLM                 [29] Arash Tavakkol, Juan Gómez-Luna, Mohammad Sadrosadati, Saugata Ghose,
+     Inference. IEEE Computer Architecture Letters 25, 1 (2026), 49–52. https://doi.org/        and Onur Mutlu. 2018. MQSim: A Framework for Enabling Realistic Studies of
+     10.1109/LCA.2026.3660969                                                                   Modern Multi-Queue SSD Devices. In 16th USENIX Conference on File and Storage
+ [8] JEDEC. 2025. High Bandwidth Memory (HBM4) DRAM. Technical Report JESD270-                  Technologies (FAST). 49–66.
+     4. JEDEC Solid State Technology Association.                                          [30] Oreste Villa, Mark Stephenson, David Nellans, and Stephen W. Keckler. 2019.
+ [9] Myoungsoo Jung, Jie Zhang, Ahmed Abulila, Miryeong Kwon, Narges Shahidi,                   NVBit: A Dynamic Binary Instrumentation Framework for NVIDIA GPUs. In
+     John Shalf, Nam Sung Kim, and Mahmut Kandemir. 2018. SimpleSSD: Modeling                   Proceedings of the 52nd Annual IEEE/ACM International Symposium on Microar-
+     Solid State Drives for Holistic System Simulation. IEEE Computer Architecture              chitecture.
+     Letters 17, 1 (2018), 37–41.                                                          [31] Jiahao Wang, Jinbo Han, Xingda Wei, Sijie Shen, Dingyan Zhang, Chenguang
+[10] Mahmoud Khairy, Zhesheng Shen, Tor M. Aamodt, and Timothy G. Rogers. 2020.                 Fang, Rong Chen, Wenyuan Yu, and Haibo Chen. 2025. KVCache Cache in the
+     Accel-Sim: An Extensible Simulation Framework for Validated GPU Modeling. In               Wild: Characterizing and Optimizing KVCache Cache at a Large Cloud Provider.
+     47th ACM/IEEE Annual International Symposium on Computer Architecture (ISCA).              In Proceedings of the 2025 USENIX Annual Technical Conference. 465–482. Traces
+     473–486. https://doi.org/10.1109/ISCA45697.2020.00047                                      released at https://github.com/alibaba-edu/qwen-bailian-usagetraces-anon.
+[11] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng,                    [32] Xinyu Wang, Yalong Xue, Xiaotian Sun, Xiaoyu Zhang, Chunmeng Dou, Xueqi
+     Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient                Li, and Xiaoming Chen. 2026. FlashAccel: Leveraging High-Bandwidth Flash for
+     Memory Management for Large Language Model Serving with PagedAttention.                    High-Throughput LLM Inference. arXiv:2607.10186 https://arxiv.org/abs/2607.
+     In Proceedings of the 29th Symposium on Operating Systems Principles. 611–626.             10186
+     https://doi.org/10.1145/3600006.3613165                                               [33] William Won, Jinsun Yoo, Tuan Ta, Moumita Dey, Andy Balogh, Pradosh Datta,
+[12] Hsien-Hsin S. Lee, Gary S. Tyson, and Matthew K. Farrens. 2000. Eager                      Furkan Eris, Conor Green, Winston Liu, Changhai Man, et al. 2026. ASTRA-sim
+     Writeback—A Technique for Improving Bandwidth Utilization. In Proceedings of               3.0: Next-Level Distributed Machine Learning Simulations via High-Fidelity GPU
+     the 33rd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO-              and Infrastructure Modeling. arXiv:2606.10440 [cs.DC] https://arxiv.org/abs/
+     33). 11–21.                                                                                2606.10440
+[13] Huaicheng Li, Mingzhe Hao, Michael Hao Tong, Swaminathan Sundararaman,                [34] Dongha Yoon, Hansen Idden, Jinshu Liu, Berkay Inceisci, Sam H. Noh, and
+     Kshitij Doshi, and Haryadi S. Gunawi. 2018. The CASE of FEMU: Cheap, Accurate,             Huaicheng Li. 2026. Cylon: Fast and Accurate Full-System Emulation of CXL-
+     Scalable and Extensible Flash Emulator. In 16th USENIX Conference on File and              SSDs. In 24th USENIX Conference on File and Storage Technologies (FAST ’26).
+     Storage Technologies (FAST). 83–90.                                                        313–327.
+[14] Shang Li, Zhiyuan Yang, Dhiraj Reddy, Ankur Srivastava, and Bruce Jacob. 2020.        [35] Gyeong-In Yu, Joo Seong Jeong, Geon-Woo Kim, Soojeong Kim, and Byung-
+     DRAMsim3: A Cycle-Accurate, Thermal-Capable DRAM Simulator. IEEE Com-                      Gon Chun. 2022. Orca: A Distributed Serving System for Transformer-Based
+     puter Architecture Letters (2020). https://doi.org/10.1109/LCA.2020.2973991                Generative Models. In 16th USENIX Symposium on Operating Systems Design and
+[15] Di Liu, Meng Chen, Baotong Lu, Huiqiang Jiang, Zhenhua Han, Qianxi Zhang,                  Implementation (OSDI 22). 521–538.
+     Qi Chen, Chengruidong Zhang, Bailu Ding, Kai Zhang, Chen Chen, Fan Yang,              [36] Hengrui Zhang, August Ning, Rohan Baskar Prabhakar, and David Wentzlaff.
+     Yuqing Yang, and Lili Qiu. 2024. RetrievalAttention: Accelerating Long-Context             2024. LLMCompass: Enabling Efficient Hardware Design for Large Language
+     LLM Inference via Vector Retrieval. arXiv:2409.10516                                       Model Inference. In 51st ACM/IEEE Annual International Symposium on Computer
+[16] Haocong Luo, Ataberk Olgun, Moocha Kim, Minesh Patel, Hasan Hassan, Saugata                Architecture (ISCA). 1080–1096. https://doi.org/10.1109/ISCA59077.2024.00082
+     Ghose, and Onur Mutlu. 2024. Ramulator 2.0: A Modern, Modular, and Extensible         [37] Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Chuyue Sun, Jeff Huang,
+     DRAM Simulator. IEEE Computer Architecture Letters (2024). https://doi.org/10.             Cody Hao Yu, Shiyi Cao, Christos Kozyrakis, Ion Stoica, Joseph E. Gonzalez,
+     1109/LCA.2023.3333759                                                                      Clark Barrett, and Ying Sheng. 2024. SGLang: Efficient Execution of Structured
+[17] NVIDIA. 2023. NVIDIA H200 Tensor Core GPU. https://www.nvidia.com/en-
+     us/data-center/h200/.
+HBFSim                                                                                   RACS ’26, November 17–20, 2026, Fukuoka, Japan
+
+
+   Language Model Programs. In Advances in Neural Information Processing Systems   37.
+

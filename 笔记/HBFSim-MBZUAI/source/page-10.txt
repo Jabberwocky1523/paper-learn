@@ -1,0 +1,82 @@
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+peermodewithKVfirstoncethesetastepreadsexceedsHBM, [18] NVIDIA.2026.TensorRT-LLMPerformanceOverview.https://nvidia.github.io/
+andacachewinsonlywhenthatsetfitswithroomtospare.HBM TensorRT-LLM/performance/perf-overview.html.
+[19] Open Compute Project. 2026. OCP HBF Architecture Specification, Ver-
+shouldholdtherunningsequences’KVandHBFtheread-only
+sion 0.7.0. https://www.opencompute.org/documents/ocp-hbf-architecture-
+weights;KVshouldmovetoHBFonlywhenitmustleaveHBM. specification-v0-7-0-final-pdf.
+Themappingshouldpreservetheflasharray’sparallelism,whichan [20] JunruiPan,WeiliAn,CesarAvalosBaddouh,ChristinDavidBose,NiKang,
+AaronBarnes,AhmadAlawneh,FangjiaShen,YechenLiu,AnusuyaNallathambi,
+extentindexdoesatafractionofapagetable’smemory.Endurance AtthinChandrashekar,andTimothyG.Rogers.2026. ArchitectingtheNext
+isafirst-orderconstraint:atapublishedpeakloadofLlama-3.1-70B, GenerationofAsynchronous,DistributedGPUsfortheAIEra. https://doi.org/
+10.48550/arXiv.2608.22602arXiv:2608.22602[cs.AR]
+HBFlasts2.0to6.9years,inproportiontothestacksthatshare
+[21] ViniciusPetrucci,FelippeZacarias,andVishalTanna.2026.IsHigh-Bandwidth
+theKVwrites.WereleaseHBFSimsothatotherscanreplaceour FlashAllYouNeed?.In3rdWorkshoponHotTopicsinSystemInfrastructure
+assumptionswithmeasurements. (HotInfra). https://hotinfra.org/2026/papers/hotinfra26-final83.pdf
+[22] RuoyuQin,ZhemingLi,WeiranHe,JialeiCui,FengRen,MingxingZhang,
+REFERENCES YongweiWu,WeiminZheng,andXinranXu.2025.Mooncake:TradingMore
+StorageforLessComputation–AKVCache-centricArchitectureforServing
+[1] AmeyAgrawal,NitinKedia,JayashreeMohan,AshishPanwar,NipunKwatra, LLMChatbot.InProceedingsofthe23rdUSENIXConferenceonFileandStorage
+BhargavS.Gulavani,RamachandranRamjee,andAlexeyTumanov.2024.Vidur:A Technologies. Tracesreleasedathttps://github.com/kvcache-ai/Mooncake.
+Large-ScaleSimulationFrameworkforLLMInference.InProceedingsofMachine [23] JohnT.RobinsonandMurthyV.Devarakonda.1990.DataCacheManagement
+LearningandSystems(MLSys). UsingFrequency-BasedReplacement.InProceedingsofthe1990ACMSIGMETRICS
+[2] AmeyAgrawal,NitinKedia,AshishPanwar,JayashreeMohan,NipunKwatra, ConferenceonMeasurementandModelingofComputerSystems.134–142. https:
+BhargavS.Gulavani,AlexeyTumanov,andRamachandranRamjee.2024.Tam- //doi.org/10.1145/98457.98523
+ingThroughput-LatencyTradeoffinLLMInferencewithSarathi-Serve.In18th [24] SanDisk. 2025. High Bandwidth Flash (HBF) Fact Sheet. https:
+USENIXSymposiumonOperatingSystemsDesignandImplementation(OSDI’24). //documents.sandisk.com/content/dam/asset-library/en_us/assets/public/
+[3] JaehongCho,MinsuKim,HyunminChoi,GuseulHeo,andJongsePark.2024. sandisk/collateral/company/Sandisk-HBF-Fact-Sheet.pdf. Accessed2026-07-26.
+LLMServingSim:AHW/SWCo-SimulationInfrastructureforLLMInference [25] SanDisk.2025. ScalingBeyondtheWall:InsideSanDisk’sHighBandwidth
+ServingatScale.InIEEEInternationalSymposiumonWorkloadCharacterization FlashforAI.https://www.sandisk.com/company/newsroom/blogs/2025/scaling-
+(IISWC). beyond-the-wall-inside-sandisks-high-bandwidth-flash-for-ai. Accessed2026-
+[4] YitongDing,JiaweiHuang,RenyangGuan,YangjieZhou,ZihanLiu,YuFeng, 05-22.
+ShixuanSun,MingyiGuo,JingwenLeng,andJianWeng.2026.GPU-Tile-Sim:A [26] YingSheng,LianminZheng,BinhangYuan,ZhuohanLi,MaxRyabinin,Beidi
+Tile-CentricGPUSimulationFrameworkforLLMHardware-SoftwareCo-Design. Chen,PercyLiang,ChristopherRé,IonStoica,andCeZhang.2023. FlexGen:
+arXiv:2607.11262[cs.DC] https://arxiv.org/abs/2607.11262 High-ThroughputGenerativeInferenceofLargeLanguageModelswithaSingle
+[5] AbhimanyuDubey,AbhinavJauhri,AbhinavPandey,AbhishekKadian,Ahmad GPU.InProceedingsofthe40thInternationalConferenceonMachineLearning
+Al-Dahle,AieshaLetman,AkhilMathur,AlanSchelten,AmyYang,AngelaFan, (ICML).
+etal.2024.TheLlama3HerdofModels.arXivpreprintarXiv:2407.21783(2024). [27] SKhynix.2026.H3:AHybridHBM+HBFArchitectureforLLMInference.Inter-
+https://arxiv.org/abs/2407.21783 nationalSolid-StateCircuitsConference(ISSCC).
+[6] YichengFeng,XinTan,YangtaoDeng,YiminJiang,YiboZhu,andHongXu. [28] SKhynix.2026. SKhynixandSandiskBeginGlobalStandardizationofNext-
+2026.Frontier:TowardsComprehensiveandAccurateLLMInferenceSimulation. GenerationMemory‘HBF’.https://news.skhynix.com/en/sk-hynix-and-sandisk-
+arXiv:2605.21312[cs.DC] https://arxiv.org/abs/2605.21312 begin-global-standardization-ofnext-generation-memory-hbf/. Accessed2026-
+[7] MinhoHa,EuiseokKim,andHoshikKim.2026.H3:HybridArchitectureUsing 07-26.
+HighBandwidthMemoryandHighBandwidthFlashforCost-EfficientLLM [29] ArashTavakkol,JuanGómez-Luna,MohammadSadrosadati,SaugataGhose,
+Inference.IEEEComputerArchitectureLetters25,1(2026),49–52. https://doi.org/ andOnurMutlu.2018.MQSim:AFrameworkforEnablingRealisticStudiesof
+10.1109/LCA.2026.3660969 ModernMulti-QueueSSDDevices.In16thUSENIXConferenceonFileandStorage
+[8] JEDEC.2025.HighBandwidthMemory(HBM4)DRAM.TechnicalReportJESD270- Technologies(FAST).49–66.
+4.JEDECSolidStateTechnologyAssociation. [30] OresteVilla,MarkStephenson,DavidNellans,andStephenW.Keckler.2019.
+[9] MyoungsooJung,JieZhang,AhmedAbulila,MiryeongKwon,NargesShahidi, NVBit:ADynamicBinaryInstrumentationFrameworkforNVIDIAGPUs.In
+JohnShalf,NamSungKim,andMahmutKandemir.2018.SimpleSSD:Modeling Proceedingsofthe52ndAnnualIEEE/ACMInternationalSymposiumonMicroar-
+SolidStateDrivesforHolisticSystemSimulation.IEEEComputerArchitecture chitecture.
+Letters17,1(2018),37–41. [31] JiahaoWang,JinboHan,XingdaWei,SijieShen,DingyanZhang,Chenguang
+[10] MahmoudKhairy,ZheshengShen,TorM.Aamodt,andTimothyG.Rogers.2020. Fang,RongChen,WenyuanYu,andHaiboChen.2025.KVCacheCacheinthe
+Accel-Sim:AnExtensibleSimulationFrameworkforValidatedGPUModeling.In Wild:CharacterizingandOptimizingKVCacheCacheataLargeCloudProvider.
+47thACM/IEEEAnnualInternationalSymposiumonComputerArchitecture(ISCA). InProceedingsofthe2025USENIXAnnualTechnicalConference.465–482. Traces
+473–486. https://doi.org/10.1109/ISCA45697.2020.00047 releasedathttps://github.com/alibaba-edu/qwen-bailian-usagetraces-anon.
+[11] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, [32] XinyuWang,YalongXue,XiaotianSun,XiaoyuZhang,ChunmengDou,Xueqi
+CodyHaoYu,JosephE.Gonzalez,HaoZhang,andIonStoica.2023. Efficient Li,andXiaomingChen.2026.FlashAccel:LeveragingHigh-BandwidthFlashfor
+MemoryManagementforLargeLanguageModelServingwithPagedAttention. High-ThroughputLLMInference. arXiv:2607.10186 https://arxiv.org/abs/2607.
+InProceedingsofthe29thSymposiumonOperatingSystemsPrinciples.611–626. 10186
+https://doi.org/10.1145/3600006.3613165 [33] WilliamWon,JinsunYoo,TuanTa,MoumitaDey,AndyBalogh,PradoshDatta,
+[12] Hsien-Hsin S. Lee, Gary S. Tyson, and Matthew K. Farrens. 2000. Eager FurkanEris,ConorGreen,WinstonLiu,ChanghaiMan,etal.2026.ASTRA-sim
+Writeback—ATechniqueforImprovingBandwidthUtilization.InProceedingsof 3.0:Next-LevelDistributedMachineLearningSimulationsviaHigh-FidelityGPU
+the33rdAnnualIEEE/ACMInternationalSymposiumonMicroarchitecture(MICRO- andInfrastructureModeling. arXiv:2606.10440[cs.DC] https://arxiv.org/abs/
+33).11–21. 2606.10440
+[13] HuaichengLi,MingzheHao,MichaelHaoTong,SwaminathanSundararaman, [34] DonghaYoon,HansenIdden,JinshuLiu,BerkayInceisci,SamH.Noh,and
+KshitijDoshi,andHaryadiS.Gunawi.2018.TheCASEofFEMU:Cheap,Accurate, HuaichengLi.2026.Cylon:FastandAccurateFull-SystemEmulationofCXL-
+ScalableandExtensibleFlashEmulator.In16thUSENIXConferenceonFileand SSDs.In24thUSENIXConferenceonFileandStorageTechnologies(FAST’26).
+StorageTechnologies(FAST).83–90. 313–327.
+[14] ShangLi,ZhiyuanYang,DhirajReddy,AnkurSrivastava,andBruceJacob.2020. [35] Gyeong-InYu,JooSeongJeong,Geon-WooKim,SoojeongKim,andByung-
+DRAMsim3:ACycle-Accurate,Thermal-CapableDRAMSimulator.IEEECom- GonChun.2022. Orca:ADistributedServingSystemforTransformer-Based
+puterArchitectureLetters(2020). https://doi.org/10.1109/LCA.2020.2973991 GenerativeModels.In16thUSENIXSymposiumonOperatingSystemsDesignand
+[15] DiLiu,MengChen,BaotongLu,HuiqiangJiang,ZhenhuaHan,QianxiZhang, Implementation(OSDI22).521–538.
+QiChen,ChengruidongZhang,BailuDing,KaiZhang,ChenChen,FanYang, [36] HengruiZhang,AugustNing,RohanBaskarPrabhakar,andDavidWentzlaff.
+YuqingYang,andLiliQiu.2024.RetrievalAttention:AcceleratingLong-Context 2024. LLMCompass:EnablingEfficientHardwareDesignforLargeLanguage
+LLMInferenceviaVectorRetrieval. arXiv:2409.10516 ModelInference.In51stACM/IEEEAnnualInternationalSymposiumonComputer
+[16] HaocongLuo,AtaberkOlgun,MoochaKim,MineshPatel,HasanHassan,Saugata Architecture(ISCA).1080–1096. https://doi.org/10.1109/ISCA59077.2024.00082
+Ghose,andOnurMutlu.2024.Ramulator2.0:AModern,Modular,andExtensible [37] Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Chuyue Sun, Jeff Huang,
+DRAMSimulator.IEEEComputerArchitectureLetters(2024). https://doi.org/10. CodyHaoYu,ShiyiCao,ChristosKozyrakis,IonStoica,JosephE.Gonzalez,
+1109/LCA.2023.3333759 ClarkBarrett,andYingSheng.2024.SGLang:EfficientExecutionofStructured
+[17] NVIDIA.2023.NVIDIAH200TensorCoreGPU.https://www.nvidia.com/en-
+us/data-center/h200/.

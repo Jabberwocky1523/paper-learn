@@ -1,0 +1,890 @@
+===== PDF PAGE 1 =====
+HBFSim: A Simulator for Exploring HBF in Memory Hierarchies
+for LLMs
+JinhengLi GuoshengWang
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+jinheng.li@mbzuai.ac.ae guosheng.wang@mbzuai.ac.ae
+HongchaoDu ShangyuWu
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+hongchao.du@mbzuai.ac.ae shangyu.wu@mbzuai.ac.ae
+QiaoLi ChunJasonXue
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+qiao.li@mbzuai.ac.ae jason.xue@mbzuai.ac.ae
+ABSTRACT KEYWORDS
+HighBandwidthFlash(HBF)hasrecentlyemergedasapromising HighBandwidthFlash,Memory-systemSimulation,LLMWork-
+technologythatprovidesterabyte-scaleaccelerator-localcapacityat loads,KVCache
+bandwidthsapproachingHBM,withapotentialcost-per-bitadvan-
+ACMReferenceFormat:
+tageoverHBM.However,itsNANDfoundationbringslonglatency,
+JinhengLi,GuoshengWang,HongchaoDu,ShangyuWu,QiaoLi,andChun
+out-of-placeupdates,andfinitewriteendurancedirectlyintothe JasonXue.2026.HBFSim:ASimulatorforExploringHBFinMemoryHier-
+acceleratormemoryhierarchy,makingitseffectsonperformance archiesforLLMs.InInternationalConferenceonResilience,AIandCyber-
+andlifetimedifficulttopredict.Tostudythisemergingdesignspace, Systems(RACS’26),November17–20,2026,Fukuoka,Japan.ACM,NewYork,
+wepresentHBFSim,anLLM-awareevent-drivensimulatorforhet- NY,USA,11pages.https://doi.org/10.1145/3848591.3856870
+erogeneousHBM+HBFmemorysystemsthatpreservesapplication-
+levelmemorysemanticswhilemodelingflash-internalbehavior. 1 INTRODUCTION
+HBFSimmodelsHBM,HBFwithhost-managedflashtranslation, Memorycapacityhasemergedasaprimarybottleneckinserv-
+andconventionalcapacitytiersinonesimulationdrivenbyacal- inglargelanguagemodels(LLMs).Modelweightsoccupytensto
+ibrated serving frontend. Using HBFSim, we study decoding of hundredsofgigabytes,whilekey–value(KV)stategrowslinearly
+Llama-3.1-70BandQwen3-235B-A22Bunderthreeworkloadsthat withcontextlengthandrequestconcurrency,quicklyexceeding
+differintheirinputandoutputlengths.HBFservesdatathatdoes acceleratormemorycapacity.Forexample,an8Bmodelserving
+notfitinHBM11.0–19.0×fasterthanhostDRAM;HBMisbetter eightconcurrent128K-contextsessionscanexhausttheHBMof
+usedtoholdtherunningsequences’KVcachethanasacachefor amodernGPU(e.g.,the131GiBofHBM3eonanNVIDIAH200),
+HBF;andatapublishedpeakloadofLlama-3.1-70B,HBFlasts2.0 whilelong-contextservingfor70B-classmodelsmayexceedthe
+to6.9years,inproportiontothestacksthatsharetheKVwrites. memorycapacityofanentireeight-GPUnode[5,11,17,22].High
+Theartifactisavailableathttps://github.com/FlashLabAE/HBFSim BandwidthFlash(HBF)hasrecentlyemergedasapromisingap-
+andwilltrackpublicHBFdevicedataasitbecomesavailable. proachforextendingaccelerator-localmemorycapacity.SanDisk’s
+disclosedHBFdesigntargetsa16-die,512GBflashstackthatdeliv-
+CCSCONCEPTS ersupto1.6TB/s[24,25],enablingmulti-terabyteaccelerator-local
+memorysystemswithouthost-memoryaccesses.Thesamedisclo-
+•Computingmethodologies→Simulationtools;•Computer
+suretargets8–16×HBMcapacityatsimilarcostandbandwidth,
+systemsorganization→Heterogeneous(hybrid)systems;•Infor-
+making capacity per dollar, rather than higher speed, the main
+mationsystems→Flashmemory.
+motivationforHBF[24].
+UnlikeconventionalDRAMexpansion,HBFbringsasymmet-
+ricreadandwriteperformance,pageprogramming,flashtransla-
+tionlayer(FTL)management,writeamplification,andfinitepro-
+gram/eraseenduranceintotheacceleratormemoryhierarchy.Its
+effectonLLMservingisdifficulttopredictbecausenopublicHBF
+This work is licensed under a Creative Commons Attribution-NonCommercial-
+NoDerivatives4.0InternationalLicense. hardwareisavailableforvalidation[28].Nevertheless,systemarchi-
+RACS’26,November17–20,2026,Fukuoka,Japan tectsmustdecideonmemoryorganization,placementpolicies,and
+©2026Copyrightheldbytheowner/author(s).
+provisioningbeforeproductiondevicesbecomeavailable.Forex-
+ACMISBN979-8-4007-3035-1/2026/11.
+https://doi.org/10.1145/3848591.3856870 ample,movingread-onlyweightstoHBFmainlyexercisesitsread
+6202
+tcO
+61
+]RA.sc[
+1v30532.0162:viXra
+
+===== PDF PAGE 2 =====
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+Weights KV cache, 1M-token context fivesimplerules:HBFpaysoffonlyundercapacitypressure;
+13 H 1 2 G 00 iB 8 H 3 B 8 M 4 4 G s iB tacks 1 8 0 × 5 H 1 2 G 0 i 0 B HBMshouldholdtherunningKVandHBFtheweights,with
+Kimi K3 2608+27 = 2635 KVwrittentoflashonlywhenitmustleaveHBM;generic
+Qwen3.8-2.4T 2235+92 = 2327
+cachereplacementlosestothisplacementunlessastepfits
+DeepSeek-V4-Pro 1490+10 = 1500
+Llama 3.1 405B 377 +504 881 inHBMwithroomtospare;theFTLshouldpreservethe
+DeepSeek-V3 625 +69694 flasharray’sparallelism;andendurance,setbyhowmuch
+Qwen3-235B 219 +188 407
+KVreachesflash,isafirst-orderconstraint.
+Llama 3.1 70B 66 +320 386
+Llama 3.1 8B 7+128 135
+0 200 400 600 800 1000 1200
+2 BACKGROUND
+Weights + KV cache (GiB)
+2.1 MemoryDemandofLLMServing
+Figure 1: Weights (one byte per parameter) and BF16 KV
+Aservingsystem’smemoryholdsthemodelweights,whichevery
+cacheofa1M-tokencontextagainsttheHBMofoneH200,
+requestreuses;theKVcache,theper-layerkeysandvaluesofevery
+eightHBM4stacks,andaneight-H200node.
+processedtoken,whichdecodingreadsinsteadofrecomputing;and
+activations,whicharesmallbycomparison.ForLlama-3.1-70Ba
+pathandfreesHBMforthegrowingKVcache,whereasplacingmu-
+BF16KVcachetakes320KiBpertoken[5],320GiBfor1Mtokens.
+tableKVstateinHBFcreatesprogramtrafficandconsumeswrite
+ServingsystemsallocateKVinfixed-sizeblocks[11]andretain
+endurance.Therefore,itisnecessarytostudytheperformanceof
+theblocksoffinishedrequestssothatlaterrequestswiththesame
+HBM+HBFmemoryhierarchiesunderrealisticLLMservingwork-
+prefixskipitsprefill[22,37],sotheKVfootprintgrowsbeyond
+loads before committing to a design. Because such hardware is
+theactiverequests.Figure1showstheweightsandtheKVcache
+unavailable,asimulatorisrequiredtoevaluatethesetrade-offs.
+of1Mtokens,inonerequestorretainedacrossmany:forsmall
+Existingsimulatorseachcoveronelevelofthishierarchy:DRAM
+modelstheKVcachedominates,everymodelfrom70Bupexceeds
+simulators [14, 16] stop at the memory controller, SSD simula-
+eightHBM4stacks,andthenewestopenmodels,with1.6Tto2.8T
+tors[13,29]putflashbehindastorageinterface,andLLMserving
+parameters,exceedevenaneight-H200nodewiththeirweights
+simulators[4,10,36]representmemorybycapacityandbandwidth.
+alone,whilehybridorcompressedattentionkeepstheirKVsmall.
+NoneconnectstheplacementofLLMdatatobothcompletiontime
+Thetwophasesofarequestaccessthisdatadifferently.Prefill
+andphysicalflashtraffic.
+processestheprompt,producesitsKV,andisusuallycompute-
+HBFSimaddressesthislimitation.ItmodelsHBM,HBFwitha
+bound;chunkedprefillletsitshareabatchwithdecodingwork[2].
+host-managedFTL,andconventionalcapacitytiersinoneevent
+Eachdecodingstepgeneratesonetokenperrequest:itreusesthe
+system,coupledinaclosedloopwithaservingfrontendwhose
+weightsacrossthebatch,readseveryrunningrequest’sKV,and
+schedulerandGPUcomputearecalibratedagainstmeasurements,
+appendsonetoken’sKVperlayer,soitisusuallyboundbymemory
+anditacceptsaddress-leveltracesaswellasproductionrequest
+bandwidth,anditstrafficgrowswithmodelsize,batch,andcontext.
+traces.UsingHBFSim,westudydecodingofLlama-3.1-70Band
+WhenweightsandKVexceedHBM,systemsoffloadtohostDRAM
+Qwen3-235B-A22Bunderthreeworkloadsthatdifferintheirinput
+orSSDs[15,22,26],ataccesscostssetbytheslowertierandits
+andoutputlengths.WefindthatHBFservesthedatathatdoesnot
+fitinHBM11.0–19.0×fasterthanhostDRAM;thatHBMshould interconnect.
+holdtherunningsequences’KV,becausecachingHBFwithLRUor
+FIFOrereadsnearlythewholeworkingsetonceitexceedsHBM, 2.2 HighBandwidthFlash
+andthatKVshouldbewrittentoHBFonlywhenitmustleave HBFstacksNANDflashdiesonalogicbasedieandconnectsthem
+HBM;andthattheFTLcostslittleonthereadpathaslongasits totheacceleratorthroughanHBM-likeinterfaceinthesamepack-
+layoutkeepsreadsparallel,whileHBF’slifetimedependsonthe age[24,25].TheOCPHBFspecification[19]definesstackswith
+amountofKVthatreachesflash.ThesefindingsconnectHBF’s upto16channelsandthreespeedgrades.Forexample,atspeed
+potentialcost-per-bitadvantagetomeasurablelatencyandwear grade2eachchannelcarries96GB/sofpayload,orabout1.5TB/s
+ratherthantoasinglecapacityorbandwidthnumber. per stack, and SanDisk targets 512GB per stack. An HBF stack
+Thispapermakesthefollowingcontributions: thereforeoffers8-16timesthecapacityofanHBMstackatasimilar
+• Workloads at two granularities. HBFSim takes fine- interfacebandwidth.
+grainedaddress-leveltraces,withonerecordpermemory However,HBFstillbehaveslikeNAND.Apagereadtakesmi-
+access,andcoarse-grainedrequesttraces,whichitsfrontend croseconds,comparedtotensofnanosecondsofDRAM,soHBF
+expandsintotheseriesofweightandKVaccessesthateach reachesitsbandwidthonlywithmanyreadsinflight.Dataispro-
+requestcauses. grammed,notoverwritten:apageprogramtakestensofmicrosec-
+• Acoupledandfastmemory-systemmodel.HBM,HBF ondsandoccupiesitsbank,andablockmustbeerasedbeforeits
+withahost-managedFTL,andexternaltiers(hostDRAM, pagesareprogrammedagain.Thespecificationassignsaddress
+CXLSSDs,andNVMeSSDs)shareonetimelineandinteract mapping,garbagecollection(GC),andwearlevelingtohostsoft-
+asinarealsystem,forexamplethroughtheFTL’stablesin ware;thedeviceitselfperformsneitherGCnorcopyback[19].Each
+HBM. block tolerates a limited number of program/erase (P/E) cycles,
+• Preliminary takeaways for HBF. Decoding Llama-3.1- andnoP/EratingforHBFhasbeenpublished.Hostdecisionsthus
+70BandQwen3-235B-A22Bunderthreeworkloadsyields shapebothperformanceandlifetime:whatthehostplacesinHBF
+
+===== PDF PAGE 3 =====
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+Servingfrontend batchtime
+Requesttraces Scheduler Compiler GPUtiming
+arrivals,lengths, batching,paged layerDAG:reads, calibratedkernels,
+prefixhashes KV,prefixcache writes,prefetch memoryoverlap
+objectaccesses
+Memorypolicies objects→deviceaddresses
+Peermode Tieredmode
+eachobjectineithermemory;HBM HBMcachesHBFin4MiBlines:
+firsttotheweightsortherunningKV LRU,FIFO,decayedLFU;write-back
+transactionswithdependencies
+Deviceengine onetimeline,per-resourcecalendars
+HostFTL:mapping,GC,wearleveling
+tables,GCcopies
+HBFdevice Othertiers
+HBM
+channels,planes,pagebuffers; hostDRAM,CXLSSD, channels,
+read,program,erasetiming; NVMeSSD:link,
+arbitration deviceDRAMbufferandcache controller,media
+kcabdeefyromem
+whereasproductionrequesttracescoverlongperiodsofserving
+butrecordnomemoryaccesses.
+Thelevelsofthememoryhierarchyarecoupled.Existing
+simulatorsmodelonelevelinisolation,butinanHBM+HBFsys-
+temthetwolevelsjointlydetermineperformance.WhatHBFmust
+servedependsonwhatHBMcanhold,andthetrafficHBFgener-
+atesinturnconsumesHBMcapacityandbandwidth.Placement
+decisionsthereforeshiftloadbetweenthetiersratherthansimply
+addingaslowerlevelbeneathHBM,soneithertiercanbesimulated
+independently.
+Thenumberofeventsishuge.Onedecodingstepofa70B
+modelreadstensofmillionsofflashpages,eachpassingthrough
+aboutadozensharedresources,fromtheplaneandflashchannel
+to the TSVs and ECC engine. Because slower memory changes
+results:timeperoutputtoken,bytesperobjectclassanddevice,programsanderasesperblock
+batching,theseaccessesmustbesimulatedinaclosedlooprather
+thanreplayed.
+Figure2:HBFSimstructure:threelayers.Feedbackfromthe
+AsshowninFigure2,layersinHBFSimcommunicatethrough
+deviceengineclosesthelooptothescheduler,andthehost
+narrowinterfaces.Thefrontenddescribesworkintermsofmodel
+FTLkeepsitstablesandGCcopiesinHBM.
+objectssuchasweighttensorsandKVblocks.Policiesmapobjects
+todevicesandemittransactiongraphswithexplicitdependencies.
+determinesthetrafficHBFsees,andthehost’sflashtranslation TheenginecontainsnoLLM-specificlogic.Thisseparationlets
+layer(FTL)determineshowmanyeraseseachwritecosts. userschangeonelayer,forexample,addacachingpolicyoran
+2.3 QuestionsforHBM+HBFSystems FTL,withouttouchingtheothers.
+BeforeHBFhardwareisavailable,systemdesignersneedtoanswer 3.1 ServingFrontend
+fivequestions.IsHBFabettercapacitytierthanhostDRAMor
+HBFSimacceptsworkloadsattwogranularities.Inanaddress-level
+SSDs?HowmuchHBMshouldaccompanyit?Whichdatashould
+trace,arecordisonememoryaccesswithoptionaldataclass,ar-
+stayinHBM,andshouldHBMactasacacheforHBForassepa-
+rivaltime,andlayerannotations;suchtracesarereplayeddirectly.
+ratelyaddressedmemory?HowshouldtheFTLhandleKVwrites?
+Detailedinstruction-and-addresstracingandcycle-levelsimulation
+HowlongwillHBFlastunderservingtraffic?Theanswersdepend
+incursubstantialcostsevenforasmallinferenceworkload.For
+oneachotherthroughtheservingloop:slowermemorystretches
+Qwen2.5-1.5B-Instruct(bfloat16,batchsize1),a32-tokenprefill
+decodingsteps,whichchangeshowrequestsarebatchedandthere-
+followedbytwofixed-tokendecodestepsrequired43.4minutesfor
+forethememorytrafficitself.Answeringthemrequiresrunninga
+tracecollectiononanRTX4000AdawithNVBit[30].Theresulting
+realservingscheduleragainstmemorymodelsthatincludeflash
+1,030-kerneltracesoccupy98.3GiBuncompressed,or7.46GiBin
+management,withthetwocoupledinaclosedloop.
+thecompressedformatconsumedbyAccel-Sim2.0[20].Fulltrace-
+drivensimulationalreadytakes19.9wall-clockhoursevenfora
+3 HBFSIMDESIGN
+smallmodel.Forlargermodels,boththetracesizeandsimulation
+HBFSimisaclosed-loopsimulatorofLLMservingonaccelerator timewouldbecomeprohibitivelylarge,renderingthisapproach
+memorybuiltfromHBM,HBF,andothercapacitytiers.Figure2 unrealistic.
+showsitsthreelayers.Aservingfrontendturnsrequesttracesinto In a request-level trace, a record is one inference request: its
+batchesandtherequestsineachbatchintomemoryaccesses.A arrivaltime,promptandoutputlengths,andprefixhashes[22,31].
+policylayerdecidesinwhichmemoryeachobjectisstoredandhow Itcontainsnodetailedmemoryaccesses.Whichbytesaninference
+datamovesbetweentiers.Adeviceengineexecutesthememory steptouchesdoesnotdependonthevaluesitcomputes,onlyon
+transactionsonmodelsofHBM,HBF,orexternalcapacitytiers, themodelarchitectureandonwhichrequeststheschedulerruns
+andfeedstheoutcomeofthatworkbacktothefrontend,which withhowmanytokens(forMoEmodels,alsoontheroutedexperts,
+schedulesthenextbatchbasedonthefeedback.Slowermemory whichdependonthevaluesandarethereforeaninput,recorded
+thereforereshapesbatchingasitwouldonarealsystem:longer orsynthetic).Thefrontend,ServeLoop,thereforeregeneratesthe
+iterationsletmorerequestsqueuebeforethenextonestarts,and accessesofeverystep.ItsschedulerreplaysthetracewithvLLM’s
+whenKVnolongerfits,theschedulermovessomeKVtoaslower continuousbatchingandchunkedprefill[2,11,35],includingpaged
+tierorpreemptsrequests,whichshrinksthebatch.Threechallenges KV,prefixsharing,andpreemption.Acompilerturnseachiteration
+shapethisdesign. intothebyterangesthateveryoperatorreadsorwritesinweight
+Workloadsanddeviceaccessesdifferingranularityand tensors,KVblocks,andembeddingrows,leavingaddressesand
+semantics.Aservingsystemworkswithrequests,weights,andKV memoriestothepolicies.AdecodingstepofLlama-3.1-70Bunder
+blocks;HBMservesdataburstsoftensofbytes;andHBFisaccessed theworkloadwith32sequencesand6Ktokensofcontextbecomes
+likememorybutprogramsflashpages(e.g.,4KiB)inorder,erases 1.8×105suchtransactions.
+wholeflashblocks,andleavesitsFTLtothehost.Address-level The generated accesses are verified at three levels. Batching:
+tracespreserveindividualaccessesbutcanonlycovershortruns, giventhesameservicetimes,theschedulerformsthesamebatches
+
+===== PDF PAGE 4 =====
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+asvLLM(Section3.5).Addresses:thebyterangesandtheirorder HBF.AsintheOCPspecification,themodelseparatesthedevice
+match6,568held-outwarpstreamscapturedwithNVBitonan fromitshost-sidemanagement.Thedevicehasindependenttrans-
+A100;theH200wemodelhasnocapture,soitsKVisreadblockby mitandreceivetimelinesforeachchannel,orderedpagesensing
+block,whichchangesthetimeperoutputtoken(TPOT)byatmost withineachbank,pagebuffers,ECC,andTSVtransfers.Itprograms
+0.55%againsttheA100order.Volume:thefrontendcountseach thepagesofablockinorderand,asthespecificationrequires,erases
+byteonce,whereasprefillkernelsrefetchthesameKVforother ablockwhenitsfirstpageiswritten.Theorganizationofflashinto
+queryheadsortiles,whichGPUcachespartlyabsorb,soprefill channels,dies,planes,andblocksandthetimingofreads,programs,
+trafficisalowerbound. anderasesfollowMQSim[29].Wereimplementedthembecause
+HBFSimtimeseverybatch,prefillanddecodealike,usingan MQSim’sFTLrunsinsideanSSD,whereasHBF’srunsonthehost,
+operator-levelGPUmodel.Itdecomposeseachbatchintoopera- andHBFoperationsmustshareonetimelinewithHBMandthe
+torsandcomputeseachoperator’stimefromthreecomponents:a servingfrontend.LikeanSSD,andbeyondthespecification,each
+fixedoverhead,acomputetime,andamemory-accesstime.The stackhasadevice-managedDRAMthatbufferswritesuntilapage
+computetimeisderivedfromtheoperator’sFLOPsandacompute- isfullandcachesrecentlyreadpages.ThehostrunstheFTL.It
+throughputcoefficientfittedtomeasuredkernels.Weobtainthe mapslogicalpagestophysicalonesandrunsgarbagecollection,
+memory-accesstimefromHBFSim’sdetailedsimulationofHBM which picks victim blocks by their number of valid pages with
+andHBFaccesses,ratherthananideal-bandwidthassumption.To asmallweightforwear;staticwearlevelingisimplementedbut
+stayanchoredtorealGPUbehavior,wefiteachoperator’sfixed switchedoffinourstudies.Sincethespecificationforbidsthedevice
+overhead,computethroughput,andmemorybandwidthfrommea- frommovingvaliddata,garbagecollectionreadslivepagesintoa
+suredkernelstoestablishabaselinetime.Duringsimulation,we copybufferinHBMandwritesthemback.Weimplementedthree
+replacethebaseline’sidealmemorytimewiththesimulatedaccess mappingsandkeepeachone’sindexinHBM.Page-levelmapping
+time,whileretainingthemeasuredkernel’sadditionalmemory hasan8-byteentryper4KiBpage;thewholetablelivesinflashas
+overheadbeyondtheGPU’speakbandwidth.Thebatchtimeis translationpages,andHBMcachespartofit.Extentmappingkeeps
+thenthesumofalloperatortimes.ThisdesignensuresthatHBF asortedlistofrunsofconsecutivepages,48Bperrun.Bothwrite
+latencyandbandwidthdirectlyaffecteachoperator’smemorytime, byappendingandspreadconsecutivepagesoverallplanes.Block-
+andthusthebatchtime,whilethecomputeportionstaystiedto levelmappinghasoneentryper1MiBlogicalblockandkeepsthe
+measuredGPUperformance. blockinonephysicalblockononeplane,eachpageatafixedoffset.
+Wemodeltwoconsequences:NANDprogramsablock’spagesin
+order,soapagewhosepredecessorshavenotbeenwrittenyet
+3.2 MemoryPolicies
+waitsinthedeviceDRAM;andanywritethatisnotanin-order
+HBFSimprovidestwowaystoorganizeHBMandHBF.Inpeer appendcopiesthewholeblocktoafreshone.Wedonotstripe
+mode,HBMandHBFformoneaddressspace,andeachobjectis blocksoverplanes,becauseacopywouldthenmovea1.5GiBstripe.
+storedinoneofthem.HBMisfilledinapriorityorderandtherest Everymappinggets0.1%oftheHBFcapacityinHBM,3.1GiBof
+overflowstoHBF:weightsfirstplacestheweights,thenKVblocks the96GiBoftwoHBM4stacks,anditslookupscompetewiththe
+in address order, retained prefixes included; KV first places the application’straffic:withpage-levelmapping,oneLlama-3.1-70B
+runningsequences’KV,thentheweights,thentheretainedprefixes. decodingstepat2HBM+6HBFissues1.0–1.7×107lookups,one
+In tiered mode, HBM caches objects stored in the HBF or other perflashpageread.
+capacitytierin4MiBlineswithLRU,FIFO,ordecayed-LFU[23] Othertiers.HostDRAM,CXLSSDs,andNVMeSSDsshareone
+replacement;decayedLFUevictsthelinewiththefewestrecent modelconsistingofalink,acontroller,andmediaqueues.ACXL
+accessesandhalvesallaccesscountsperiodically,asinfrequency- SSDaddsadevice-sideDRAMcachewithFIFOreplacement.
+basedreplacement[23].Dirtydataistrackedat4KiBgranularity,
+3.4 SimulationSpeed
+anddirtyKViswrittenbackeithereagerly,whilecomputeleaves
+thelinkidle[12],oronlywhenitslineisevicted.KVreleasedbefore To make full-iteration simulation tractable, we combine coarse-
+evictionisdiscardedwithoutbeingwritten. grainedHBMapproximationwithexactHBFacceleration.Only
+HBMisapproximated:schedulingtransfersper4KiBchunkand
+pseudo-channelratherthanper32-byteburstrunsanall-HBMfor-
+3.3 DeviceEngine
+wardpass24.8×faster(134.7×forsequentialreads),whilekeeping
+HBM.AnHBMstackfollowstheJEDECorganizationofitsgen- batchcompletiontimeswithin0.04%.
+eration,setbythenumberofchannelsandpseudo-channelsand ForHBF,thebottleneckisreservingroughlyadozenshared
+thepinrate.ThefollowingstudyusesHBM4foranalysis[8],with resources per page, as in SimpleSSD [9]; here we reduce per-
+32channelsoftwopseudo-channelsat8Gb/sperpin,or2TB/s reservationoverheadwithoutsacrificingaccuracy.Afirst-fitcalen-
+perstack.Becauseourstudiesconcerncapacitytiers,HBFSimmod- darorganizeseachresource’sidleintervalsinto64-intervalleaves
+elsHBMatthepseudo-channellevelratherthanatthecommand labeled with their maximum duration, so searches immediately
+levelofDRAMsimulatorssuchasRamulator2.0[16].Requestsare bypassleaveswithinsufficientspace.Multi-pagereadsarebatched
+splitintopseudo-channeltransfers,groupsoffourpseudo-channels intogroupsofonepageperplanetosharestage-timecalculations,
+shareanarbitrationqueueandaservicetimeline,andanaverageac- reusecalendarlookupstatesacrossgroups,andcomputestride
+cesslatencyandabandwidthefficiencyaccountforrowactivation addressesfromthefirstpage,whiletheFTLupdatesfreespace
+andrefresh. only for planes whose state changes. Page grouping speeds up
+
+===== PDF PAGE 5 =====
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+1
+0.5
+0
+0 10 20 30 40
+(a) Absolute error (%)
+sesac
+fo
+noitcarF
+1 h
+10 min
+A100 layers (64)
+H200 layers (64) 1 min
+A100 batches (46)
+H200 batches (86) 10 s
+105 107 109
+(b) Flash page reads
+eroc
+eno
+no
+emit
+tsoH
+Peer mode Table1:Memorydevicesofcapacitytiers.
+Tiered mode
+No flash reads Device Bandwidth Latencyandotherparameters
+HBM4stack,48GiB 2.0TB/s 42nsread
+HBFstack,512GiB 1.5TB/s 4𝜇sread,75𝜇sprogram;
+deviceDRAMof0.1%offlash
+HostDRAM,PCIe5.0 54GB/s 9.3𝜇spertransfer(measured)
+CXLSSD 36GB/slink 40𝜇sNANDread,6.6GB/sNAND;
+dashed: 2.7×105 DRAMcacheof5%offlash,FIFO
+page reads/s NVMeSSD 16GB/slink sameNANDastheCXLSSD
+Table2:Workloadsattherepresentativedecodestep:prompt
+andoutputtokensperrequest,meancontextoftherunning
+sequences(Ctx),KVreadperstep(KV,GiB),andworkingset
+Figure3:Calibrationandsimulationcost.(a)Absoluteerror
+ofweightsandKV(WS,GiB).
+ofpredictedtimeforheld-outlayershapesandforcomplete-
+requestbatches.(b)Hosttimeofthe405configurationsof 70B 235B
+Section4againsttheirflashpagereads;configurationswith- Workload INPUT OUTPUT Ctx KV WS KV WS
+outflashreadssitontheverticalaxis.
+LongOUTPUT 2K 6K 5.2K 51.2 118.9 30.1 253.0
+Balanced 4K 4K 6.3K 61.1 128.8 35.9 258.9
+LongINPUT 6K 2K 7.3K 70.9 138.6 41.7 264.7
+aLlama-3.1-70Bbatch(7.3Mpagereads)by1.48×,andlazyFTL
+recounting accelerates ten write batches (3.2M page programs)
+by 1.55×. Every page still reserves all resources in strict order ownaccountingoneveryrun(programsbycausemustsumtothe
+withoutpruningorroundingidleintervals,yieldingbit-identical physicalprograms;valid,invalid,andfreepagestothecapacity),
+completiontimesacrossall82,449transactionsinthebatch. thetestsuitecomparesHBMscheduling,HBFreadsandwrites,and
+Wall-clocktimethentracksflashpagereadsatroughly2.7×105 GCagainstreferencemodels,andeveryresultrecordsthehashes
+reads/spercore(Figure3b);all405configurationsinSection4took ofitsinputs,configuration,andbinary.
+80.0core-hoursonanAppleM2UltraandanM5Pro.
+4 CASESTUDIES
+3.5 CalibrationandValidation
+WeuseHBFSimtoanswerthequestionsofSection2.3withtwo
+Threecomponentsarecalibratedagainsthardware(Figure3a).The
+modelsandthreeworkloads.
+schedulerischeckedagainstvLLM0.26’s:bothreceivethesame
+4.1 Setup
+requestsandthesamemeasuredbatchtimes,andover282batches
+in ten test cases with staggered arrivals, shared prefixes, prefix System.Wemodeloneacceleratorpackagewitheightmemory
+eviction,andpreemption,theyformthesamebatcheswiththe stacks,eachanHBM4stackoranHBFstack(Table1);wewrite
+sametokenranges,prefixhits,andcompletiontimes.Theoperator 2HBM+6HBFforapackageoftwoHBMandsixHBFstacks
+modelisfittedtokernelmeasurements:onanA100andanH200 (2:6inthefigures,2H6FinTable3).Wecompare1HBM+7HBF,
+NVL we timed the Marlin GEMMs and FlashAttention-2 paged 2HBM+6HBF,4HBM+4HBF,and6HBM+2HBF,whoseHBM
+attentionthatvLLMuseswith8-bitweights,insidewholelayers holds43.4,91.9,188.9,and285.9GiBofdata.TheHBFstacksfollow
+underCUDAgraphs,over525shapesperGPUspanningbatch, OCPspeedgrade2,with16channels,onedieperchannel,16planes
+query,andcontextsizes,andfittedeachoperator’sfixedoverhead, perdie,andblocksof256pagesof4KiB.LikeanSSD,eachHBF
+computerate,andmemoryratebyleastsquares.Wethenpredict stackhasadeviceDRAMof0.1%ofitsflashthatservesaswrite
+64whole-layershapesthatneverenteredthefit:themeanabsolute bufferandreadcache.Unlessnotedotherwise,thehostFTLuses
+erroris5.8%ontheA100and5.0%ontheH200,andthelargest, page-levelmappingandcachestranslationpagesin0.1%oftheHBF
+41.8%ontheA100,occursinLlama-3.1-70Blayerswhosebatch capacity,reservedinHBM.WeserveLlama-3.1-70B[5]with8-bit
+mixeslongandshortcontexts.Finallyweruncompleterequestson weights(67.7GiB)andaBF16KVcache(320KiBpertoken),and
+eachGPU,fromtheembeddingtotheoutputhead,andcompare Qwen3-235B-A22BwithFP8weights(223.0GiBforthe128experts
+eachbatch’stime:predictedandmeasuredbatchtimesdifferby ofeachofits94MoElayers)andaBF16KVcache(188KiBper
+10.2%onaverageontheA100(Llama-3.1-8B,46batches)andby token);thefigureslabelthem70Band235B.Publictracescarryno
+5.8%ontheH200(Llama-3.1-8BandLlama-3.1-70B,86batches); expertroutes,sothe235Bmodelrouteseverytokentoauniformly
+forLlama-3.1-70BontheH200,thetimetofirsttokendiffersby randomtop-8ofits128experts,seededbythetoken’sprefix;at32
+9.3–13.6%andTPOTby4.6–7.0%.ThehostDRAMpathisfittedto sequencesadecodestepreads197.9GiBofthe223GiBofweights.
+measuredpinned-memorycopiesbetweenanH200NVLandits GPUcomputefollowstheH200NVLoperatorprofile(Section3.5),
+host(issuetime,bandwidthperdirection,fixedlatency). whichcoversbatchesofupto16;forlargerbatcheswekeepthe
+HBM4andHBFcannotbecalibratedyet.Theirinterfacesfollow per-FLOPandper-bytecostsmeasuredat16.
+thespecifications;HBM’saccesslatencyandbandwidthefficiency Workloads.AdecodestepreadstheKVofeveryrunningse-
+andHBF’sinternaltiming(4𝜇spageread,75𝜇sprogram)andpar- quence,sowhatdistinguishesworkloadsishowmuchcontextthe
+allelismareassumptionsuserscanreplace.Everydefaultparameter sequencesholdandhowthatcontextwasproduced.Wecharacter-
+recordsitssource,published,fromtheliterature,orassumed;18of izeaworkloadbyitsinput:outputlengthratioandcomparethree
+the30parametergroupsareassumptions.Theenginechecksits (Table2):longOUTPUT(2Kprompttokens,6Koutputtokens),
+
+===== PDF PAGE 6 =====
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+10
+1
+0.1
+0.01
+)s(
+TOPT
+HBF Host DRAM CXL SSD NVMe SSD
+(a) 70B 235B
+10
+1
+0.1
+0.01 Long Balanced Long Long Balanced Long
+OUTPUT INPUT OUTPUT INPUT
+)s(
+TOPT
+11.0–14.4×fasterthanhostDRAM,16.1–21.3×fasterthantheCXL
+SSD,and86.6–115.0×fasterthantheNVMeSSDforLlama-3.1-70B,
+and18.6–19.0×,66.8–154.1×,and150.3–154.1×fasterforQwen3-
+235B-A22B.Thesteptimeisroughlythetierreaddividedbythe
+tier’sbandwidth:sixon-packageHBFstacksserve157GiBin0.17s,
+PCIe-attachedhostDRAMin3.2s,andtheNVMeSSD’sNAND
+at6.6GB/sin26s.TheCXLSSD’sdeviceDRAM(5%ofitsflash,
+2 HBM + 6 HBF 2 HBM + CXL SSD 153.6GiB) holds the spill of Llama-3.1-70B and of the first two
+2 HBM + host DRAM + CXL SSD 2 HBM + NVMe SSD
+Qwen3-235B-A22Bworkloads,sotheCXLSSDstayswithin1.5×of
+2 HBM + host DRAM + NVMe SSD 8 HBM + CXL SSD
+8 HBM + host DRAM + CXL SSD hostDRAMthere;the157GiBspilloflongINPUTexceedsitand
+(b) 70B 235B
+theCXLSSDisasslowastheNVMeSSD(26.0s).Wekeepall32
+sequencesineverysystem,soeachtierservesthesamespill;areal
+systemwouldshrinkthebatch.
+Anoff-packagetieroccupiesnoneofthepackage’seightstack
+sites, which can then hold HBM. Figure 4b therefore compares
+sevensystemsoneightsites,allwithKVfirst:2HBM+6HBF;
+2HBMwiththeHBF’scapacityoffpackageasaCXLorNVMeSSD,
+aloneorbehind256GiBofhostDRAM(oneaccelerator’sshare
+Figure4:MeanTPOTatthedecodestepofeachworkload ofa2TiBserver),leavingsixsitesempty;and8HBMwiththe
+(logarithmicaxes).(a)HBFagainsttheothercapacitytiersat CXLSSD,aloneorbehindhostDRAM.WithtwoHBMstacks,the
+2HBM+6HBF,peermodewiththeweightsplacedfirstin weightsthatdonotfitinHBMcomefromthetierineverystep:
+HBM.(b)Thetiersassystemswitheightstacksites:2HBM+ 2HBM+6HBFis9.3–12.5×fasterthan2HBM+hostDRAM+
+6HBF,or2or8HBMwiththeHBF’scapacityoffpackageas CXLSSDforLlama-3.1-70Band19.1–19.5×forQwen3-235B-A22B.
+aCXLSSDoranNVMeSSD,aloneorbehind256GiBofhost HostDRAMholdsthefirst256GiBofthetier,whichcoversboth
+DRAM;KVplacedfirstinHBM. models’weights,sotheSSDbehinditisneverreadandtheNVMe
+andCXLvariantscoincide.TheSSDsaloneare13.5–18.3×(CXL)
+balanced(4Kand4K),andlongINPUT(6Kand2K),8Ktokensper
+and70.8–98.0×(NVMe)slowerthan2HBM+6HBFforLlama-3.1-
+requestineach.ThepublictracesofMooncake[22]andQwen[31]
+70B,and66.9–99.3×and154.3–157.2×forQwen3-235B-A22B.With
+areinput-heavy(atmost29%oftheirrequestshavemorethan62.5% eightHBMstacks(384GiB),bothworkingsetsfit,nostepreadsthe
+oftheirtokensintheoutput),sonooutput-heavyworkloadcan
+off-packagetier,andTPOTis49–55ms:1.4–1.5×below2HBM+
+bedrawnfromthem;theirmedianrequestholds5.5K–7.3Ktokens.
+6HBFforLlama-3.1-70Band2.9×belowitforQwen3-235B-A22B.
+Promptsareprivate,sonoKVisshared.Wereplayeachworkload Anoff-packagetierthuswinsonlywhenthesitesitfreesgoto
+throughtheschedulerwith32sequencesperbatchandaprefix HBMandthestepfitsinthatHBM;thenacheaptierservesaswell
+cachethatretains1Mtokens(320GiBofKVforLlama-3.1-70B, asafastone.
+188GiBforQwen3-235B-A22B).Thefirstbatch’srequestsarrive Takeaway1:HBFismostvaluableundermemory-capacity
+spreadoveronerequest’slifetime,sointhesteadystatetherun- pressure.ItofferslittlebenefitwhentheworkingsetfitsinHBM,
+ningsequencesareateverystageoftheirlifetimes.Amongthe but substantially outperforms offloading to CPU memory, CXL
+stepsinwhicheverybatchslotisbusywhilerequestswaitand SSDs, and NVMe SSDs once spilling occurs, for example when
+theprefixcacheisfull,wetaketheonewhoserunningsequences Qwen3-235B-A22Bserves32sequenceswhose253–265GiBwork-
+holdthemediancontextandinstallitsstateasreplayed,eachKV ingsetexceedsthe188.9GiBofHBMat4HBM+4HBF.Under
+blockatitsreplayedaddress.Wethenmeasureashortwindow afixedstackbudget,however,addingmoreHBMcanhurtper-
+insteadofafullreplay:eachsequenceprefillsaprivate16-token formanceiftheresultinglossofHBFbandwidthoutweighsthe
+suffix,whichresumesitasarunningrequestandyieldsitsfirst reductioninspilltraffic.
+token,anddecodessevenmore;TPOTisthemeantimeofthese
+4.3 HowMuchHBM,andWhatShouldItHold?
+sevendecodesteps.Thethreeworkloadshold5.2K,6.3K,and7.3K
+tokensofcontextonaverage,soastepreads51–71GiBofKVfor Capacityandplacement.WevarythesplitbetweenHBMand
+Llama-3.1-70B and 30–42GiB for Qwen3-235B-A22B, 40% more HBF (Figure 5). In peer mode, HBM should give priority to the
+underlongINPUTthanunderlongOUTPUT,andwritesonetoken runningsequences’KV.TheworkingsetofLlama-3.1-70B(119–
+ofKVpersequence. 139GiB)fitsat4HBM+4HBF,whereKVfirstandtieredmode
+reachthecompute-bound49–54ms.At2HBM+6HBF,KVfirst
+4.2 HBFVersusOtherCapacityTiers
+takes69–83msandweightsfirst75–95ms,4–14%more:itfillsthe
+At2HBM+6HBFwithweightsfirst,thecapacitytierserves38– HBMleftaftertheweightswithKVblocksinaddressorder,retained
+65GiBofrunningKVperstepforLlama-3.1-70Band145–157GiB prefixesincluded,andleaves38–65GiBofrunningKVinHBFper
+for Qwen3-235B-A22B, whose 223GiB of weights exceed HBM: step,whereasKVfirstreadsonlyweightsfromHBF(29–49GiB).
+115GiBofweightsandall30–42GiBofrunningKV.Wekeepthis At1HBM+7HBFevenKVfirstreads8–28GiBofrunningKV
+placementandreplacethesixHBFstackswithhostDRAM,aCXL perstepfromHBF(89–98ms).UnderlongOUTPUT,weightsfirst
+SSD,oranNVMeSSDofthesamecapacity(Figure4a).HBFdecodes stilltakes75msat4HBM+4HBF,wheretheworkingsetfits,
+
+===== PDF PAGE 7 =====
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+240
+160
+80
+0
+1:7 2:6 4:4
+B07
+)sm(
+TOPT
+Long OUTPUT Balanced Long INPUT
+240 300
+160 200
+80 100
+0 0
+1:7 2:6 4:4 1:7 2:6 4:4
+300
+200
+100
+0
+1:7 2:6 4:4
+B532
+)sm(
+TOPT
+Peer, weights first Peer, KV first Tiered, LRU Tiered, FIFO Tiered, decayed LFU Working set fits in HBM
+300 300
+200 200
+100 100
+0 0
+1:7 2:6 4:4 1:7 2:6 4:4
+HBM:HBF stacks
+Figure5:MeanTPOTacrossHBM:HBFstacksplits.PeermodegivesHBMfirsttotheweightsortotherunningsequences’KV;
+tieredmodereplacesbyLRU,FIFO,ordecayedLFUandwritesbackoneviction.
+becausetheaddedHBMfillswithretainedprefixeswhile31GiB
+ofrunningKVperstepstillcomefromHBF.Theworkingsetof
+150
+Qwen3-235B-A22B(253–265GiB)exceedsHBMatallthreesplits.
+100 Itsdecodestepisdominatedbythe198GiBofexpertweightsit
+reads,soKVfirstfallsonlygradually,from163–170msat1HBM+ 50
+7HBFand152–160msat2HBM+6HBFto115–128msat4HBM 0
+Zipf 1 Zipf 1.5 Zipf 2
++4HBF,andweightsfirstis4–7%behind.At1HBM+7HBFthe
+64% 46% 34%
+steptakesonly7%longerthanat2HBM+6HBF:sevenHBFstacks Expert popularity (share of experts a step reads)
+servetheexperts.Thethreeworkloadsdifferlittle:theircontexts
+differby1Ktokens,andTPOTfollows(69,76,and83mswithKV
+firstat2HBM+6HBF):astep’scostdependsonhowmuchcontext
+itreads,notonhowitwasproduced.
+Tieredmode.TieredmodematchespeermodewithKVfirst
+whentheworkingsetfitsinHBMand,withLRUorFIFO,is1.7–
+2.2×slowerforLlama-3.1-70Band1.3–2.4×forQwen3-235B-A22B
+whenitdoesnot.Eachstepreadstheworkingsetinthesameorder,
+acyclicpatternlargerthanHBM,soLRUevictsalmostevery4MiB
+linebeforeitisreusedandthesteprereadsthewholeworking
+setfromHBF,117–137GiBforLlama-3.1-70Band231–243GiBfor
+Qwen3-235B-A22B,insteadofonlythespill.Thisiswhy4HBM
++4HBFisslowerthan2HBM+6HBFforQwen3-235B-A22Bin
+tieredmode(275–291against201–211ms):fourHBFstacksserve
+thesamerereadinsteadofsix.At1HBM+7HBFthesingleHBM
+stack,whichalsoabsorbseveryrefillasawrite,becomesthelimit
+at1.4–1.6TB/sofits2.0.
+Replacement.Nopolicywinseverywhere.FIFOrereadsthe
+samebytesasLRUinanotherorder:within1%ofLRUforQwen3-
+235B-A22Band1–20%fasterforLlama-3.1-70B.DecayedLFUkeeps
+thelinesreadmostoften:forLlama-3.1-70Bat2HBM+6HBFit
+keepstherunningKVinHBMandrefillstheweightseverystep,
+thedivisionofKVfirst,andtakes84–90ms,37–48%lessthanLRU.
+At1HBM+7HBF,wheretherunningKV(51–71GiB)nolonger
+fits,thesamepolicyistheslowest,261–308ms,1.4×LRU:itevicts
+itsnewestlinesfirst.ForQwen3-235B-A22BitcutsLRU’stimeby
+7–10%at1HBM+7HBFand22–31%atthenexttwosplitsbut
+stays1.0–1.8×aboveKVfirst:anewlyfilledlinestartswithacount
+ofone,sotheexpertweights,whicheverystepreadsonce,keep
+beingevictedandrefilled.
+)sm(
+TOPT
+2:6 HBM:HBF 4:4 HBM:HBF
+240
+160
+80
+0
+Zipf 1 Zipf 1.5 Zipf 2
+64% 46% 34%
+Figure6:Qwen3-235B-A22Bunderskewedexpertpopularity
+(balancedworkload;legendasinFigure5):atoken’stop-8
+expertsaredrawnwithweight(𝑟 +1)−𝛼 overaseededper-
+layerrank𝑟.Ticklabels:shareoftheexpertsastepreads.
+Hotexperts.Theuniformrouteristheworstcaseforacache.
+WethereforererunQwen3-235B-A22BwithaZipfrouterofex-
+ponent𝛼 (Figure6),sothatastepreads64%,46%,and34%ofthe
+expertsat𝛼=1,1.5,and2insteadof88%.At4HBM+4HBF,where
+𝛼 =1.5leaves135–147GiBin188.9,decayedLFUtakes0.83–0.87
+oftheKV-firsttimeandLRU0.89–1.00;at𝛼 =2theytake0.78and
+0.81–0.83:thecachekeepseverylayer’shotexperts,whereasthe
+address-orderedsplitkeepswholeearlylayersandmissesthose
+ofthelateones.At2HBM+6HBFthesplitstillwinsatevery
+exponent:decayedLFUstays1.07–1.10×aboveKVfirst,because
+the26wholelayersinHBMsavetheircoldexpertstoowhilethe
+cachespendsitsremainderoncoldlinesthatrarelyrecur,andLRU
+andFIFO1.4–1.5×above.
+Wheneachmodewins.Onequantityseparatesthetwomodes
+inFigures5and6:thesetastepreadsagainsttheHBMcapacity.
+PeermodewithKVfirstwinswheneverthatsetexceedsHBM,and
+themarginmustbereal:at𝛼 =1and4HBM+4HBFthe180GiB
+set,144GiBofweightsand36ofKV,nominallyfitsin188.9,yet
+FIFOrereads193GiBperstep,thesetin4MiBlines,andLRU161.
+Tieredmodewinsonlywhenthesetfitswithroomtospareandits
+reuseisspreadacrosslayers,whichanaddress-orderedsplitcannot
+follow;wherethesetfitsoutright,thetwomodesareequal.
+Takeaway2:Undertheevaluatedworkloadsand4MiB
+cache-lineconfiguration,thetestedreplacementpoliciesin-
+cursubstantialrefilltrafficwhentheactiveworkingsetex-
+ceedsHBMcapacity.Noneoftheevaluatedpoliciesmatchespeer
+
+===== PDF PAGE 8 =====
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+0.4
+0.2
+0.0
+8 16 32 64
+tuphguorhT )s/snekot
+k(
+HBM:HBF stacks
+1:7 2:6 4:4 6:2 Index (MiB)
+1000
+Long OUTPUT Balanced Long INPUT 400
+100
+10 200
+1
+0
+LongBalancedLong
+OUTPUT INPUT
+8 16 32 64 8 16 32 64
+Batch size
+Figure7:DecodethroughputofQwen3-235B-A22Bagainst
+thebatchsize,peermodewithKVfirst.
+modewithKVfirstoncethesetastepreadsexceedsHBM,and
+theybeatitonlywhenthatsetfitswithroomtospare,because
+nonecapturesthedistinctaccesspatterns,mutability,andlifetimes
+ofinferencedata.EffectiveHBFmanagementthereforerequires
+inference-awareplacementandmigrationratherthangenericcache
+replacement.
+Batchsize.WerepeattheQwen3-235B-A22Bstudyinpeermode
+withKVfirstatbatchesof8,16,32,and64,eachfromitsownreplay
+(Figure7).Throughputgrows2.1–3.0×frombatch8to64at6HBM
++ 2 HBF and 2.9–3.5× at 2 HBM + 6 HBF and 1 HBM + 7 HBF,
+whileTPOTgrowsfrom37msto67–117msandfrom74–84msto
+186–205ms.Theworkingsetgrowswiththebatch,to283,295,and
+306GiBatbatch64;onlylongOUTPUTstillfitsinthe285.9GiBof
+6HBM+2HBF,its520tokens/scomparewith420and353forthe
+othertwo,andtieredmodewithLRU,67mswheretheworkingset
+fits,takes503and672msonceitexceedsHBMby3%and7%.With
+onetofourHBMstackstheexpertweightscomefromHBFinany
+case;thesecondpairofHBMstacksisworth38%ofthroughputat
+batch8but9%atbatch64.
+Writepath.AdecodestepwritestoolittleKVtocompareways
+ofwritingit,sowealsoserve112,56,and38requestsofthethree
+workloadsfromanemptyKVstateat2HBM+6HBF(outputs
+cappedat8tokens),whichwrites46–47GiBofKVperworkload.
+WritingtheKVthatdoesnotfitinHBMstraighttoHBF,writingall
+KVintoHBMandtoHBFwhenitslineisevicted,anddrainingit
+toHBFinthebackgroundgivethesamemeanrequesttimewithin
+1.5%,becauseprefilliscompute-boundandeachHBFstackbuffers
+writesinitsdeviceDRAM.Thebackgrounddrain,however,writes
+70–71GiBtoflash,1.2–1.6×asmuchaswrite-backoneviction(45–
+60GiB).Indecode,KVfirstneverprogramsanHBFpage,while
+tieredmodewithLRUprograms61,000–65,000pagesperstepfor
+Qwen3-235B-A22BasitevictsdirtyKV.
+Takeaway3:KVdatashouldbeprioritizedinHBMand
+movedtoHBFonlyundercapacitypressure.KViscontinu-
+ouslyappendedduringdecoding,makingitsplacementaprimary
+determinantofHBFwritetraffic.AllocatingKVtoHBFonlywhen
+itmustleaveHBMincursnoperformancelossinourexperiments,
+whereasproactivemigrationcreatesavoidablewritesforKVentries
+thatmaybefreedshortly.
+4.4 FlashTranslationandEndurance
+Indecode,HBFmostlyservesreads,soweaskwhattheFTLcosts
+onthereadpathandhowfastwriteswearHBF.
+)sm(
+TOPT
+Page-level Extent Block
+Decode
+150
+100
+50
+0
+LongBalancedLong
+OUTPUT INPUT
+)s(
+emit
+tseuqeR
+Prefill
+Figure8:Page-level,extent,andblockmappingforLlama-
+3.1-70Bat2HBM+6HBF,weightsfirst:theindexkeptforthe
+pagesadecodesteptouches(bar:largestworkload;whisker:
+smallest),decodeTPOT,andrequesttimeintheprefillwin-
+dowsofSection4.3.
+Table3:EstimatedHBFlifetimeinmonthsatthepublished
+H200peakloadofLlama-3.3-70B(5,000-tokenprompts,500-
+tokenoutputs),with100,000P/Ecycles.
+Workload 1H7F 2H6F 4H4F 6H2F
+Llama-3.1-70B
+LongOUTPUT 83.0 71.2 47.4 23.7
+Balanced 83.0 75.9 50.6 25.3
+LongINPUT 83.0 71.1 54.2 27.1
+Qwen3-235B-A22B
+LongOUTPUT 141.4 121.2 80.8 40.4
+Balanced 141.4 121.2 80.8 43.1
+LongINPUT 141.4 121.2 80.8 46.2
+Addresstranslation.WecomparethethreemappingsofSec-
+tion3.3at2HBM+6HBFwithweightsfirst,sothattherunningKV
+isreadfromHBF(Figure8).Adecodestepwritesalmostnothing,
+sowealsoruntheprefillwindowsofSection4.3(46–47GiBof
+newKVeach).Allthreereceivethesame3.1GiBofHBM,butonly
+page-levelmappingusesasizablepartofit:97–152MiBoftransla-
+tionpagesforthepagesadecodesteptouches,against0.9MiBfor
+theextentindexand10MiBfortheblockindex.Extentmapping
+stayswithin0.5%ofpage-levelmappingindecodeandinprefill:
+KViswrittenandreadinlongruns,sooneindexentryservesmany
+pages.Block-levelmappingis4.2–4.3×slowerindecode(324–399
+against75–95ms),becauseablockliesononeplane,whichreads
+its256pagesoneafteranotherinabout1.0ms,whereastheother
+twomappingsspreadthesamepagesoverallplanes;prefill,which
+spendsmoreofitstimeincompute,hidespartofthisandis1.5×
+slower.
+Takeaway4:HBFmappingshouldpreserveinternalpar-
+allelismratherthanmaximizeaddressgranularity.Decode
+readsweightsandKVinlongsequentialruns,soonetranslation
+servesmanypages.Anextentmappingthatstripeseachrunacross
+allplanesmatchesapage-leveltableatafractionofitsmemory,
+whereasablock-levelmappingthatkeepseachblockonasingle
+planeserializesitspagereadsandslowsdecodingconsiderably.
+Lifetime.AdecodestepwritesonetokenofKVpersequence,
+sowearcomesfromnewKVwrittenintoflash,andweestimate
+lifetimeatapublishedpeakload.TensorRT-LLMreaches489output
+tokens/sperH200forLlama-3.3-70B,whichhasthearchitecture
+ofLlama-3.1-70B, with5,000-token prompts and500-tokenout-
+puts[18],1.64GiB/sofnewKVperGPU.Thepublishedtablehas
+
+===== PDF PAGE 9 =====
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+0.4
+0.2
+0.1
+0.05
+1 2 4 8 16 40
+Page read time tR (μs)
+)s(
+TOPT
+Long OUTPUT Balanced Long INPUT page,soprogramtimesfrom37.5to600𝜇s,writecredits,andwrite
+timeoutleaveTPOTunchanged,andthethermalthrottlingceiling
+addsatmost0.2%.Forread-heavydecode,anHBFdesignshould
+thereforespendonplanesandreadtimebeforeinterfacespeed.
+5 DISCUSSION
+0.4 0.8 1.5 3.1 4 8 16 Limitations.Ourcasestudiesreproduceonedecodingstepper
+G1⋅8 G2⋅8G2⋅16G3⋅16 Planes per die
+workload,seventokensperrunningsequence,andoneprefillwin-
+Interface per stack (TB/s)
+dowperworkloadforthewritepathandthemappingcomparison,
+withoutgarbagecollection,soTPOTomitsitsinterferencewith
+Figure9:TPOTofLlama-3.1-70Bat2HBM+6HBF,KVfirst,
+reads.Wemodeloneaccelerator;tensororpipelineparallelism
+whenoneHBFparameterchanges(logarithmicaxis).Dashed:
+wouldgiveeachashareoftheweightsandKV.Thestudiescom-
+defaultsetting.InterfacepointsgivetheOCPspeedgradeand
+bineanH200computeprofile,extendedbeyonditsmeasuredbatch
+channelsperstack;8-channelstackshavehalftheplanes.
+of16,withHBM4andHBF,apairingthatdoesnotexisttoday,
+soHBFtimingandenduranceremainassumptions.Thelifetime
+noQwen3-235B-A22B,soweapplythesametokenratetoit;with estimatesapplyapublishedservingloadaroundtheclocktothe
+188KiBofKVpertokenagainst320KiB,itwrites41%less.HBFSim HBFwriteshareandwriteamplificationthatHBFSimmeasures,
+measurestheshareofthisKVthatreachesHBFwithweightsfirst andassumeperfectwearleveling.
+(87.5–100%)andreplayseachworkload’sKVwritesandreleases ExtendingHBFSim.Newmemorypoliciesusethepolicyin-
+(about1TiB,twicethestack’scapacity)throughoneHBFstackwith terface,newFTLschemesthehostmappinginterface,newHBF
+garbagecollection,whichgivestheflashbyteserasedperwritten generationsthedeviceconfiguration,andnewmodels,traces,and
+byteinsteadystate,thequantitythatconsumesP/Ecycles.With GPUstheirdescriptors,importers,oroperatorprofiles.
+eithermappingthisis1.0within0.1%:KVisappendedandfreedin
+bulk,sooneblockwithnovalidpageleftiserasedperMiBwritten. 6 RELATEDWORK
+Block-levelmappingprograms1.5–3.5%fewerpages,becausepages HBFandhybridHBM–flashmemory.H3[7]andSKhynix[27]
+thatwaitinthedeviceDRAMfortheirblock’sunwrittenprefix evaluatehybridHBM+HBForganizationswithprojecteddevice
+aredroppedwhenasequenceends,buttheirblockisstillerased. parameters.FlashAccelco-designsdatalayoutandstorageman-
+Assuming100,000P/Ecycles,asfortheSLCNANDusedinHBF agementforHBF[32].Petruccietal.compareHBFwithLPDDR
+designs[32],Table3givestheresultinglifetime:24–83months analyticallyandidentifywritesasthelimitforoffloadingKVto
+forLlama-3.1-70Band40–141monthsforQwen3-235B-A22B,in flash [21]. HBFSim lets such designs be compared on the same
+proportiontotheHBFstacksthatsharethewritesandthesame workloads;ourenduranceresultsquantifythewriteproblemthey
+witheithermapping:howlongHBFlastsissetbyhowmuchKV pointout.
+reachesflash. Memory and storage simulators. Ramulator 2.0 [16] and
+Takeaway5:HBFenduranceisafirst-ordersystemcon- DRAMsim3[14]modelDRAMatthecommandlevel.MQSim[29]
+straint.Underbaselineinferenceworkloads,KVspillgenerates andFEMU[13]modelSSDsbehindanNVMeinterface,withmap-
+enoughwritestomakeprojectedHBFlifetimeamajorchallenge ping,GC,andwearlevelinginsidethedevice,andCylon[34]emu-
+evenwhenperformanceisacceptable.PracticalHBFsystemsthere- latesCXLSSDswithaDRAMcacheinthedevice.HBFSimfollows
+forerequirewritereductionandendurance-awaremanagement. MQSim’sapproachtotheflashorganizationandCylon’sdevice
+4.5 WhichHBFParametersMatter? classfortheCXLSSD,buttreatsHBFasmemorywithahost-side
+FTLwhosemetadatacompeteswiththeapplicationinHBM.
+TheHBFspecificationisstilladraft,soweaskwhichdevicepa-
+LLMservingsimulators.Vidur[1],LLMServingSim[3],Fron-
+rameterstheresultsdependon,takingLlama-3.1-70Bonthethree
+tier[6],andASTRA-sim[33]simulatescheduling,computation,
+workloadsat2HBM+6HBFwithKVfirst,whereastepreads
+andcommunicationforLLMinference,LLMCompass[36]adds
+29–49GiBofweightsfromHBF(69–83mspertoken),andchanging
+operator-levelmodelingwithmappingsearch,andGTSim[4]and
+oneparameteratatime(Figure9).
+Accel-Sim[10,20]modelGPUmicroarchitecture.Theyrepresent
+Only the rate at which the flash array senses pages matters.
+memorybyitscapacityandbandwidth;HBFSimmodelsthede-
+Doublingthepagereadtimeto8𝜇sraisesTPOTby30–42%,16𝜇s
+vicesatthetransactionlevel,flashmanagementincluded,undera
+by 91–126%, and the 40𝜇s of conventional NAND by 3.7–4.8×;
+validatedscheduler.
+halvingtheplanesperdieatequalcapacityhasthesameeffectas
+7 CONCLUSION
+doublingthereadtime(29–40%for8planes,87–121%for4).The
+interfacedoesnotmatter:speedgrade3doublesgrade2’s1.5TB/s HBFcouldgiveacceleratorsanorderofmagnitudemorememory,
+andchangesTPOTby0.1%,andgrades1and2on8channelsare but only if systems use it in ways that suit flash. HBFSim lets
+equally 29–40% slower, only because their stacks have half the researchers test these choices before hardware exists. Our case
+planes.Aplanesensesone4KiBpageperreadtime,soastack’s studiessupportfivetakeaways.HBFismostvaluableundercapacity
+256planesdeliver0.26TB/sat4𝜇s,asixthoftheinterface.The pressure,whereitkeepsTPOT11.0–19.0×lowerthanhostDRAM
+writesideisinvisibleindecode,evenwithoutthedeviceDRAM: and86.6–154.1×lowerthananNVMeSSD.Conventionalcache
+withKVfirstastepappendsitsKVinHBMandprogramsnoHBF replacementisapoorfitforHBM–HBFtiering:nopolicymatches
+
+===== PDF PAGE 10 =====
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+peermodewithKVfirstoncethesetastepreadsexceedsHBM, [18] NVIDIA.2026.TensorRT-LLMPerformanceOverview.https://nvidia.github.io/
+andacachewinsonlywhenthatsetfitswithroomtospare.HBM TensorRT-LLM/performance/perf-overview.html.
+[19] Open Compute Project. 2026. OCP HBF Architecture Specification, Ver-
+shouldholdtherunningsequences’KVandHBFtheread-only
+sion 0.7.0. https://www.opencompute.org/documents/ocp-hbf-architecture-
+weights;KVshouldmovetoHBFonlywhenitmustleaveHBM. specification-v0-7-0-final-pdf.
+Themappingshouldpreservetheflasharray’sparallelism,whichan [20] JunruiPan,WeiliAn,CesarAvalosBaddouh,ChristinDavidBose,NiKang,
+AaronBarnes,AhmadAlawneh,FangjiaShen,YechenLiu,AnusuyaNallathambi,
+extentindexdoesatafractionofapagetable’smemory.Endurance AtthinChandrashekar,andTimothyG.Rogers.2026. ArchitectingtheNext
+isafirst-orderconstraint:atapublishedpeakloadofLlama-3.1-70B, GenerationofAsynchronous,DistributedGPUsfortheAIEra. https://doi.org/
+10.48550/arXiv.2608.22602arXiv:2608.22602[cs.AR]
+HBFlasts2.0to6.9years,inproportiontothestacksthatshare
+[21] ViniciusPetrucci,FelippeZacarias,andVishalTanna.2026.IsHigh-Bandwidth
+theKVwrites.WereleaseHBFSimsothatotherscanreplaceour FlashAllYouNeed?.In3rdWorkshoponHotTopicsinSystemInfrastructure
+assumptionswithmeasurements. (HotInfra). https://hotinfra.org/2026/papers/hotinfra26-final83.pdf
+[22] RuoyuQin,ZhemingLi,WeiranHe,JialeiCui,FengRen,MingxingZhang,
+REFERENCES YongweiWu,WeiminZheng,andXinranXu.2025.Mooncake:TradingMore
+StorageforLessComputation–AKVCache-centricArchitectureforServing
+[1] AmeyAgrawal,NitinKedia,JayashreeMohan,AshishPanwar,NipunKwatra, LLMChatbot.InProceedingsofthe23rdUSENIXConferenceonFileandStorage
+BhargavS.Gulavani,RamachandranRamjee,andAlexeyTumanov.2024.Vidur:A Technologies. Tracesreleasedathttps://github.com/kvcache-ai/Mooncake.
+Large-ScaleSimulationFrameworkforLLMInference.InProceedingsofMachine [23] JohnT.RobinsonandMurthyV.Devarakonda.1990.DataCacheManagement
+LearningandSystems(MLSys). UsingFrequency-BasedReplacement.InProceedingsofthe1990ACMSIGMETRICS
+[2] AmeyAgrawal,NitinKedia,AshishPanwar,JayashreeMohan,NipunKwatra, ConferenceonMeasurementandModelingofComputerSystems.134–142. https:
+BhargavS.Gulavani,AlexeyTumanov,andRamachandranRamjee.2024.Tam- //doi.org/10.1145/98457.98523
+ingThroughput-LatencyTradeoffinLLMInferencewithSarathi-Serve.In18th [24] SanDisk. 2025. High Bandwidth Flash (HBF) Fact Sheet. https:
+USENIXSymposiumonOperatingSystemsDesignandImplementation(OSDI’24). //documents.sandisk.com/content/dam/asset-library/en_us/assets/public/
+[3] JaehongCho,MinsuKim,HyunminChoi,GuseulHeo,andJongsePark.2024. sandisk/collateral/company/Sandisk-HBF-Fact-Sheet.pdf. Accessed2026-07-26.
+LLMServingSim:AHW/SWCo-SimulationInfrastructureforLLMInference [25] SanDisk.2025. ScalingBeyondtheWall:InsideSanDisk’sHighBandwidth
+ServingatScale.InIEEEInternationalSymposiumonWorkloadCharacterization FlashforAI.https://www.sandisk.com/company/newsroom/blogs/2025/scaling-
+(IISWC). beyond-the-wall-inside-sandisks-high-bandwidth-flash-for-ai. Accessed2026-
+[4] YitongDing,JiaweiHuang,RenyangGuan,YangjieZhou,ZihanLiu,YuFeng, 05-22.
+ShixuanSun,MingyiGuo,JingwenLeng,andJianWeng.2026.GPU-Tile-Sim:A [26] YingSheng,LianminZheng,BinhangYuan,ZhuohanLi,MaxRyabinin,Beidi
+Tile-CentricGPUSimulationFrameworkforLLMHardware-SoftwareCo-Design. Chen,PercyLiang,ChristopherRé,IonStoica,andCeZhang.2023. FlexGen:
+arXiv:2607.11262[cs.DC] https://arxiv.org/abs/2607.11262 High-ThroughputGenerativeInferenceofLargeLanguageModelswithaSingle
+[5] AbhimanyuDubey,AbhinavJauhri,AbhinavPandey,AbhishekKadian,Ahmad GPU.InProceedingsofthe40thInternationalConferenceonMachineLearning
+Al-Dahle,AieshaLetman,AkhilMathur,AlanSchelten,AmyYang,AngelaFan, (ICML).
+etal.2024.TheLlama3HerdofModels.arXivpreprintarXiv:2407.21783(2024). [27] SKhynix.2026.H3:AHybridHBM+HBFArchitectureforLLMInference.Inter-
+https://arxiv.org/abs/2407.21783 nationalSolid-StateCircuitsConference(ISSCC).
+[6] YichengFeng,XinTan,YangtaoDeng,YiminJiang,YiboZhu,andHongXu. [28] SKhynix.2026. SKhynixandSandiskBeginGlobalStandardizationofNext-
+2026.Frontier:TowardsComprehensiveandAccurateLLMInferenceSimulation. GenerationMemory‘HBF’.https://news.skhynix.com/en/sk-hynix-and-sandisk-
+arXiv:2605.21312[cs.DC] https://arxiv.org/abs/2605.21312 begin-global-standardization-ofnext-generation-memory-hbf/. Accessed2026-
+[7] MinhoHa,EuiseokKim,andHoshikKim.2026.H3:HybridArchitectureUsing 07-26.
+HighBandwidthMemoryandHighBandwidthFlashforCost-EfficientLLM [29] ArashTavakkol,JuanGómez-Luna,MohammadSadrosadati,SaugataGhose,
+Inference.IEEEComputerArchitectureLetters25,1(2026),49–52. https://doi.org/ andOnurMutlu.2018.MQSim:AFrameworkforEnablingRealisticStudiesof
+10.1109/LCA.2026.3660969 ModernMulti-QueueSSDDevices.In16thUSENIXConferenceonFileandStorage
+[8] JEDEC.2025.HighBandwidthMemory(HBM4)DRAM.TechnicalReportJESD270- Technologies(FAST).49–66.
+4.JEDECSolidStateTechnologyAssociation. [30] OresteVilla,MarkStephenson,DavidNellans,andStephenW.Keckler.2019.
+[9] MyoungsooJung,JieZhang,AhmedAbulila,MiryeongKwon,NargesShahidi, NVBit:ADynamicBinaryInstrumentationFrameworkforNVIDIAGPUs.In
+JohnShalf,NamSungKim,andMahmutKandemir.2018.SimpleSSD:Modeling Proceedingsofthe52ndAnnualIEEE/ACMInternationalSymposiumonMicroar-
+SolidStateDrivesforHolisticSystemSimulation.IEEEComputerArchitecture chitecture.
+Letters17,1(2018),37–41. [31] JiahaoWang,JinboHan,XingdaWei,SijieShen,DingyanZhang,Chenguang
+[10] MahmoudKhairy,ZheshengShen,TorM.Aamodt,andTimothyG.Rogers.2020. Fang,RongChen,WenyuanYu,andHaiboChen.2025.KVCacheCacheinthe
+Accel-Sim:AnExtensibleSimulationFrameworkforValidatedGPUModeling.In Wild:CharacterizingandOptimizingKVCacheCacheataLargeCloudProvider.
+47thACM/IEEEAnnualInternationalSymposiumonComputerArchitecture(ISCA). InProceedingsofthe2025USENIXAnnualTechnicalConference.465–482. Traces
+473–486. https://doi.org/10.1109/ISCA45697.2020.00047 releasedathttps://github.com/alibaba-edu/qwen-bailian-usagetraces-anon.
+[11] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, [32] XinyuWang,YalongXue,XiaotianSun,XiaoyuZhang,ChunmengDou,Xueqi
+CodyHaoYu,JosephE.Gonzalez,HaoZhang,andIonStoica.2023. Efficient Li,andXiaomingChen.2026.FlashAccel:LeveragingHigh-BandwidthFlashfor
+MemoryManagementforLargeLanguageModelServingwithPagedAttention. High-ThroughputLLMInference. arXiv:2607.10186 https://arxiv.org/abs/2607.
+InProceedingsofthe29thSymposiumonOperatingSystemsPrinciples.611–626. 10186
+https://doi.org/10.1145/3600006.3613165 [33] WilliamWon,JinsunYoo,TuanTa,MoumitaDey,AndyBalogh,PradoshDatta,
+[12] Hsien-Hsin S. Lee, Gary S. Tyson, and Matthew K. Farrens. 2000. Eager FurkanEris,ConorGreen,WinstonLiu,ChanghaiMan,etal.2026.ASTRA-sim
+Writeback—ATechniqueforImprovingBandwidthUtilization.InProceedingsof 3.0:Next-LevelDistributedMachineLearningSimulationsviaHigh-FidelityGPU
+the33rdAnnualIEEE/ACMInternationalSymposiumonMicroarchitecture(MICRO- andInfrastructureModeling. arXiv:2606.10440[cs.DC] https://arxiv.org/abs/
+33).11–21. 2606.10440
+[13] HuaichengLi,MingzheHao,MichaelHaoTong,SwaminathanSundararaman, [34] DonghaYoon,HansenIdden,JinshuLiu,BerkayInceisci,SamH.Noh,and
+KshitijDoshi,andHaryadiS.Gunawi.2018.TheCASEofFEMU:Cheap,Accurate, HuaichengLi.2026.Cylon:FastandAccurateFull-SystemEmulationofCXL-
+ScalableandExtensibleFlashEmulator.In16thUSENIXConferenceonFileand SSDs.In24thUSENIXConferenceonFileandStorageTechnologies(FAST’26).
+StorageTechnologies(FAST).83–90. 313–327.
+[14] ShangLi,ZhiyuanYang,DhirajReddy,AnkurSrivastava,andBruceJacob.2020. [35] Gyeong-InYu,JooSeongJeong,Geon-WooKim,SoojeongKim,andByung-
+DRAMsim3:ACycle-Accurate,Thermal-CapableDRAMSimulator.IEEECom- GonChun.2022. Orca:ADistributedServingSystemforTransformer-Based
+puterArchitectureLetters(2020). https://doi.org/10.1109/LCA.2020.2973991 GenerativeModels.In16thUSENIXSymposiumonOperatingSystemsDesignand
+[15] DiLiu,MengChen,BaotongLu,HuiqiangJiang,ZhenhuaHan,QianxiZhang, Implementation(OSDI22).521–538.
+QiChen,ChengruidongZhang,BailuDing,KaiZhang,ChenChen,FanYang, [36] HengruiZhang,AugustNing,RohanBaskarPrabhakar,andDavidWentzlaff.
+YuqingYang,andLiliQiu.2024.RetrievalAttention:AcceleratingLong-Context 2024. LLMCompass:EnablingEfficientHardwareDesignforLargeLanguage
+LLMInferenceviaVectorRetrieval. arXiv:2409.10516 ModelInference.In51stACM/IEEEAnnualInternationalSymposiumonComputer
+[16] HaocongLuo,AtaberkOlgun,MoochaKim,MineshPatel,HasanHassan,Saugata Architecture(ISCA).1080–1096. https://doi.org/10.1109/ISCA59077.2024.00082
+Ghose,andOnurMutlu.2024.Ramulator2.0:AModern,Modular,andExtensible [37] Lianmin Zheng, Liangsheng Yin, Zhiqiang Xie, Chuyue Sun, Jeff Huang,
+DRAMSimulator.IEEEComputerArchitectureLetters(2024). https://doi.org/10. CodyHaoYu,ShiyiCao,ChristosKozyrakis,IonStoica,JosephE.Gonzalez,
+1109/LCA.2023.3333759 ClarkBarrett,andYingSheng.2024.SGLang:EfficientExecutionofStructured
+[17] NVIDIA.2023.NVIDIAH200TensorCoreGPU.https://www.nvidia.com/en-
+us/data-center/h200/.
+
+===== PDF PAGE 11 =====
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+LanguageModelPrograms.InAdvancesinNeuralInformationProcessingSystems 37.

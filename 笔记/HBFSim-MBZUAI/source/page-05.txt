@@ -1,0 +1,87 @@
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+1
+0.5
+0
+0 10 20 30 40
+(a) Absolute error (%)
+sesac
+fo
+noitcarF
+1 h
+10 min
+A100 layers (64)
+H200 layers (64) 1 min
+A100 batches (46)
+H200 batches (86) 10 s
+105 107 109
+(b) Flash page reads
+eroc
+eno
+no
+emit
+tsoH
+Peer mode Table1:Memorydevicesofcapacitytiers.
+Tiered mode
+No flash reads Device Bandwidth Latencyandotherparameters
+HBM4stack,48GiB 2.0TB/s 42nsread
+HBFstack,512GiB 1.5TB/s 4𝜇sread,75𝜇sprogram;
+deviceDRAMof0.1%offlash
+HostDRAM,PCIe5.0 54GB/s 9.3𝜇spertransfer(measured)
+CXLSSD 36GB/slink 40𝜇sNANDread,6.6GB/sNAND;
+dashed: 2.7×105 DRAMcacheof5%offlash,FIFO
+page reads/s NVMeSSD 16GB/slink sameNANDastheCXLSSD
+Table2:Workloadsattherepresentativedecodestep:prompt
+andoutputtokensperrequest,meancontextoftherunning
+sequences(Ctx),KVreadperstep(KV,GiB),andworkingset
+Figure3:Calibrationandsimulationcost.(a)Absoluteerror
+ofweightsandKV(WS,GiB).
+ofpredictedtimeforheld-outlayershapesandforcomplete-
+requestbatches.(b)Hosttimeofthe405configurationsof 70B 235B
+Section4againsttheirflashpagereads;configurationswith- Workload INPUT OUTPUT Ctx KV WS KV WS
+outflashreadssitontheverticalaxis.
+LongOUTPUT 2K 6K 5.2K 51.2 118.9 30.1 253.0
+Balanced 4K 4K 6.3K 61.1 128.8 35.9 258.9
+LongINPUT 6K 2K 7.3K 70.9 138.6 41.7 264.7
+aLlama-3.1-70Bbatch(7.3Mpagereads)by1.48×,andlazyFTL
+recounting accelerates ten write batches (3.2M page programs)
+by 1.55×. Every page still reserves all resources in strict order ownaccountingoneveryrun(programsbycausemustsumtothe
+withoutpruningorroundingidleintervals,yieldingbit-identical physicalprograms;valid,invalid,andfreepagestothecapacity),
+completiontimesacrossall82,449transactionsinthebatch. thetestsuitecomparesHBMscheduling,HBFreadsandwrites,and
+Wall-clocktimethentracksflashpagereadsatroughly2.7×105 GCagainstreferencemodels,andeveryresultrecordsthehashes
+reads/spercore(Figure3b);all405configurationsinSection4took ofitsinputs,configuration,andbinary.
+80.0core-hoursonanAppleM2UltraandanM5Pro.
+4 CASESTUDIES
+3.5 CalibrationandValidation
+WeuseHBFSimtoanswerthequestionsofSection2.3withtwo
+Threecomponentsarecalibratedagainsthardware(Figure3a).The
+modelsandthreeworkloads.
+schedulerischeckedagainstvLLM0.26’s:bothreceivethesame
+4.1 Setup
+requestsandthesamemeasuredbatchtimes,andover282batches
+in ten test cases with staggered arrivals, shared prefixes, prefix System.Wemodeloneacceleratorpackagewitheightmemory
+eviction,andpreemption,theyformthesamebatcheswiththe stacks,eachanHBM4stackoranHBFstack(Table1);wewrite
+sametokenranges,prefixhits,andcompletiontimes.Theoperator 2HBM+6HBFforapackageoftwoHBMandsixHBFstacks
+modelisfittedtokernelmeasurements:onanA100andanH200 (2:6inthefigures,2H6FinTable3).Wecompare1HBM+7HBF,
+NVL we timed the Marlin GEMMs and FlashAttention-2 paged 2HBM+6HBF,4HBM+4HBF,and6HBM+2HBF,whoseHBM
+attentionthatvLLMuseswith8-bitweights,insidewholelayers holds43.4,91.9,188.9,and285.9GiBofdata.TheHBFstacksfollow
+underCUDAgraphs,over525shapesperGPUspanningbatch, OCPspeedgrade2,with16channels,onedieperchannel,16planes
+query,andcontextsizes,andfittedeachoperator’sfixedoverhead, perdie,andblocksof256pagesof4KiB.LikeanSSD,eachHBF
+computerate,andmemoryratebyleastsquares.Wethenpredict stackhasadeviceDRAMof0.1%ofitsflashthatservesaswrite
+64whole-layershapesthatneverenteredthefit:themeanabsolute bufferandreadcache.Unlessnotedotherwise,thehostFTLuses
+erroris5.8%ontheA100and5.0%ontheH200,andthelargest, page-levelmappingandcachestranslationpagesin0.1%oftheHBF
+41.8%ontheA100,occursinLlama-3.1-70Blayerswhosebatch capacity,reservedinHBM.WeserveLlama-3.1-70B[5]with8-bit
+mixeslongandshortcontexts.Finallyweruncompleterequestson weights(67.7GiB)andaBF16KVcache(320KiBpertoken),and
+eachGPU,fromtheembeddingtotheoutputhead,andcompare Qwen3-235B-A22BwithFP8weights(223.0GiBforthe128experts
+eachbatch’stime:predictedandmeasuredbatchtimesdifferby ofeachofits94MoElayers)andaBF16KVcache(188KiBper
+10.2%onaverageontheA100(Llama-3.1-8B,46batches)andby token);thefigureslabelthem70Band235B.Publictracescarryno
+5.8%ontheH200(Llama-3.1-8BandLlama-3.1-70B,86batches); expertroutes,sothe235Bmodelrouteseverytokentoauniformly
+forLlama-3.1-70BontheH200,thetimetofirsttokendiffersby randomtop-8ofits128experts,seededbythetoken’sprefix;at32
+9.3–13.6%andTPOTby4.6–7.0%.ThehostDRAMpathisfittedto sequencesadecodestepreads197.9GiBofthe223GiBofweights.
+measuredpinned-memorycopiesbetweenanH200NVLandits GPUcomputefollowstheH200NVLoperatorprofile(Section3.5),
+host(issuetime,bandwidthperdirection,fixedlatency). whichcoversbatchesofupto16;forlargerbatcheswekeepthe
+HBM4andHBFcannotbecalibratedyet.Theirinterfacesfollow per-FLOPandper-bytecostsmeasuredat16.
+thespecifications;HBM’saccesslatencyandbandwidthefficiency Workloads.AdecodestepreadstheKVofeveryrunningse-
+andHBF’sinternaltiming(4𝜇spageread,75𝜇sprogram)andpar- quence,sowhatdistinguishesworkloadsishowmuchcontextthe
+allelismareassumptionsuserscanreplace.Everydefaultparameter sequencesholdandhowthatcontextwasproduced.Wecharacter-
+recordsitssource,published,fromtheliterature,orassumed;18of izeaworkloadbyitsinput:outputlengthratioandcomparethree
+the30parametergroupsareassumptions.Theenginechecksits (Table2):longOUTPUT(2Kprompttokens,6Koutputtokens),

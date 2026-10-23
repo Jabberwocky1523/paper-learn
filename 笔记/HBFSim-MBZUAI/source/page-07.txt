@@ -1,0 +1,112 @@
+HBFSim RACS’26,November17–20,2026,Fukuoka,Japan
+240
+160
+80
+0
+1:7 2:6 4:4
+B07
+)sm(
+TOPT
+Long OUTPUT Balanced Long INPUT
+240 300
+160 200
+80 100
+0 0
+1:7 2:6 4:4 1:7 2:6 4:4
+300
+200
+100
+0
+1:7 2:6 4:4
+B532
+)sm(
+TOPT
+Peer, weights first Peer, KV first Tiered, LRU Tiered, FIFO Tiered, decayed LFU Working set fits in HBM
+300 300
+200 200
+100 100
+0 0
+1:7 2:6 4:4 1:7 2:6 4:4
+HBM:HBF stacks
+Figure5:MeanTPOTacrossHBM:HBFstacksplits.PeermodegivesHBMfirsttotheweightsortotherunningsequences’KV;
+tieredmodereplacesbyLRU,FIFO,ordecayedLFUandwritesbackoneviction.
+becausetheaddedHBMfillswithretainedprefixeswhile31GiB
+ofrunningKVperstepstillcomefromHBF.Theworkingsetof
+150
+Qwen3-235B-A22B(253–265GiB)exceedsHBMatallthreesplits.
+100 Itsdecodestepisdominatedbythe198GiBofexpertweightsit
+reads,soKVfirstfallsonlygradually,from163–170msat1HBM+ 50
+7HBFand152–160msat2HBM+6HBFto115–128msat4HBM 0
+Zipf 1 Zipf 1.5 Zipf 2
++4HBF,andweightsfirstis4–7%behind.At1HBM+7HBFthe
+64% 46% 34%
+steptakesonly7%longerthanat2HBM+6HBF:sevenHBFstacks Expert popularity (share of experts a step reads)
+servetheexperts.Thethreeworkloadsdifferlittle:theircontexts
+differby1Ktokens,andTPOTfollows(69,76,and83mswithKV
+firstat2HBM+6HBF):astep’scostdependsonhowmuchcontext
+itreads,notonhowitwasproduced.
+Tieredmode.TieredmodematchespeermodewithKVfirst
+whentheworkingsetfitsinHBMand,withLRUorFIFO,is1.7–
+2.2×slowerforLlama-3.1-70Band1.3–2.4×forQwen3-235B-A22B
+whenitdoesnot.Eachstepreadstheworkingsetinthesameorder,
+acyclicpatternlargerthanHBM,soLRUevictsalmostevery4MiB
+linebeforeitisreusedandthesteprereadsthewholeworking
+setfromHBF,117–137GiBforLlama-3.1-70Band231–243GiBfor
+Qwen3-235B-A22B,insteadofonlythespill.Thisiswhy4HBM
++4HBFisslowerthan2HBM+6HBFforQwen3-235B-A22Bin
+tieredmode(275–291against201–211ms):fourHBFstacksserve
+thesamerereadinsteadofsix.At1HBM+7HBFthesingleHBM
+stack,whichalsoabsorbseveryrefillasawrite,becomesthelimit
+at1.4–1.6TB/sofits2.0.
+Replacement.Nopolicywinseverywhere.FIFOrereadsthe
+samebytesasLRUinanotherorder:within1%ofLRUforQwen3-
+235B-A22Band1–20%fasterforLlama-3.1-70B.DecayedLFUkeeps
+thelinesreadmostoften:forLlama-3.1-70Bat2HBM+6HBFit
+keepstherunningKVinHBMandrefillstheweightseverystep,
+thedivisionofKVfirst,andtakes84–90ms,37–48%lessthanLRU.
+At1HBM+7HBF,wheretherunningKV(51–71GiB)nolonger
+fits,thesamepolicyistheslowest,261–308ms,1.4×LRU:itevicts
+itsnewestlinesfirst.ForQwen3-235B-A22BitcutsLRU’stimeby
+7–10%at1HBM+7HBFand22–31%atthenexttwosplitsbut
+stays1.0–1.8×aboveKVfirst:anewlyfilledlinestartswithacount
+ofone,sotheexpertweights,whicheverystepreadsonce,keep
+beingevictedandrefilled.
+)sm(
+TOPT
+2:6 HBM:HBF 4:4 HBM:HBF
+240
+160
+80
+0
+Zipf 1 Zipf 1.5 Zipf 2
+64% 46% 34%
+Figure6:Qwen3-235B-A22Bunderskewedexpertpopularity
+(balancedworkload;legendasinFigure5):atoken’stop-8
+expertsaredrawnwithweight(𝑟 +1)−𝛼 overaseededper-
+layerrank𝑟.Ticklabels:shareoftheexpertsastepreads.
+Hotexperts.Theuniformrouteristheworstcaseforacache.
+WethereforererunQwen3-235B-A22BwithaZipfrouterofex-
+ponent𝛼 (Figure6),sothatastepreads64%,46%,and34%ofthe
+expertsat𝛼=1,1.5,and2insteadof88%.At4HBM+4HBF,where
+𝛼 =1.5leaves135–147GiBin188.9,decayedLFUtakes0.83–0.87
+oftheKV-firsttimeandLRU0.89–1.00;at𝛼 =2theytake0.78and
+0.81–0.83:thecachekeepseverylayer’shotexperts,whereasthe
+address-orderedsplitkeepswholeearlylayersandmissesthose
+ofthelateones.At2HBM+6HBFthesplitstillwinsatevery
+exponent:decayedLFUstays1.07–1.10×aboveKVfirst,because
+the26wholelayersinHBMsavetheircoldexpertstoowhilethe
+cachespendsitsremainderoncoldlinesthatrarelyrecur,andLRU
+andFIFO1.4–1.5×above.
+Wheneachmodewins.Onequantityseparatesthetwomodes
+inFigures5and6:thesetastepreadsagainsttheHBMcapacity.
+PeermodewithKVfirstwinswheneverthatsetexceedsHBM,and
+themarginmustbereal:at𝛼 =1and4HBM+4HBFthe180GiB
+set,144GiBofweightsand36ofKV,nominallyfitsin188.9,yet
+FIFOrereads193GiBperstep,thesetin4MiBlines,andLRU161.
+Tieredmodewinsonlywhenthesetfitswithroomtospareandits
+reuseisspreadacrosslayers,whichanaddress-orderedsplitcannot
+follow;wherethesetfitsoutright,thetwomodesareequal.
+Takeaway2:Undertheevaluatedworkloadsand4MiB
+cache-lineconfiguration,thetestedreplacementpoliciesin-
+cursubstantialrefilltrafficwhentheactiveworkingsetex-
+ceedsHBMcapacity.Noneoftheevaluatedpoliciesmatchespeer

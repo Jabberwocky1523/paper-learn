@@ -1,0 +1,85 @@
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+Weights KV cache, 1M-token context fivesimplerules:HBFpaysoffonlyundercapacitypressure;
+13 H 1 2 G 00 iB 8 H 3 B 8 M 4 4 G s iB tacks 1 8 0 × 5 H 1 2 G 0 i 0 B HBMshouldholdtherunningKVandHBFtheweights,with
+Kimi K3 2608+27 = 2635 KVwrittentoflashonlywhenitmustleaveHBM;generic
+Qwen3.8-2.4T 2235+92 = 2327
+cachereplacementlosestothisplacementunlessastepfits
+DeepSeek-V4-Pro 1490+10 = 1500
+Llama 3.1 405B 377 +504 881 inHBMwithroomtospare;theFTLshouldpreservethe
+DeepSeek-V3 625 +69694 flasharray’sparallelism;andendurance,setbyhowmuch
+Qwen3-235B 219 +188 407
+KVreachesflash,isafirst-orderconstraint.
+Llama 3.1 70B 66 +320 386
+Llama 3.1 8B 7+128 135
+0 200 400 600 800 1000 1200
+2 BACKGROUND
+Weights + KV cache (GiB)
+2.1 MemoryDemandofLLMServing
+Figure 1: Weights (one byte per parameter) and BF16 KV
+Aservingsystem’smemoryholdsthemodelweights,whichevery
+cacheofa1M-tokencontextagainsttheHBMofoneH200,
+requestreuses;theKVcache,theper-layerkeysandvaluesofevery
+eightHBM4stacks,andaneight-H200node.
+processedtoken,whichdecodingreadsinsteadofrecomputing;and
+activations,whicharesmallbycomparison.ForLlama-3.1-70Ba
+pathandfreesHBMforthegrowingKVcache,whereasplacingmu-
+BF16KVcachetakes320KiBpertoken[5],320GiBfor1Mtokens.
+tableKVstateinHBFcreatesprogramtrafficandconsumeswrite
+ServingsystemsallocateKVinfixed-sizeblocks[11]andretain
+endurance.Therefore,itisnecessarytostudytheperformanceof
+theblocksoffinishedrequestssothatlaterrequestswiththesame
+HBM+HBFmemoryhierarchiesunderrealisticLLMservingwork-
+prefixskipitsprefill[22,37],sotheKVfootprintgrowsbeyond
+loads before committing to a design. Because such hardware is
+theactiverequests.Figure1showstheweightsandtheKVcache
+unavailable,asimulatorisrequiredtoevaluatethesetrade-offs.
+of1Mtokens,inonerequestorretainedacrossmany:forsmall
+Existingsimulatorseachcoveronelevelofthishierarchy:DRAM
+modelstheKVcachedominates,everymodelfrom70Bupexceeds
+simulators [14, 16] stop at the memory controller, SSD simula-
+eightHBM4stacks,andthenewestopenmodels,with1.6Tto2.8T
+tors[13,29]putflashbehindastorageinterface,andLLMserving
+parameters,exceedevenaneight-H200nodewiththeirweights
+simulators[4,10,36]representmemorybycapacityandbandwidth.
+alone,whilehybridorcompressedattentionkeepstheirKVsmall.
+NoneconnectstheplacementofLLMdatatobothcompletiontime
+Thetwophasesofarequestaccessthisdatadifferently.Prefill
+andphysicalflashtraffic.
+processestheprompt,producesitsKV,andisusuallycompute-
+HBFSimaddressesthislimitation.ItmodelsHBM,HBFwitha
+bound;chunkedprefillletsitshareabatchwithdecodingwork[2].
+host-managedFTL,andconventionalcapacitytiersinoneevent
+Eachdecodingstepgeneratesonetokenperrequest:itreusesthe
+system,coupledinaclosedloopwithaservingfrontendwhose
+weightsacrossthebatch,readseveryrunningrequest’sKV,and
+schedulerandGPUcomputearecalibratedagainstmeasurements,
+appendsonetoken’sKVperlayer,soitisusuallyboundbymemory
+anditacceptsaddress-leveltracesaswellasproductionrequest
+bandwidth,anditstrafficgrowswithmodelsize,batch,andcontext.
+traces.UsingHBFSim,westudydecodingofLlama-3.1-70Band
+WhenweightsandKVexceedHBM,systemsoffloadtohostDRAM
+Qwen3-235B-A22Bunderthreeworkloadsthatdifferintheirinput
+orSSDs[15,22,26],ataccesscostssetbytheslowertierandits
+andoutputlengths.WefindthatHBFservesthedatathatdoesnot
+fitinHBM11.0–19.0×fasterthanhostDRAM;thatHBMshould interconnect.
+holdtherunningsequences’KV,becausecachingHBFwithLRUor
+FIFOrereadsnearlythewholeworkingsetonceitexceedsHBM, 2.2 HighBandwidthFlash
+andthatKVshouldbewrittentoHBFonlywhenitmustleave HBFstacksNANDflashdiesonalogicbasedieandconnectsthem
+HBM;andthattheFTLcostslittleonthereadpathaslongasits totheacceleratorthroughanHBM-likeinterfaceinthesamepack-
+layoutkeepsreadsparallel,whileHBF’slifetimedependsonthe age[24,25].TheOCPHBFspecification[19]definesstackswith
+amountofKVthatreachesflash.ThesefindingsconnectHBF’s upto16channelsandthreespeedgrades.Forexample,atspeed
+potentialcost-per-bitadvantagetomeasurablelatencyandwear grade2eachchannelcarries96GB/sofpayload,orabout1.5TB/s
+ratherthantoasinglecapacityorbandwidthnumber. per stack, and SanDisk targets 512GB per stack. An HBF stack
+Thispapermakesthefollowingcontributions: thereforeoffers8-16timesthecapacityofanHBMstackatasimilar
+• Workloads at two granularities. HBFSim takes fine- interfacebandwidth.
+grainedaddress-leveltraces,withonerecordpermemory However,HBFstillbehaveslikeNAND.Apagereadtakesmi-
+access,andcoarse-grainedrequesttraces,whichitsfrontend croseconds,comparedtotensofnanosecondsofDRAM,soHBF
+expandsintotheseriesofweightandKVaccessesthateach reachesitsbandwidthonlywithmanyreadsinflight.Dataispro-
+requestcauses. grammed,notoverwritten:apageprogramtakestensofmicrosec-
+• Acoupledandfastmemory-systemmodel.HBM,HBF ondsandoccupiesitsbank,andablockmustbeerasedbeforeits
+withahost-managedFTL,andexternaltiers(hostDRAM, pagesareprogrammedagain.Thespecificationassignsaddress
+CXLSSDs,andNVMeSSDs)shareonetimelineandinteract mapping,garbagecollection(GC),andwearlevelingtohostsoft-
+asinarealsystem,forexamplethroughtheFTL’stablesin ware;thedeviceitselfperformsneitherGCnorcopyback[19].Each
+HBM. block tolerates a limited number of program/erase (P/E) cycles,
+• Preliminary takeaways for HBF. Decoding Llama-3.1- andnoP/EratingforHBFhasbeenpublished.Hostdecisionsthus
+70BandQwen3-235B-A22Bunderthreeworkloadsyields shapebothperformanceandlifetime:whatthehostplacesinHBF

@@ -1,0 +1,64 @@
+HBFSim: A Simulator for Exploring HBF in Memory Hierarchies
+for LLMs
+JinhengLi GuoshengWang
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+jinheng.li@mbzuai.ac.ae guosheng.wang@mbzuai.ac.ae
+HongchaoDu ShangyuWu
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+hongchao.du@mbzuai.ac.ae shangyu.wu@mbzuai.ac.ae
+QiaoLi ChunJasonXue
+MohamedbinZayedUniversityofArtificialIntelligence MohamedbinZayedUniversityofArtificialIntelligence
+AbuDhabi,UnitedArabEmirates AbuDhabi,UnitedArabEmirates
+qiao.li@mbzuai.ac.ae jason.xue@mbzuai.ac.ae
+ABSTRACT KEYWORDS
+HighBandwidthFlash(HBF)hasrecentlyemergedasapromising HighBandwidthFlash,Memory-systemSimulation,LLMWork-
+technologythatprovidesterabyte-scaleaccelerator-localcapacityat loads,KVCache
+bandwidthsapproachingHBM,withapotentialcost-per-bitadvan-
+ACMReferenceFormat:
+tageoverHBM.However,itsNANDfoundationbringslonglatency,
+JinhengLi,GuoshengWang,HongchaoDu,ShangyuWu,QiaoLi,andChun
+out-of-placeupdates,andfinitewriteendurancedirectlyintothe JasonXue.2026.HBFSim:ASimulatorforExploringHBFinMemoryHier-
+acceleratormemoryhierarchy,makingitseffectsonperformance archiesforLLMs.InInternationalConferenceonResilience,AIandCyber-
+andlifetimedifficulttopredict.Tostudythisemergingdesignspace, Systems(RACS’26),November17–20,2026,Fukuoka,Japan.ACM,NewYork,
+wepresentHBFSim,anLLM-awareevent-drivensimulatorforhet- NY,USA,11pages.https://doi.org/10.1145/3848591.3856870
+erogeneousHBM+HBFmemorysystemsthatpreservesapplication-
+levelmemorysemanticswhilemodelingflash-internalbehavior. 1 INTRODUCTION
+HBFSimmodelsHBM,HBFwithhost-managedflashtranslation, Memorycapacityhasemergedasaprimarybottleneckinserv-
+andconventionalcapacitytiersinonesimulationdrivenbyacal- inglargelanguagemodels(LLMs).Modelweightsoccupytensto
+ibrated serving frontend. Using HBFSim, we study decoding of hundredsofgigabytes,whilekey–value(KV)stategrowslinearly
+Llama-3.1-70BandQwen3-235B-A22Bunderthreeworkloadsthat withcontextlengthandrequestconcurrency,quicklyexceeding
+differintheirinputandoutputlengths.HBFservesdatathatdoes acceleratormemorycapacity.Forexample,an8Bmodelserving
+notfitinHBM11.0–19.0×fasterthanhostDRAM;HBMisbetter eightconcurrent128K-contextsessionscanexhausttheHBMof
+usedtoholdtherunningsequences’KVcachethanasacachefor amodernGPU(e.g.,the131GiBofHBM3eonanNVIDIAH200),
+HBF;andatapublishedpeakloadofLlama-3.1-70B,HBFlasts2.0 whilelong-contextservingfor70B-classmodelsmayexceedthe
+to6.9years,inproportiontothestacksthatsharetheKVwrites. memorycapacityofanentireeight-GPUnode[5,11,17,22].High
+Theartifactisavailableathttps://github.com/FlashLabAE/HBFSim BandwidthFlash(HBF)hasrecentlyemergedasapromisingap-
+andwilltrackpublicHBFdevicedataasitbecomesavailable. proachforextendingaccelerator-localmemorycapacity.SanDisk’s
+disclosedHBFdesigntargetsa16-die,512GBflashstackthatdeliv-
+CCSCONCEPTS ersupto1.6TB/s[24,25],enablingmulti-terabyteaccelerator-local
+memorysystemswithouthost-memoryaccesses.Thesamedisclo-
+•Computingmethodologies→Simulationtools;•Computer
+suretargets8–16×HBMcapacityatsimilarcostandbandwidth,
+systemsorganization→Heterogeneous(hybrid)systems;•Infor-
+making capacity per dollar, rather than higher speed, the main
+mationsystems→Flashmemory.
+motivationforHBF[24].
+UnlikeconventionalDRAMexpansion,HBFbringsasymmet-
+ricreadandwriteperformance,pageprogramming,flashtransla-
+tionlayer(FTL)management,writeamplification,andfinitepro-
+gram/eraseenduranceintotheacceleratormemoryhierarchy.Its
+effectonLLMservingisdifficulttopredictbecausenopublicHBF
+This work is licensed under a Creative Commons Attribution-NonCommercial-
+NoDerivatives4.0InternationalLicense. hardwareisavailableforvalidation[28].Nevertheless,systemarchi-
+RACS’26,November17–20,2026,Fukuoka,Japan tectsmustdecideonmemoryorganization,placementpolicies,and
+©2026Copyrightheldbytheowner/author(s).
+provisioningbeforeproductiondevicesbecomeavailable.Forex-
+ACMISBN979-8-4007-3035-1/2026/11.
+https://doi.org/10.1145/3848591.3856870 ample,movingread-onlyweightstoHBFmainlyexercisesitsread
+6202
+tcO
+61
+]RA.sc[
+1v30532.0162:viXra

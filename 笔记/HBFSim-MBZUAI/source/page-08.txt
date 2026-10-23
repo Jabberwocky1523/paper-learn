@@ -1,0 +1,123 @@
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+0.4
+0.2
+0.0
+8 16 32 64
+tuphguorhT )s/snekot
+k(
+HBM:HBF stacks
+1:7 2:6 4:4 6:2 Index (MiB)
+1000
+Long OUTPUT Balanced Long INPUT 400
+100
+10 200
+1
+0
+LongBalancedLong
+OUTPUT INPUT
+8 16 32 64 8 16 32 64
+Batch size
+Figure7:DecodethroughputofQwen3-235B-A22Bagainst
+thebatchsize,peermodewithKVfirst.
+modewithKVfirstoncethesetastepreadsexceedsHBM,and
+theybeatitonlywhenthatsetfitswithroomtospare,because
+nonecapturesthedistinctaccesspatterns,mutability,andlifetimes
+ofinferencedata.EffectiveHBFmanagementthereforerequires
+inference-awareplacementandmigrationratherthangenericcache
+replacement.
+Batchsize.WerepeattheQwen3-235B-A22Bstudyinpeermode
+withKVfirstatbatchesof8,16,32,and64,eachfromitsownreplay
+(Figure7).Throughputgrows2.1–3.0×frombatch8to64at6HBM
++ 2 HBF and 2.9–3.5× at 2 HBM + 6 HBF and 1 HBM + 7 HBF,
+whileTPOTgrowsfrom37msto67–117msandfrom74–84msto
+186–205ms.Theworkingsetgrowswiththebatch,to283,295,and
+306GiBatbatch64;onlylongOUTPUTstillfitsinthe285.9GiBof
+6HBM+2HBF,its520tokens/scomparewith420and353forthe
+othertwo,andtieredmodewithLRU,67mswheretheworkingset
+fits,takes503and672msonceitexceedsHBMby3%and7%.With
+onetofourHBMstackstheexpertweightscomefromHBFinany
+case;thesecondpairofHBMstacksisworth38%ofthroughputat
+batch8but9%atbatch64.
+Writepath.AdecodestepwritestoolittleKVtocompareways
+ofwritingit,sowealsoserve112,56,and38requestsofthethree
+workloadsfromanemptyKVstateat2HBM+6HBF(outputs
+cappedat8tokens),whichwrites46–47GiBofKVperworkload.
+WritingtheKVthatdoesnotfitinHBMstraighttoHBF,writingall
+KVintoHBMandtoHBFwhenitslineisevicted,anddrainingit
+toHBFinthebackgroundgivethesamemeanrequesttimewithin
+1.5%,becauseprefilliscompute-boundandeachHBFstackbuffers
+writesinitsdeviceDRAM.Thebackgrounddrain,however,writes
+70–71GiBtoflash,1.2–1.6×asmuchaswrite-backoneviction(45–
+60GiB).Indecode,KVfirstneverprogramsanHBFpage,while
+tieredmodewithLRUprograms61,000–65,000pagesperstepfor
+Qwen3-235B-A22BasitevictsdirtyKV.
+Takeaway3:KVdatashouldbeprioritizedinHBMand
+movedtoHBFonlyundercapacitypressure.KViscontinu-
+ouslyappendedduringdecoding,makingitsplacementaprimary
+determinantofHBFwritetraffic.AllocatingKVtoHBFonlywhen
+itmustleaveHBMincursnoperformancelossinourexperiments,
+whereasproactivemigrationcreatesavoidablewritesforKVentries
+thatmaybefreedshortly.
+4.4 FlashTranslationandEndurance
+Indecode,HBFmostlyservesreads,soweaskwhattheFTLcosts
+onthereadpathandhowfastwriteswearHBF.
+)sm(
+TOPT
+Page-level Extent Block
+Decode
+150
+100
+50
+0
+LongBalancedLong
+OUTPUT INPUT
+)s(
+emit
+tseuqeR
+Prefill
+Figure8:Page-level,extent,andblockmappingforLlama-
+3.1-70Bat2HBM+6HBF,weightsfirst:theindexkeptforthe
+pagesadecodesteptouches(bar:largestworkload;whisker:
+smallest),decodeTPOT,andrequesttimeintheprefillwin-
+dowsofSection4.3.
+Table3:EstimatedHBFlifetimeinmonthsatthepublished
+H200peakloadofLlama-3.3-70B(5,000-tokenprompts,500-
+tokenoutputs),with100,000P/Ecycles.
+Workload 1H7F 2H6F 4H4F 6H2F
+Llama-3.1-70B
+LongOUTPUT 83.0 71.2 47.4 23.7
+Balanced 83.0 75.9 50.6 25.3
+LongINPUT 83.0 71.1 54.2 27.1
+Qwen3-235B-A22B
+LongOUTPUT 141.4 121.2 80.8 40.4
+Balanced 141.4 121.2 80.8 43.1
+LongINPUT 141.4 121.2 80.8 46.2
+Addresstranslation.WecomparethethreemappingsofSec-
+tion3.3at2HBM+6HBFwithweightsfirst,sothattherunningKV
+isreadfromHBF(Figure8).Adecodestepwritesalmostnothing,
+sowealsoruntheprefillwindowsofSection4.3(46–47GiBof
+newKVeach).Allthreereceivethesame3.1GiBofHBM,butonly
+page-levelmappingusesasizablepartofit:97–152MiBoftransla-
+tionpagesforthepagesadecodesteptouches,against0.9MiBfor
+theextentindexand10MiBfortheblockindex.Extentmapping
+stayswithin0.5%ofpage-levelmappingindecodeandinprefill:
+KViswrittenandreadinlongruns,sooneindexentryservesmany
+pages.Block-levelmappingis4.2–4.3×slowerindecode(324–399
+against75–95ms),becauseablockliesononeplane,whichreads
+its256pagesoneafteranotherinabout1.0ms,whereastheother
+twomappingsspreadthesamepagesoverallplanes;prefill,which
+spendsmoreofitstimeincompute,hidespartofthisandis1.5×
+slower.
+Takeaway4:HBFmappingshouldpreserveinternalpar-
+allelismratherthanmaximizeaddressgranularity.Decode
+readsweightsandKVinlongsequentialruns,soonetranslation
+servesmanypages.Anextentmappingthatstripeseachrunacross
+allplanesmatchesapage-leveltableatafractionofitsmemory,
+whereasablock-levelmappingthatkeepseachblockonasingle
+planeserializesitspagereadsandslowsdecodingconsiderably.
+Lifetime.AdecodestepwritesonetokenofKVpersequence,
+sowearcomesfromnewKVwrittenintoflash,andweestimate
+lifetimeatapublishedpeakload.TensorRT-LLMreaches489output
+tokens/sperH200forLlama-3.3-70B,whichhasthearchitecture
+ofLlama-3.1-70B, with5,000-token prompts and500-tokenout-
+puts[18],1.64GiB/sofnewKVperGPU.Thepublishedtablehas

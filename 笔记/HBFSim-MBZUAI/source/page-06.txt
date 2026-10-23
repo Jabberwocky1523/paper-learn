@@ -1,0 +1,82 @@
+RACS’26,November17–20,2026,Fukuoka,Japan Lietal.
+10
+1
+0.1
+0.01
+)s(
+TOPT
+HBF Host DRAM CXL SSD NVMe SSD
+(a) 70B 235B
+10
+1
+0.1
+0.01 Long Balanced Long Long Balanced Long
+OUTPUT INPUT OUTPUT INPUT
+)s(
+TOPT
+11.0–14.4×fasterthanhostDRAM,16.1–21.3×fasterthantheCXL
+SSD,and86.6–115.0×fasterthantheNVMeSSDforLlama-3.1-70B,
+and18.6–19.0×,66.8–154.1×,and150.3–154.1×fasterforQwen3-
+235B-A22B.Thesteptimeisroughlythetierreaddividedbythe
+tier’sbandwidth:sixon-packageHBFstacksserve157GiBin0.17s,
+PCIe-attachedhostDRAMin3.2s,andtheNVMeSSD’sNAND
+at6.6GB/sin26s.TheCXLSSD’sdeviceDRAM(5%ofitsflash,
+2 HBM + 6 HBF 2 HBM + CXL SSD 153.6GiB) holds the spill of Llama-3.1-70B and of the first two
+2 HBM + host DRAM + CXL SSD 2 HBM + NVMe SSD
+Qwen3-235B-A22Bworkloads,sotheCXLSSDstayswithin1.5×of
+2 HBM + host DRAM + NVMe SSD 8 HBM + CXL SSD
+8 HBM + host DRAM + CXL SSD hostDRAMthere;the157GiBspilloflongINPUTexceedsitand
+(b) 70B 235B
+theCXLSSDisasslowastheNVMeSSD(26.0s).Wekeepall32
+sequencesineverysystem,soeachtierservesthesamespill;areal
+systemwouldshrinkthebatch.
+Anoff-packagetieroccupiesnoneofthepackage’seightstack
+sites, which can then hold HBM. Figure 4b therefore compares
+sevensystemsoneightsites,allwithKVfirst:2HBM+6HBF;
+2HBMwiththeHBF’scapacityoffpackageasaCXLorNVMeSSD,
+aloneorbehind256GiBofhostDRAM(oneaccelerator’sshare
+Figure4:MeanTPOTatthedecodestepofeachworkload ofa2TiBserver),leavingsixsitesempty;and8HBMwiththe
+(logarithmicaxes).(a)HBFagainsttheothercapacitytiersat CXLSSD,aloneorbehindhostDRAM.WithtwoHBMstacks,the
+2HBM+6HBF,peermodewiththeweightsplacedfirstin weightsthatdonotfitinHBMcomefromthetierineverystep:
+HBM.(b)Thetiersassystemswitheightstacksites:2HBM+ 2HBM+6HBFis9.3–12.5×fasterthan2HBM+hostDRAM+
+6HBF,or2or8HBMwiththeHBF’scapacityoffpackageas CXLSSDforLlama-3.1-70Band19.1–19.5×forQwen3-235B-A22B.
+aCXLSSDoranNVMeSSD,aloneorbehind256GiBofhost HostDRAMholdsthefirst256GiBofthetier,whichcoversboth
+DRAM;KVplacedfirstinHBM. models’weights,sotheSSDbehinditisneverreadandtheNVMe
+andCXLvariantscoincide.TheSSDsaloneare13.5–18.3×(CXL)
+balanced(4Kand4K),andlongINPUT(6Kand2K),8Ktokensper
+and70.8–98.0×(NVMe)slowerthan2HBM+6HBFforLlama-3.1-
+requestineach.ThepublictracesofMooncake[22]andQwen[31]
+70B,and66.9–99.3×and154.3–157.2×forQwen3-235B-A22B.With
+areinput-heavy(atmost29%oftheirrequestshavemorethan62.5% eightHBMstacks(384GiB),bothworkingsetsfit,nostepreadsthe
+oftheirtokensintheoutput),sonooutput-heavyworkloadcan
+off-packagetier,andTPOTis49–55ms:1.4–1.5×below2HBM+
+bedrawnfromthem;theirmedianrequestholds5.5K–7.3Ktokens.
+6HBFforLlama-3.1-70Band2.9×belowitforQwen3-235B-A22B.
+Promptsareprivate,sonoKVisshared.Wereplayeachworkload Anoff-packagetierthuswinsonlywhenthesitesitfreesgoto
+throughtheschedulerwith32sequencesperbatchandaprefix HBMandthestepfitsinthatHBM;thenacheaptierservesaswell
+cachethatretains1Mtokens(320GiBofKVforLlama-3.1-70B, asafastone.
+188GiBforQwen3-235B-A22B).Thefirstbatch’srequestsarrive Takeaway1:HBFismostvaluableundermemory-capacity
+spreadoveronerequest’slifetime,sointhesteadystatetherun- pressure.ItofferslittlebenefitwhentheworkingsetfitsinHBM,
+ningsequencesareateverystageoftheirlifetimes.Amongthe but substantially outperforms offloading to CPU memory, CXL
+stepsinwhicheverybatchslotisbusywhilerequestswaitand SSDs, and NVMe SSDs once spilling occurs, for example when
+theprefixcacheisfull,wetaketheonewhoserunningsequences Qwen3-235B-A22Bserves32sequenceswhose253–265GiBwork-
+holdthemediancontextandinstallitsstateasreplayed,eachKV ingsetexceedsthe188.9GiBofHBMat4HBM+4HBF.Under
+blockatitsreplayedaddress.Wethenmeasureashortwindow afixedstackbudget,however,addingmoreHBMcanhurtper-
+insteadofafullreplay:eachsequenceprefillsaprivate16-token formanceiftheresultinglossofHBFbandwidthoutweighsthe
+suffix,whichresumesitasarunningrequestandyieldsitsfirst reductioninspilltraffic.
+token,anddecodessevenmore;TPOTisthemeantimeofthese
+4.3 HowMuchHBM,andWhatShouldItHold?
+sevendecodesteps.Thethreeworkloadshold5.2K,6.3K,and7.3K
+tokensofcontextonaverage,soastepreads51–71GiBofKVfor Capacityandplacement.WevarythesplitbetweenHBMand
+Llama-3.1-70B and 30–42GiB for Qwen3-235B-A22B, 40% more HBF (Figure 5). In peer mode, HBM should give priority to the
+underlongINPUTthanunderlongOUTPUT,andwritesonetoken runningsequences’KV.TheworkingsetofLlama-3.1-70B(119–
+ofKVpersequence. 139GiB)fitsat4HBM+4HBF,whereKVfirstandtieredmode
+reachthecompute-bound49–54ms.At2HBM+6HBF,KVfirst
+4.2 HBFVersusOtherCapacityTiers
+takes69–83msandweightsfirst75–95ms,4–14%more:itfillsthe
+At2HBM+6HBFwithweightsfirst,thecapacitytierserves38– HBMleftaftertheweightswithKVblocksinaddressorder,retained
+65GiBofrunningKVperstepforLlama-3.1-70Band145–157GiB prefixesincluded,andleaves38–65GiBofrunningKVinHBFper
+for Qwen3-235B-A22B, whose 223GiB of weights exceed HBM: step,whereasKVfirstreadsonlyweightsfromHBF(29–49GiB).
+115GiBofweightsandall30–42GiBofrunningKV.Wekeepthis At1HBM+7HBFevenKVfirstreads8–28GiBofrunningKV
+placementandreplacethesixHBFstackswithhostDRAM,aCXL perstepfromHBF(89–98ms).UnderlongOUTPUT,weightsfirst
+SSD,oranNVMeSSDofthesamecapacity(Figure4a).HBFdecodes stilltakes75msat4HBM+4HBF,wheretheworkingsetfits,
