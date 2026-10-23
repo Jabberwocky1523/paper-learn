@@ -1,0 +1,1021 @@
+{
+  "status": "ok",
+  "script": "extract_evidence.py",
+  "paper_id": "arxiv:2609.09800",
+  "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+  "evidence_pack": {
+    "paper_id": "arxiv:2609.09800",
+    "problem_evidence": [
+      {
+        "claim": "1st Generation HBF HBM4 eSSD (Kioxia GP1) CXL-attached memory Medium 3D NAND DRAM XL-FLASH Gen2 DRAM Capacity 512 GB/stack 64 GB/stack [10] ∼2 TB/drive ∼0.1–2 TB/device Read bandwidth 0.4–3.0 TB/s ∼2 TB/s [10] ∼14–28 GB/s ∼30–60 GB/s Interface UCIe JEDEC 2048-bit bus/stack PCIe 6.0 CXL over PCIe Read latency ∼20 µs [13] 10–100 ns ∼10–100 µs ∼1.7 µs from a GPU [35] Read granularity 64 B [4] 32 B 512 B 64 B Write endurance limited P/E cycles near-unlimited 50 DWPD near-unlimited Retention, unpowered not guaranteed [4] none 3 months at 40 ◦C [9] none Sandisk, and Joungho Kim of KAIST, widely known as the “father of HBM” [29], hold that HBF can take over a large part of the capacity problem that HBM carries today [7,14,21,34].",
+        "evidence": "1st Generation HBF HBM4 eSSD (Kioxia GP1) CXL-attached memory Medium 3D NAND DRAM XL-FLASH Gen2 DRAM Capacity 512 GB/stack 64 GB/stack [10] ∼2 TB/drive ∼0.1–2 TB/device Read bandwidth 0.4–3.0 TB/s ∼2 TB/s [10] ∼14–28 GB/s ∼30–60 GB/s Interface UCIe JEDEC 2048-bit bus/stack PCIe 6.0 CXL over PCIe Read latency ∼20 µs [13] 10–100 ns ∼10–100 µs ∼1.7 µs from a GPU [35] Read granularity 64 B [4] 32 B 512 B 64 B Write endurance limited P/E cycles near-unlimited 50 DWPD near-unlimited Retention, unpowered not guaranteed [4] none 3 months at 40 ◦C [9] none Sandisk, and Joungho Kim of KAIST, widely known as the “father of HBM” [29], hold that HBF can take over a large part of the capacity problem that HBM carries today [7,14,21,34].",
+        "source_section": "introduction",
+        "page_hint": ""
+      },
+      {
+        "claim": "We must simulate the thermal problem.",
+        "evidence": "We must simulate the thermal problem.",
+        "source_section": "introduction",
+        "page_hint": ""
+      },
+      {
+        "claim": "Table 1 shows that HBF, with its lower price, large capacity, and bandwidth close to HBM, would in theory play an important role in solving the memory wall problem of LLMs.",
+        "evidence": "Table 1 shows that HBF, with its lower price, large capacity, and bandwidth close to HBM, would in theory play an important role in solving the memory wall problem of LLMs.",
+        "source_section": "introduction",
+        "page_hint": ""
+      },
+      {
+        "claim": "We find, however, that a simulator built that way cannot simulate HBF faithfully.",
+        "evidence": "We find, however, that a simulator built that way cannot simulate HBF faithfully.",
+        "source_section": "introduction",
+        "page_hint": ""
+      }
+    ],
+    "task_evidence": [
+      {
+        "claim": "Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "evidence": "Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "source_section": "task",
+        "page_hint": ""
+      },
+      {
+        "claim": "The execution path of a transformer is predictable enough that an LLM can issue the reads it will need ahead of the compu- tation that consumes them and hide HBF latency behind that computation [36, 41].",
+        "evidence": "The execution path of a transformer is predictable enough that an LLM can issue the reads it will need ahead of the compu- tation that consumes them and hide HBF latency behind that computation [36, 41].",
+        "source_section": "task",
+        "page_hint": ""
+      },
+      {
+        "claim": "Second, how long one access takes depends on the accesses that came before, while the timing model has to be evaluated inside the GPU code of the workload itself, and a GPU executes far out of order, so tracking a Tensor Memory Accelerator (TMA) instruction accurately and matching it to the real latency that belongs to it is very difficult.",
+        "evidence": "Second, how long one access takes depends on the accesses that came before, while the timing model has to be evaluated inside the GPU code of the workload itself, and a GPU executes far out of order, so tracking a Tensor Memory Accelerator (TMA) instruction accurately and matching it to the real latency that belongs to it is very difficult.",
+        "source_section": "task",
+        "page_hint": ""
+      },
+      {
+        "claim": "➁NAND is also slow next to DRAM: an HBF page read is estimated at ∼20 µs [13], against about 200 ns for one global-memory access on a GPU with HBM [25].",
+        "evidence": "➁NAND is also slow next to DRAM: an HBF page read is estimated at ∼20 µs [13], against about 200 ns for one global-memory access on a GPU with HBM [25].",
+        "source_section": "task",
+        "page_hint": ""
+      },
+      {
+        "claim": "Observation 2: The predictable execution path of trans- former inference leaves a long lead time for prefetching.",
+        "evidence": "Observation 2: The predictable execution path of trans- former inference leaves a long lead time for prefetching.",
+        "source_section": "task",
+        "page_hint": ""
+      }
+    ],
+    "data_evidence": [
+      {
+        "claim": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+        "evidence": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+        "source_section": "data",
+        "page_hint": ""
+      },
+      {
+        "claim": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "evidence": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "source_section": "data",
+        "page_hint": ""
+      },
+      {
+        "claim": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+        "evidence": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+        "source_section": "data",
+        "page_hint": ""
+      }
+    ],
+    "method_evidence": [
+      {
+        "claim": "Cycle-level GPU simulators are too slow for production-scale models.",
+        "evidence": "Cycle-level GPU simulators are too slow for production-scale models.",
+        "source_section": "method",
+        "page_hint": ""
+      },
+      {
+        "claim": "Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "evidence": "Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+        "source_section": "method",
+        "page_hint": ""
+      },
+      {
+        "claim": "Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+        "evidence": "Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+        "source_section": "method",
+        "page_hint": ""
+      },
+      {
+        "claim": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online.",
+        "evidence": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online.",
+        "source_section": "method",
+        "page_hint": ""
+      },
+      {
+        "claim": "HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+        "evidence": "HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+        "source_section": "method",
+        "page_hint": ""
+      }
+    ],
+    "mechanism_evidence": [
+      {
+        "claim": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online.",
+        "evidence": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online.",
+        "source_section": "method",
+        "page_hint": ""
+      }
+    ],
+    "results_evidence": [
+      {
+        "claim": "GDDR7 on the GPU is the platform’s actual memory and backs the logical fast tier through a page cache.",
+        "evidence": "GDDR7 on the GPU is the platform’s actual memory and backs the logical fast tier through a page cache.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "The 0.152% is the error of that increment in the reported cell, not an absolute HBF latency error: what the difference demonstrates is the injection and the measurement, and no physical HBF latency was measured (Figure 2a).",
+        "evidence": "The 0.152% is the error of that increment in the reported cell, not an absolute HBF latency error: what the difference demonstrates is the injection and the measurement, and no physical HBF latency was measured (Figure 2a).",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "Five of the six negative points are not distinguishable from zero at their published 95% intervals.",
+        "evidence": "Five of the six negative points are not distinguishable from zero at their published 95% intervals.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "The delivered incre- ment has a median about 400 ns below the request, with the middle 90% of deliveries between −4800 and +4160 ns.",
+        "evidence": "The delivered incre- ment has a median about 400 ns below the request, with the middle 90% of deliveries between −4800 and +4160 ns.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "The 224-state model and the full-order model differ by one sam- ple in where each applies its input; with that alignment, all eleven outputs across the three input shapes agree to 0.0308 K at worst, the step trace against its own 44.057 K swing, 0.0699% of it.",
+        "evidence": "The 224-state model and the full-order model differ by one sam- ple in where each applies its input; with that alignment, all eleven outputs across the three input shapes agree to 0.0308 K at worst, the step trace against its own 44.057 K swing, 0.0699% of it.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "A fills the budget exactly, B uses 837.7 mm2 and C 754.2 mm2; B’s remaining 23.4 mm2 is a strip 1.94 mm wide, too narrow for any device, so under a bounding-box measure B occupies 99.98% of the budget.",
+        "evidence": "A fills the budget exactly, B uses 837.7 mm2 and C 754.2 mm2; B’s remaining 23.4 mm2 is a strip 1.94 mm wide, too narrow for any device, so under a bounding-box measure B occupies 99.98% of the budget.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "What remains at layout C is 30.9879 GiB, 57.4% of the 54.000 GiB expert set, at zero key-value state.",
+        "evidence": "What remains at layout C is 30.9879 GiB, 57.4% of the 54.000 GiB expert set, at zero key-value state.",
+        "source_section": "experiment",
+        "page_hint": ""
+      }
+    ],
+    "ablation_evidence": [
+      {
+        "claim": "6.2 EQ1: End-to-End Execution and Timing Fidelity HBFSim injects modeled HBF service into a real GPU run: the workload must compute what it would compute without instrumentation, and each access must be charged to the tier it actually reaches.",
+        "evidence": "6.2 EQ1: End-to-End Execution and Timing Fidelity HBFSim injects modeled HBF service into a real GPU run: the workload must compute what it would compute without instrumentation, and each access must be charged to the tier it actually reaches.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "The question therefore asks four things of one run on Qwen3-30B-A3B: that it completes, that it computes what it would have computed without instrumentation, that the accesses reaching the modeled tier are the ones the regis- tration declares and the rest keep native semantics, and that the service injected into them is timely.",
+        "evidence": "The question therefore asks four things of one run on Qwen3-30B-A3B: that it completes, that it computes what it would have computed without instrumentation, that the accesses reaching the modeled tier are the ones the regis- tration declares and the rest keep native semantics, and that the service injected into them is timely.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "6H+0F 3H+2F 1H+3F 1,000 1,500 2,000 Capacity (GiB) (a) Installed tier capacity 1,132 1,572 HBM HBF 6H+0F 3H+2F 1H+3F M tokens (b) HBM-resident KV capacity 1.72M 0.54M no full HBM residency Figure 5: HBM–HBF capacity trade-offs.",
+        "evidence": "6H+0F 3H+2F 1H+3F 1,000 1,500 2,000 Capacity (GiB) (a) Installed tier capacity 1,132 1,572 HBM HBF 6H+0F 3H+2F 1H+3F M tokens (b) HBM-resident KV capacity 1.72M 0.54M no full HBM residency Figure 5: HBM–HBF capacity trade-offs.",
+        "source_section": "experiment",
+        "page_hint": ""
+      },
+      {
+        "claim": "Over horizons of 600, 3,600 and 86,400 s, five control policies sustain the full 384.0 GB/s without throttling.",
+        "evidence": "Over horizons of 600, 3,600 and 86,400 s, five control policies sustain the full 384.0 GB/s without throttling.",
+        "source_section": "experiment",
+        "page_hint": ""
+      }
+    ],
+    "limitations_evidence": [
+      {
+        "claim": "The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0. One access along that route carries a page fault, the driver, page-cache insertion and a user-space scan, so the profile is named an end-to-end vmem model rather than a media model.",
+        "evidence": "The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0. One access along that route carries a page fault, the driver, page-cache insertion and a user-space scan, so the profile is named an end-to-end vmem model rather than a media model.",
+        "source_section": "conclusion",
+        "page_hint": ""
+      },
+      {
+        "claim": "The curve is fitted at 1, 4, 16, 64, 256 and 512 pages, and past 512 pages continues on the slope of the last measured segment. Random, reverse, repeated and cross-operation accesses reset the burst length to one and are charged the single-page cost of 11,133 ns, so the non-linear rise measured between 64 and 512 pages shapes sequential bursts alone.",
+        "evidence": "The curve is fitted at 1, 4, 16, 64, 256 and 512 pages, and past 512 pages continues on the slope of the last measured segment. Random, reverse, repeated and cross-operation accesses reset the burst length to one and are charged the single-page cost of 11,133 ns, so the non-linear rise measured between 64 and 512 pages shapes sequential bursts alone.",
+        "source_section": "conclusion",
+        "page_hint": ""
+      },
+      {
+        "claim": "An HBF stack inside the package pays no page fault, no driver crossing and no page-cache insertion, and the second timing source is built for the difference: foreground requests enter an online MQSim media model on the host along the reference path. A question about the medium is therefore answered with the media model, and a question about a host- attached deployment with the calibrated end-to-end curve.",
+        "evidence": "An HBF stack inside the package pays no page fault, no driver crossing and no page-cache insertion, and the second timing source is built for the difference: foreground requests enter an online MQSim media model on the host along the reference path. A question about the medium is therefore answered with the media model, and a question about a host- attached deployment with the calibrated end-to-end curve.",
+        "source_section": "conclusion",
+        "page_hint": ""
+      }
+    ],
+    "equation_candidates": [
+      {
+        "equation": "dt = Pi −∑ Gi j(Ti −Tj)−Gi,sink(Ti −Tsink), (1) where Gij is the conductance between neighboring cells an",
+        "source_section": "method",
+        "kind_hint": "equation"
+      }
+    ],
+    "reference_candidates": [],
+    "figure_captions": [
+      {
+        "id": "Figure 1",
+        "caption": "HBFSim architecture.",
+        "page_hint": "p.6",
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 2c",
+        "caption": "shows why the difference uses two large delays.",
+        "page_hint": "p.9",
+        "section_id": "sec:evaluation"
+      },
+      {
+        "id": "Figure 2",
+        "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay",
+        "page_hint": "p.10",
+        "section_id": "sec:evaluation"
+      },
+      {
+        "id": "Figure 3",
+        "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and",
+        "page_hint": "p.10",
+        "section_id": "sec:evaluation"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "Physical reference on the evaluation GPU. Board",
+        "page_hint": "p.11",
+        "section_id": "sec:evaluation"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "gives three layouts under one package-area budget of",
+        "page_hint": "p.11",
+        "section_id": "sec:evaluation"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "MoE expert demand across batch sizes. Dedupli-",
+        "page_hint": "p.12",
+        "section_id": "sec:evaluation"
+      }
+    ],
+    "table_captions": [
+      {
+        "id": "Table 1",
+        "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+        "page_hint": "p.2",
+        "section_id": "sec:introduction"
+      },
+      {
+        "id": "Table 2",
+        "caption": "Simulation time and instruction rate reported for",
+        "page_hint": "p.3",
+        "section_id": "sec:background"
+      }
+    ],
+    "sections": [
+      {
+        "name": "preamble",
+        "length": 410,
+        "preview": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution Yanpeng Hu1∗Yiwei Yang2∗Yuanwu Zhu3 Kexin Chu4 Yusheng Zheng2 Andi Quinn2 Wei Zhang4 1ShanghaiTech University 2UC Santa Cruz 3University of Science and Te"
+      },
+      {
+        "name": "abstract",
+        "length": 1823,
+        "preview": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators ar"
+      },
+      {
+        "name": "introduction",
+        "length": 43061,
+        "preview": "Serving a large language model (LLM) is limited more and more by memory bandwidth and memory capacity [32,46]. High-bandwidth memory (HBM), DRAM stacked inside the accelerator package, is what the industry built to serve that load. But HBM "
+      },
+      {
+        "name": "experiment",
+        "length": 15646,
+        "preview": "We evaluate HBFSim before HBF hardware becomes avail- able. Our evaluation addresses three questions: • EQ1: Can HBFSim execute complete real LLM work- loads transparently, preserving program results and synchronization, while applying mode"
+      },
+      {
+        "name": "conclusion",
+        "length": 4308,
+        "preview": "The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0. One access along that route carries a page fault, the driver, page-cache"
+      },
+      {
+        "name": "references",
+        "length": 13264,
+        "preview": "[1] Anurag Agrawal and Radhakrishna Giduthuri. HBF in AI compute: A system architect’s view. Tutorial 1 (Memory technology), Hot Chips 2026, August 2026. https://hc2026.hotchips.org/. [2] Ehsan K. Ardestani, Elnaz Ebrahimi, Gabriel South- e"
+      }
+    ],
+    "section_texts": {
+      "preamble": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution Yanpeng Hu1∗Yiwei Yang2∗Yuanwu Zhu3 Kexin Chu4 Yusheng Zheng2 Andi Quinn2 Wei Zhang4 1ShanghaiTech University 2UC Santa Cruz 3University of Science and Technology of China 4University of Connecticut huyp@shanghaitech.edu.cn {yyang363, yzhen165, aquinn1}@ucsc.edu zzyuanyi@mail.ustc.edu.cn {kexin.chu, wei.13.zhang}@uconn.edu",
+      "abstract": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models. Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled. And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency. We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator. It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is im- portant for answering how severe the hot throttling problem becomes after HBF runs for a long time. Experiments with Qwen3-30B show how package heating, HBM–HBF allo- cation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/. ∗Equal contribution.",
+      "introduction": "Serving a large language model (LLM) is limited more and more by memory bandwidth and memory capacity [32,46]. High-bandwidth memory (HBM), DRAM stacked inside the accelerator package, is what the industry built to serve that load. But HBM capacity does not keep up with the parameter counts of the models it serves, and HBM is held back by its high manufacturing cost and by its scarce supply [27,33]. High-Bandwidth Flash (HBF) is a response to those lim- its. Sandisk and SK hynix introduced the HBF specification through the Open Compute Project (OCP) in August 2026, with Google and Tenstorrent taking part in validation [34]; it is the first open standard that defines stackable NAND flash as a memory tier inside the package of an xPU. HBF is not an interface upgrade of a conventional NVMe SSD, but a new near-memory architecture, in which NAND dies and the compute chip, a GPU, xPU, or NPU, are integrated in one package [4]. Sandisk’s first generation of HBF products will put HBF together with HBM and the GPU in one advanced package over UCIe [4, 34], reaching at least 8× the capac- ity of HBM at the same price with roughly the same read bandwidth [4,33]. What HBF makes new is the medium: the stacked die holds NAND rather than DRAM of HBM. Be- cause the medium is NAND, HBF makes a write far more expensive than a read, and every write uses up part of the limited number of times a flash cell can be rewritten. Hence, the data suited to HBF is data written once and read many times: model weights, and the part of the key-value cache that several requests share, such as a system prompt every request repeats. HBF also inherits the latency of its medium: a NAND read takes on the order of microseconds, roughly two orders of magnitude longer than an HBM access [13,20]. The execution path of a transformer is predictable enough that an LLM can issue the reads it will need ahead of the compu- tation that consumes them and hide HBF latency behind that computation [36, 41]. HBF is not a replacement for HBM; HBF is a new tier below HBM. Opinion on HBF splits into two opposing camps. SK hynix, arXiv:2609.09800v3 [cs.AR] 30 Sep 2026 Table 1: Comparison of four I/O paths that can serve accelerators in the foreseeable future. 1st Generation HBF HBM4 eSSD (Kioxia GP1) CXL-attached memory Medium 3D NAND DRAM XL-FLASH Gen2 DRAM Capacity 512 GB/stack 64 GB/stack [10] ∼2 TB/drive ∼0.1–2 TB/device Read bandwidth 0.4–3.0 TB/s ∼2 TB/s [10] ∼14–28 GB/s ∼30–60 GB/s Interface UCIe JEDEC 2048-bit bus/stack PCIe 6.0 CXL over PCIe Read latency ∼20 µs [13] 10–100 ns ∼10–100 µs ∼1.7 µs from a GPU [35] Read granularity 64 B [4] 32 B 512 B 64 B Write endurance limited P/E cycles near-unlimited 50 DWPD near-unlimited Retention, unpowered not guaranteed [4] none 3 months at 40 ◦C [9] none Sandisk, and Joungho Kim of KAIST, widely known as the “father of HBM” [29], hold that HBF can take over a large part of the capacity problem that HBM carries today [7,14,21,34]. Micron and others hold the opposite, that NAND’s own limits will hold HBF back and leave it worse than the media already in use [31]. The first HBF devices for inference are expected to reach customers as samples in 2027, and the choices a system designer faces cannot wait for HBF silicon to arrive. Real parts that could settle the argument do not exist yet, so the questions left open and the disagreement both call for a simulator that favors neither side. One simple idea for building an HBF simulator is to add an HBF module to a GPU simulator such as GPGPU- Sim [3, 18, 37]. Another idea is to add HBF latency into a replayed GPU trace. Both have a fatal flaw. The first can- not run a real LLM to completion in a practical amount of time [30], and only the result of a real workload settles the core objections raised about the latency of HBF. The second also suffers from excessive simulation time. Furthermore, the same static trace cannot dynamically simulate different HBF-to-HBM ratios and architectures, so the trace-simulation method cannot quickly explore the optimal HBF configuration for different workloads. We accordingly choose to run a real LLM model on a real GPU. Building this platform runs into many difficulties. First, earlier simulators have no interception point targeting HBF, because HBF is the first standard to package NAND, GPU, and DRAM—three different media—inside the same accelera- tor, and they are linked die to die over UCIe, so a device effect can only be written into the instruction stream of the program under test. Second, how long one access takes depends on the accesses that came before, while the timing model has to be evaluated inside the GPU code of the workload itself, and a GPU executes far out of order, so tracking a Tensor Memory Accelerator (TMA) instruction accurately and matching it to the real latency that belongs to it is very difficult. Third, HBF is NAND flash, which is sensitive to temperature, and it shares a package with a GPU that draws high power throughout the run, so the rate HBF sustains is set by temperature. We must simulate the thermal problem. We present HBFSim, which is the first open-source HBF simulator with the workload under evaluation executing on a real GPU. The GPU layer is not simulated at all: the workload runs as usual on a real GPU, and rewritten PTX, the interme- diate code NVIDIA’s compiler emits, routes accesses inside a registered address range into HBFSim. The workload on HBFSim is also real: Qwen3-30B runs under injected HBF timing and emits token identifiers identical to the baseline run. HBF places NAND flash dies inside the accelerator package through the UCIe interface. The dies are stacked vertically: multiple layers of 3D NAND flash are joined by through- silicon vias (TSV) and micro-bumps [44]. A silicon interposer or another advanced packaging method places the stack and the compute chip in one package. The 16-die NAND stack gives HBF ∼3 TB/s of read bandwidth [4]. But NAND also gives HBF two main drawbacks. ➀NAND wears out: a block of NAND tolerates a limited number of program/erase cycles and must be erased before it is rewritten [4]. Hence HBF cannot be written as many times as HBM, because continuous writing consumes its limited program/erase cycles. ➁NAND is also slow next to DRAM: an HBF page read is estimated at ∼20 µs [13], against about 200 ns for one global-memory access on a GPU with HBM [25]. Either property would keep NAND out of a memory tier if the workload wrote often and needed each byte on demand. Fortunately, the workload characteristics of an LLM hide both drawbacks well. We make two observations: Observation 1: Almost every byte an inference server moves through accelerator memory is read rather than written. Decode is an important LLM inference stage bounded by memory bandwidth rather than arithmetic [46]. A large part of the bandwidth exchanged between HBM and the GPU is model weights. Once training is complete, model weights are written far fewer times than they are read [23,31,41]. A prefix of the key-value cache shared across requests, such as a system prompt every request repeats, likewise has far more reads than writes [16]. System prompts also account for a large share of the traffic in long-horizon agent runs. A talk at Hot Chips 2026 reports that about 93 percent of the bytes of a trillion-parameter model are read-only [1,17]. Our own calculation is less optimistic, but read-only bandwidth still accounts for 40 to 50 percent of all traffic for Kimi K3 with a 1M-token context. The derivation is not expanded here, for reasons of paper length and because this work focuses on the HBF simulator. In short, much of the bandwidth an existing LLM workload consumes does not need the repeated overwriting that HBM supports, and industry is paying for that. Cheap NAND media happen to suit data written once and read many times. Observation 2: The predictable execution path of trans- former inference leaves a long lead time for prefetching. Transformer decoding walks the layers in a fixed order, so which weights a token reads is settled before that token starts to compute. The architecture of an LLM leaves a large time gap for prefetching. By our calculation on an H100 SXM5 from NVIDIA [6,28], computing layer i leaves a lead time of about 130.2 µs for reading the weights of layer i+1, which is 6.5 times the assumed ∼20 µs HBF page read latency [13]. Better still, we find that architectures such as Google’s TPU and Huawei’s DaVinci NPU [11,12,24] leave a larger time window for HBF to prefetch weights than an NVIDIA GPU does. The reason is that an accelerator which orders transfers in the compiler predicts the data to prefetch better than a GPU that relies on run-time concurrency, and so issues a fetch earlier [11]. In short, the other main theoretical drawback of HBF, its very high latency next to HBM, can be hidden by prefetching early, so that the compute interval covers the I/O latency. We list several I/O paths that can serve accelerators in the foreseeable future. Table 1 shows that HBF, with its lower price, large capacity, and bandwidth close to HBM, would in theory play an important role in solving the memory wall problem of LLMs. We therefore decided to design an open- source, fast, and accurate HBF simulator to further explore how HBF behaves under various workloads. Motivation We first think of placing an HBF module inside a GPU simu- lator such as GPGPU-Sim [3,18,30,37]. We find, however, that a simulator built that way cannot simulate HBF faithfully. Table 2 shows that cycle-level GPU simulators are too slow to finish one LLM inference run in acceptable time. The dis- agreements over HBF can be answered forcefully only on a real running LLM model. Beyond simulation time, the timing parameters of HBF have not been published: the specifica- tion defers every quantity with the dimension of time to each vendor’s product datasheet, leaving no parameters to fill in. We next think of driving an HBF simulator from a replayed GPU trace, and that construction does not work either. Trace mode is still slow: Table 2 shows 12,500 warp instructions per second, which cannot keep pace with the dynamic instruction count of one real LLM inference. More fundamentally, one Accel-Sim on lavaMD [8] Wall-clock time, one thread >5 days Slowdown against hardware, one thread 10,748,031× Slowdown against hardware, 16 threads 766,423× Simulated warp instructions per second: Accel-Sim, trace mode [18] 12,500 Accel-Sim, execution mode [18] 6,000 GPGPU-Sim 3.x [3,18] 3,000 Accel-Sim 2.0 [30] 27,500 Simulated instructions per second: MGPUSim, four threads [37] ≈27,000 GPGPU-Sim, same machine [37] ≈800 Table 2: Simulation time and instruction rate reported for cycle-level GPU simulators. trace corresponds to one HBM-to-HBF capacity split. Chang- ing the split changes which tensors the inference framework keeps resident, how it partitions the KV cache, and whether migration kernels fire at all; none of those instructions appear in an already-recorded trace. A single trace therefore cannot explore different HBF-to-HBM ratios or architectures, and cannot quickly locate the optimal HBF configuration across workloads. We therefore run the workload on a real GPU, so that the computation that may hide an HBF access comes from the hardware itself. A real GPU, however, leaves an experimenter no model to modify and no simulated clock to advance; the three challenges stated below follow from that decision. Challenge 1: Traditional simulators have no interception point applied to HBF. In the traditional simulator methodology, an interception point is a place outside the program under test through which every memory access must pass and where an experimenter can add waiting time. HBF is the first medium that places NAND, GPU, and DRAM in one heterogeneous package, and every access to HBF is served inside that package. Memory- tier emulators such as Cylon [45] and CXLMemSim [42] intercept in the host-side CPU and kernel. Block-device emu- lators such as FEMU [22] and SwarmIO [19] intercept in the host-side submission queue and driver. On a unified-memory APU, the interception point is host-side software that fills the page table [40]. External memory is intercepted on the link outside the package [35]. An access to HBF, issued by the GPU’s load/store units, passes through none of these places. The one route that remains is to instrument the code of the program under test [39]. Challenge 2: Attributing a modeled delay to the instruction that should have paid it is difficult. To answer Challenge 1 we intercept at the PTX level. PTX, Parallel Thread Execution, is NVIDIA’s virtual instruction set: the compiler emits it for a GPU kernel, and a backend turns it into the machine instructions the GPU executes. We insert the waiting time by rewriting memory instructions in PTX. However, PTX interception raises a doubt about where the de- lay is injected: the PTX text says only which instructions the program contains. How the hardware resolves dependences after issue, and at which instruction it stops, cannot be read from the PTX text. When a warp issues a memory instruction, the hardware sends the access out and marks the destination register as not yet returned in the scoreboard, the hardware table that records which register results have not come back. The warp then issues the instructions that follow immediately, without waiting for the value. A later ALU instruction that does not read the destination register executes as usual. When the consumer instruction reaches issue, the hardware has to read the destination register. The hardware finds the mark still in the scoreboard and stops at that instruction until the value returns. The latency itself occurs when the access is issued. Whether the program pays time for that latency is decided at the consumer, by whether the value has arrived. A wait inserted into the instruction stream becomes time the program spends waiting only when it sits at the consumer. A wait at the issue point makes the program wait for a stretch of time the hardware would not have waited. A rewrite sees only the instruction-issue front end, while a memory instruction acts on back-end execution that issue never sees. PTX fixes which instructions the program contains. The backend assigns the physical registers and schedules the instructions only after the rewrite. At the PTX level the physical registers have not been allocated and the instruction schedule has not been fixed. A rewrite therefore does not know what the chain of register dependences looks like. A rewrite also does not know which instructions lie between the load and its consumer. For exam- ple, a program contains LDG R8, then ..., then IMAD R9 R8 R5 R6. The ellipsis stands for the many instructions between the load and the multiply-add. The load is issued and the hard- ware issues past it. The multiply-add reads R8, so it stops at issue until the value arrives. The doubt has two parts. The first is the injection point. A rewrite that turns LDG R8 into a call that blocks stops the whole warp at that instruction. The warp sleeps through the modeled delay. Real hardware does not wait at that instruction. The ALU instructions that follow and do not read R8 execute as usual. Blocking at the issue point turns the whole modeled delay into time the program spends waiting. Real hardware turns into waiting only the part of the delay that outlasts the instructions in between. The doubt is exactly this: a rewrite holds the instruction sequence that the issue end sees, while the place where access latency becomes lost time is the hard- ware backend. Those two places are not the same place. The second is information. A rewrite cannot see the schedule that ptxas finally emits. The rewrite therefore does not know how many instructions lie between LDG R8 and IMAD R9 R8 R5 R6, nor how long those instructions take to run. How long the window between the load and its consumer is cannot be read from the PTX text. The instructions between the load and its consumer decide how much of the latency is hidden. If both the real latency and the modeled latency fit inside that window, the two runs behave identically; if only the real latency fits, the simulated run stalls where the real run does not; if neither fits, the two stalls have different lengths. The Tensor Memory Accelera- tor (TMA) makes the simulation harder. TMA is a unit on NVIDIA GPUs that moves a whole tile of a multidimensional array asynchronously. In PTX, a TMA transfer is a single instruction; how many requests that transfer becomes, how it moves through L2 cache, and which CTAs receive its multi- cast are all decided by hardware below PTX. In other words, on an architecture as out-of-order and asynchronous as a GPU, keeping a simulation both accurate and cheap to run is very challenging. Challenge 3: The medium of HBF is a stack of temperature- sensitive NAND flash that shares a package with the GPU, so the rate HBF sustains over a long run is set by temperature rather than by the nominal peak. If HBF’s heat is not modeled, the wrong result is that the nominal peak bandwidth is read as a rate the device can hold. The three nominal bandwidths in the specification, 0.4 to 3.0 TB/s, need not be steady values in real use: the workload itself raises the temperature past the thresholds the specifi- cation defines, which throttles the device. HBF, HBM, and the GPU share one package, so the junction temperature—the temperature of the point inside a chip that actually produces the heat, which is higher than the average temperature of the package—sits above the average. The coupled heating of these three media, and the ceiling that coupling puts on the HBF rate, therefore have to be modeled. Temperature is not the only property of the NAND medium that determines what HBF delivers over a long run: retention loss, read disturb, and wear accumulate as the device is used, and the refresh the de- vice performs to keep its data takes bandwidth the workload’s reads also need. To meet the three challenges above, we present the architec- ture of HBFSim. Section 4 answers Challenge 1 with D1 and D5, answers Challenge 2 with D2, and answers Challenge 3 with D3 and D4. Design HBFSim closes the loop between a running GPU program and a modeled HBF device. The workload executes on an unmodified GPU software stack; a PTX pass rewrites only accesses for which it can preserve the program’s semantics. At run time, the generated helpers classify the effective ad- dress against explicit HBF ranges and route the HBF portion through a detailed reference path, which places each fore- ground media request into an online MQSim instance and returns the completion to its original ring ticket. That path consumes the same generation-stamped thermal state and the same deterministic refresh plan. This section first defines that execution boundary and then describes timing, temperature, retention, and capacity as one coupled system. Figure 1 shows where each part of that feedback loop executes. 4.1 D1: An Explicit and Fail-Closed Boundary Applications register virtual-address intervals as HBF tim- ing or capacity ranges. Registration is intentionally explicit: neither a PTX instruction nor a TensorMap descriptor says which physical tier will back its address at run time. Each range records its base, length, access permissions, page geom- etry, stream, and backing-file offset. The runtime publishes a sorted immutable snapshot, and a device helper classifies the effective address produced by the executing instruction. An address outside every registered range follows the native HBM path. An in-range access is modeled only if the com- plete byte span and its permissions are valid; an ambiguous or partially out-of-range access fails rather than silently running as HBM. This dynamic classification is essential for TMA opera- tions. A TensorMap is a host-created descriptor whose base, dimensions, strides, box shape, element format, and out-of- bounds policy are values, not PTX constants. The runtime binds a hash of the exact 128-byte descriptor to a decoded and generation-stamped representation. At issue, HBFSim enumerates the tile’s effective element addresses and parti- tions it into HBM, HBF, and out-of-bounds bytes. Unicast and multicast use the same partition; multicast adds one tracked destination per selected cluster rank and completes its barrier only after both native TMA and every modeled HBF segment complete. Consequently, a tile that crosses the HBM–HBF boundary is modeled byte for byte rather than assigned whole- sale to either tier. The same principle limits coverage. The pass instruments PTX modules and records an admission artifact containing the original and transformed hashes, the helper ABI, and the instruction coverage. A precompiled cubin, the already-built code for one GPU architecture, has no PTX to rewrite, so HBFSim does not claim to observe it. We also measured the alternative: instrumenting the same run totally through NVBit [39], which rewrites at the SASS level and reaches kernels this pass cannot, costs more than ten times the run- time overhead of the PTX pass, which makes simulating some larger-parameter LLMs on HBF take too long. We therefore instrument at the PTX level. Exact runs are admitted only when every access required by the declared run contract is covered; otherwise the launch is refused and the reason is recorded. This turns incomplete instrumentation from an im- plicit source of optimistic results into an explicit experimental boundary. 4.2 D2: Preserving GPU Asynchrony Split issue from consumption. The naive idea is to make the rewritten access wait in place: the program stops at the instruction that issues the access and sleeps through the mod- eled latency. Real hardware is the opposite: it issues a load and continues to issue the instructions that follow, as long as nothing later reads the register whose value has not returned. If the rewritten access waits in place, a single memory access stalls the whole warp at the issue point, so the instructions that could otherwise overlap the HBF access never issue. We therefore split issue from consumption. Issue is the moment the GPU sends a memory access out, and consumption is the moment a later instruction first reads the value the access returns. Splitting issue from consumption means handling the access at two separate places in the program. At issue, a rewritten access registers one record and continues. The record holds the modeled completion time of the rewritten access, and the design calls the record a device future. At consumption, the thread waits for the modeled completion time at the first instruction that actually reads the value. Placing the wait at the point of consumption puts the wait in the same place where the hardware itself stops. The score- board is the hardware table that tracks which register results have not yet come back. When a memory access is issued, the hardware marks the destination register as not yet returned in the scoreboard. The first instruction that reads that register finds the mark still there and stops. An ordinary load or store allocates a small device future and continues; the first dependent use polls or waits for its modeled completion. The workload does not run ahead of the model: a synchronous consumer waits immediately, whereas a future or TMA object waits only at its architectural depen- dency. TMA issue creates a deferred object keyed by the barrier, CTA group, cluster, and generation. Native comple- tion and modeled completion are conjunctive: neither alone releases the barrier. Every object has exactly one terminal tran- sition, and stale generations, leaks, and faults are reported. 4.3 D3: A Closed-Loop Thermal Controller The CUDA process owns the live device identity and pub- lishes GPU temperature, power, a host-monotonic timestamp, and source status. The source can instead be an explicitly declared constant or hash-bound trace for deterministic ex- periments. Missing, stale, regressing, or failed telemetry ter- minates a thermal run; HBFSim never freezes the last good temperature. Host and GPU clock origins are never subtracted. Device code consumes only relative service and refresh debt. Media activity, not a nominal power figure, is the source of HBF heat in HBFSim. Each read, program, and erase event that the media model schedules carries an energy under the event-based Joule energy model, ENAND = Ecommand +ebyte × bytes. Event energies accumulate in 10 ms bins. The binning Host setup / registry Host capacity service PTX pass admit or reject Registry ranges + TensorMap Backing file exact page bytes Prefetcher following pages Real GPU HBM tier vLLM Qwen3-30B Device ABI issue, wait at dependency Native path not registered Frame cache capacity ranges rewrite lookup registered / not page bytes fill HBF · modeled behaviour Timing Online MQSim host · reference Junction temp GPU heat + HBF bytes GPU telemetry Retention heat to lifetime Service policy rate + admission Refresh read + rewrite Evidence bytes, wear, MTBF byte counters temperature deadline policy refresh work Figure 1: HBFSim architecture. applies a time-bin power integration: an event that spans more than one bin has its energy split across the bins in proportion to the time overlap. The power of node i in bin k is Pi,k = Ei,k/∆t +Pidle,i. HBFSim builds the package thermal operator offline with 3D-ICE 4.0 [47] from the material properties, the geome- try, the grid, and the power sources. The temperature field then follows Fourier transient heat conduction, Cv ∂T/∂t = ∇·(k∇T)+q′′′, where q′′′ is the volumetric heat generation. Discretized on the grid, every thermal cell becomes an RC network node, dTi dt = Pi −∑ Gi j(Ti −Tj)−Gi,sink(Ti −Tsink), (1) where Gij is the conductance between neighboring cells and Gi,sink is the conductance from a cell to the heat sink. Conduction between two cells is Fourier’s law. At the heat sink the operator applies −k∂T/∂n = h(T −Tamb), which is Newton’s law of cooling, or the Robin boundary condition in the finite-volume formulation. At a non-uniform bottom boundary the half-cell conduction and the convection form a series thermal resistance with equivalent boundary conduc- tance Geq = 2khA/(∆zh+2k). The GPU, the HBM, and the HBF share one conductance matrix G and one capacitance matrix C; heat from any of the three reaches the other two through that operator, not through three separately solved models averaged together. At every 10 ms step the runtime forms one package power vector from the measured GPU power and the modeled HBM and HBF power, with separate entries for the three media and the HBF layers. The division of labor between HBFSim and 3D-ICE is as follows: 3D-ICE solves the underlying thermal physics; HBFSim owns the energy balance of heat generation, heat transfer, heat storage, and heat dissipation across the three media in one real run, and returns the resulting package temperature to HBF request service. Offline, each heat source receives a 1 W unit step, and the Eigensystem Realization Algorithm (ERA) fits a reduced-order model to the recorded response. At run time the reduced-order model is a discrete state-space system, xk+1 = Axk +Bpk +b, Tk = Cxk +Dpk +d. (2) The state xk is a reduced thermal state and not a physical grid temperature, and the reduced model is far smaller than the full-order operator. At steady state the reduced-order model gives the tempera- ture change that one source produces at every node. Driving one source at a time with 1 W fills the thermal-resistance and cross-talk matrix Rij = ∆Ti/Pj, in K/W. The HBF hotspot temperature is the output of the thermal model, and the ad- mission rate that the throttling state allows changes the media activity that generated the heat. It applies thermal service exactly once. If an unthrottled operation has service s and the controller publishes service fraction q in parts per million, the device uses sT = \u0018s·106 (3) The fraction is snapshotted before queue reservation. Thus a command admitted before a state transition retains its ser- vice and drains once; a later Severe state cannot retroactively strand it. Normal publishes q = 106, Light publishes a pro- file value below 106, Severe withholds new reservations, and Shutdown returns a distinct terminal link-shutdown status. A seqlock-style generation protects the mode, service, tempera- ture, and admission fields from torn host–device reads. The thresholds RTT, LTT and STT drive a hysteretic state machine with four states: Normal, Light, Severe and Shut- down. The controller is constructed and publishes its first valid snapshot before the daemon’s readiness heartbeat, so no request can observe an uninitialized thermal policy. 4.4 D4: Retention, Refresh, and Wear as In- jected Latency The difference from a conventional NAND simulator is not that HBFSim keeps these states; it is where the number those states produce ends up. A conventional NAND simulator keeps them too: a refresh consumes time inside the device, and the device latency the simulator reports grows. That de- vice, however, sits behind a host interface, so however expen- sive a refresh is, it only moves a quantity inside the device, and the program does not change what it does next because of it. Here the loop closes because the running program pays for the refresh itself: a rise in temperature shortens the reten- tion deadline, the shortened deadline forces refresh writes, those writes take bandwidth the workload’s own reads also use and endurance the device has to spend, and the next ac- cess the workload issues is injected with a longer delay. In a conventional simulator the chain temperature →retention deadline →forced refresh →bandwidth and endurance →a longer injected delay →a workload that feels it breaks at the second-to-last step: it can compute the same refresh traffic, but it cannot make the running program pay time for it. Each registered block carries retention damage, a read- disturb count, a zone identifier, and current and maximum program/erase count (PEC). Retention lifetime follows an Arrhenius model anchored at the declared reference condition: L(T) = Lref exp \u0014Ea,r \u0012 1 T −1 Tref (4) Over a changing trajectory the controller accumulates D ←D+at L(T), (5) where at is a disclosed reliability-time acceleration used only to make validation runs practical. A block becomes eligi- ble when damage reaches its lead threshold or its read-disturb limit. Eligibility never changes application bytes. The sched- uler emits page-aligned read–rewrite pairs in a deterministic order: eligibility epoch, channel round robin, die round robin, zone, block, and page. It excludes refresh from a die while an application read occupies that die. In the reference path, refresh uses a disjoint request-ID namespace and enters the same MQSim queues as foreground traffic. Its completion updates only background state; it cannot consume an application ticket. A block commits one PEC and clears its damage and disturb counters only after every read and rewrite quantum completes successfully. On failure, the counters remain and the work is eligible to retry. The host publishes the same plan as relative byte debt. An application admission atomically claims at most one refresh quantum and reserves the corresponding thermally scaled service before its own service. Host decay accounts separately for debt that would have drained in otherwise idle time. This representation avoids putting host timestamps into GPU queue tails while preserving refresh bytes, order, PEC, and contention with foreground traffic. 4.5 D5: Capacity Timing ranges preserve their original address. Capacity ranges instead use a bounded HBM frame cache backed by a sparse host file. A miss hands a page to the host service, which reads or programs the media model and copies the frame; dirty eviction writes the exact bytes back. Refresh reads and rewrites through the backing abstraction without modifying payload contents, so the acceptance condition is an unchanged workload checksum, not merely a completed media request. 4.6 D6: Speculative Prefetcher A dense LLM reads its weights in the same order on every token, so an HBF tier can fetch the pages a layer needs before that layer runs. Mixture-of-Experts routing removes that order: a token’s experts are chosen only after the preceding layer produces its output. D6 therefore predicts from the accesses already served: HBFSim fetches the pages that follow a served page fault. HBFSim exposes a prefetch interface so that a user can supply a policy of its own, and it also ships one simple default policy, the one described here. On a synthetic Mixture-of-Experts stream, 8 pages per ex- pert, 256 frames and 1033 distinct pages, the share of accesses served without a media read rises from 17.97% to 89.16%, and the media reads an access still has to wait for fall by 86.79%, from 840 to 111. Total media reads rise from 840 to 979, or 16.55%, and that rise is not the cost of fetching early: 729 (83.99%) of the prefetcher’s 868 reads each replaced a read that would have happened anyway, issued earlier rather than in addition. Only the 139 reads that went unused add traffic—pages guessed at an expert boundary, or evicted be- fore their access arrived—and 139 is exactly the rise. The speculative prefetcher builds no media plan and never enters the detailed timing path, so it adds no modeled latency, queueing, or contention. Entering the timing path is future work, and this paper claims no run-time performance benefit from D6. Implementation The implementation is 9,302 lines of C, C++ and CUDA under src/ and include/, with a further 3,250 lines added afterwards for the measured calibration work. Three parts are reused: the flash media model of MQSim, the CUDA call interception path of bpftime, and the inference frame- works themselves, whose source is not modified. The parts we add are the range table and its registration interface, the PTX rewriting pass, the shared control region and the inter- face across it, the calibrated timing model, the thermal and retention model, and the page cache and backing store of the capacity mode. Four dependencies are pinned by commit: bpftime, MQSim, llama.cpp, and vLLM. Patches are kept as separate files instead of being applied into the imported source trees, so those trees stay as they were fetched; each build artifact carries a record of the versions that went into it, and the launcher refuses to start a build that carries no such record or one whose record does not match. The GPU is an NVIDIA RTX PRO 6000 Blackwell Server Edition with driver 595.84, compute capability 12.0 — the version number CUDA uses to identify a GPU architecture generation — and 97,887 MiB of memory; the CUDA toolkit is 13.0.88, and PTX is assembled with the ptxas of CUDA 12.8. The flash and thermal reference device is a Dell DC NVMe CD8P E3.S 1.92 TB on PCIe 5.0 at 32 GT/s x4, attached to NUMA node 1; it supplies real flash and thermal behaviour and is not an HBF device. Section 6 describes the same machine. Host and device share one control region. It is carried in an anonymous memory file, a region of memory that has a file descriptor but no file on disk, which is then sealed against any change of size, mapped, and registered so that the device can reach it, which yields a device-side address for the same bytes. The seal is what makes the region usable from a GPU thread: the device side reaches the request ring and the completion slots at fixed offsets, and those offsets hold only if the size cannot change while the run is in progress. The other allocation route was not taken because it does not yield a file descriptor that can be mapped again after a change of process. A timed access reserves a request slot and, at the same index, the completion slot that will answer it. The reservation sequence number is written into the request and is also the ticket the caller keeps; a waiter consumes only the completion slot its own ticket names, so a completion is never taken by another access. The daemon publishes its first heartbeat, a counter it up- dates to show that it is still running, only after the configu- ration, the timing engine and the dispatcher have been con- structed. That first heartbeat is the readiness boundary: until it appears, no access is served. One-time initialisation is al- lowed 10 seconds, and from then on the heartbeat is updated at least once every 10 milliseconds. The device side does not subtract a host clock reading from a GPU clock reading, be- cause the two clocks are not guaranteed to share a time origin. It records the last heartbeat value it observed together with the local GPU time at which that value changed, and decides from those two whether the daemon is still running; a run whose heartbeat stops ends rather than continuing untimed. Four kinds of time are counted separately: the delay the model asked for, the wait an access actually observed, the time the host spent serving it, and the part of wall-clock time that the modeled delay does not account for. They are car- ried in four counters, modeled_ns, wall_ns, service_ns and overhead_ns. The reason is that a simulator which ap- plies its effects inside a real execution can be functionally correct and still spend more time in its own software path than the device latency it is modeling; a slowdown reported without that split says nothing about the device. Section 6 reports the split for every workload. Every failure ends the run, and nothing is downgraded silently. A request ends in one of eight states: PENDING, READY, IO_ERROR, COPY_ERROR, CHECKSUM_ERROR, TIMEOUT, UNSUPPORTED and DAEMON_LOST; the six er- ror states among them end the run. When the dispatcher or the timing engine fails, two steps happen in a fixed order. A terminal error completion is first posted to the reserved ticket of every request that has been admitted, is in flight, or is still queued, and only then is the global failure word published. In that order, a waiter that observes the failure word also finds a terminal state in the completion slot its own ticket names, so no thread is left waiting on a completion that will never arrive. At clean exit or any terminal thermal state, HBFSim atomically replaces one canonical JSON summary. It contains the exact profile and SHA-256, telemetry source identity, temperature samples, every state transition, state residency, application and refresh bytes, debt disposition, damage, PEC, and terminal status. It also reports a sensitivity sweep rather than a single asserted lifetime. For failure activation energy Ea, interval hazard is H(Ea) = ∑ ∆ti Mref exp \u0014Ea \u0012 1 Tref (6) with failure probability 1−e−H. Retention activation en- ergy and whole-device failure activation energy are separate profile inputs. The result is therefore a reproducible, parame- terized model outcome—not a claim that HBFSim measured the lifetime of unavailable HBF hardware. Storage and flash simulators. MQSim [38] and Simp- leSSD [15] model the flash medium together with the sur- rounding block device and host driver stack; both intercept at the host’s block device interface. HBFSim reuses the flash media model of MQSim and drives that media model in the opposite direction: the MQSim event queue is advanced on demand while the workload runs (Section 2). MQSim is there- fore a component of HBFSim rather than a competitor: HBF- Sim charges the modeled time of a page read to one access made by a kernel that is executing on the GPU. HBFSim intercepts at the GPU’s instruction path, so the requests come from a workload that is executing. SwarmIO [19] emulates a drive that GPU threads read themselves, and meets the same conflict Challenge 2 states between a timing model that is accurate and the cost of evaluating that model at high request rates. The drive SwarmIO emulates is reached over NVMe submission queues and a PCIe link, so an emulator can act at a queue, a doorbell register or a replaceable driver layer. An HBF access is issued by the GPU’s own load/store units and is served inside the accelerator package, so the host side offers no queue, no doorbell register and no replaceable driver layer (Challenge 1). GPU simulation and GPU instrumentation. GPGPU- Sim [3] and Accel-Sim [18] run a modeled GPU, not the GPU on which the system will be deployed. eGPU [43] places code inside a running GPU kernel and is the direct predecessor of the instrumentation route HBFSim uses; HBFSim applies that ability to the timing and the capacity behaviour of a device that does not exist yet. Simulating a device that cannot be obtained. Three sys- tems at other tiers simulate a device that cannot be obtained, and HBFSim differs from each on three axes. Cylon [45] emulates a CXL-attached solid-state drive presented as a byte- addressable memory tier, and acts on the CPU side through virtualization. CXLMemSim [42] simulates a pooled memory tier by attaching to an unmodified running program, observ- ing memory accesses with hardware performance counters and kernel instrumentation, and injecting delay once per fixed interval of execution. FlashAccel [41] is a hardware–software co-design of an inference system built on HBF, evaluated with an event-driven simulator. The device HBFSim simulates is flash inside the accelerator package, read at 64 bytes and writ- ten at 4 KiB, with the wear and retention limits a DRAM pool does not have. Accesses are observed and delayed in rewritten intermediate code on the GPU, not at the virtual machine layer or in CPU performance counters. The third axis is the loop from temperature to reliability: none of the three makes temperature part of the device interface, whereas the HBF specification defines temperature as values the host reads, thresholds the host sets and states the host has to re- spond to. Temperature itself is not new to simulation: prior work extends architectural sampling to the thermal domain, because accurate estimation of thermal behaviour is itself time-consuming [2]. Full-system simulation before the silicon exists. A full- system simulator that already supports a new memory tech- nology is the obvious alternative to HBFSim, and the history of HBM support in gem5 [5] shows what such support consists of while the parts are still unavailable. The HBM configura- tions added to gem5 in September 2015 are timing values fed to the ordinary DDR controller; the commit message gives “Timing extrapolated from existing LPDDR configurations” as one of three sources for those values, and adds, “Will adjust once specs become available.” A memory controller written for HBM itself, with pseudo channels, arrived only in May 2022, six years after HBM2 shipped with the P100. Before the silicon exists, the answer a full-system simulator gives is therefore itself extrapolated from a neighbouring standard.",
+      "experiment": "We evaluate HBFSim before HBF hardware becomes avail- able. Our evaluation addresses three questions: • EQ1: Can HBFSim execute complete real LLM work- loads transparently, preserving program results and synchronization, while applying modeled HBF la- tency accurately to the accesses it declares? • EQ2: How does package heating affect HBF service, and which component reaches its thermal limit first? • EQ3: How do the HBM–HBF mix and MoE routing together set the capacity a serving workload has? 6.1 Experimental Setup GPU experiments run on the machine of Section 5: an NVIDIA RTX PRO 6000 Blackwell Server Edition (com- pute capability 12.0, driver v595.84) with a Dell CD8P SSD. GDDR7 on the GPU is the platform’s actual memory and backs the logical fast tier through a page cache. Qwen3-30B- A3B runs under vLLM v0.15.1, and the simulator is built with CUDA 13.0. The Dell CD8P is the reference for the measured flash and host-paging path only. The full-order 3D-ICE pack- age model is the reference the service simulation’s reduced model compared against, and the OCP specification supplies the HBF configuration constraints. 6.2 EQ1: End-to-End Execution and Timing Fidelity HBFSim injects modeled HBF service into a real GPU run: the workload must compute what it would compute without instrumentation, and each access must be charged to the tier it actually reaches. An access charged to the wrong tier misat- tributes service, and breaking barrier handling changes GPU synchronization semantics. Completing a run and modeling a run are different claims: completing means the model loads, prefill and decode run, the requested output tokens are pro- duced, and the process ends normally; modeling completely would mean every access the run declares should be modeled actually is. The question therefore asks four things of one run on Qwen3-30B-A3B: that it completes, that it computes what it would have computed without instrumentation, that the accesses reaching the modeled tier are the ones the regis- tration declares and the rest keep native semantics, and that the service injected into them is timely. Under vLLM v0.15.1, the instrumented build runs Qwen3- 30B-A3B end to end at a fixed 32-token prompt, seed 0 and output_len 8: a 60.988 s load, then 44.469 s of generation producing the eight requested output tokens; a TinyLlama run under llama.cpp takes ten 50 ms injections. The instrumented run preserves the second and third of those four things: value, effective address, tier assignment and synchronization are unchanged, over 42 checks that cover ordinary and TMA accesses across seven launchable TMA templates, in-range and out-of-range addresses, HBM– HBF mixed boundaries and barrier-dependent completion. A 110 GiB logical range is mapped through a bounded 2 GiB page cache, and the 128 checksums over the first and last regions touched equal the baseline’s. The timing result is a difference between two delays rather than an absolute match: a 1,000 µs injection and a 200 µs injection, an 800 µs increment. Its six cells are TMA trans- fers at 256 B and 8192 B, and the records carry a constant 14.3–14.9 µs offset in a segment the reference model does not contain. The two transfer sizes are crossed with three frozen work levels, each an iteration count of an integer work loop injected into the probe kernel alongside the outstanding transfer: 0, 3335 and 9769 at 256 B, and 0, 3352 and 9787 at 8192 B. The two non-zero levels were chosen so the in-kernel arithmetic lands about 10 and 30 µs above the native transfer cost. Each cell is 36 paired blocks, and the reported cell mea- sures 798,784.0 ns at 8192 B. The 0.152% is the error of that increment in the reported cell, not an absolute HBF latency error: what the difference demonstrates is the injection and the measurement, and no physical HBF latency was measured (Figure 2a). Figure 2c shows why the difference uses two large delays. The reference model predicts a duration that is the largest of three terms, only one of which carries the injected delay. Be- low a few hundred microseconds that term is not the largest, so a longer delay leaves the prediction unchanged and nothing is recovered; the difference then reflects run-to-run drift in the part of the pipeline the delay never reaches. The y axis of Fig- ure 2(c) is the fraction of the requested delay that reappears in the measured duration: the mean over a cell’s 36 block pairs of the delayed transfer’s span minus the zero-delay transfer’s span, divided by that cell’s requested delay. The model pre- dicts −692.4 and −751.1 ns for the two cells where it is most negative, against observed −681.8 and −923.6 ns. Five of the six negative points are not distinguishable from zero at their published 95% intervals. The 1,000 and 200 µs injections both sit above the work term, and their work terms are nearly equal, so the difference cancels them. Figure 2b gives that difference for each of the 216 measured transfers. The delivered incre- ment has a median about 400 ns below the request, with the middle 90% of deliveries between −4800 and +4160 ns. All three panels measure the injection. 6.3 EQ2: Thermal Coupling An HBF stack shares one package with the HBM region and the compute die, so the stack’s own temperature does not decide how much read service it can sustain. The coupling has to be simulated transiently, and the binding component identified. One HBF stack of 16 host channels is modeled at the 8- hi stack height Speed Grade 1 allows, with read power of 5 W idle plus 8.4×10−11 J per byte, 37.256 W at 384 GB/s, driving a 3D-ICE package operator over the compute die, the HBM region and the eight HBF layers, stepped at 10 ms. Three model assumptions fix the operating point. The W0 W1 W2 W0 W1 W2 Transfer size / work level −1200 −800 −400 Error (ns) 256 B 8,192 B exact 800 µs (a) −8000−4000 Delivery error (ns) 0.0 0.2 0.4 0.6 0.8 1.0 Cumulative (b) Injected delay (µs) −0.5 0.0 0.5 1.0 Recovery 1 = full recovery 0 = no recovery (c) Increment error Paired-error distribution Delay recovery 256 B W0 256 B W1 256 B W2 8,192 B W0 8,192 B W1 8,192 B W2 Figure 2: Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c). 0.0 0.5 1.0 1.5 2.0 2.5 3.0 Time (s) HBF_L0 HBF_L1 HBF_L2 HBF_L3 HBF_L4 HBF_L5 HBF_L6 HBF_L7 HBF layer (a) Heating over time External heat load (W); 0 W is HBF alone HBF_L0 threshold, 65.09 W (b) Heating vs. external heat load Temperature (°C) Figure 3: Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale. 384 GB/s target is the per-cube maximum the OCP speci- fication gives Speed Grade 1 in Table 4 (Speed Grades 2 and 3 raise it to 1.536 and 3.072 TB/s at a 16-hi stack height, which this work does not model); the host channel is 64 bits, the value the specification fixes; and the ECC engines per channel are provisioned so that error correction does not cap the rated bandwidth, a quantity the specification leaves open. Over horizons of 600, 3,600 and 86,400 s, five control policies—a baseline with no throttling, the hysteresis policy at two settings, a fixed admission cap, and a proportional-integral controller—each deliver the full 384.0 GB/s measured in the [30,60) s window, and none throttles: the seconds above the Severe and Shutdown thresholds are zero in every run, and the peak temperature is 79.8 ◦C, within 3×10−5 K of what the thermal fit predicts. Within the package-safe envelope evaluated here, the pack- age’s thermal limit is reached at the compute die, not at HBF: 86.6 W at the 90 ◦C compute limit against 121.4 W at the HBM limit and 105.9 W at the HBF limit, both 105 ◦C. At the compute-die limit the eight HBF layers span 44.4 K, from 91.6 ◦C in layer 0 at the package base to 47.2 ◦C in layer 7 at the top (Figure 3). In Figure 3, panel (a) is the first 3.0 s at the whole-package load, and panel (b) sweeps the external heat load from 0 to 140 W. Panels (a) and (b) are modeled predictions from a reconstructed thermal operator, not measurements of a run- ning device. Panel (b) carries two marks: the solid line sits at 65.09 W, the load up to which layer 0 stays flat, and the dashed line sits at the whole-package operating point, the load at which the compute die reaches its 90 ◦C ceiling in this modeled scenario. Layer 7 is still flat at 130 W. At 0 W in panel (b) the HBF stack is the only heat source: the compute die and the HBM region add no heat there, while the stack’s own read power is present at every load. Across seven compute phases, measured board power on the evaluation GPU (Figure 4) spans 314.988 to 431.370 W, and the GPU’s own sensor stays between about 46 and 52 ◦C. The board-power difference between the DRAM-resident and L2-resident halves of a phase rises approximately linearly with bandwidth and reaches 45.707 W at 383.649 GB/s. The least-squares line is drawn over all six bandwidth phases, including those that did not reach a plateau, so it describes the observations rather than a steady state taken from the plateau phases alone. No temperature here is a memory-chip 320 360 400 440 Board power (W) GPU temp. (°C) (a) Compute load DRAM bandwidth (GB/s) Marginal board power (W) (b) Memory traffic Plateau check: passed Plateau check: not passed fit over the six phases Figure 4: Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and mea- sured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases. 6H+0F 3H+2F 1H+3F 1,000 1,500 2,000 Capacity (GiB) (a) Installed tier capacity 1,132 1,572 HBM HBF 6H+0F 3H+2F 1H+3F M tokens (b) HBM-resident KV capacity 1.72M 0.54M no full HBM residency Figure 5: HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget. temperature, since the card exposes none by any route and both NVML fields that might carry one were unavailable in all 3,877 samples. The panel (b) difference is not GDDR chip power: the two halves differ in where the buffer resides, so the difference contains whatever else changes with that residency. The 383.649 GB/s point is GDDR7 traffic through the card’s own memory system, not HBF service, and the modeled 384 GB/s HBF target shares only that value. Panel (a)’s board-power axis and the 0 to 140 W external heat load of Figure 3(b) are different quantities: one is a measured board draw, the other heat injected into a package model. 86.6 W keeps its meaning as the compute-die thermal limit reverse- solved at the 90 ◦C modeled ceiling, not a card power limit; the card’s own limits are 300 to 600 W. The service simulation runs on a 224-state model. The 224-state model and the full-order model differ by one sam- ple in where each applies its input; with that alignment, all eleven outputs across the three input shapes agree to 0.0308 K at worst, the step trace against its own 44.057 K swing, 0.0699% of it. At the first sample the two implementations are provably in the same state, 30.000 ◦C on all eleven channels, and the entire discrepancy at that sample equals the reduced model’s feedthrough term, Du[0], to within 2.5 × 10−14 K. Shifting the reduced model by that one sample lowers the first-sample discrepancy from 2.871, 0.7177 and 4.1406 K to 0.0159, 0.0040 and 0.0215 K, and 0.0215 K is the worst of the three traces. The 3D-ICE package operator is linear, so the agreement at the comparison’s own power level carries to other amplitudes of the same inputs. The comparison is model against model, not against silicon. The three temperature limits are our own choices: 105 ◦C for HBF, the specification’s operating junction range; 105 ◦C for HBM, labelled TOPER in a Micron HBM3E brief that does not say which temperature TOPER is; and 90 ◦C for the compute die, NVIDIA’s published maximum for a GeForce RTX 5090 rather than the server part. The throttling triggers are configuration constants the specification leaves imple- mentation specific. An existing approach [23] solves steady state for one stack outside the service simulator and throttles by turning off the hottest plane; the chain here is transient, whole-package, and coupled to the service side in a single run. 6.4 EQ3: Capacity and Demand Figure 5 gives three layouts under one package-area budget of 861.1 mm2, the area the six-HBM reference layout occupies: A (six HBM stacks, no HBF), B (three HBM, two HBF) and C (one HBM, three HBF). The budget is a project assumption rather than an independently sourced package specification, and the three layouts are representative points rather than a sweep. Fitting inside the budget is a necessary condition on two-dimensional placement only: it settles nothing about routing, power delivery, PHY placement or manufacturability. A fills the budget exactly, B uses 837.7 mm2 and C 754.2 mm2; B’s remaining 23.4 mm2 is a strip 1.94 mm wide, too narrow for any device, so under a bounding-box measure B occupies 99.98% of the budget. 512 GiB per HBF unit is the specification’s cube, while 36 GiB per HBM stack is the specification’s worked exam- ple [4], illustrative rather than normative, and the ranking below depends on that figure. Installed capacity rises from 216 GiB at A to 1,572 GiB at C, while HBM-resident key- value capacity falls from ∼1.72M tokens at A to ∼0.54M at B (Figure 5). Both token figures assume the complete 54.000 GiB expert set already resident in HBM, with the re- mainder of HBM holding key-value state, and both are an ag- gregate resident mix rather than one request’s context length. At C the expert set does not fit in HBM. Of the 36 GiB per HBM stack, 5.0121 GiB is not available to the expert set: 2.8705 GiB of pinned non-expert weights, 2.0000 GiB of workspace plus safety reserve, 0.001 GiB of metadata, and Batch size Deduplicated demand events (× batch 1) 1.000 2.487 3.584 counts, not media bytes measured demand events linear, no reuse Figure 6: MoE expert demand across batch sizes. Dedupli- cated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes. 0.1406 GiB of transfer staging that exists only because an HBF unit is present. What remains at layout C is 30.9879 GiB, 57.4% of the 54.000 GiB expert set, at zero key-value state. The workspace and staging terms are assumptions in the gen- erating code, not measured or device figures, and the pinned weights are the only term with a measured basis. Panel (b) draws C as a short neutral hatched marker rather than a token count, and that marker carries no key-value value. What is infeasible at C is full HBM residency for the expert set, not the configuration. The same 5.0121 GiB is why the per-stack expert-residency threshold is 59.012 GiB rather than 54.000 GiB. At the other end of the same budget, MoE routing concentrates demand on a shared subset of experts, so HBF read demand per token falls with batch size. A captured Qwen3-30B-A3B routing trace at batches 1, 8 and 16 (48 expert layers, 128 experts, top-8) shows routing decisions growing exactly linearly, to 1, 8 and 16 times batch 1, while deduplicated demand events grow only to 2.487 and 3.584 times (Figure 6); the dashed line in the figure repeats the routing decisions as the no-reuse reference. These are event counts rather than media bytes, and only those three batch sizes were measured. This work does not measure the timing benefit of prefetching.",
+      "conclusion": "The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0. One access along that route carries a page fault, the driver, page-cache insertion and a user-space scan, so the profile is named an end-to-end vmem model rather than a media model. The curve is fitted at 1, 4, 16, 64, 256 and 512 pages, and past 512 pages continues on the slope of the last measured segment. Random, reverse, repeated and cross-operation accesses reset the burst length to one and are charged the single-page cost of 11,133 ns, so the non-linear rise measured between 64 and 512 pages shapes sequential bursts alone. An HBF stack inside the package pays no page fault, no driver crossing and no page-cache insertion, and the second timing source is built for the difference: foreground requests enter an online MQSim media model on the host along the reference path. A question about the medium is therefore answered with the media model, and a question about a host- attached deployment with the calibrated end-to-end curve. Coverage is a property of each run rather than a fixed ceil- ing. Kernels that arrive already built are covered at the level of the whole program, where injected modeled time enters the end-to-end time and the output is unchanged. Results there- fore carry to accesses inside registered ranges of rewritable kernels, and widening that set is a question of registration and of the rewriting layer, not of the timing model. Hardware parameters that move are data rather than code. The three synthetic timing profiles are conservative.json, nominal.json and aggressive.json; all three share a ca- pacity of 1 TiB and differ in bandwidth, which ranges from 128 to 1,000 GB/s, while the published specification gives about 3.0 TB/s and 512 GB per stack [4], so re-anchoring the profiles to the published figures edits a data file. The thermal measurements come from one GPU and one Dell CD8P solid- state drive, since HBF parts cannot yet be obtained, and the simulated-warning profile crosses the configured GPU and SSD warning points at 30 s and 42 s by extrapolation, with no physical device taken there, so figures using that profile mark the two crossings as computed values. Retention deadlines follow the Arrhenius equation anchored on Ea = 1.04 eV, mea- sured for 3D NAND after 10,000 program/erase cycles [26]; a medium with a different activation energy moves every dead- line and the refresh traffic each deadline forces, which is why a run reports a sweep over activation energy rather than one lifetime. HBFSim is the first open-source HBF simulator with the workload under evaluation executing on a real GPU. HBF- Sim rewrites the workload’s PTX, routes accesses inside a registered address range into the simulator, and supports asynchronous TMA transfers and capacities beyond physi- cal GPU memory. The modeled wait falls at the instruction that reads the returned value, not at the point of issue. The timing model is calibrated from measurements on real hard- ware rather than parameter-sheet values. A coupled thermal module puts HBF, HBM, and the GPU in one package, so junction temperature changes the service rate and the refresh traffic that the retention deadline forces. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay HBFSim injects matches the delay requested to within 0.152%. A run whose addresses span 110 GiB through a 2 GiB page cache returns a check- sum identical to a native run’s. Over horizons of 600, 3,600 and 86,400 s, five control policies sustain the full 384.0 GB/s without throttling. Within that envelope the modeled package reaches its thermal limit at the compute die, at 86.6 W, not at HBF. Under one package-area budget, installed capacity rises from 216 GiB in an all-HBM layout to 1,572 GiB in the most HBF-heavy one while the key-value state HBM can hold falls. In a captured Qwen3-30B routing trace, deduplicated expert demand grows to 2.487 and 3.584 times batch one at batches 8 and 16, while routing decisions grow linearly. Before HBF parts sample, HBFSim lets someone designing an inference system measure a capacity or placement decision under a real workload instead of assuming one.",
+      "references": "[1] Anurag Agrawal and Radhakrishna Giduthuri. HBF in AI compute: A system architect’s view. Tutorial 1 (Memory technology), Hot Chips 2026, August 2026. https://hc2026.hotchips.org/. [2] Ehsan K. Ardestani, Elnaz Ebrahimi, Gabriel South- ern, and Jose Renau. Thermal-aware sampling in ar- chitectural simulation. In Proceedings of the 2012 ACM/IEEE International Symposium on Low Power Electronics and Design (ISLPED), pages 33–38, 2012. http://masc.soe.ucsc.edu/docs/islped12.pdf. [3] Ali Bakhoda, George L. Yuan, Wilson W. L. Fung, Henry Wong, and Tor M. Aamodt. Analyzing CUDA workloads using a detailed GPU simulator. In 2009 IEEE International Symposium on Performance Analy- sis of Systems and Software (ISPASS), pages 163–174, 2009. [4] Chinnakrishnan Ballapuram and Dongsop Lee. High bandwidth flash (HBF) high-level base die specifica- tion, version 0.7.0. Open Compute Project specification, August 2026. [5] Nathan Binkert, Bradford Beckmann, Gabriel Black, Steven K. Reinhardt, Ali Saidi, Arkaprava Basu, Joel Hestness, Derek R. Hower, Tushar Krishna, Somayeh Sardashti, Rathijit Sen, Korey Sewell, Muhammad Shoaib, Nilay Vaish, Mark D. Hill, and David A. Wood. The gem5 simulator. ACM SIGARCH Computer Ar- chitecture News, 39(2):1–7, 2011. Source repository: https://github.com/gem5/gem5. [6] Aaron Grattafiori et al. The Llama 3 herd of models. arXiv:2407.21783, 2024. https://arxiv.org/abs/ 2407.21783. [7] Minho Ha, Euiseok Kim, and Hoshik Kim. H3: Hybrid architecture using high bandwidth memory and high bandwidth flash for cost-efficient LLM inference. IEEE Computer Architecture Letters, 25(1):49–52, 2026. [8] Rodrigo Huerta and Antonio González. Parallelizing a modern GPU simulator. In 2nd Workshop on Com- puter Architecture Modeling and Simulation (CAMS), co-located with MICRO, 2024. https://arxiv.org/ abs/2502.14691. [9] JEDEC Solid State Technology Association. Solid-state drive (SSD) requirements and endurance test method. JEDEC Standard JESD218B, revision of JESD218A of February 2011, March 2016. [10] JEDEC Solid State Technology Association. JEDEC and industry leaders collaborate to release JESD270-4 HBM4 standard: Advancing bandwidth, efficiency, and capacity for AI and HPC, April 2025. https://www. jedec.org/news/pressreleases/jedec%C2%AE-a nd-industry-leaders-collaborate-release-j esd270-4-hbm4-standard-advancing. [11] Norman P. Jouppi, Doe Hyun Yoon, Matthew Ashcraft, Mark Gottscho, Thomas B. Jablin, George Kurian, James Laudon, Sheng Li, Peter Ma, Xiaoyu Ma, Thomas Norrie, Nishant Patil, Sushma Prasad, Cliff Young, Zong- wei Zhou, and David Patterson. Ten lessons from three generations shaped Google’s TPUv4i: Industrial prod- uct. In Proceedings of the 48th Annual International Symposium on Computer Architecture (ISCA), pages 1–14, 2021. [12] Norman P. Jouppi, Cliff Young, Nishant Patil, David Patterson, et al. In-datacenter performance analysis of a tensor processing unit. In Proceedings of the 44th Annual International Symposium on Computer Architec- ture (ISCA), pages 1–12, 2017. [13] Jae Hyung Ju, Euijun Chung, Hritvik Taneja, Anish Sax- ena, Shinnung Jeong, Hyesoon Kim, and Moinuddin K. Qureshi. TileLens: Efficiently using large-granularity memory systems with transparent two-dimensional memory layout. arXiv:2607.04031, 2026. https: //arxiv.org/abs/2607.04031. [14] Ilju Jung. KAIST professor joungho kim: “an era is coming in which HBF decides the memory winner”. THE ELEC, September 2025. https://www.thelec .kr/news/articleView.html?idxno=40242. [15] Myoungsoo Jung, Jie Zhang, Ahmed Abulila, Miryeong Kwon, Narges Shahidi, John Shalf, Nam Sung Kim, and Mahmut Kandemir. SimpleSSD: Modeling solid state drives for holistic system simulation. IEEE Computer Architecture Letters, 17(1):37–41, 2018. arXiv:1705.06419, https://arxiv.org/abs/1705 .06419. [16] Jordan Juravsky, Bradley Brown, Ryan Ehrlich, Daniel Y. Fu, Christopher Ré, and Azalia Mirhoseini. Hydragen: High-throughput LLM inference with shared prefixes. arXiv:2402.05099, 2024. https://arxiv.org/abs/ 2402.05099. [17] Patrick Kennedy. Oxmiq labs HBF in AI compute at hot chips 2026. ServeTheHome, August 2026. https: //www.servethehome.com/oxmiq-labs-hbf-in-a i-compute-at-hot-chips-2026/. [18] Mahmoud Khairy, Zhesheng Shen, Tor M. Aamodt, and Timothy G. Rogers. Accel-Sim: An extensible sim- ulation framework for validated GPU modeling. Proceedings of the 47th Annual International Sympo- sium on Computer Architecture (ISCA), 2020. https: //people.ece.ubc.ca/aamodt/publications/pa pers/accelsim.isca2020.pdf. [19] Hyeseong Kim, Gwangoo Yeo, and Minsoo Rhu. SwarmIO: Towards 100 million IOPS SSD emula- tion for next-generation GPU-centric storage systems. arXiv:2604.06668, 2026. https://arxiv.org/abs/ 2604.06668. [20] Toshiyuki Kouchi, Mami Kakoi, Noriyasu Kumazaki, Akio Sugahara, Akihiro Imamoto, Yasufumi Ka- jiyama, Yuri Terada, Bushnaq Sanad, Naoaki Kana- gawa, Takuyo Kodama, Ryo Fukuda, Hiromitsu Komai, Norichika Asaoka, Hidekazu Ohnishi, Ryosuke Isomura, Takaya Handa, Kensuke Yamamoto, Yuki Ishizaki, Yoko Deguchi, Atsushi Okuyama, Junichi Sato, Hiroki Yabe, Hua-Ling Cynthia Hsu, and Masahiro Yoshihara. A 128Gb 1-bit/cell 96-word-line-layer 3D flash memory to improve the random read latency with tProg = 75 µs and tR = 4 µs. IEEE Journal of Solid-State Circuits, 56(1):225–234, 2021. [21] Dongjun Kwon. “father of HBM” professor joungho kim: “the HBF market will exceed HBM in 2038”. ET- News, February 2026. https://www.etnews.com/2 0260203000211. [22] Huaicheng Li, Mingzhe Hao, Michael Hao Tong, Swami- nathan Sundararaman, Matias Bjørling, and Haryadi S. Gunawi. The CASE of FEMU: Cheap, accurate, scal- able and extensible flash emulator. In 16th USENIX Conference on File and Storage Technologies (FAST), 2018. https://www.usenix.org/conference/fast 18/presentation/li. [23] Zhuoran Li, Zhuohang Bian, Xin Huang, Yibo Zhao, Guangyu Sun, and Youwei Zhuo. HBF sucks? a full- stack characterization of high-bandwidth flash for KV- centric LLM serving. arXiv:2608.11668, 2026. https: //arxiv.org/abs/2608.11668. [24] Heng Liao, Jiajin Tu, Jing Xia, and Xiping Zhou. DaVinci: A scalable architecture for neural network computing. Hot Chips 31 Symposium on High- Performance Chips, August 2019. [25] Weile Luo, Ruibo Fan, Zeyu Li, Dayou Du, Qiang Wang, and Xiaowen Chu. Benchmarking and dissecting the Nvidia Hopper GPU architecture. In 2024 IEEE In- ternational Parallel and Distributed Processing Sympo- sium (IPDPS), pages 656–667, 2024. arXiv:2402.13499, https://arxiv.org/abs/2402.13499. [26] Yixin Luo, Saugata Ghose, Yu Cai, Erich F. Haratsch, and Onur Mutlu. HeatWatch: Improving 3D NAND flash memory device reliability by exploiting self- recovery and temperature awareness. In 2018 IEEE In- ternational Symposium on High Performance Computer Architecture (HPCA), pages 504–517, 2018. https: //www.cs.cmu.edu/~yixinluo/index_files/heat watch_hpca18.pdf. [27] Micron Technology, Inc. Quarterly report on Form 10- Q for the quarterly period ended may 28, 2026. U.S. Securities and Exchange Commission, 2026. Accession 0000723125-26-000015, filed June 25, 2026; https: //www.sec.gov/Archives/edgar/data/723125/0 00072312526000015/mu-20260528.htm. [28] NVIDIA Corporation. NVIDIA H100 Tensor Core GPU datasheet. Product datasheet, document 3440270, September 2024. https://resources.nvidia.com /en-us-gpu-resources/h100-datasheet-24306. [29] Jongmin Paek. “father of HBM” aims to secure HBF patents. Asia Economy, English edition, February 2026. https://view.asiae.co.kr/en/article/202602 1009235328565. [30] Junrui Pan, Weili An, Cesar Avalos Baddouh, Christin David Bose, Ni Kang, Aaron Barnes, Ahmad Alawneh, Fangjia Shen, Yechen Liu, Anusuya Nal- lathambi, Atthin Chandrashekar, and Timothy G. Rogers. Architecting the next generation of asynchronous, distributed GPUs for the AI era. arXiv:2608.22602, 2026. https://arxiv.org/abs/2608.22602. [31] Vinicius Petrucci, Felippe Zacarias, and Vishal Tanna. Is high-bandwidth flash all you need? In HotInfra ’26, co-located with ISCA ’26, 2026. https://hotinfra .org/2026/papers/hotinfra26-final83.pdf. [32] Reiner Pope, Sholto Douglas, Aakanksha Chowdh- ery, Jacob Devlin, James Bradbury, Anselm Levskaya, Jonathan Heek, Kefan Xiao, Shivani Agrawal, and Jeff Dean. Efficiently scaling transformer inference. In Proceedings of Machine Learning and Systems, vol- ume 5, pages 606–624, 2023. arXiv:2211.05102, https: //arxiv.org/abs/2211.05102. [33] Sandisk Corporation. HBF fact sheet: Sandisk unveils the future of memory architecture for AI. Tech brief, July 2025. https://documents.sandisk.com/cont ent/dam/asset-library/en_us/assets/public /sandisk/collateral/company/Sandisk-HBF-F act-Sheet.pdf. [34] Sandisk Corporation and SK hynix. Sandisk and SK hynix advance global standardization of high bandwidth flash with release of first OCP technical specification, August 2026. https://www.sandisk.com/company/ newsroom/press-releases/2026/2026-08-03-S andisk-and-sk-hynix-advance-global-standar dization-of-hbf. [35] Shintaro Sano, Yosuke Bando, Kazuhiro Hiwada, Hirot- sugu Kajihara, Tomoya Suzuki, Yu Nakanishi, Daisuke Taki, Akiyuki Kaneko, and Tatsuo Shiozawa. GPU graph processing on CXL-based microsecond-latency external memory. In Proceedings of the SC ’23 Work- shops of the International Conference on High Perfor- mance Computing, Network, Storage, and Analysis (SC- W), 2023. https://arxiv.org/abs/2312.03113. [36] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi Chen, Percy Liang, Christo- pher Ré, Ion Stoica, and Ce Zhang. FlexGen: High- throughput generative inference of large language mod- els with a single GPU. In Proceedings of the 40th In- ternational Conference on Machine Learning (ICML), volume 202 of Proceedings of Machine Learning Re- search, pages 31094–31116, 2023. https://procee dings.mlr.press/v202/sheng23a.html. [37] Yifan Sun, Trinayan Baruah, Saiful A. Mojumder, Shi Dong, Xiang Gong, Shane Treadway, Yuhui Bao, Spencer Hance, Carter McCardwell, Vincent Zhao, Har- rison Barclay, Amir Kavyan Ziabari, Zhongliang Chen, Rafael Ubal, José L. Abellán, John Kim, Ajay Joshi, and David Kaeli. MGPUSim: Enabling multi-GPU perfor- mance modeling and optimization. In Proceedings of the 46th International Symposium on Computer Archi- tecture (ISCA), pages 197–209, 2019. [38] Arash Tavakkol, Juan Gómez-Luna, Mohammad Sadrosadati, Saugata Ghose, and Onur Mutlu. MQSim: A framework for enabling realistic studies of modern multi-queue SSD devices. In 16th USENIX Conference on File and Storage Technologies (FAST), 2018. https://www.usenix.org/conference/fast18/p resentation/tavakkol. [39] Oreste Villa, Mark Stephenson, David Nellans, and Stephen W. Keckler. NVBit: A dynamic binary in- strumentation framework for NVIDIA GPUs. In Pro- ceedings of the 52nd Annual IEEE/ACM International Symposium on Microarchitecture (MICRO), pages 372– 383, 2019. https://d1qx31qr3h6wln.cloudfront. net/publications/MICRO_2019_NVBit.pdf. [40] Jacob Wahlgren, Gabin Schieffer, Ruimin Shi, Edgar A. León, Roger Pearce, Maya Gokhale, and Ivy Peng. Dis- secting CPU-GPU unified physical memory on AMD MI300A APUs. In 2025 IEEE International Sym- posium on Workload Characterization (IISWC), 2025. arXiv:2508.12743, https://arxiv.org/abs/2508.1 2743. [41] Xinyu Wang, Yalong Xue, Xiaotian Sun, Xiaoyu Zhang, Xinjiang Zhang, Chunmeng Dou, Xueqi Li, and Xiaoming Chen. FlashAccel: Leveraging high- bandwidth flash (HBF) for high-throughput LLM in- ference. arXiv:2607.10186, 2026. https://arxiv.or g/abs/2607.10186. [42] Yiwei Yang, Shri Vishakh Devanand, Brian Zhao, Yusheng Zheng, Pooneh Safayenikoo, Tanvir Ahmed Khan, and Andi Quinn. CXLMemSim: Practical per- formance simulation and characterization of CXL 3.0 memory systems. In Proceedings of the 35th Interna- tional Symposium on High-Performance Parallel and Distributed Computing (HPDC), pages 567–569, 2026. [43] Yiwei Yang, Tong Yu, Yusheng Zheng, and Andrew Quinn. eGPU: Extending eBPF programmability and ob- servability to GPUs. In 4th Workshop on Heterogeneous Composable and Disaggregated Systems (HCDS), 2025. https://asplos.dev/pdf/bpftime_super.pdf. [44] Yihan Yin, Yinlun Zhao, Zhixin Yun, Guanying Wu, Feng Zhu, Kai Tao, Shu Li, Fei Huang, Zhe Zhang, Shuangchen Li, and Hongzhong Zheng. Potential appli- cations of HBF in LLM serving systems, August 2026. arXiv:2608.13127, https://arxiv.org/abs/2608.1 3127. [45] Dongha Yoon, Hansen Idden, Jinshu Liu, Berkay In- ceisci, Sam H. Noh, and Huaicheng Li. Cylon: Fast and accurate full-system emulation of CXL-SSDs. In 24th USENIX Conference on File and Storage Technologies (FAST), 2026. https://www.usenix.org/confere nce/fast26/presentation/yoon. [46] Zhihang Yuan, Yuzhang Shang, Yang Zhou, Zhen Dong, Zhe Zhou, Chenhao Xue, Bingzhe Wu, Zhikai Li, Qingyi Gu, Yong Jae Lee, Yan Yan, Beidi Chen, Guangyu Sun, and Kurt Keutzer. LLM inference unveiled: Survey and roofline model insights. arXiv:2402.16363, 2024. https://arxiv.org/abs/2402.16363. [47] Kai Zhu, Darong Huang, Luis Costero, and David Atienza. 3D-ICE 4.0: Accurate and efficient thermal modeling for 2.5D/3D heterogeneous chiplet systems. In Proceedings of the 2026 Design, Automation & Test in Europe Conference (DATE), pages 1–7, 2026."
+    },
+    "candidate_chunks": {
+      "abstract": [
+        {
+          "text": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is im- portant for answering how severe the hot throttling problem becomes after HBF runs for a long time.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "Experiments with Qwen3-30B show how package heating, HBM–HBF allo- cation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        },
+        {
+          "text": "∗Equal contribution.",
+          "source_section": "abstract",
+          "page_hint": "",
+          "kind_hint": "abstract",
+          "actual_source_section": "abstract"
+        }
+      ],
+      "introduction": [
+        {
+          "text": "Serving a large language model (LLM) is limited more and more by memory bandwidth and memory capacity [32,46]. High-bandwidth memory (HBM), DRAM stacked inside the accelerator package, is what the industry built to serve that load.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "But HBM capacity does not keep up with the parameter counts of the models it serves, and HBM is held back by its high manufacturing cost and by its scarce supply [27,33]. High-Bandwidth Flash (HBF) is a response to those lim- its.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Sandisk and SK hynix introduced the HBF specification through the Open Compute Project (OCP) in August 2026, with Google and Tenstorrent taking part in validation [34]; it is the first open standard that defines stackable NAND flash as a memory tier inside the package of an xPU. HBF is not an interface upgrade of a conventional NVMe SSD, but a new near-memory architecture, in which NAND dies and the compute chip, a GPU, xPU, or NPU, are integrated in one package [4].",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Sandisk’s first generation of HBF products will put HBF together with HBM and the GPU in one advanced package over UCIe [4, 34], reaching at least 8× the capac- ity of HBM at the same price with roughly the same read bandwidth [4,33]. What HBF makes new is the medium: the stacked die holds NAND rather than DRAM of HBM.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Be- cause the medium is NAND, HBF makes a write far more expensive than a read, and every write uses up part of the limited number of times a flash cell can be rewritten. Hence, the data suited to HBF is data written once and read many times: model weights, and the part of the key-value cache that several requests share, such as a system prompt every request repeats.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "HBF also inherits the latency of its medium: a NAND read takes on the order of microseconds, roughly two orders of magnitude longer than an HBM access [13,20]. The execution path of a transformer is predictable enough that an LLM can issue the reads it will need ahead of the compu- tation that consumes them and hide HBF latency behind that computation [36, 41].",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "HBF is not a replacement for HBM; HBF is a new tier below HBM. Opinion on HBF splits into two opposing camps.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "SK hynix, arXiv:2609.09800v3 [cs.AR] 30 Sep 2026 Table 1: Comparison of four I/O paths that can serve accelerators in the foreseeable future. 1st Generation HBF HBM4 eSSD (Kioxia GP1) CXL-attached memory Medium 3D NAND DRAM XL-FLASH Gen2 DRAM Capacity 512 GB/stack 64 GB/stack [10] ∼2 TB/drive ∼0.1–2 TB/device Read bandwidth 0.4–3.0 TB/s ∼2 TB/s [10] ∼14–28 GB/s ∼30–60 GB/s Interface UCIe JEDEC 2048-bit bus/stack PCIe 6.0 CXL over PCIe Read latency ∼20 µs [13] 10–100 ns ∼10–100 µs ∼1.7 µs from a GPU [35] Read gra...",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Micron and others hold the opposite, that NAND’s own limits will hold HBF back and leave it worse than the media already in use [31]. The first HBF devices for inference are expected to reach customers as samples in 2027, and the choices a system designer faces cannot wait for HBF silicon to arrive.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Real parts that could settle the argument do not exist yet, so the questions left open and the disagreement both call for a simulator that favors neither side. One simple idea for building an HBF simulator is to add an HBF module to a GPU simulator such as GPGPU- Sim [3, 18, 37].",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "Another idea is to add HBF latency into a replayed GPU trace. Both have a fatal flaw.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        },
+        {
+          "text": "The first can- not run a real LLM to completion in a practical amount of time [30], and only the result of a real workload settles the core objections raised about the latency of HBF. The second also suffers from excessive simulation time.",
+          "source_section": "introduction",
+          "page_hint": "",
+          "kind_hint": "problem",
+          "actual_source_section": "introduction"
+        }
+      ],
+      "method": [
+        {
+          "text": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is im- portant for answering how severe the hot throttling problem becomes after HBF runs for a long time.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "Experiments with Qwen3-30B show how package heating, HBM–HBF allo- cation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        },
+        {
+          "text": "∗Equal contribution.",
+          "source_section": "method",
+          "page_hint": "",
+          "kind_hint": "method",
+          "actual_source_section": "abstract",
+          "is_abstract_fallback": true
+        }
+      ],
+      "experiment": [
+        {
+          "text": "We evaluate HBFSim before HBF hardware becomes avail- able. Our evaluation addresses three questions: • EQ1: Can HBFSim execute complete real LLM work- loads transparently, preserving program results and synchronization, while applying modeled HBF la- tency accurately to the accesses it declares?",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "• EQ2: How does package heating affect HBF service, and which component reaches its thermal limit first? • EQ3: How do the HBM–HBF mix and MoE routing together set the capacity a serving workload has?",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "6.1 Experimental Setup GPU experiments run on the machine of Section 5: an NVIDIA RTX PRO 6000 Blackwell Server Edition (com- pute capability 12.0, driver v595.84) with a Dell CD8P SSD. GDDR7 on the GPU is the platform’s actual memory and backs the logical fast tier through a page cache.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "Qwen3-30B- A3B runs under vLLM v0.15.1, and the simulator is built with CUDA 13.0. The Dell CD8P is the reference for the measured flash and host-paging path only.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "The full-order 3D-ICE pack- age model is the reference the service simulation’s reduced model compared against, and the OCP specification supplies the HBF configuration constraints. 6.2 EQ1: End-to-End Execution and Timing Fidelity HBFSim injects modeled HBF service into a real GPU run: the workload must compute what it would compute without instrumentation, and each access must be charged to the tier it actually reaches.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "An access charged to the wrong tier misat- tributes service, and breaking barrier handling changes GPU synchronization semantics. Completing a run and modeling a run are different claims: completing means the model loads, prefill and decode run, the requested output tokens are pro- duced, and the process ends normally; modeling completely would mean every access the run declares should be modeled actually is.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "The question therefore asks four things of one run on Qwen3-30B-A3B: that it completes, that it computes what it would have computed without instrumentation, that the accesses reaching the modeled tier are the ones the regis- tration declares and the rest keep native semantics, and that the service injected into them is timely. Under vLLM v0.15.1, the instrumented build runs Qwen3- 30B-A3B end to end at a fixed 32-token prompt, seed 0 and output_len 8: a 60.988 s load, then 44.469 s of generation producing the e...",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "The instrumented run preserves the second and third of those four things: value, effective address, tier assignment and synchronization are unchanged, over 42 checks that cover ordinary and TMA accesses across seven launchable TMA templates, in-range and out-of-range addresses, HBM– HBF mixed boundaries and barrier-dependent completion. A 110 GiB logical range is mapped through a bounded 2 GiB page cache, and the 128 checksums over the first and last regions touched equal the baseline’s.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "The timing result is a difference between two delays rather than an absolute match: a 1,000 µs injection and a 200 µs injection, an 800 µs increment. Its six cells are TMA trans- fers at 256 B and 8192 B, and the records carry a constant 14.3–14.9 µs offset in a segment the reference model does not contain.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "The two transfer sizes are crossed with three frozen work levels, each an iteration count of an integer work loop injected into the probe kernel alongside the outstanding transfer: 0, 3335 and 9769 at 256 B, and 0, 3352 and 9787 at 8192 B. The two non-zero levels were chosen so the in-kernel arithmetic lands about 10 and 30 µs above the native transfer cost.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "Each cell is 36 paired blocks, and the reported cell mea- sures 798,784.0 ns at 8192 B. The 0.152% is the error of that increment in the reported cell, not an absolute HBF latency error: what the difference demonstrates is the injection and the measurement, and no physical HBF latency was measured (Figure 2a).",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        },
+        {
+          "text": "Figure 2c shows why the difference uses two large delays. The reference model predicts a duration that is the largest of three terms, only one of which carries the injected delay.",
+          "source_section": "experiment",
+          "page_hint": "",
+          "kind_hint": "results",
+          "actual_source_section": "experiment"
+        }
+      ],
+      "conclusion": [
+        {
+          "text": "The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0. One access along that route carries a page fault, the driver, page-cache insertion and a user-space scan, so the profile is named an end-to-end vmem model rather than a media model.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "The curve is fitted at 1, 4, 16, 64, 256 and 512 pages, and past 512 pages continues on the slope of the last measured segment. Random, reverse, repeated and cross-operation accesses reset the burst length to one and are charged the single-page cost of 11,133 ns, so the non-linear rise measured between 64 and 512 pages shapes sequential bursts alone.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "An HBF stack inside the package pays no page fault, no driver crossing and no page-cache insertion, and the second timing source is built for the difference: foreground requests enter an online MQSim media model on the host along the reference path. A question about the medium is therefore answered with the media model, and a question about a host- attached deployment with the calibrated end-to-end curve.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "Coverage is a property of each run rather than a fixed ceil- ing. Kernels that arrive already built are covered at the level of the whole program, where injected modeled time enters the end-to-end time and the output is unchanged.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "Results there- fore carry to accesses inside registered ranges of rewritable kernels, and widening that set is a question of registration and of the rewriting layer, not of the timing model. Hardware parameters that move are data rather than code.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "The three synthetic timing profiles are conservative.json, nominal.json and aggressive.json; all three share a ca- pacity of 1 TiB and differ in bandwidth, which ranges from 128 to 1,000 GB/s, while the published specification gives about 3.0 TB/s and 512 GB per stack [4], so re-anchoring the profiles to the published figures edits a data file. The thermal measurements come from one GPU and one Dell CD8P solid- state drive, since HBF parts cannot yet be obtained, and the simulated-warning profile crosses the con...",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "Retention deadlines follow the Arrhenius equation anchored on Ea = 1.04 eV, mea- sured for 3D NAND after 10,000 program/erase cycles [26]; a medium with a different activation energy moves every dead- line and the refresh traffic each deadline forces, which is why a run reports a sweep over activation energy rather than one lifetime. HBFSim is the first open-source HBF simulator with the workload under evaluation executing on a real GPU.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "HBF- Sim rewrites the workload’s PTX, routes accesses inside a registered address range into the simulator, and supports asynchronous TMA transfers and capacities beyond physi- cal GPU memory. The modeled wait falls at the instruction that reads the returned value, not at the point of issue.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "The timing model is calibrated from measurements on real hard- ware rather than parameter-sheet values. A coupled thermal module puts HBF, HBM, and the GPU in one package, so junction temperature changes the service rate and the refresh traffic that the retention deadline forces.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay HBFSim injects matches the delay requested to within 0.152%.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "A run whose addresses span 110 GiB through a 2 GiB page cache returns a check- sum identical to a native run’s. Over horizons of 600, 3,600 and 86,400 s, five control policies sustain the full 384.0 GB/s without throttling.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        },
+        {
+          "text": "Within that envelope the modeled package reaches its thermal limit at the compute die, at 86.6 W, not at HBF. Under one package-area budget, installed capacity rises from 216 GiB in an all-HBM layout to 1,572 GiB in the most HBF-heavy one while the key-value state HBM can hold falls.",
+          "source_section": "conclusion",
+          "page_hint": "",
+          "kind_hint": "limitations",
+          "actual_source_section": "conclusion"
+        }
+      ],
+      "data": [
+        {
+          "text": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is im- portant for answering how severe the hot throttling problem becomes after HBF runs for a long time.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "Experiments with Qwen3-30B show how package heating, HBM–HBF allo- cation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "∗Equal contribution. Serving a large language model (LLM) is limited more and more by memory bandwidth and memory capacity [32,46].",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "High-bandwidth memory (HBM), DRAM stacked inside the accelerator package, is what the industry built to serve that load. But HBM capacity does not keep up with the parameter counts of the models it serves, and HBM is held back by its high manufacturing cost and by its scarce supply [27,33].",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "High-Bandwidth Flash (HBF) is a response to those lim- its. Sandisk and SK hynix introduced the HBF specification through the Open Compute Project (OCP) in August 2026, with Google and Tenstorrent taking part in validation [34]; it is the first open standard that defines stackable NAND flash as a memory tier inside the package of an xPU.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "HBF is not an interface upgrade of a conventional NVMe SSD, but a new near-memory architecture, in which NAND dies and the compute chip, a GPU, xPU, or NPU, are integrated in one package [4]. Sandisk’s first generation of HBF products will put HBF together with HBM and the GPU in one advanced package over UCIe [4, 34], reaching at least 8× the capac- ity of HBM at the same price with roughly the same read bandwidth [4,33].",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "What HBF makes new is the medium: the stacked die holds NAND rather than DRAM of HBM. Be- cause the medium is NAND, HBF makes a write far more expensive than a read, and every write uses up part of the limited number of times a flash cell can be rewritten.",
+          "source_section": "data",
+          "page_hint": "",
+          "kind_hint": "data",
+          "actual_source_section": "mixed"
+        }
+      ],
+      "general": [
+        {
+          "text": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be eval- uated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "Trace replay has a further shortcoming: it cannot capture the alloca- tion, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program- visible effects of HBF need to be modeled.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "And only a real LLM workload running on real hardware can answer the ar- guments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is im- portant for answering how severe the hot throttling problem becomes after HBF runs for a long time.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "Experiments with Qwen3-30B show how package heating, HBM–HBF allo- cation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "∗Equal contribution. Serving a large language model (LLM) is limited more and more by memory bandwidth and memory capacity [32,46].",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "High-bandwidth memory (HBM), DRAM stacked inside the accelerator package, is what the industry built to serve that load. But HBM capacity does not keep up with the parameter counts of the models it serves, and HBM is held back by its high manufacturing cost and by its scarce supply [27,33].",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "High-Bandwidth Flash (HBF) is a response to those lim- its. Sandisk and SK hynix introduced the HBF specification through the Open Compute Project (OCP) in August 2026, with Google and Tenstorrent taking part in validation [34]; it is the first open standard that defines stackable NAND flash as a memory tier inside the package of an xPU.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "HBF is not an interface upgrade of a conventional NVMe SSD, but a new near-memory architecture, in which NAND dies and the compute chip, a GPU, xPU, or NPU, are integrated in one package [4]. Sandisk’s first generation of HBF products will put HBF together with HBM and the GPU in one advanced package over UCIe [4, 34], reaching at least 8× the capac- ity of HBM at the same price with roughly the same read bandwidth [4,33].",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        },
+        {
+          "text": "What HBF makes new is the medium: the stacked die holds NAND rather than DRAM of HBM. Be- cause the medium is NAND, HBF makes a write far more expensive than a read, and every write uses up part of the limited number of times a flash cell can be rewritten.",
+          "source_section": "general",
+          "page_hint": "",
+          "kind_hint": "general",
+          "actual_source_section": "mixed"
+        }
+      ]
+    },
+    "language_hint": "en",
+    "section_sources": {
+      "abstract": "abstract",
+      "introduction": "introduction",
+      "method": "abstract",
+      "experiment": "experiment",
+      "conclusion": "conclusion",
+      "data": "mixed"
+    },
+    "section_extraction_coverage": {
+      "coverage_status": "partial",
+      "recognized_sections": [
+        "preamble",
+        "abstract",
+        "introduction",
+        "experiment",
+        "conclusion",
+        "references"
+      ],
+      "core_sections_found": [
+        "introduction",
+        "experiment"
+      ],
+      "missing_core_sections": [
+        "method"
+      ],
+      "section_text_chars": {
+        "preamble": 410,
+        "abstract": 1823,
+        "introduction": 43061,
+        "experiment": 15646,
+        "conclusion": 4308,
+        "references": 13264
+      },
+      "fallback_sections": [
+        "method"
+      ]
+    },
+    "pdf_coverage": {
+      "total_pages": 16,
+      "text_max_pages": null,
+      "text_pages_extracted": 16,
+      "text_pages_scanned": 16,
+      "text_truncated": false,
+      "truncated_due_to_page_limit": false,
+      "appendix_detected": false,
+      "appendix_start_page": null,
+      "references_start_page": 13,
+      "section_stop_reason": "",
+      "section_stop_page": null
+    },
+    "appendix_index": {
+      "appendix_detected": false,
+      "start_page": null,
+      "sections": [],
+      "figure_captions": [],
+      "table_captions": []
+    },
+    "appendix_evidence": {
+      "ablation": [],
+      "implementation_details": [],
+      "dataset_details": [],
+      "extra_results": [],
+      "qualitative_examples": []
+    },
+    "quotes": [],
+    "extraction_failures": [],
+    "evidence_quality": "medium"
+  },
+  "summary": {
+    "paper_type": "AI_method",
+    "paper_type_rationale": "The paper is best treated as a method-focused technical paper.",
+    "datasets": [],
+    "metrics": [
+      "GDDR7 on the GPU is the platform’s actual memory and backs the logical fast tier through a page cache.",
+      "The 0.152% is the error of that increment in the reported cell, not an absolute HBF latency error: what the difference demonstrates is the injection and the measurement, and no physical HBF latency was measured (Figure 2a).",
+      "Five of the six negative points are not distinguishable from zero at their published 95% intervals.",
+      "The delivered incre- ment has a median about 400 ns below the request, with the middle 90% of deliveries between −4800 and +4160 ns.",
+      "The 224-state model and the full-order model differ by one sam- ple in where each applies its input; with that alignment, all eleven outputs across the three input shapes agree to 0.0308 K at worst, the step trace against its own 44.057 K swing, 0.0699% of it.",
+      "A fills the budget exactly, B uses 837.7 mm2 and C 754.2 mm2; B’s remaining 23.4 mm2 is a strip 1.94 mm wide, too narrow for any device, so under a bounding-box measure B occupies 99.98% of the budget.",
+      "What remains at layout C is 30.9879 GiB, 57.4% of the 54.000 GiB expert set, at zero key-value state."
+    ],
+    "mechanism_signals": [
+      "We present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online."
+    ],
+    "ablation_signals": [
+      "6.2 EQ1: End-to-End Execution and Timing Fidelity HBFSim injects modeled HBF service into a real GPU run: the workload must compute what it would compute without instrumentation, and each access must be charged to the tier it actually reaches.",
+      "The question therefore asks four things of one run on Qwen3-30B-A3B: that it completes, that it computes what it would have computed without instrumentation, that the accesses reaching the modeled tier are the ones the regis- tration declares and the rest keep native semantics, and that the service injected into them is timely.",
+      "6H+0F 3H+2F 1H+3F 1,000 1,500 2,000 Capacity (GiB) (a) Installed tier capacity 1,132 1,572 HBM HBF 6H+0F 3H+2F 1H+3F M tokens (b) HBM-resident KV capacity 1.72M 0.54M no full HBM residency Figure 5: HBM–HBF capacity trade-offs.",
+      "Over horizons of 600, 3,600 and 86,400 s, five control policies sustain the full 384.0 GB/s without throttling."
+    ],
+    "equation_candidates": [
+      {
+        "equation": "dt = Pi −∑ Gi j(Ti −Tj)−Gi,sink(Ti −Tsink), (1) where Gij is the conductance between neighboring cells an",
+        "source_section": "method",
+        "kind_hint": "equation"
+      }
+    ],
+    "section_keys": [
+      "preamble",
+      "abstract",
+      "introduction",
+      "experiment",
+      "conclusion",
+      "references"
+    ],
+    "language_hint": "en",
+    "section_coverage_status": "partial",
+    "fallback_sections": [
+      "method"
+    ],
+    "pdf_coverage": {
+      "total_pages": 16,
+      "text_max_pages": null,
+      "text_pages_extracted": 16,
+      "text_pages_scanned": 16,
+      "text_truncated": false,
+      "truncated_due_to_page_limit": false,
+      "appendix_detected": false,
+      "appendix_start_page": null,
+      "references_start_page": 13,
+      "section_stop_reason": "",
+      "section_stop_page": null
+    },
+    "appendix_evidence_counts": {
+      "ablation": 0,
+      "implementation_details": 0,
+      "dataset_details": 0,
+      "extra_results": 0,
+      "qualitative_examples": 0
+    },
+    "pdf_used": false,
+    "source_corpus_used": true,
+    "candidate_chunk_sections": [
+      "abstract",
+      "conclusion",
+      "data",
+      "experiment",
+      "general",
+      "introduction",
+      "method"
+    ]
+  }
+}

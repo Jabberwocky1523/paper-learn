@@ -1,0 +1,23 @@
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+resolve=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_resolve.json
+metadata=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_metadata.json
+identity=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_identity.json
+identity_repair_trace=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_identity_repair_trace.json
+fetch=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_fetch.json
+source_manifest=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_source_manifest.json
+raw_sections=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_raw_sections.jsonl
+full_text_md=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_full_text.md
+evidence=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_evidence.json
+assets=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_assets.json
+figures=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_figures.json
+figure_table_decisions=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_figure_table_decisions.json
+bundle=/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_bundle.json

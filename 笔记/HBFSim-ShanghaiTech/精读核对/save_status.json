@@ -1,0 +1,69 @@
+{
+  "status": "ok",
+  "script": "write_obsidian_note.py",
+  "paper_id": "arxiv:2609.09800",
+  "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+  "note_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/精读核对.md",
+  "subdir": "精读核对",
+  "images_dir": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images",
+  "materialized_figures": [
+    {
+      "source_id": "Figure 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-01.png",
+      "relative_markdown_path": "images/figure-01.png",
+      "reviewed_asset_sha256": "8845afec9c87399e3b2487540b02e2968a0fa0ce78732b4e478db6449e1bc44b"
+    },
+    {
+      "source_id": "Figure 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-02.png",
+      "relative_markdown_path": "images/figure-02.png",
+      "reviewed_asset_sha256": "94f0986a1953d25331c957defe43b645298573d9f4458c10e0051655beb4ebc2"
+    },
+    {
+      "source_id": "Figure 3",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-03.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-03.png",
+      "relative_markdown_path": "images/figure-03.png",
+      "reviewed_asset_sha256": "9761e5df2be46c05e477574475c034729c71e152479921570f9cd0b7e09f91fa"
+    },
+    {
+      "source_id": "Figure 4",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-04.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-04.png",
+      "relative_markdown_path": "images/figure-04.png",
+      "reviewed_asset_sha256": "b5c894ae58d0e678203c250db2d795336192dc341acd684ca5e41cd6803c184b"
+    },
+    {
+      "source_id": "Figure 5",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-05.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-05.png",
+      "relative_markdown_path": "images/figure-05.png",
+      "reviewed_asset_sha256": "d1243046bd0c89fe46bc78cb145f5de210462d9b56f7852b74af2971df3c6db2"
+    },
+    {
+      "source_id": "Figure 6",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-06.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/figure-06.png",
+      "relative_markdown_path": "images/figure-06.png",
+      "reviewed_asset_sha256": "914cfeec1719b4176116208ebdf4ec919af1f407b654ce2f069a6727ffc04773"
+    },
+    {
+      "source_id": "Table 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/table-01.png",
+      "relative_markdown_path": "images/table-01.png",
+      "reviewed_asset_sha256": "b1d122b4801a6debb344889312833c9c50623a4d36789e7a6d150aa75f6394bf"
+    },
+    {
+      "source_id": "Table 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/images/table-02.png",
+      "relative_markdown_path": "images/table-02.png",
+      "reviewed_asset_sha256": "6ae28ff7c5059e0b08f27a93c736511e1a7fc69f7ffb8faa12e549ce3819821f"
+    }
+  ],
+  "output_mode": "workspace",
+  "base_output_root": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech"
+}

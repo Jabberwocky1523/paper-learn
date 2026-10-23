@@ -1,0 +1,236 @@
+{
+  "status": "ok",
+  "run_status": "ok",
+  "script": "build_identity_contract.py",
+  "producer": "build_identity_contract.py",
+  "artifact_type": "canonical_identity",
+  "schema_version": 2,
+  "paper_id": "arxiv:2609.09800",
+  "identity_verdict": "accepted",
+  "identity_failure_class": "",
+  "failure_summary": "",
+  "work_level_identity": {
+    "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+    "translated_title": "HBFSim：真实 GPU 执行下高带宽闪存的快速、忠实模拟",
+    "authors": [
+      "Yanpeng Hu",
+      "Yiwei Yang",
+      "Yuanwu Zhu",
+      "Kexin Chu",
+      "Yusheng Zheng",
+      "Andi Quinn",
+      "Wei Zhang"
+    ],
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "doi": "",
+    "arxiv_id": "2609.09800",
+    "zotero_key": ""
+  },
+  "source_manifestation": {
+    "source_kind": "local_pdf",
+    "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "source_url": "https://arxiv.org/abs/2609.09800v3",
+    "pdf_url": "",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+    "doi": "",
+    "arxiv_id": "2609.09800",
+    "zotero_key": ""
+  },
+  "accepted_metadata": {
+    "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+    "translated_title": "HBFSim：真实 GPU 执行下高带宽闪存的快速、忠实模拟",
+    "authors": [
+      "Yanpeng Hu",
+      "Yiwei Yang",
+      "Yuanwu Zhu",
+      "Kexin Chu",
+      "Yusheng Zheng",
+      "Andi Quinn",
+      "Wei Zhang"
+    ],
+    "affiliations": [
+      "ShanghaiTech University",
+      "UC Santa Cruz",
+      "University of Science and Technology of China",
+      "University of Connecticut"
+    ],
+    "year": 2026,
+    "venue": "arXiv preprint",
+    "arxiv_id": "2609.09800",
+    "source_url": "https://arxiv.org/abs/2609.09800v3",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+    "abstract": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be evaluated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models. Trace replay has a further shortcoming: it cannot capture the allocation, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program-visible effects of HBF need to be modeled. And only a real LLM workload running on real hardware can answer the arguments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.\n\nWe present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator. It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is important for answering how severe the hot throttling problem becomes after HBF runs for a long time. Experiments with Qwen3-30B show how package heating, HBM–HBF allocation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+    "source_type": "local_pdf",
+    "paper_id": "arxiv:2609.09800",
+    "status": "ok",
+    "script": "resolve_paper.py",
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  },
+  "bound_sources": [
+    {
+      "kind": "local_pdf",
+      "value": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+      "provider": "local_pdf",
+      "binding_reason": "trusted_input"
+    },
+    {
+      "kind": "pdf_url",
+      "value": "https://arxiv.org/pdf/2609.09800.pdf",
+      "provider": "local_pdf",
+      "binding_reason": "accepted_identifier_derived"
+    }
+  ],
+  "accepted_observations": [],
+  "rejected_observations": [],
+  "field_provenance": {
+    "title": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "translated_title": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "authors": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "affiliations": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "year": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "venue": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "arxiv_id": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "abstract": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "source_url": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    },
+    "local_pdf_path": {
+      "provider": "local_pdf",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2609.09800"
+      }
+    }
+  },
+  "selected_identity_evidence": [
+    {
+      "kind": "arxiv_id",
+      "value": "2609.09800",
+      "trust": "strong",
+      "source": "metadata"
+    },
+    {
+      "kind": "title",
+      "value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+      "trust": "metadata",
+      "source": "metadata"
+    },
+    {
+      "kind": "trusted_source_path",
+      "value": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+      "trust": "strong",
+      "source": "source_manifestation"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2609.09800v3",
+      "trust": "source_manifestation",
+      "source": "metadata"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2609.09800v3",
+      "trust": "source_manifestation",
+      "source": "source_manifestation"
+    }
+  ],
+  "equivalence_decision": {
+    "status": "equivalent",
+    "reason": "shared_work_identifier",
+    "location_binding": "source_manifestation",
+    "evidence": [
+      {
+        "kind": "shared_identifier",
+        "value": "arxiv_id:2609.09800"
+      },
+      {
+        "kind": "title_similarity",
+        "status": "match",
+        "score": 1.0,
+        "source_value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+        "work_value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution"
+      },
+      {
+        "kind": "leading_author",
+        "status": "match",
+        "source_value": "Yanpeng Hu",
+        "work_value": "Yanpeng Hu"
+      },
+      {
+        "kind": "abstract_similarity",
+        "status": "match",
+        "score": 1.0
+      }
+    ]
+  },
+  "warnings": [],
+  "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_identity_repair_trace.json",
+  "provenance": {
+    "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_resolve.json",
+    "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_metadata.json"
+  },
+  "diagnostics": {
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "第三部分重写",
+  "online_url": "https://www.yuque.com/jabberwocky-zubgb/dwv0ny/1caa89e4b518ad908e9f922086b1dfd2",
+  "prepared_prefix_sha256": "71f69562a04feaa1ba009d7431926f38b56b1112aa18309bbdada8a35a9daf53",
+  "new_results_characters": 7332,
+  "local_update": "complete",
+  "online_update": "已完成更新并在阅读页回读确认，2026-10-23",
+  "images_preserved": 8,
+  "source_review": "重新逐项对照原文sec:evaluation，图2–6的设置、数值与结论边界一致",
+  "verification": {
+    "first_two_sections_identical": true,
+    "new_section_text_identical": true,
+    "original_images_preserved": 8,
+    "results_figures_loaded": 5,
+    "proof": "语雀实验结果更新.png"
+  }
+}

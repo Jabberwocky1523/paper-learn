@@ -1,0 +1,17 @@
+{
+  "mixed_language_issues": [],
+  "mechanical_translation_artifact_issues": [],
+  "figure_structure_issues": [],
+  "reference_hygiene_issues": [],
+  "math_render_issues": [],
+  "passes_style_gate": true,
+  "passes_figure_gate": true,
+  "passes_math_gate": true,
+  "passes_reference_gate": true,
+  "passes_numeric_gate": true,
+  "passes_prefix_preservation": true,
+  "prefix_sha256": "71f69562a04feaa1ba009d7431926f38b56b1112aa18309bbdada8a35a9daf53",
+  "scope": "仅重写三、实验结果；语雀导出版本的前两部分完整保留",
+  "quality_review": "已按第6.1–6.4节核对三类问题及实测/预测/对照边界",
+  "readability_review": "按设置→结果→含义顺序组织，删去原第三部分中的延伸研究与泛化分析，仅保留结果理解所需说明"
+}

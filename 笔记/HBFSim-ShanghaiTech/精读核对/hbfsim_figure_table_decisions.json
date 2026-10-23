@@ -1,0 +1,501 @@
+{
+  "status": "ok",
+  "script": "plan_figure_table_decisions.py",
+  "paper_id": "arxiv:2609.09800",
+  "decisions": [
+    {
+      "item_id": "figure:Figure 1",
+      "source_id": "Figure 1",
+      "kind": "figure",
+      "label": "Figure 1",
+      "caption": "HBFSim architecture.",
+      "pages": [
+        6
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 1,
+      "target_section": "方法主线",
+      "plan_kind": "method_overview",
+      "source_image_filename": "figure-01.png",
+      "relative_markdown_embed": "![Figure 1](images/figure-01.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-01.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "8845afec9c87399e3b2487540b02e2968a0fa0ce78732b4e478db6449e1bc44b",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-06.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 6,
+        "caption": "HBFSim architecture.",
+        "bbox_pt": [
+          51,
+          71,
+          561,
+          327.0784606933594
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.08964646464646464,
+          0.9166666666666666,
+          0.4129778544108073
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "8845afec9c87399e3b2487540b02e2968a0fa0ce78732b4e478db6449e1bc44b",
+        "preserved_scientific_elements": [
+          "六个设计模块D1–D6",
+          "主机与真实GPU边界",
+          "地址判定与容量缓存路径",
+          "MQSim时序路径",
+          "温度—刷新—服务反馈箭头"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 2c",
+      "source_id": "Figure 2c",
+      "kind": "figure",
+      "label": "Figure 2c",
+      "caption": "shows why the difference uses two large delays.",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "skip",
+      "reason": "原页9为正文引用，完整图2位于原页10。",
+      "skip_reason": "正文对子图的引用，不是独立图表；已并入 Figure 2",
+      "visual_quality_status": "",
+      "priority": 3,
+      "target_section": "深度分析",
+      "plan_kind": "supporting_figure"
+    },
+    {
+      "item_id": "figure:Figure 2",
+      "source_id": "Figure 2",
+      "kind": "figure",
+      "label": "Figure 2",
+      "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c).",
+      "pages": [
+        10
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "data_or_task",
+      "source_image_filename": "figure-02.png",
+      "relative_markdown_embed": "![Figure 2](images/figure-02.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-02.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "94f0986a1953d25331c957defe43b645298573d9f4458c10e0051655beb4ebc2",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-10.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 10,
+        "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c).",
+        "bbox_pt": [
+          51,
+          70,
+          561,
+          215.41419982910156
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.08838383838383838,
+          0.9166666666666666,
+          0.2719876260468454
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "94f0986a1953d25331c957defe43b645298573d9f4458c10e0051655beb4ebc2",
+        "preserved_scientific_elements": [
+          "三个子图a/b/c",
+          "两种传输大小和三种工作量的图例",
+          "坐标轴及纳秒/微秒单位",
+          "零误差与恢复比例参考线",
+          "完整经验累积分布"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 3",
+      "source_id": "Figure 3",
+      "kind": "figure",
+      "label": "Figure 3",
+      "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale.",
+      "pages": [
+        10
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-03.png",
+      "relative_markdown_embed": "![Figure 3](images/figure-03.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-03.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "9761e5df2be46c05e477574475c034729c71e152479921570f9cd0b7e09f91fa",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-03.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-10.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 10,
+        "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale.",
+        "bbox_pt": [
+          51,
+          254,
+          561,
+          401.0733642578125
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.3207070707070707,
+          0.9166666666666666,
+          0.5064057629517834
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "9761e5df2be46c05e477574475c034729c71e152479921570f9cd0b7e09f91fa",
+        "preserved_scientific_elements": [
+          "两个热力图",
+          "8个HBF层标签",
+          "时间和外部热负载坐标",
+          "65.09W实线及工作点虚线",
+          "共享摄氏温度色标"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 4",
+      "source_id": "Figure 4",
+      "kind": "figure",
+      "label": "Figure 4",
+      "caption": "Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and measured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases.",
+      "pages": [
+        11
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-04.png",
+      "relative_markdown_embed": "![Figure 4](images/figure-04.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-04.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "b5c894ae58d0e678203c250db2d795336192dc341acd684ca5e41cd6803c184b",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-04.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-11.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 11,
+        "caption": "Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and measured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases.",
+        "bbox_pt": [
+          51,
+          71,
+          299,
+          221.0949249267578
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.08964646464646464,
+          0.48856209150326796,
+          0.27916025874590633
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "b5c894ae58d0e678203c250db2d795336192dc341acd684ca5e41cd6803c184b",
+        "preserved_scientific_elements": [
+          "计算和访存两个面板",
+          "实心与空心点的稳态检查图例",
+          "板卡功耗与GPU传感器温度坐标",
+          "带宽与板卡功耗差坐标",
+          "六阶段拟合线"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 5",
+      "source_id": "Figure 5",
+      "kind": "figure",
+      "label": "Figure 5",
+      "caption": "HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget.",
+      "pages": [
+        11
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-05.png",
+      "relative_markdown_embed": "![Figure 5](images/figure-05.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-05.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "d1243046bd0c89fe46bc78cb145f5de210462d9b56f7852b74af2971df3c6db2",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-05.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-11.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 11,
+        "caption": "HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget.",
+        "bbox_pt": [
+          51,
+          300,
+          299,
+          441.89752197265625
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.3787878787878788,
+          0.48856209150326796,
+          0.5579514166321418
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "d1243046bd0c89fe46bc78cb145f5de210462d9b56f7852b74af2971df3c6db2",
+        "preserved_scientific_elements": [
+          "总容量与HBM驻留KV两个面板",
+          "A/B/C配置及容量数值",
+          "HBM/HBF图例和堆叠柱",
+          "1.72M及0.54M标注",
+          "C无全量驻留的非数值阴影标记"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 6",
+      "source_id": "Figure 6",
+      "kind": "figure",
+      "label": "Figure 6",
+      "caption": "MoE expert demand across batch sizes. Deduplicated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes.",
+      "pages": [
+        12
+      ],
+      "section_id": "sec:evaluation",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_filename": "figure-06.png",
+      "relative_markdown_embed": "![Figure 6](images/figure-06.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-06.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "914cfeec1719b4176116208ebdf4ec919af1f407b654ce2f069a6727ffc04773",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-06.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-12.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 12,
+        "caption": "MoE expert demand across batch sizes. Deduplicated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes.",
+        "bbox_pt": [
+          51,
+          71,
+          299,
+          181.1241455078125
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.08964646464646464,
+          0.48856209150326796,
+          0.22869210291390468
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "914cfeec1719b4176116208ebdf4ec919af1f407b654ce2f069a6727ffc04773",
+        "preserved_scientific_elements": [
+          "三个批量观测点",
+          "去重需求倍数1/2.487/3.584",
+          "无复用线性参考虚线",
+          "双对数坐标",
+          "事件计数而非字节数标注"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 1",
+      "source_id": "Table 1",
+      "kind": "table",
+      "label": "Table 1",
+      "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+      "pages": [
+        2
+      ],
+      "section_id": "sec:introduction",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "研究问题",
+      "plan_kind": "main_result",
+      "source_image_filename": "table-01.png",
+      "relative_markdown_embed": "![Table 1](images/table-01.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-01.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "b1d122b4801a6debb344889312833c9c50623a4d36789e7a6d150aa75f6394bf",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-02.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 2,
+        "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+        "bbox_pt": [
+          50,
+          92,
+          562,
+          193
+        ],
+        "normalized_bbox": [
+          0.08169934640522876,
+          0.11616161616161616,
+          0.9183006535947712,
+          0.24368686868686867
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "b1d122b4801a6debb344889312833c9c50623a4d36789e7a6d150aa75f6394bf",
+        "preserved_scientific_elements": [
+          "四条I/O路径",
+          "介质/容量/带宽/接口/延迟/粒度/耐久性/断电保持八行",
+          "所有数值单位",
+          "断电保持不保证的限定"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 2",
+      "source_id": "Table 2",
+      "kind": "table",
+      "label": "Table 2",
+      "caption": "Simulation time and instruction rate reported for cycle-level GPU simulators.",
+      "pages": [
+        3
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "研究问题",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-02.png",
+      "relative_markdown_embed": "![Table 2](images/table-02.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-02.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "6ae28ff7c5059e0b08f27a93c736511e1a7fc69f7ffb8faa12e549ce3819821f",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-03.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "source_page": 3,
+        "caption": "Simulation time and instruction rate reported for cycle-level GPU simulators.",
+        "bbox_pt": [
+          315,
+          69,
+          562,
+          224
+        ],
+        "normalized_bbox": [
+          0.5147058823529411,
+          0.08712121212121213,
+          0.9183006535947712,
+          0.2828282828282828
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "6ae28ff7c5059e0b08f27a93c736511e1a7fc69f7ffb8faa12e549ce3819821f",
+        "preserved_scientific_elements": [
+          "lavaMD运行时与减速比",
+          "四行warp指令率",
+          "两行指令率",
+          "warp指令与普通指令两种统计口径"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    }
+  ],
+  "summary": {
+    "insert": 8,
+    "skip": 1,
+    "review_pending": 0
+  },
+  "decision_freeze": "all_six_figures_and_two_tables_visually_reviewed_before_note_plan"
+}

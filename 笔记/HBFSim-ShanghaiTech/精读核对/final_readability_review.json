@@ -1,0 +1,12 @@
+{
+  "stage": "final_readability_review",
+  "status": "pass",
+  "reviewed_full_note": true,
+  "changes": [
+    "采用用户语雀范本的加粗短语和直接解释方式",
+    "修正术语替换后的中文空格",
+    "补足首次出现的PTX、TMA、页框等定义",
+    "图表解释按实验对象、坐标、观察和结论展开"
+  ],
+  "delivery_structure": "用户明确指定的三段式，正式输出会将审核后的内容按背景动机、设计方案、实验结果重排。"
+}

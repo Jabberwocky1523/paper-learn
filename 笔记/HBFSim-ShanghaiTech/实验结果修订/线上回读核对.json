@@ -1,0 +1,9 @@
+{
+  "prefix_identical": true,
+  "before_prefix_sha256": "71f69562a04feaa1ba009d7431926f38b56b1112aa18309bbdada8a35a9daf53",
+  "after_prefix_sha256": "71f69562a04feaa1ba009d7431926f38b56b1112aa18309bbdada8a35a9daf53",
+  "image_count": 8,
+  "new_sections_present": true,
+  "new_final_paragraph_present": true,
+  "new_section_text_identical": true
+}

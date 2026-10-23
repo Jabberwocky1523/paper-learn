@@ -1,0 +1,25 @@
+{
+  "mixed_language_issues": [],
+  "mechanical_translation_artifact_issues": [],
+  "figure_structure_issues": [],
+  "reference_hygiene_issues": [],
+  "code_math_issues": [],
+  "math_render_issues": [],
+  "main_headings": [
+    "一、背景动机",
+    "二、设计方案",
+    "三、实验结果"
+  ],
+  "passes_delivery_structure": true,
+  "passes_style_gate": true,
+  "passes_math_gate": true,
+  "passes_figure_gate": true,
+  "passes_link_gate": true,
+  "passes_numeric_checks": true,
+  "character_count": 22121,
+  "chinese_character_count": 12136,
+  "inserted_figures": 6,
+  "inserted_tables": 2,
+  "final_quality_review": "pass",
+  "final_readability_review": "pass"
+}

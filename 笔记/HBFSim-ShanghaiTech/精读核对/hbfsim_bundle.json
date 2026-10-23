@@ -1,0 +1,3737 @@
+{
+  "status": "ok",
+  "script": "build_synthesis_bundle.py",
+  "paper_id": "arxiv:2609.09800",
+  "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+  "identity_contract": {
+    "artifact_type": "canonical_identity",
+    "schema_version": 2,
+    "paper_id": "arxiv:2609.09800",
+    "identity_verdict": "accepted",
+    "work_level_identity": {
+      "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+      "translated_title": "HBFSim：真实 GPU 执行下高带宽闪存的快速、忠实模拟",
+      "authors": [
+        "Yanpeng Hu",
+        "Yiwei Yang",
+        "Yuanwu Zhu",
+        "Kexin Chu",
+        "Yusheng Zheng",
+        "Andi Quinn",
+        "Wei Zhang"
+      ],
+      "year": "2026",
+      "venue": "arXiv preprint",
+      "doi": "",
+      "arxiv_id": "2609.09800",
+      "zotero_key": ""
+    },
+    "source_manifestation": {
+      "source_kind": "local_pdf",
+      "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+      "year": "2026",
+      "venue": "arXiv preprint",
+      "source_url": "https://arxiv.org/abs/2609.09800v3",
+      "pdf_url": "",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+      "doi": "",
+      "arxiv_id": "2609.09800",
+      "zotero_key": ""
+    },
+    "accepted_metadata": {
+      "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+      "translated_title": "HBFSim：真实 GPU 执行下高带宽闪存的快速、忠实模拟",
+      "authors": [
+        "Yanpeng Hu",
+        "Yiwei Yang",
+        "Yuanwu Zhu",
+        "Kexin Chu",
+        "Yusheng Zheng",
+        "Andi Quinn",
+        "Wei Zhang"
+      ],
+      "affiliations": [
+        "ShanghaiTech University",
+        "UC Santa Cruz",
+        "University of Science and Technology of China",
+        "University of Connecticut"
+      ],
+      "year": 2026,
+      "venue": "arXiv preprint",
+      "arxiv_id": "2609.09800",
+      "source_url": "https://arxiv.org/abs/2609.09800v3",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+      "abstract": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be evaluated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models. Trace replay has a further shortcoming: it cannot capture the allocation, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program-visible effects of HBF need to be modeled. And only a real LLM workload running on real hardware can answer the arguments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.\n\nWe present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator. It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is important for answering how severe the hot throttling problem becomes after HBF runs for a long time. Experiments with Qwen3-30B show how package heating, HBM–HBF allocation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+      "source_type": "local_pdf",
+      "paper_id": "arxiv:2609.09800",
+      "status": "ok",
+      "script": "resolve_paper.py",
+      "identity_confidence": "high",
+      "identity_confidence_reasons": [
+        "arxiv_id_present"
+      ]
+    },
+    "bound_sources": [
+      {
+        "kind": "local_pdf",
+        "value": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "provider": "local_pdf",
+        "binding_reason": "trusted_input"
+      },
+      {
+        "kind": "pdf_url",
+        "value": "https://arxiv.org/pdf/2609.09800.pdf",
+        "provider": "local_pdf",
+        "binding_reason": "accepted_identifier_derived"
+      }
+    ],
+    "field_provenance": {
+      "title": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "translated_title": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "authors": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "affiliations": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "year": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "venue": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "arxiv_id": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "abstract": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "source_url": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      },
+      "local_pdf_path": {
+        "provider": "local_pdf",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2609.09800"
+        }
+      }
+    },
+    "selected_identity_evidence": [
+      {
+        "kind": "arxiv_id",
+        "value": "2609.09800",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "title",
+        "value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+        "trust": "metadata",
+        "source": "metadata"
+      },
+      {
+        "kind": "trusted_source_path",
+        "value": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+        "trust": "strong",
+        "source": "source_manifestation"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2609.09800v3",
+        "trust": "source_manifestation",
+        "source": "metadata"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2609.09800v3",
+        "trust": "source_manifestation",
+        "source": "source_manifestation"
+      }
+    ],
+    "equivalence_decision": {
+      "status": "equivalent",
+      "reason": "shared_work_identifier",
+      "location_binding": "source_manifestation",
+      "evidence": [
+        {
+          "kind": "shared_identifier",
+          "value": "arxiv_id:2609.09800"
+        },
+        {
+          "kind": "title_similarity",
+          "status": "match",
+          "score": 1.0,
+          "source_value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+          "work_value": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution"
+        },
+        {
+          "kind": "leading_author",
+          "status": "match",
+          "source_value": "Yanpeng Hu",
+          "work_value": "Yanpeng Hu"
+        },
+        {
+          "kind": "abstract_similarity",
+          "status": "match",
+          "score": 1.0
+        }
+      ]
+    },
+    "warnings": [],
+    "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_identity_repair_trace.json",
+    "provenance": {
+      "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_resolve.json",
+      "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_metadata.json"
+    }
+  },
+  "metadata": {
+    "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+    "translated_title": "HBFSim：真实 GPU 执行下高带宽闪存的快速、忠实模拟",
+    "authors": [
+      "Yanpeng Hu",
+      "Yiwei Yang",
+      "Yuanwu Zhu",
+      "Kexin Chu",
+      "Yusheng Zheng",
+      "Andi Quinn",
+      "Wei Zhang"
+    ],
+    "affiliations": [
+      "ShanghaiTech University",
+      "UC Santa Cruz",
+      "University of Science and Technology of China",
+      "University of Connecticut"
+    ],
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "doi": "",
+    "source_url": "https://arxiv.org/abs/2609.09800v3",
+    "abstract": "High-Bandwidth Flash (HBF) places high-capacity NAND beside HBM to relieve the memory-capacity bottleneck of LLM inference, yet its system-level behavior cannot be evaluated before hardware becomes available. Cycle-level GPU simulators are too slow for production-scale models. Trace replay has a further shortcoming: it cannot capture the allocation, migration, and execution changes induced by different HBM–HBF configurations. Our key insight is that HBF need not be evaluated by simulating the GPU: only the program-visible effects of HBF need to be modeled. And only a real LLM workload running on real hardware can answer the arguments about HBF. Hence the modeled service has to be injected into that running program, and the injection must not destroy the GPU concurrency that would hide the original I/O latency.\n\nWe present HBFSim, an open-source HBF simulator that executes LLM workloads on a real GPU while modeling HBF timing, thermal, and other behaviors online. HBFSim rewrites the PTX of the workload’s kernels and routes accesses inside a registered address range into the HBF simulator. It supports asynchronous TMA transfers and capacities beyond physical GPU memory. HBFSim leaves the model’s run unaffected across ordinary-memory, TMA, and capacity-mode tests. The delay it injects matches the delay requested to within 0.152%. We also design a coupled thermal module that puts HBF, HBM, and the GPU in one advanced package, which is important for answering how severe the hot throttling problem becomes after HBF runs for a long time. Experiments with Qwen3-30B show how package heating, HBM–HBF allocation, and shared MoE demand jointly constrain the design space of future HBF accelerators. The source code of HBFSim is available at https://github.com/SlugLab/hbfsim/.",
+    "arxiv_id": "2609.09800",
+    "zotero_key": "",
+    "metadata_sources": [],
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  },
+  "evidence_quality": "medium",
+  "coverage": {
+    "language_hint": "en",
+    "section_extraction_coverage": {
+      "coverage_status": "partial",
+      "recognized_sections": [
+        "preamble",
+        "abstract",
+        "introduction",
+        "experiment",
+        "conclusion",
+        "references"
+      ],
+      "core_sections_found": [
+        "introduction",
+        "experiment"
+      ],
+      "missing_core_sections": [
+        "method"
+      ],
+      "section_text_chars": {
+        "preamble": 410,
+        "abstract": 1823,
+        "introduction": 43061,
+        "experiment": 15646,
+        "conclusion": 4308,
+        "references": 13264
+      },
+      "fallback_sections": [
+        "method"
+      ]
+    },
+    "pdf_coverage": {
+      "total_pages": 16,
+      "text_max_pages": null,
+      "text_pages_extracted": 16,
+      "text_pages_scanned": 16,
+      "text_truncated": false,
+      "truncated_due_to_page_limit": false,
+      "appendix_detected": false,
+      "appendix_start_page": null,
+      "references_start_page": 13,
+      "section_stop_reason": "",
+      "section_stop_page": null
+    },
+    "source_coverage": {
+      "total_pages": 16,
+      "text_max_pages": null,
+      "text_pages_extracted": 16,
+      "text_pages_scanned": 16,
+      "text_truncated": false,
+      "truncated_due_to_page_limit": false,
+      "appendix_detected": false,
+      "appendix_start_page": null,
+      "references_start_page": 13
+    },
+    "source_manifest": {
+      "raw_sections_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_raw_sections.jsonl",
+      "full_text_md_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_full_text.md",
+      "section_count": 9,
+      "page_count": 16,
+      "text_hash_sha256": "0f1e695d6df2326ea8ffd17027bed53ca81eb7d818a2983400bba1c091524584"
+    },
+    "appendix_evidence_counts": {
+      "ablation": 0,
+      "implementation_details": 0,
+      "dataset_details": 0,
+      "extra_results": 0,
+      "qualitative_examples": 0
+    },
+    "extraction_failures": [],
+    "asset_coverage": {
+      "total_pages": 16,
+      "asset_max_pages": 40,
+      "asset_pages_scanned": 16,
+      "truncated_due_to_asset_page_limit": false
+    },
+    "figure_quality_summary": {
+      "usable": 8,
+      "review": 0,
+      "reject": 0,
+      "unknown": 0
+    },
+    "truncation_warnings": [],
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  },
+  "source_manifest": {
+    "paper_id": "arxiv:2609.09800",
+    "title": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution",
+    "source_kind": "pdf_text",
+    "raw_sections_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_raw_sections.jsonl",
+    "full_text_md_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_full_text.md",
+    "pdf": {
+      "path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+      "total_pages": 16,
+      "text_pages_extracted": 16,
+      "text_max_pages": null,
+      "text_truncated": false
+    },
+    "coverage": {
+      "total_pages": 16,
+      "text_max_pages": null,
+      "text_pages_extracted": 16,
+      "text_pages_scanned": 16,
+      "text_truncated": false,
+      "truncated_due_to_page_limit": false,
+      "appendix_detected": false,
+      "appendix_start_page": null,
+      "references_start_page": 13
+    }
+  },
+  "source_index": {
+    "raw_sections_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_raw_sections.jsonl",
+    "full_text_md_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_full_text.md",
+    "sections": [
+      {
+        "section_id": "sec:preamble",
+        "kind": "preamble",
+        "title": "preamble",
+        "page_start": 1,
+        "page_end": 1,
+        "char_count": 410,
+        "text_hash_sha256": "20a353854791dffcaa2fbec688031339c0d23b94bc611866ed5bc464947df61c"
+      },
+      {
+        "section_id": "sec:abstract",
+        "kind": "abstract",
+        "title": "Abstract",
+        "page_start": 1,
+        "page_end": 1,
+        "char_count": 1823,
+        "text_hash_sha256": "4d268fddd9b06531069fe245b8eeb9fa8a31d6bebcf3c71db822b98d101fdba7"
+      },
+      {
+        "section_id": "sec:introduction",
+        "kind": "introduction",
+        "title": "Introduction",
+        "page_start": 1,
+        "page_end": 2,
+        "char_count": 5576,
+        "text_hash_sha256": "5fd6e5df78d18c8f6af2f9ce9913d32041ec30e42834062408cda96b0dfe956e"
+      },
+      {
+        "section_id": "sec:background",
+        "kind": "introduction",
+        "title": "Background",
+        "page_start": 2,
+        "page_end": 8,
+        "char_count": 33569,
+        "text_hash_sha256": "0c66d58ec1d93ce272035745669c08bfd1a262546ae4cec27474dd2f598c5b77"
+      },
+      {
+        "section_id": "sec:evaluation",
+        "kind": "experiment",
+        "title": "Evaluation",
+        "page_start": 8,
+        "page_end": 12,
+        "char_count": 15646,
+        "text_hash_sha256": "fb1ebefe3009e036f22b480f364c05474ef4741b7c2aa123ea3bbb950a21e485"
+      },
+      {
+        "section_id": "sec:related-work",
+        "kind": "introduction",
+        "title": "Related Work",
+        "page_start": 12,
+        "page_end": 13,
+        "char_count": 3914,
+        "text_hash_sha256": "ff96502f7d78b8c2ff85f00ab74981858751a54299213b27cdccd552254113e6"
+      },
+      {
+        "section_id": "sec:discussion",
+        "kind": "conclusion",
+        "title": "Discussion",
+        "page_start": 13,
+        "page_end": 13,
+        "char_count": 2623,
+        "text_hash_sha256": "37331529d2505d47efe8a6c6c57d5bad0877d2ab097a2829a2f685f561e765f5"
+      },
+      {
+        "section_id": "sec:conclusion",
+        "kind": "conclusion",
+        "title": "Conclusion",
+        "page_start": 13,
+        "page_end": 13,
+        "char_count": 1684,
+        "text_hash_sha256": "40a5434f5b52d230d04a975c24435ff723962caa6cce7b6d9c47025a311d27f2"
+      },
+      {
+        "section_id": "sec:references",
+        "kind": "references",
+        "title": "References",
+        "page_start": 13,
+        "page_end": 16,
+        "char_count": 13264,
+        "text_hash_sha256": "f48afb888a165129697500d28d28ff0abe52c21a929f542b0f362fd2cc519e6e"
+      }
+    ],
+    "pages": [
+      {
+        "page": 1,
+        "char_count": 4409,
+        "section_ids": [
+          "sec:preamble",
+          "sec:abstract",
+          "sec:introduction"
+        ]
+      },
+      {
+        "page": 2,
+        "char_count": 5257,
+        "section_ids": [
+          "sec:introduction",
+          "sec:background"
+        ]
+      },
+      {
+        "page": 3,
+        "char_count": 5381,
+        "section_ids": [
+          "sec:background"
+        ]
+      },
+      {
+        "page": 4,
+        "char_count": 6051,
+        "section_ids": [
+          "sec:background"
+        ]
+      },
+      {
+        "page": 5,
+        "char_count": 5826,
+        "section_ids": [
+          "sec:background"
+        ]
+      },
+      {
+        "page": 6,
+        "char_count": 3520,
+        "section_ids": [
+          "sec:background"
+        ]
+      },
+      {
+        "page": 7,
+        "char_count": 5551,
+        "section_ids": [
+          "sec:background"
+        ]
+      },
+      {
+        "page": 8,
+        "char_count": 5732,
+        "section_ids": [
+          "sec:background",
+          "sec:evaluation"
+        ]
+      },
+      {
+        "page": 9,
+        "char_count": 5555,
+        "section_ids": [
+          "sec:evaluation"
+        ]
+      },
+      {
+        "page": 10,
+        "char_count": 3552,
+        "section_ids": [
+          "sec:evaluation"
+        ]
+      },
+      {
+        "page": 11,
+        "char_count": 4860,
+        "section_ids": [
+          "sec:evaluation"
+        ]
+      },
+      {
+        "page": 12,
+        "char_count": 5507,
+        "section_ids": [
+          "sec:evaluation",
+          "sec:related-work"
+        ]
+      },
+      {
+        "page": 13,
+        "char_count": 5254,
+        "section_ids": [
+          "sec:related-work",
+          "sec:discussion",
+          "sec:conclusion",
+          "sec:references"
+        ]
+      },
+      {
+        "page": 14,
+        "char_count": 4499,
+        "section_ids": [
+          "sec:references"
+        ]
+      },
+      {
+        "page": 15,
+        "char_count": 4648,
+        "section_ids": [
+          "sec:references"
+        ]
+      },
+      {
+        "page": 16,
+        "char_count": 3281,
+        "section_ids": [
+          "sec:references"
+        ]
+      }
+    ],
+    "captions": {
+      "figures": [
+        {
+          "id": "Figure 1",
+          "caption": "HBFSim architecture.",
+          "page": 6,
+          "pages": [
+            6
+          ],
+          "section_id": "sec:background"
+        },
+        {
+          "id": "Figure 2c",
+          "caption": "shows why the difference uses two large delays.",
+          "page": 9,
+          "pages": [
+            9
+          ],
+          "section_id": "sec:evaluation"
+        },
+        {
+          "id": "Figure 2",
+          "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay",
+          "page": 10,
+          "pages": [
+            10
+          ],
+          "section_id": "sec:evaluation"
+        },
+        {
+          "id": "Figure 3",
+          "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and",
+          "page": 10,
+          "pages": [
+            10
+          ],
+          "section_id": "sec:evaluation"
+        },
+        {
+          "id": "Figure 4",
+          "caption": "Physical reference on the evaluation GPU. Board",
+          "page": 11,
+          "pages": [
+            11
+          ],
+          "section_id": "sec:evaluation"
+        },
+        {
+          "id": "Figure 5",
+          "caption": "gives three layouts under one package-area budget of",
+          "page": 11,
+          "pages": [
+            11
+          ],
+          "section_id": "sec:evaluation"
+        },
+        {
+          "id": "Figure 6",
+          "caption": "MoE expert demand across batch sizes. Dedupli-",
+          "page": 12,
+          "pages": [
+            12
+          ],
+          "section_id": "sec:evaluation"
+        }
+      ],
+      "tables": [
+        {
+          "id": "Table 1",
+          "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+          "page": 2,
+          "pages": [
+            2
+          ],
+          "section_id": "sec:introduction"
+        },
+        {
+          "id": "Table 2",
+          "caption": "Simulation time and instruction rate reported for",
+          "page": 3,
+          "pages": [
+            3
+          ],
+          "section_id": "sec:background"
+        }
+      ]
+    },
+    "math_index": [
+      {
+        "text": ">5 days",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "≈27,000",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "≈800",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "event-based Joule energy model, ENAND = Ecommand +ebyte ×",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "to the time overlap. The power of node i in bin k is Pi,k =",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "then follows Fourier transient heat conduction, Cv ∂T/∂t =",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "dt = Pi −∑",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "sink the operator applies −k∂T/∂n = h(T −Tamb), which is",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "tance Geq = 2khA/(∆zh+2k).",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "xk+1 = Axk +Bpk +b,",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "Tk = Cxk +Dpk +d.",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "cross-talk matrix Rij = ∆Ti/Pj, in K/W. The HBF hotspot",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "sT =",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "strand it. Normal publishes q = 106, Light publishes a pro-",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "L(T) = Lref exp",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "H(Ea) = ∑",
+        "section_id": "sec:background",
+        "page_start": 2,
+        "page_end": 8
+      },
+      {
+        "text": "1 = full recovery",
+        "section_id": "sec:evaluation",
+        "page_start": 8,
+        "page_end": 12
+      },
+      {
+        "text": "0 = no recovery",
+        "section_id": "sec:evaluation",
+        "page_start": 8,
+        "page_end": 12
+      },
+      {
+        "text": "follow the Arrhenius equation anchored on Ea = 1.04 eV, mea-",
+        "section_id": "sec:discussion",
+        "page_start": 13,
+        "page_end": 13
+      },
+      {
+        "text": ".kr/news/articleView.html?idxno=40242.",
+        "section_id": "sec:references",
+        "page_start": 13,
+        "page_end": 16
+      },
+      {
+        "text": "to improve the random read latency with tProg = 75 µs",
+        "section_id": "sec:references",
+        "page_start": 13,
+        "page_end": 16
+      },
+      {
+        "text": "and tR = 4 µs. IEEE Journal of Solid-State Circuits,",
+        "section_id": "sec:references",
+        "page_start": 13,
+        "page_end": 16
+      }
+    ],
+    "appendix_index": {
+      "appendix_detected": false,
+      "start_page": null,
+      "sections": [],
+      "figure_captions": [],
+      "table_captions": []
+    },
+    "language_hint": "en",
+    "text_hash_sha256": "0f1e695d6df2326ea8ffd17027bed53ca81eb7d818a2983400bba1c091524584"
+  },
+  "references": {
+    "candidates": []
+  },
+  "figure_plan": {
+    "paper_id": "arxiv:2609.09800",
+    "figures": [
+      {
+        "id": "Figure 1",
+        "caption": "HBFSim architecture.",
+        "kind": "method_overview",
+        "section": "机制流程",
+        "reason": "这张图概括了整体方法或系统流程；如果匹配置信度足够高，最适合放在 `### 机制流程` 帮助快速建立执行链理解。",
+        "priority": 1,
+        "anchor_text": "机制流程",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_006_fig_figure_1.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+          "width": 682,
+          "height": 341,
+          "size_bytes": 51552,
+          "label": "Figure 1",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.270823,
+            "visual_rect_count": 34,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 30,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 6,
+            "score": 7,
+            "matched_terms": [
+              "figure 1",
+              "hbfsim",
+              "architecture"
+            ],
+            "snippet": "counters temperature deadline policy refresh work D1 D1 D1 D2 D3 D3 D4 D4 D4 D5 D5 D5 D6 Figure 1: HBFSim architecture. applies a time-bin power integration: an event that spans more than",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+                "width": 682,
+                "height": 341,
+                "size_bytes": 51552,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.270823,
+                  "visual_rect_count": 34,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 30,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 2,
+            "matched_terms": [
+              "hbfsim",
+              "architecture"
+            ],
+            "snippet": "rate HBF sustains is set by temperature. We must simulate the thermal problem. We present HBFSim, which is the first open-source HBF simulator with the workload under evaluation executin",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 1,
+            "matched_terms": [
+              "architecture"
+            ],
+            "snippet": "order, so which weights a token reads is settled before that token starts to compute. The architecture of an LLM leaves a large time gap for prefetching. By our calculation on an H100 SXM5 fro",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+                "width": 252,
+                "height": 199,
+                "size_bytes": 15072,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.058536,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 255,
+                  "table_body_rows": 12,
+                  "caption_text_chars": 86,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "MoE expert demand across batch sizes. Dedupli-",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_012_fig_figure_6.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_012_fig_figure_6.png",
+          "width": 684,
+          "height": 154,
+          "size_bytes": 38367,
+          "label": "Figure 6",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.122962,
+            "visual_rect_count": 4,
+            "visual_body_ratio": 0.882145,
+            "paragraph_text_chars": 2798,
+            "table_body_rows": 0,
+            "caption_text_chars": 156,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 12,
+            "score": 8,
+            "matched_terms": [
+              "figure 6",
+              "expert",
+              "demand",
+              "across",
+              "batch",
+              "sizes"
+            ],
+            "snippet": "atch 1) 1.000 2.487 3.584 counts, not media bytes measured demand events linear, no reuse Figure 6: MoE expert demand across batch sizes. Dedupli- cated demand events from a Qwen3-30B-A3B",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_012_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_012_fig_figure_6.png",
+                "width": 684,
+                "height": 154,
+                "size_bytes": 38367,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.122962,
+                  "visual_rect_count": 4,
+                  "visual_body_ratio": 0.882145,
+                  "paragraph_text_chars": 2798,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 156,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 11,
+            "score": 3,
+            "matched_terms": [
+              "expert",
+              "demand",
+              "across"
+            ],
+            "snippet": "tokens at A to ∼0.54M at B (Figure 5). Both token figures assume the complete 54.000 GiB expert set already resident in HBM, with the re- mainder of HBM holding key-value state, and bot",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 2,
+            "matched_terms": [
+              "demand",
+              "across"
+            ],
+            "snippet": "would keep NAND out of a memory tier if the workload wrote often and needed each byte on demand. Fortunately, the workload characteristics of an LLM hide both drawbacks well. We make tw",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 1",
+        "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_002_fig_table_1.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+          "width": 688,
+          "height": 134,
+          "size_bytes": 23523,
+          "label": "Table 1",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.107484,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 491,
+            "table_body_rows": 9,
+            "caption_text_chars": 92,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 2,
+            "score": 8,
+            "matched_terms": [
+              "table 1",
+              "comparison",
+              "four",
+              "paths",
+              "serve",
+              "accelerators"
+            ],
+            "snippet": "Table 1: Comparison of four I/O paths that can serve accelerators in the foreseeable future. 1st",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 8,
+            "matched_terms": [
+              "table 1",
+              "four",
+              "paths",
+              "serve",
+              "accelerators"
+            ],
+            "snippet": "latency. We list several I/O paths that can serve accelerators in the foreseeable future. Table 1 shows that HBF, with its lower price, large capacity, and bandwidth close to HBM, would i",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+                "width": 252,
+                "height": 199,
+                "size_bytes": 15072,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.058536,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 255,
+                  "table_body_rows": 12,
+                  "caption_text_chars": 86,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 11,
+            "score": 2,
+            "matched_terms": [
+              "comparison",
+              "serve"
+            ],
+            "snippet": "worst of the three traces. The 3D-ICE package operator is linear, so the agreement at the comparison’s own power level carries to other amplitudes of the same inputs. The comparison is model",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 2",
+        "caption": "Simulation time and instruction rate reported for",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_003_fig_table_2.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+          "width": 252,
+          "height": 199,
+          "size_bytes": 15072,
+          "label": "Table 2",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.058536,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 255,
+            "table_body_rows": 12,
+            "caption_text_chars": 86,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 3,
+            "score": 8,
+            "matched_terms": [
+              "table 2",
+              "simulation",
+              "time",
+              "instruction",
+              "rate",
+              "reported"
+            ],
+            "snippet": "30,37]. We find, however, that a simulator built that way cannot simulate HBF faithfully. Table 2 shows that cycle-level GPU simulators are too slow to finish one LLM inference run in acc",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+                "width": 252,
+                "height": 199,
+                "size_bytes": 15072,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.058536,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 255,
+                  "table_body_rows": 12,
+                  "caption_text_chars": 86,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 3,
+            "matched_terms": [
+              "simulation",
+              "time",
+              "instruction",
+              "rate"
+            ],
+            "snippet": "e core objections raised about the latency of HBF. The second also suffers from excessive simulation time. Furthermore, the same static trace cannot dynamically simulate different HBF-to-HBM",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 12,
+            "score": 3,
+            "matched_terms": [
+              "simulation",
+              "time",
+              "instruction",
+              "rate"
+            ],
+            "snippet": "offers no queue, no doorbell register and no replaceable driver layer (Challenge 1). GPU simulation and GPU instrumentation. GPGPU- Sim [3] and Accel-Sim [18] run a modeled GPU, not the GPU",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_012_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_012_fig_figure_6.png",
+                "width": 684,
+                "height": 154,
+                "size_bytes": 38367,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.122962,
+                  "visual_rect_count": 4,
+                  "visual_body_ratio": 0.882145,
+                  "paragraph_text_chars": 2798,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 156,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 2",
+        "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay",
+        "kind": "data_or_task",
+        "section": "数据与任务定义",
+        "reason": "这张图更像任务设定或数据说明，放在数据与任务定义最合适。",
+        "priority": 3,
+        "anchor_text": "数据与任务定义",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_010_fig_figure_2.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_2.png",
+          "width": 682,
+          "height": 193,
+          "size_bytes": 32746,
+          "label": "Figure 2",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.15296,
+            "visual_rect_count": 11,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 140,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 10,
+            "score": 8,
+            "matched_terms": [
+              "figure 2",
+              "timing-injection",
+              "fidelity",
+              "increment",
+              "error",
+              "configuration"
+            ],
+            "snippet": "r distribution Delay recovery 256 B W0 256 B W1 256 B W2 8,192 B W0 8,192 B W1 8,192 B W2 Figure 2: Timing-injection fidelity. Increment error by configuration (a), paired-error distributi",
+            "images": [
+              {
+                "filename": "page_010_img_01.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_01.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 10184
+              },
+              {
+                "filename": "page_010_img_02.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_02.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 15050
+              },
+              {
+                "filename": "page_010_img_03.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_03.png",
+                "width": 48,
+                "height": 660,
+                "size_bytes": 1769
+              }
+            ],
+            "figure_assets": [
+              {
+                "filename": "page_010_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_2.png",
+                "width": 682,
+                "height": 193,
+                "size_bytes": 32746,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.15296,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 140,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_010_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_3.png",
+                "width": 682,
+                "height": 196,
+                "size_bytes": 24335,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.156003,
+                  "visual_rect_count": 6,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 183,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 1,
+            "matched_terms": [
+              "configuration"
+            ],
+            "snippet": "and architectures, so the trace-simulation method cannot quickly explore the optimal HBF configuration for different workloads. We accordingly choose to run a real LLM model on a real GPU. Bui",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 1,
+            "matched_terms": [
+              "configuration"
+            ],
+            "snippet": "e different HBF-to-HBM ratios or architectures, and cannot quickly locate the optimal HBF configuration across workloads. We therefore run the workload on a real GPU, so that the computation th",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+                "width": 252,
+                "height": 199,
+                "size_bytes": 15072,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.058536,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 255,
+                  "table_body_rows": 12,
+                  "caption_text_chars": 86,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 2c",
+        "caption": "shows why the difference uses two large delays.",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "candidate_pages": [
+          {
+            "page_number": 3,
+            "score": 2,
+            "matched_terms": [
+              "uses",
+              "large"
+            ],
+            "snippet": "The derivation is not expanded here, for reasons of paper length and because this work focuses on the HBF simulator. In short, much of the bandwidth an existing LLM workload consumes d",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+                "width": 252,
+                "height": 199,
+                "size_bytes": 15072,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.058536,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 255,
+                  "table_body_rows": 12,
+                  "caption_text_chars": 86,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 11,
+            "score": 2,
+            "matched_terms": [
+              "difference",
+              "uses"
+            ],
+            "snippet": "he GPU’s own temperature sensor (a) and mea- sured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases. A",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 1,
+            "matched_terms": [
+              "large"
+            ],
+            "snippet": "gho Kim of KAIST, widely known as the “father of HBM” [29], hold that HBF can take over a large part of the capacity problem that HBM carries today [7,14,21,34]. Micron and others hold",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "page-proximity-and-caption-cues"
+      },
+      {
+        "id": "Figure 3",
+        "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_010_fig_figure_3.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_3.png",
+          "width": 682,
+          "height": 196,
+          "size_bytes": 24335,
+          "label": "Figure 3",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.156003,
+            "visual_rect_count": 6,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 183,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 10,
+            "score": 8,
+            "matched_terms": [
+              "figure 3",
+              "modeled",
+              "layer",
+              "temperatures",
+              "temperature",
+              "hottest"
+            ],
+            "snippet": "0 threshold, 65.09 W (b) Heating vs. external heat load 40 60 80 100 120 Temperature (°C) Figure 3: Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF",
+            "images": [
+              {
+                "filename": "page_010_img_01.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_01.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 10184
+              },
+              {
+                "filename": "page_010_img_02.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_02.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 15050
+              },
+              {
+                "filename": "page_010_img_03.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_03.png",
+                "width": 48,
+                "height": 660,
+                "size_bytes": 1769
+              }
+            ],
+            "figure_assets": [
+              {
+                "filename": "page_010_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_2.png",
+                "width": 682,
+                "height": 193,
+                "size_bytes": 32746,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.15296,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 140,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_010_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_3.png",
+                "width": 682,
+                "height": 196,
+                "size_bytes": 24335,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.156003,
+                  "visual_rect_count": 6,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 183,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 11,
+            "score": 8,
+            "matched_terms": [
+              "figure 3",
+              "modeled",
+              "temperature",
+              "hottest"
+            ],
+            "snippet": "es only that value. Panel (a)’s board-power axis and the 0 to 140 W external heat load of Figure 3(b) are different quantities: one is a measured board draw, the other heat injected into a",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "modeled",
+              "layer",
+              "temperature"
+            ],
+            "snippet": "istered Frame cache capacity ranges rewrite lookup registered / not page bytes fill HBF · modeled behaviour Timing Online MQSim host · reference Junction temp GPU heat + HBF bytes GPU tel",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+                "width": 682,
+                "height": 341,
+                "size_bytes": 51552,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.270823,
+                  "visual_rect_count": 34,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 30,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "Physical reference on the evaluation GPU. Board",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_011_fig_figure_4.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+          "width": 684,
+          "height": 202,
+          "size_bytes": 54506,
+          "label": "Figure 4",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.160975,
+            "visual_rect_count": 5,
+            "visual_body_ratio": 0.657465,
+            "paragraph_text_chars": 1350,
+            "table_body_rows": 0,
+            "caption_text_chars": 261,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 11,
+            "score": 8,
+            "matched_terms": [
+              "figure 4",
+              "physical",
+              "reference",
+              "evaluation",
+              "board"
+            ],
+            "snippet": "b) Memory traffic Plateau check: passed Plateau check: not passed fit over the six phases Figure 4: Physical reference on the evaluation GPU. Board power against the GPU’s own temperature",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 10,
+            "score": 7,
+            "matched_terms": [
+              "figure 4",
+              "evaluation",
+              "board"
+            ],
+            "snippet": "t at every load. Across seven compute phases, measured board power on the evaluation GPU (Figure 4) spans 314.988 to 431.370 W, and the GPU’s own sensor stays between about 46 and 52 ◦C. T",
+            "images": [
+              {
+                "filename": "page_010_img_01.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_01.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 10184
+              },
+              {
+                "filename": "page_010_img_02.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_02.png",
+                "width": 1620,
+                "height": 660,
+                "size_bytes": 15050
+              },
+              {
+                "filename": "page_010_img_03.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_03.png",
+                "width": 48,
+                "height": 660,
+                "size_bytes": 1769
+              }
+            ],
+            "figure_assets": [
+              {
+                "filename": "page_010_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_2.png",
+                "width": 682,
+                "height": 193,
+                "size_bytes": 32746,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.15296,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 140,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_010_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_3.png",
+                "width": 682,
+                "height": 196,
+                "size_bytes": 24335,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.156003,
+                  "visual_rect_count": 6,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 183,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 2,
+            "matched_terms": [
+              "physical",
+              "reference"
+            ],
+            "snippet": "+1 = Axk +Bpk +b, Tk = Cxk +Dpk +d. (2) The state xk is a reduced thermal state and not a physical grid temperature, and the reduced model is far smaller than the full-order operator. At s",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+                "width": 682,
+                "height": 341,
+                "size_bytes": 51552,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.270823,
+                  "visual_rect_count": 34,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 30,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "gives three layouts under one package-area budget of",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_011_fig_figure_5.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+          "width": 732,
+          "height": 246,
+          "size_bytes": 62172,
+          "label": "Figure 5",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.209615,
+            "visual_rect_count": 23,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 657,
+            "table_body_rows": 0,
+            "caption_text_chars": 155,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 11,
+            "score": 8,
+            "matched_terms": [
+              "figure 5",
+              "gives",
+              "three",
+              "layouts",
+              "under",
+              "package-area"
+            ],
+            "snippet": "+2F C 1H+3F 0 1 2 M tokens (b) HBM-resident KV capacity 1.72M 0.54M no full HBM residency Figure 5: HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_011_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+                "width": 684,
+                "height": 202,
+                "size_bytes": 54506,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.160975,
+                  "visual_rect_count": 5,
+                  "visual_body_ratio": 0.657465,
+                  "paragraph_text_chars": 1350,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 261,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_011_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+                "width": 732,
+                "height": 246,
+                "size_bytes": 62172,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.209615,
+                  "visual_rect_count": 23,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 657,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 3,
+            "matched_terms": [
+              "gives",
+              "three",
+              "under"
+            ],
+            "snippet": "kaging method places the stack and the compute chip in one package. The 16-die NAND stack gives HBF ∼3 TB/s of read bandwidth [4]. But NAND also gives HBF two main drawbacks. ➀NAND wear",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+                "width": 688,
+                "height": 134,
+                "size_bytes": 23523,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.107484,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 491,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 92,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "gives",
+              "three",
+              "under"
+            ],
+            "snippet": "odel is far smaller than the full-order operator. At steady state the reduced-order model gives the tempera- ture change that one source produces at every node. Driving one source at a",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+                "width": 682,
+                "height": 341,
+                "size_bytes": 51552,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.270823,
+                  "visual_rect_count": 34,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 30,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      }
+    ]
+  },
+  "figure_table_manifest": {
+    "decisions_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/hbfsim_figure_table_decisions.json",
+    "decisions": [
+      {
+        "item_id": "figure:Figure 1",
+        "source_id": "Figure 1",
+        "kind": "figure",
+        "label": "Figure 1",
+        "caption": "HBFSim architecture.",
+        "pages": [
+          6
+        ],
+        "section_id": "sec:background",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 1,
+        "target_section": "方法主线",
+        "plan_kind": "method_overview",
+        "source_image_filename": "figure-01.png",
+        "relative_markdown_embed": "![Figure 1](images/figure-01.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-01.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "8845afec9c87399e3b2487540b02e2968a0fa0ce78732b4e478db6449e1bc44b",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-01.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-06.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 6,
+          "caption": "HBFSim architecture.",
+          "bbox_pt": [
+            51,
+            71,
+            561,
+            327.0784606933594
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.08964646464646464,
+            0.9166666666666666,
+            0.4129778544108073
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "8845afec9c87399e3b2487540b02e2968a0fa0ce78732b4e478db6449e1bc44b",
+          "preserved_scientific_elements": [
+            "六个设计模块D1–D6",
+            "主机与真实GPU边界",
+            "地址判定与容量缓存路径",
+            "MQSim时序路径",
+            "温度—刷新—服务反馈箭头"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "figure:Figure 2c",
+        "source_id": "Figure 2c",
+        "kind": "figure",
+        "label": "Figure 2c",
+        "caption": "shows why the difference uses two large delays.",
+        "pages": [
+          9
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "skip",
+        "reason": "原页9为正文引用，完整图2位于原页10。",
+        "skip_reason": "正文对子图的引用，不是独立图表；已并入 Figure 2",
+        "visual_quality_status": "",
+        "priority": 3,
+        "target_section": "深度分析",
+        "plan_kind": "supporting_figure"
+      },
+      {
+        "item_id": "figure:Figure 2",
+        "source_id": "Figure 2",
+        "kind": "figure",
+        "label": "Figure 2",
+        "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c).",
+        "pages": [
+          10
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 3,
+        "target_section": "关键结果",
+        "plan_kind": "data_or_task",
+        "source_image_filename": "figure-02.png",
+        "relative_markdown_embed": "![Figure 2](images/figure-02.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-02.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "94f0986a1953d25331c957defe43b645298573d9f4458c10e0051655beb4ebc2",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-02.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-10.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 10,
+          "caption": "Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c).",
+          "bbox_pt": [
+            51,
+            70,
+            561,
+            215.41419982910156
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.08838383838383838,
+            0.9166666666666666,
+            0.2719876260468454
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "94f0986a1953d25331c957defe43b645298573d9f4458c10e0051655beb4ebc2",
+          "preserved_scientific_elements": [
+            "三个子图a/b/c",
+            "两种传输大小和三种工作量的图例",
+            "坐标轴及纳秒/微秒单位",
+            "零误差与恢复比例参考线",
+            "完整经验累积分布"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "figure:Figure 3",
+        "source_id": "Figure 3",
+        "kind": "figure",
+        "label": "Figure 3",
+        "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale.",
+        "pages": [
+          10
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 3,
+        "target_section": "关键结果",
+        "plan_kind": "supporting_figure",
+        "source_image_filename": "figure-03.png",
+        "relative_markdown_embed": "![Figure 3](images/figure-03.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-03.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "9761e5df2be46c05e477574475c034729c71e152479921570f9cd0b7e09f91fa",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-03.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-10.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 10,
+          "caption": "Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale.",
+          "bbox_pt": [
+            51,
+            254,
+            561,
+            401.0733642578125
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.3207070707070707,
+            0.9166666666666666,
+            0.5064057629517834
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "9761e5df2be46c05e477574475c034729c71e152479921570f9cd0b7e09f91fa",
+          "preserved_scientific_elements": [
+            "两个热力图",
+            "8个HBF层标签",
+            "时间和外部热负载坐标",
+            "65.09W实线及工作点虚线",
+            "共享摄氏温度色标"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "figure:Figure 4",
+        "source_id": "Figure 4",
+        "kind": "figure",
+        "label": "Figure 4",
+        "caption": "Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and measured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases.",
+        "pages": [
+          11
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 3,
+        "target_section": "关键结果",
+        "plan_kind": "supporting_figure",
+        "source_image_filename": "figure-04.png",
+        "relative_markdown_embed": "![Figure 4](images/figure-04.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-04.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "b5c894ae58d0e678203c250db2d795336192dc341acd684ca5e41cd6803c184b",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-04.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-11.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 11,
+          "caption": "Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and measured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases.",
+          "bbox_pt": [
+            51,
+            71,
+            299,
+            221.0949249267578
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.08964646464646464,
+            0.48856209150326796,
+            0.27916025874590633
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "b5c894ae58d0e678203c250db2d795336192dc341acd684ca5e41cd6803c184b",
+          "preserved_scientific_elements": [
+            "计算和访存两个面板",
+            "实心与空心点的稳态检查图例",
+            "板卡功耗与GPU传感器温度坐标",
+            "带宽与板卡功耗差坐标",
+            "六阶段拟合线"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "figure:Figure 5",
+        "source_id": "Figure 5",
+        "kind": "figure",
+        "label": "Figure 5",
+        "caption": "HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget.",
+        "pages": [
+          11
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 3,
+        "target_section": "关键结果",
+        "plan_kind": "supporting_figure",
+        "source_image_filename": "figure-05.png",
+        "relative_markdown_embed": "![Figure 5](images/figure-05.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-05.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "d1243046bd0c89fe46bc78cb145f5de210462d9b56f7852b74af2971df3c6db2",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-05.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-11.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 11,
+          "caption": "HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget.",
+          "bbox_pt": [
+            51,
+            300,
+            299,
+            441.89752197265625
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.3787878787878788,
+            0.48856209150326796,
+            0.5579514166321418
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "d1243046bd0c89fe46bc78cb145f5de210462d9b56f7852b74af2971df3c6db2",
+          "preserved_scientific_elements": [
+            "总容量与HBM驻留KV两个面板",
+            "A/B/C配置及容量数值",
+            "HBM/HBF图例和堆叠柱",
+            "1.72M及0.54M标注",
+            "C无全量驻留的非数值阴影标记"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "figure:Figure 6",
+        "source_id": "Figure 6",
+        "kind": "figure",
+        "label": "Figure 6",
+        "caption": "MoE expert demand across batch sizes. Deduplicated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes.",
+        "pages": [
+          12
+        ],
+        "section_id": "sec:evaluation",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 2,
+        "target_section": "关键结果",
+        "plan_kind": "main_result",
+        "source_image_filename": "figure-06.png",
+        "relative_markdown_embed": "![Figure 6](images/figure-06.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-06.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "914cfeec1719b4176116208ebdf4ec919af1f407b654ce2f069a6727ffc04773",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/figure-06.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-12.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 12,
+          "caption": "MoE expert demand across batch sizes. Deduplicated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes.",
+          "bbox_pt": [
+            51,
+            71,
+            299,
+            181.1241455078125
+          ],
+          "normalized_bbox": [
+            0.08333333333333333,
+            0.08964646464646464,
+            0.48856209150326796,
+            0.22869210291390468
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "914cfeec1719b4176116208ebdf4ec919af1f407b654ce2f069a6727ffc04773",
+          "preserved_scientific_elements": [
+            "三个批量观测点",
+            "去重需求倍数1/2.487/3.584",
+            "无复用线性参考虚线",
+            "双对数坐标",
+            "事件计数而非字节数标注"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "table:Table 1",
+        "source_id": "Table 1",
+        "kind": "table",
+        "label": "Table 1",
+        "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+        "pages": [
+          2
+        ],
+        "section_id": "sec:introduction",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 2,
+        "target_section": "研究问题",
+        "plan_kind": "main_result",
+        "source_image_filename": "table-01.png",
+        "relative_markdown_embed": "![Table 1](images/table-01.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-01.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "b1d122b4801a6debb344889312833c9c50623a4d36789e7a6d150aa75f6394bf",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-01.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-02.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 2,
+          "caption": "Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+          "bbox_pt": [
+            50,
+            92,
+            562,
+            193
+          ],
+          "normalized_bbox": [
+            0.08169934640522876,
+            0.11616161616161616,
+            0.9183006535947712,
+            0.24368686868686867
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "b1d122b4801a6debb344889312833c9c50623a4d36789e7a6d150aa75f6394bf",
+          "preserved_scientific_elements": [
+            "四条I/O路径",
+            "介质/容量/带宽/接口/延迟/粒度/耐久性/断电保持八行",
+            "所有数值单位",
+            "断电保持不保证的限定"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      },
+      {
+        "item_id": "table:Table 2",
+        "source_id": "Table 2",
+        "kind": "table",
+        "label": "Table 2",
+        "caption": "Simulation time and instruction rate reported for cycle-level GPU simulators.",
+        "pages": [
+          3
+        ],
+        "section_id": "sec:background",
+        "decision": "insert",
+        "reason": "逐图核对原页后选定；在对应论证旁插入原图并逐面板解释。",
+        "skip_reason": "",
+        "visual_quality_status": "usable_candidate",
+        "priority": 2,
+        "target_section": "研究问题",
+        "plan_kind": "table_result",
+        "source_image_filename": "table-02.png",
+        "relative_markdown_embed": "![Table 2](images/table-02.png)",
+        "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-02.png",
+        "materialization_status": "pending",
+        "source_image_sha256": "6ae28ff7c5059e0b08f27a93c736511e1a7fc69f7ffb8faa12e549ce3819821f",
+        "review_evidence": {
+          "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/table-02.png",
+          "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-ShanghaiTech/精读核对/visuals/page-03.png",
+          "source_pdf_path": "/home/kurisu/Desktop/论文/文献/HBFSim_上科大.pdf",
+          "source_page": 3,
+          "caption": "Simulation time and instruction rate reported for cycle-level GPU simulators.",
+          "bbox_pt": [
+            315,
+            69,
+            562,
+            224
+          ],
+          "normalized_bbox": [
+            0.5147058823529411,
+            0.08712121212121213,
+            0.9183006535947712,
+            0.2828282828282828
+          ],
+          "render_dpi": 300
+        },
+        "visual_review": {
+          "status": "pass",
+          "reviewed_asset_sha256": "6ae28ff7c5059e0b08f27a93c736511e1a7fc69f7ffb8faa12e549ce3819821f",
+          "preserved_scientific_elements": [
+            "lavaMD运行时与减速比",
+            "四行warp指令率",
+            "两行指令率",
+            "warp指令与普通指令两种统计口径"
+          ],
+          "omitted_scientific_elements": [],
+          "notes": "模型已逐张查看300dpi原图裁剪及原页预览。图号、子图、轴、图例与正文身份一致；排除原英文图题及周围正文，保留完整科学内容和边距。",
+          "failure_reason": "",
+          "repair_attempts": 0,
+          "revised_bbox": []
+        }
+      }
+    ],
+    "caption_counts": {
+      "figures": 7,
+      "tables": 2
+    },
+    "planned_items": 9,
+    "requires_full_decision_table": true
+  },
+  "pdf_assets": {
+    "asset_root": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution",
+    "images_dir": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images",
+    "page_assets": [
+      {
+        "page_number": 1,
+        "searchable_text_chars": 4409,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "HBFSim: Fast and Faithful Simulation of High-Bandwidth Flash Under Real GPU Execution Yanpeng Hu1∗Yiwei Yang2∗Yuanwu Zhu3 Kexin Chu4 Yusheng Zheng2 Andi Quinn2 Wei Zhang4 1ShanghaiTech University 2UC Santa Cruz 3University of Science and Te"
+      },
+      {
+        "page_number": 2,
+        "searchable_text_chars": 5257,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "Table 1: Comparison of four I/O paths that can serve accelerators in the foreseeable future. 1st Generation HBF HBM4 eSSD (Kioxia GP1) CXL-attached memory Medium 3D NAND DRAM XL-FLASH Gen2 DRAM Capacity 512 GB/stack 64 GB/stack [10] ∼2 TB/d"
+      },
+      {
+        "page_number": 3,
+        "searchable_text_chars": 5381,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "own calculation is less optimistic, but read-only bandwidth still accounts for 40 to 50 percent of all traffic for Kimi K3 with a 1M-token context. The derivation is not expanded here, for reasons of paper length and because this work focus"
+      },
+      {
+        "page_number": 4,
+        "searchable_text_chars": 6051,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "it into the machine instructions the GPU executes. We insert the waiting time by rewriting memory instructions in PTX. However, PTX interception raises a doubt about where the de- lay is injected: the PTX text says only which instructions t"
+      },
+      {
+        "page_number": 5,
+        "searchable_text_chars": 5826,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "consumes the same generation-stamped thermal state and the same deterministic refresh plan. This section first defines that execution boundary and then describes timing, temperature, retention, and capacity as one coupled system. Figure 1 s"
+      },
+      {
+        "page_number": 6,
+        "searchable_text_chars": 3520,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "Host setup / registry Host capacity service PTX pass admit or reject Registry ranges + TensorMap Backing file exact page bytes Prefetcher following pages Real GPU HBM tier vLLM Qwen3-30B Device ABI issue, wait at dependency Native path not "
+      },
+      {
+        "page_number": 7,
+        "searchable_text_chars": 5551,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "The fraction is snapshotted before queue reservation. Thus a command admitted before a state transition retains its ser- vice and drains once; a later Severe state cannot retroactively strand it. Normal publishes q = 106, Light publishes a "
+      },
+      {
+        "page_number": 8,
+        "searchable_text_chars": 5732,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "work, and this paper claims no run-time performance benefit from D6. 5 Implementation The implementation is 9,302 lines of C, C++ and CUDA under src/ and include/, with a further 3,250 lines added afterwards for the measured calibration wor"
+      },
+      {
+        "page_number": 9,
+        "searchable_text_chars": 5555,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "synchronization, while applying modeled HBF la- tency accurately to the accesses it declares? • EQ2: How does package heating affect HBF service, and which component reaches its thermal limit first? • EQ3: How do the HBM–HBF mix and MoE rou"
+      },
+      {
+        "page_number": 10,
+        "searchable_text_chars": 3552,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 3,
+        "text_preview": "W0 W1 W2 W0 W1 W2 Transfer size / work level −1200 −800 −400 0 Error (ns) 256 B 8,192 B exact 800 µs (a) −8000−4000 0 4000 8000 Delivery error (ns) 0.0 0.2 0.4 0.6 0.8 1.0 Cumulative (b) 2 20 200 1000 Injected delay (µs) −0.5 0.0 0.5 1.0 Re"
+      },
+      {
+        "page_number": 11,
+        "searchable_text_chars": 4860,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "320 360 400 440 Board power (W) 46 48 50 52 GPU temp. (°C) (a) Compute load 200 600 1000 DRAM bandwidth (GB/s) 0 40 80 120 Marginal board power (W) (b) Memory traffic Plateau check: passed Plateau check: not passed fit over the six phases F"
+      },
+      {
+        "page_number": 12,
+        "searchable_text_chars": 5507,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "1 8 16 Batch size 1 2 4 8 16 Deduplicated demand events (× batch 1) 1.000 2.487 3.584 counts, not media bytes measured demand events linear, no reuse Figure 6: MoE expert demand across batch sizes. Dedupli- cated demand events from a Qwen3-"
+      },
+      {
+        "page_number": 13,
+        "searchable_text_chars": 5254,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "therefore itself extrapolated from a neighbouring standard. 8 Discussion The calibrated curve is measured on a complete host paging path, a software route that presents an NVMe solid-state drive as memory through the device node /dev/vmem0."
+      },
+      {
+        "page_number": 14,
+        "searchable_text_chars": 4499,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "tion, version 0.7.0. Open Compute Project specification, August 2026. [5] Nathan Binkert, Bradford Beckmann, Gabriel Black, Steven K. Reinhardt, Ali Saidi, Arkaprava Basu, Joel Hestness, Derek R. Hower, Tushar Krishna, Somayeh Sardashti, Ra"
+      },
+      {
+        "page_number": 15,
+        "searchable_text_chars": 4648,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "[21] Dongjun Kwon. “father of HBM” professor joungho kim: “the HBF market will exceed HBM in 2038”. ET- News, February 2026. https://www.etnews.com/2 0260203000211. [22] Huaicheng Li, Mingzhe Hao, Michael Hao Tong, Swami- nathan Sundararama"
+      },
+      {
+        "page_number": 16,
+        "searchable_text_chars": 3281,
+        "text_extraction_method": "text",
+        "ocr_used": false,
+        "image_count": 0,
+        "text_preview": "Spencer Hance, Carter McCardwell, Vincent Zhao, Har- rison Barclay, Amir Kavyan Ziabari, Zhongliang Chen, Rafael Ubal, José L. Abellán, John Kim, Ajay Joshi, and David Kaeli. MGPUSim: Enabling multi-GPU perfor- mance modeling and optimizati"
+      }
+    ],
+    "image_assets": [
+      {
+        "page_number": 10,
+        "image_index": 1,
+        "xref": 571,
+        "filename": "page_010_img_01.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_01.png",
+        "ext": "png",
+        "width": 1620,
+        "height": 660,
+        "colorspace": 1,
+        "size_bytes": 10184,
+        "extraction_level": "xref"
+      },
+      {
+        "page_number": 10,
+        "image_index": 2,
+        "xref": 572,
+        "filename": "page_010_img_02.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_02.png",
+        "ext": "png",
+        "width": 1620,
+        "height": 660,
+        "colorspace": 1,
+        "size_bytes": 15050,
+        "extraction_level": "xref"
+      },
+      {
+        "page_number": 10,
+        "image_index": 3,
+        "xref": 573,
+        "filename": "page_010_img_03.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_img_03.png",
+        "ext": "png",
+        "width": 48,
+        "height": 660,
+        "colorspace": 1,
+        "size_bytes": 1769,
+        "extraction_level": "xref"
+      }
+    ],
+    "figure_assets": [
+      {
+        "filename": "page_002_fig_table_1.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_002_fig_table_1.png",
+        "page_number": 2,
+        "label": "Table 1",
+        "kind": "table",
+        "caption_text": "Table 1: Comparison of four I/O paths that can serve accelerators in the foreseeable future.",
+        "width": 688,
+        "height": 134,
+        "size_bytes": 23523,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.107484,
+          "visual_rect_count": 0,
+          "visual_body_ratio": 0.0,
+          "paragraph_text_chars": 491,
+          "table_body_rows": 9,
+          "caption_text_chars": 92,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_003_fig_table_2.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_003_fig_table_2.png",
+        "page_number": 3,
+        "label": "Table 2",
+        "kind": "table",
+        "caption_text": "Table 2: Simulation time and instruction rate reported for cycle-level GPU simulators.",
+        "width": 252,
+        "height": 199,
+        "size_bytes": 15072,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.058536,
+          "visual_rect_count": 0,
+          "visual_body_ratio": 0.0,
+          "paragraph_text_chars": 255,
+          "table_body_rows": 12,
+          "caption_text_chars": 86,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_006_fig_figure_1.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_006_fig_figure_1.png",
+        "page_number": 6,
+        "label": "Figure 1",
+        "kind": "figure",
+        "caption_text": "Figure 1: HBFSim architecture.",
+        "width": 682,
+        "height": 341,
+        "size_bytes": 51552,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.270823,
+          "visual_rect_count": 34,
+          "visual_body_ratio": 1.0,
+          "paragraph_text_chars": 0,
+          "table_body_rows": 0,
+          "caption_text_chars": 30,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_010_fig_figure_2.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_2.png",
+        "page_number": 10,
+        "label": "Figure 2",
+        "kind": "figure",
+        "caption_text": "Figure 2: Timing-injection fidelity. Increment error by configuration (a), paired-error distribution (b), and normalized delay recovery (c).",
+        "width": 682,
+        "height": 193,
+        "size_bytes": 32746,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.15296,
+          "visual_rect_count": 11,
+          "visual_body_ratio": 1.0,
+          "paragraph_text_chars": 0,
+          "table_body_rows": 0,
+          "caption_text_chars": 140,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_010_fig_figure_3.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_010_fig_figure_3.png",
+        "page_number": 10,
+        "label": "Figure 3",
+        "kind": "figure",
+        "caption_text": "Figure 3: Modeled HBF layer temperatures. Temperature of the hottest node in each of the eight HBF layers, over time (a) and across external heat loads (b), on one shared color scale.",
+        "width": 682,
+        "height": 196,
+        "size_bytes": 24335,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.156003,
+          "visual_rect_count": 6,
+          "visual_body_ratio": 1.0,
+          "paragraph_text_chars": 0,
+          "table_body_rows": 0,
+          "caption_text_chars": 183,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_011_fig_figure_4.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_4.png",
+        "page_number": 11,
+        "label": "Figure 4",
+        "kind": "figure",
+        "caption_text": "Figure 4: Physical reference on the evaluation GPU. Board power against the GPU’s own temperature sensor (a) and mea- sured DRAM bandwidth against the board-power difference between a phase’s DRAM-resident and L2-resident halves (b), over thirteen 300 s phases.",
+        "width": 684,
+        "height": 202,
+        "size_bytes": 54506,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.160975,
+          "visual_rect_count": 5,
+          "visual_body_ratio": 0.657465,
+          "paragraph_text_chars": 1350,
+          "table_body_rows": 0,
+          "caption_text_chars": 261,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_011_fig_figure_5.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_011_fig_figure_5.png",
+        "page_number": 11,
+        "label": "Figure 5",
+        "kind": "figure",
+        "caption_text": "Figure 5: HBM–HBF capacity trade-offs. Installed capacity (a) and HBM-resident key-value capacity (b) for three layouts under a common package-area budget.",
+        "width": 732,
+        "height": 246,
+        "size_bytes": 62172,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.209615,
+          "visual_rect_count": 23,
+          "visual_body_ratio": 1.0,
+          "paragraph_text_chars": 657,
+          "table_body_rows": 0,
+          "caption_text_chars": 155,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      },
+      {
+        "filename": "page_012_fig_figure_6.png",
+        "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_Fast_and_Faithful_Simulation_of_High_Bandwidth_Flash_Under_Real_GPU_Execution/images/page_012_fig_figure_6.png",
+        "page_number": 12,
+        "label": "Figure 6",
+        "kind": "figure",
+        "caption_text": "Figure 6: MoE expert demand across batch sizes. Dedupli- cated demand events from a Qwen3-30B-A3B routing trace, normalized to batch 1, on logarithmic axes.",
+        "width": 684,
+        "height": 154,
+        "size_bytes": 38367,
+        "extraction_level": "figure",
+        "quality_signals": {
+          "visual_quality_status": "usable",
+          "quality_reason_codes": [],
+          "page_coverage_ratio": 0.122962,
+          "visual_rect_count": 4,
+          "visual_body_ratio": 0.882145,
+          "paragraph_text_chars": 2798,
+          "table_body_rows": 0,
+          "caption_text_chars": 156,
+          "other_caption_count": 0,
+          "other_caption_labels": []
+        }
+      }
+    ],
+    "ocr_available": false
+  },
+  "writing_contract": {
+    "language": "zh-CN",
+    "contract_role": "manifest_quality_contract",
+    "canonical_source": "SKILL.md defines the workflow; scripts/contracts.py defines machine-checkable contract data.",
+    "must_include_sections": [
+      "核心信息",
+      "原文摘要翻译",
+      "创新点",
+      "一句话总结",
+      "研究问题",
+      "数据与任务定义",
+      "方法主线",
+      "关键结果",
+      "深度分析",
+      "局限",
+      "我的笔记",
+      "引用"
+    ],
+    "note_plan_contract": {
+      "required_fields": [
+        "paper_type",
+        "paper_type_rationale",
+        "dominant_domain",
+        "must_cover",
+        "key_numbers",
+        "real_comparisons",
+        "central_claims",
+        "claim_boundaries",
+        "negative_or_limiting_results",
+        "mechanism_result_map",
+        "comparative_positioning",
+        "reuse_takeaways",
+        "followup_questions",
+        "section_plan"
+      ],
+      "field_types": {
+        "paper_type": "string",
+        "paper_type_rationale": "string",
+        "dominant_domain": "string",
+        "must_cover": "array",
+        "key_numbers": "array",
+        "real_comparisons": "array",
+        "central_claims": "array",
+        "claim_boundaries": "array",
+        "negative_or_limiting_results": "array",
+        "mechanism_result_map": "array",
+        "comparative_positioning": "array",
+        "reuse_takeaways": "array",
+        "followup_questions": "array",
+        "section_plan": "array"
+      },
+      "required_field_checks": {
+        "string": {
+          "non_empty": true
+        },
+        "array": {
+          "non_empty": true
+        }
+      },
+      "artifact_preference": "short_json_planning_file",
+      "grounding_field": "section_plan[*].evidence_sources",
+      "analysis_coverage_field": "central_claims[*]"
+    },
+    "paper_type_selection": {
+      "source_of_truth": "note_plan.paper_type",
+      "suggested_paper_type_role": "none",
+      "allowed_paper_types": [
+        "AI_method",
+        "benchmark_or_dataset",
+        "clinical_or_psychology_empirical",
+        "humanities_or_social_science",
+        "survey_or_review"
+      ]
+    },
+    "contracts_by_paper_type": {
+      "AI_method": {
+        "paper_type": "AI_method",
+        "reader_lens": "面向能复现方法机制的技术读者",
+        "section_focus": [
+          "问题设置",
+          "方法机制",
+          "训练/推理流程",
+          "关键公式",
+          "比较基线",
+          "消融与失败边界"
+        ],
+        "required_checks": [
+          "需要说明机制流程、关键公式、实验设计、消融含义和失败边界。"
+        ],
+        "formula_rules": [
+          "仅保留理解方法必需的 1 到 3 个关键公式，并解释其工程含义。"
+        ],
+        "avoid_rules": [
+          "不要把非 AI_method 论文强行改写成模型架构。"
+        ],
+        "boundary_questions": [
+          "核心机制的收益由哪个实验或消融支撑，而不是只由主结果暗示？",
+          "哪些比较只能证明在当前数据、基线、算力或协议下有效，不能外推到通用场景？",
+          "论文是否给出失败、退化、不稳定或成本上升的证据；如果没有，结论边界是什么？"
+        ],
+        "section_semantics": {
+          "研究问题": "方法要解决的具体技术问题和现有方法短板。",
+          "数据与任务定义": "数据集、输入输出、评测任务和实验设置。",
+          "方法主线": "模型、算法、训练或推理机制。",
+          "关键结果": "主结果、强基线、消融和关键数字。",
+          "深度分析": "方法为什么有效、何处脆弱、复现和扩展代价。"
+        },
+        "recommended_subsections": {
+          "方法主线": [
+            "机制流程",
+            "模型结构",
+            "训练目标",
+            "推理与采样链路",
+            "关键实现细节"
+          ],
+          "关键结果": [
+            "主结果与强基线",
+            "消融到底说明了什么",
+            "失败或不稳定设置"
+          ],
+          "深度分析": [
+            "为什么有效",
+            "复杂度与扩展性",
+            "复现注意点"
+          ]
+        },
+        "mechanism_flow_contract": {
+          "apply_when_paper_type_in": [
+            "AI_method"
+          ],
+          "required_step_count": "3_to_4",
+          "required_step_fields": [
+            "input",
+            "operation",
+            "output_destination"
+          ]
+        }
+      },
+      "benchmark_or_dataset": {
+        "paper_type": "benchmark_or_dataset",
+        "reader_lens": "面向要判断 benchmark/dataset 可用性和偏差边界的研究者",
+        "section_focus": [
+          "任务拆分",
+          "数据来源与构建流程",
+          "标注协议",
+          "评测指标",
+          "覆盖范围与偏差",
+          "样本统计与数据开放限制"
+        ],
+        "required_checks": [
+          "需要说明数据来源、构建/标注流程、评测指标、基线表现、样本统计、数据开放或隐私限制和适用边界。"
+        ],
+        "formula_rules": [
+          "仅保留核心评测指标、采样规则或划分定义。"
+        ],
+        "avoid_rules": [
+          "不要把数据构建流程写成模型 pipeline。"
+        ],
+        "boundary_questions": [
+          "这个 benchmark/dataset 实际测量的构念是什么，哪些能力只是间接近似？",
+          "任务、标签、采样、过滤或评测协议会引入哪些覆盖缺口或偏差？",
+          "基线结果证明了评测集有区分度，还是只证明某类模型适应该协议？",
+          "样本时长、语料长度、人口统计、类别分布、数据可访问性或隐私限制如何影响复现和外推？"
+        ],
+        "section_semantics": {
+          "研究问题": "这个 benchmark/dataset 想补足的评测或数据缺口。",
+          "数据与任务定义": "数据来源、任务拆分、标签/题目定义、样本范围。",
+          "方法主线": "数据构建、筛选、标注和评测协议，不写成模型 pipeline。",
+          "关键结果": "基线表现、难度分布、覆盖范围和偏差。",
+          "深度分析": "它真正测到了什么，以及不能代表什么。"
+        },
+        "recommended_subsections": {
+          "数据与任务定义": [
+            "数据来源",
+            "任务拆分",
+            "标注/筛选协议"
+          ],
+          "方法主线": [
+            "构建流程",
+            "评测协议",
+            "Baseline 设置"
+          ],
+          "关键结果": [
+            "基线表现",
+            "难度分布",
+            "覆盖与偏差"
+          ],
+          "深度分析": [
+            "benchmark 真正测到了什么",
+            "适用边界"
+          ]
+        }
+      },
+      "clinical_or_psychology_empirical": {
+        "paper_type": "clinical_or_psychology_empirical",
+        "reader_lens": "面向关注临床/心理学样本、变量关系和外推边界的研究读者",
+        "section_focus": [
+          "样本来源",
+          "纳排标准",
+          "变量或量表",
+          "分析管线",
+          "效应量与不确定性",
+          "样本统计、伦理和数据可访问性"
+        ],
+        "required_checks": [
+          "需要区分相关、预测、组间差异和因果解释，说明样本统计、伦理/隐私约束与外推边界。"
+        ],
+        "formula_rules": [
+          "仅保留核心统计模型、效应量、置信区间或量表定义。"
+        ],
+        "avoid_rules": [
+          "不要把相关性、预测性能或组间差异写成未经证明的因果结论。"
+        ],
+        "boundary_questions": [
+          "样本来源、纳排标准、测量工具和标注流程如何限制外推？",
+          "结果支持相关、预测、组间差异还是因果解释；不要越过论文设计能证明的范围。",
+          "临床或心理学意义是否依赖未观测混杂、量表阈值、文本/语音缺失或场景约束？",
+          "样本构成、数据缺失、隐私限制或材料不可公开会怎样限制复现与再分析？"
+        ],
+        "section_semantics": {
+          "研究问题": "临床、心理学或行为科学中的研究问题、假设或变量关系。",
+          "数据与任务定义": "样本来源、纳排标准、变量/量表、测量方式。",
+          "方法主线": "研究设计、分组、测量流程和统计分析路径。",
+          "关键结果": "主要效应、相关性、组间差异、不确定性或显著性。",
+          "深度分析": "结果解释、因果边界、临床/心理学意义和外推限制。"
+        },
+        "recommended_subsections": {
+          "数据与任务定义": [
+            "样本与纳排标准",
+            "变量与量表",
+            "测量流程"
+          ],
+          "方法主线": [
+            "研究设计",
+            "分析模型",
+            "主要比较"
+          ],
+          "关键结果": [
+            "主要效应",
+            "不确定性与显著性",
+            "临床或心理学解释"
+          ],
+          "深度分析": [
+            "因果解释边界",
+            "外推限制"
+          ]
+        }
+      },
+      "humanities_or_social_science": {
+        "paper_type": "humanities_or_social_science",
+        "reader_lens": "面向关注理论框架、材料解释和论证结构的研究读者",
+        "section_focus": [
+          "研究对象",
+          "材料来源",
+          "理论框架",
+          "论证路径",
+          "概念贡献",
+          "解释边界"
+        ],
+        "required_checks": [
+          "需要区分作者论证、材料证据、规范性判断和实验事实。"
+        ],
+        "formula_rules": [
+          "通常不强行保留公式；仅保留核心形式化定义或编码规则。"
+        ],
+        "avoid_rules": [
+          "不要把规范性判断、文本解释或案例分析写成实验事实。"
+        ],
+        "boundary_questions": [
+          "作者的解释依赖哪些材料、案例或理论前提？",
+          "是否存在同样能解释材料的替代解释，论文如何排除或没有排除？",
+          "哪些结论是概念贡献或规范性判断，而不是可直接当作经验事实？"
+        ],
+        "section_semantics": {
+          "研究问题": "作者要解释的社会、文化、历史、制度或理论问题。",
+          "数据与任务定义": "材料、案例、文本、访谈、档案或语料范围，不写成 ML task。",
+          "方法主线": "理论框架、概念区分和论证路径。",
+          "关键结果": "核心解释性发现、概念贡献或对既有观点的修正。",
+          "深度分析": "论证强度、材料边界、解释替代性和可迁移性。"
+        },
+        "recommended_subsections": {
+          "数据与任务定义": [
+            "材料范围",
+            "选择标准",
+            "案例或语料边界"
+          ],
+          "方法主线": [
+            "理论框架",
+            "概念区分",
+            "论证路径"
+          ],
+          "关键结果": [
+            "核心解释性发现",
+            "概念贡献"
+          ],
+          "深度分析": [
+            "论证强度",
+            "替代解释",
+            "材料边界"
+          ]
+        }
+      },
+      "survey_or_review": {
+        "paper_type": "survey_or_review",
+        "reader_lens": "面向需要梳理综述脉络、分类体系和证据边界的研究读者",
+        "section_focus": [
+          "综述范围",
+          "纳入排除标准",
+          "主题分类",
+          "方法谱系",
+          "共识与分歧",
+          "开放问题"
+        ],
+        "required_checks": [
+          "需要说明综述范围、文献选择、分类体系、共识分歧和开放问题。"
+        ],
+        "formula_rules": [
+          "仅保留分类轴、纳入排除准则、证据汇总规则或 meta-analysis 统计量。"
+        ],
+        "avoid_rules": [
+          "不要把综述中的代表性结论写成作者自己完成的单项实验结果。"
+        ],
+        "boundary_questions": [
+          "检索范围、纳入排除标准或分类轴会遗漏哪些研究路线？",
+          "综述给出的是领域共识、作者分类，还是尚未解决的分歧？",
+          "哪些趋势结论来自覆盖范围内的文献分布，不能直接当作技术成熟度判断？"
+        ],
+        "section_semantics": {
+          "研究问题": "综述试图整理的领域问题、争议或知识缺口。",
+          "数据与任务定义": "纳入文献范围、检索/筛选标准和综述对象。",
+          "方法主线": "分类体系、综述组织方式和证据综合逻辑，不写成单篇方法架构。",
+          "关键结果": "领域共识、分歧、趋势、代表性方向和开放问题。",
+          "深度分析": "综述覆盖的盲区、分类体系的解释力和未来研究机会。"
+        },
+        "recommended_subsections": {
+          "数据与任务定义": [
+            "综述范围",
+            "纳入/排除标准",
+            "文献覆盖"
+          ],
+          "方法主线": [
+            "分类体系",
+            "方法谱系",
+            "证据组织方式"
+          ],
+          "关键结果": [
+            "代表性方向",
+            "共识与分歧",
+            "开放问题"
+          ],
+          "深度分析": [
+            "分类体系的局限",
+            "未覆盖区域",
+            "后续研究机会"
+          ]
+        }
+      }
+    },
+    "grounding_contract": {
+      "source_of_truth": "source_manifest",
+      "source_index_source_of_truth": "source_manifest",
+      "truncation_source_of_truth": "source_manifest.coverage_or_pdf",
+      "partial_reading_acceptance_owner": "note_plan_or_grounding",
+      "accepted_reference_forms": [
+        "section_id",
+        "pages"
+      ],
+      "required_sections": [
+        "研究问题",
+        "数据与任务定义",
+        "方法主线",
+        "关键结果",
+        "深度分析",
+        "局限"
+      ],
+      "note_plan_depth_requirements": {
+        "required_section_focus_min_chars": 20,
+        "required_section_focus_fields": [
+          "focus",
+          "reading_goal",
+          "purpose"
+        ],
+        "generic_focus_phrases": [
+          "use the raw source to explain",
+          "paper-specific role of",
+          "explain the paper-specific role",
+          "explain this section",
+          "summarize this section"
+        ]
+      },
+      "excluded_model_input_fields": [
+        "evidence",
+        "evidence_pack",
+        "candidate_chunks",
+        "section_texts",
+        "summary",
+        "summary_hints"
+      ],
+      "reject_old_references": [
+        "synthesis_bundle.evidence",
+        "bundle.evidence",
+        "synthesis_bundle.candidate_chunks",
+        "synthesis_bundle.section_texts",
+        "synthesis_bundle.summary",
+        "bundle.candidate_chunks",
+        "bundle.section_texts",
+        "bundle.summary"
+      ],
+      "lint_command": "scripts/lint_grounding.py --note-plan ... --source-manifest ... --bundle-json ... --figure-decisions ..."
+    },
+    "figure_table_contract": {
+      "placeholder_first": true,
+      "visual_quality_gate": "fail_closed",
+      "decision_table_required": true,
+      "decision_values": [
+        "review_pending",
+        "insert",
+        "placeholder",
+        "low_priority",
+        "visual_defect",
+        "skip"
+      ],
+      "usable_insert_candidate": {
+        "kinds": [
+          "figure",
+          "table"
+        ],
+        "visual_quality_status": "usable_candidate",
+        "requires_source_image_path": true
+      },
+      "allowed_usable_placeholder_reasons": [
+        "visual_defect",
+        "materialization_blocked"
+      ],
+      "manual_visual_review_required_statuses": [
+        "usable_candidate",
+        "needs_visual_quality_check",
+        "review"
+      ],
+      "automatic_fail_closed_visual_statuses": [
+        "reject_visual_quality",
+        "asset_candidate_missing"
+      ],
+      "manual_review_claim_requires_image_inspection": true,
+      "visual_review": {
+        "selected_render_dpi": 300,
+        "page_preview_dpi": 96,
+        "review_fields": [
+          "status",
+          "reviewed_asset_sha256",
+          "preserved_scientific_elements",
+          "omitted_scientific_elements",
+          "notes",
+          "failure_reason",
+          "repair_attempts",
+          "revised_bbox"
+        ],
+        "review_status_values": [
+          "pending",
+          "pass",
+          "fail",
+          "repair_requested"
+        ],
+        "repair_limit": 1,
+        "asset_sha256_bound": true,
+        "caption_free_visual_body_required": true,
+        "decision_freeze_before": "note_plan",
+        "review_evidence_fields": [
+          "candidate_path",
+          "page_preview_path",
+          "source_pdf_path",
+          "source_page",
+          "caption",
+          "bbox_pt",
+          "normalized_bbox",
+          "render_dpi"
+        ],
+        "repairable_failure_reasons": [
+          "caption_contamination",
+          "surrounding_prose_contamination",
+          "scientific_content_clipped",
+          "insufficient_safety_margin"
+        ],
+        "terminal_failure_reasons": [
+          "identity_mismatch",
+          "caption_inseparable",
+          "ambiguous_visual_body",
+          "unreadable_source",
+          "scientific_content_missing",
+          "repair_limit_exhausted"
+        ]
+      }
+    },
+    "analysis_coverage_contract": {
+      "central_claim_fields": [
+        "claim",
+        "supporting_evidence",
+        "what_it_actually_proves",
+        "what_it_does_not_prove"
+      ],
+      "central_claim_field_types": {
+        "claim": "string",
+        "supporting_evidence": "array",
+        "what_it_actually_proves": "string",
+        "what_it_does_not_prove": "string"
+      },
+      "central_claim_required_field_checks": {
+        "string": {
+          "non_empty": true
+        },
+        "array": {
+          "non_empty": true
+        }
+      },
+      "required_plan_fields": [
+        "central_claims",
+        "claim_boundaries",
+        "negative_or_limiting_results",
+        "mechanism_result_map",
+        "comparative_positioning",
+        "reuse_takeaways",
+        "followup_questions"
+      ],
+      "final_quality_review_checks": [
+        "central_claims_are_supported_by_raw_sections_or_pages",
+        "key_experimental_settings_and_numbers_are_present",
+        "mechanisms_or_protocol_choices_are_mapped_to_results",
+        "comparisons_explain_positioning_against_alternatives",
+        "discussion_or_limitation_claims_are_explained_mechanistically",
+        "proven_claims_are_separated_from_unproven_or_unvalidated_claims",
+        "research_or_engineering_takeaways_are_specific_and_reusable",
+        "followup_questions_are_specific_to_replication_or_extension"
+      ]
+    }
+  }
+}

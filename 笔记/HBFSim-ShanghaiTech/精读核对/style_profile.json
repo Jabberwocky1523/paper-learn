@@ -1,0 +1,16 @@
+{
+  "source": "https://www.yuque.com/jabberwocky-zubgb/dwv0ny/yfgfqn94quli1up5",
+  "observed_headings": [
+    "一、背景动机",
+    "二、设计方案",
+    "三、实验结果"
+  ],
+  "style": [
+    "编号小节",
+    "加粗短语引出原因或做法",
+    "短句分点解释",
+    "图片放在相应机制或实验后",
+    "用紧凑表格列核心结果"
+  ],
+  "adaptation": "因用户未读懂而扩展原理、术语、步骤、公式和每个子图；明确补充推导及原文边界。"
+}
