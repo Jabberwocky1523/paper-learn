@@ -1,0 +1,12 @@
+{
+  "hbfsim_commit": "9669a4382b718537f4b4635e4b4bab7ced21f330",
+  "serveloop_commit": "ab1e6e0fd77a6fd6987c6db37f5e9dbb8979323b",
+  "method": "static source inspection via GitHub connector; no build or experimental replay",
+  "note_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim-MBZUAI_源码设计解读.md",
+  "sha256": "3e441fc9ed52fc083a39fc7ec40ba64f8ae7c6f6c09540fe6f360734b9f099f5",
+  "checks": {
+    "local_links_exist": true,
+    "mermaid_fence_balanced": true,
+    "display_math_fences_balanced": true
+  }
+}
