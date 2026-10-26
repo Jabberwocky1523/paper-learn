@@ -1,0 +1,1209 @@
+{
+  "status": "ok",
+  "script": "plan_figure_table_decisions.py",
+  "paper_id": "arxiv:2608.11668v4",
+  "decisions": [
+    {
+      "item_id": "figure:Figure 1",
+      "source_id": "Figure 1",
+      "kind": "figure",
+      "label": "Figure 1",
+      "caption": "Modeled layouts based on the KAIST HBF",
+      "pages": [
+        1
+      ],
+      "section_id": "sec:preamble",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "研究问题",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-01.png",
+      "source_image_filename": "figure-01.png",
+      "source_image_sha256": "82b4aa4aeefe5c04f216374f8bd3ad497a4bc72e1849aea2b2199bbde6fa79ed",
+      "relative_markdown_embed": "![Figure 1](images/figure-01.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-01.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 1,
+        "caption": "Figure 1: Modeled layouts based on the KAIST HBF roadmap.",
+        "bbox_pt": [
+          317,
+          254,
+          560,
+          357
+        ],
+        "normalized_bbox": [
+          0.5179738562091504,
+          0.3207070707070707,
+          0.9150326797385621,
+          0.45075757575757575
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "82b4aa4aeefe5c04f216374f8bd3ad497a4bc72e1849aea2b2199bbde6fa79ed",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 2",
+      "source_id": "Figure 2",
+      "kind": "figure",
+      "label": "Figure 2",
+      "caption": "Physical organization of an HBF package.",
+      "pages": [
+        3
+      ],
+      "section_id": "sec:introduction",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "研究问题",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-02.png",
+      "source_image_filename": "figure-02.png",
+      "source_image_sha256": "05f6471d5ac4ddc103b0106fe5821feaa4f4ce38b60bae9232aa7cb75f6a4a06",
+      "relative_markdown_embed": "![Figure 2](images/figure-02.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-03.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 3,
+        "caption": "Figure 2: Physical organization of an HBF package.",
+        "bbox_pt": [
+          53,
+          82,
+          296,
+          213
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.10353535353535354,
+          0.48366013071895425,
+          0.2689393939393939
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "05f6471d5ac4ddc103b0106fe5821feaa4f4ce38b60bae9232aa7cb75f6a4a06",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 3",
+      "source_id": "Figure 3",
+      "kind": "figure",
+      "label": "Figure 3",
+      "caption": "SSD offloading of KV: host-staged path (a) versus",
+      "pages": [
+        5
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 1,
+      "target_section": "研究问题",
+      "plan_kind": "method_overview",
+      "source_image_filename": "figure-03.png",
+      "relative_markdown_embed": "![Figure 3](images/figure-03.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-03.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "b2861ad9418d654fa737009a1227b58d10c80b478734a00e411bc9c386bc8b71",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-03.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-05.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 5,
+        "caption": "Figure 3: SSD offloading of KV: host-staged path (a) versus GPU-direct path (b).",
+        "bbox_pt": [
+          53,
+          82,
+          296,
+          210
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.10353535353535354,
+          0.48366013071895425,
+          0.26515151515151514
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "b2861ad9418d654fa737009a1227b58d10c80b478734a00e411bc9c386bc8b71",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 4",
+      "source_id": "Figure 4",
+      "kind": "figure",
+      "label": "Figure 4",
+      "caption": "A faster connector, a slower system: HBF cuts trans-",
+      "pages": [
+        7
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 1,
+      "target_section": "关键结果",
+      "plan_kind": "method_overview",
+      "source_image_filename": "figure-04.png",
+      "relative_markdown_embed": "![Figure 4](images/figure-04.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-04.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "4476a4c25817289baff33a90556ae9b160ff204d91c660a0676db4875d88270a",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-04.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-07.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 7,
+        "caption": "Figure 4: A faster connector, a slower system: HBF cuts transfer time yet raises end-to-end latency because the smaller near tier destabilizes the queue.",
+        "bbox_pt": [
+          317,
+          82,
+          561,
+          154
+        ],
+        "normalized_bbox": [
+          0.5179738562091504,
+          0.10353535353535354,
+          0.9166666666666666,
+          0.19444444444444445
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "4476a4c25817289baff33a90556ae9b160ff204d91c660a0676db4875d88270a",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 5",
+      "source_id": "Figure 5",
+      "kind": "figure",
+      "label": "Figure 5",
+      "caption": "End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_filename": "figure-05.png",
+      "relative_markdown_embed": "![Figure 5](images/figure-05.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-05.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "6accc0b1ad1d4cd4ad969c327420c6606be15514e01d7bdfefdfde9e118e57e4",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-05.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 8,
+        "caption": "Figure 5: End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five models and four traces.",
+        "bbox_pt": [
+          53,
+          222,
+          561,
+          324
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.2803030303030303,
+          0.9166666666666666,
+          0.4090909090909091
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "6accc0b1ad1d4cd4ad969c327420c6606be15514e01d7bdfefdfde9e118e57e4",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 6",
+      "source_id": "Figure 6",
+      "kind": "figure",
+      "label": "Figure 6",
+      "caption": "Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), across five models and four",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_filename": "figure-06.png",
+      "relative_markdown_embed": "![Figure 6](images/figure-06.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-06.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "fc00393c2e711c32bdb25df725846d2ec294971fb656d9625341dbb164346bed",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-06.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 8,
+        "caption": "Figure 6: Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), across five models and four traces.",
+        "bbox_pt": [
+          53,
+          369,
+          561,
+          466
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.4659090909090909,
+          0.9166666666666666,
+          0.5883838383838383
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "fc00393c2e711c32bdb25df725846d2ec294971fb656d9625341dbb164346bed",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 7",
+      "source_id": "Figure 7",
+      "kind": "figure",
+      "label": "Figure 7",
+      "caption": "Time-to-first-token (top) and time-between-tokens (bottom) versus load, normalized within each panel to the low-",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-07.png",
+      "source_image_filename": "figure-07.png",
+      "source_image_sha256": "d0e76f37b67ed7541086cee7491e55da26d40ab2a13d6f4679a8317aba818911",
+      "relative_markdown_embed": "![Figure 7](images/figure-07.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-07.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 8,
+        "caption": "Figure 7: Time-to-first-token (top) and time-between-tokens (bottom) versus load, normalized within each panel to the low-load SSD12 value (1×), for representative traces on five models.",
+        "bbox_pt": [
+          53,
+          510,
+          561,
+          614
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.6439393939393939,
+          0.9166666666666666,
+          0.7752525252525253
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "d0e76f37b67ed7541086cee7491e55da26d40ab2a13d6f4679a8317aba818911",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 8",
+      "source_id": "Figure 8",
+      "kind": "figure",
+      "label": "Figure 8",
+      "caption": "Base-die NMP operator leverage, HBF coverage,",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-08.png",
+      "source_image_filename": "figure-08.png",
+      "source_image_sha256": "f668880bad120e33e9f89f7b01265c603992fd41c8bb05b5aa3420b9d6dfb0e0",
+      "relative_markdown_embed": "![Figure 8](images/figure-08.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-08.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-09.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 9,
+        "caption": "Figure 8: Base-die NMP operator leverage, HBF coverage, and end-to-end dilution. A–T denote traceA, traceB, coder, and thinking.",
+        "bbox_pt": [
+          53,
+          231,
+          296,
+          322
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.2916666666666667,
+          0.48366013071895425,
+          0.4065656565656566
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "f668880bad120e33e9f89f7b01265c603992fd41c8bb05b5aa3420b9d6dfb0e0",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 9",
+      "source_id": "Figure 9",
+      "kind": "figure",
+      "label": "Figure 9",
+      "caption": "Batching gain does not transfer from SSD to HBF.",
+      "pages": [
+        10
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-09.png",
+      "source_image_filename": "figure-09.png",
+      "source_image_sha256": "856c13dca1c20295d102a782d9b958d2b17a205ff6b660491e15984072cf61c1",
+      "relative_markdown_embed": "![Figure 9](images/figure-09.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-09.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-10.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 10,
+        "caption": "Figure 9: Batching gain does not transfer from SSD to HBF. (a) Request-p50 reduction from Mooncake batching on SSD-12 vs. HBF-2 across KV block sizes; SSD gains hold everywhere while HBF fades to negative. (b) HBF-2 bucket occupancy collapses as blocks grow, removing the only latency HBF batching can amortize.",
+        "bbox_pt": [
+          318,
+          259,
+          560,
+          347
+        ],
+        "normalized_bbox": [
+          0.5196078431372549,
+          0.32702020202020204,
+          0.9150326797385621,
+          0.43813131313131315
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "856c13dca1c20295d102a782d9b958d2b17a205ff6b660491e15984072cf61c1",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 10",
+      "source_id": "Figure 10",
+      "kind": "figure",
+      "label": "Figure 10",
+      "caption": "(a) Dynamic power and peak temperature vs.",
+      "pages": [
+        11
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-10.png",
+      "source_image_filename": "figure-10.png",
+      "source_image_sha256": "af30266d12f43f2d8ef85ead1a4ec938f77617b772b4b713b89dd4d375f205c8",
+      "relative_markdown_embed": "![Figure 10](images/figure-10.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-10.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-11.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 11,
+        "caption": "Figure 10: (a) Dynamic power and peak temperature vs. single-stack bandwidth. (b) Full replay: thermal control caps delivered bandwidth. (c) Throttle zoom: temperature stays near 80°C while bandwidth is capped.",
+        "bbox_pt": [
+          53,
+          81,
+          296,
+          312
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.10227272727272728,
+          0.48366013071895425,
+          0.3939393939393939
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "af30266d12f43f2d8ef85ead1a4ec938f77617b772b4b713b89dd4d375f205c8",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 11",
+      "source_id": "Figure 11",
+      "kind": "figure",
+      "label": "Figure 11",
+      "caption": "KV write volume and endurance budget. A–T de-",
+      "pages": [
+        11
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-11.png",
+      "source_image_filename": "figure-11.png",
+      "source_image_sha256": "51de2c3cd8ee2557426fcdba56a1c3154d1e56dc2314f02e1f015ede67e56cc4",
+      "relative_markdown_embed": "![Figure 11](images/figure-11.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-11.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-11.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 11,
+        "caption": "Figure 11: KV write volume and endurance budget. A–T denote traceA, traceB, coder, and thinking.",
+        "bbox_pt": [
+          318,
+          82,
+          560,
+          175
+        ],
+        "normalized_bbox": [
+          0.5196078431372549,
+          0.10353535353535354,
+          0.9150326797385621,
+          0.22095959595959597
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "51de2c3cd8ee2557426fcdba56a1c3154d1e56dc2314f02e1f015ede67e56cc4",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 12",
+      "source_id": "Figure 12",
+      "kind": "figure",
+      "label": "Figure 12",
+      "caption": "Placement map implied by the findings: ex-",
+      "pages": [
+        12
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-12.png",
+      "source_image_filename": "figure-12.png",
+      "source_image_sha256": "d19b48382690617a893aa940b2170edd15118a79630ab60c96489c6a67fa2139",
+      "relative_markdown_embed": "![Figure 12](images/figure-12.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-12.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-12.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 12,
+        "caption": "Figure 12: Placement map implied by the findings: exposed stall (C1) against reads-per-write (C2), with sustainable bandwidth (C3) shifting the boundary.",
+        "bbox_pt": [
+          53,
+          82,
+          296,
+          246
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.10353535353535354,
+          0.48366013071895425,
+          0.3106060606060606
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "d19b48382690617a893aa940b2170edd15118a79630ab60c96489c6a67fa2139",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 1",
+      "source_id": "Table 1",
+      "kind": "table",
+      "label": "Table 1",
+      "caption": "HBF topology and evaluation comparison [11].",
+      "pages": [
+        1
+      ],
+      "section_id": "sec:preamble",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_filename": "table-01.png",
+      "relative_markdown_embed": "![Table 1](images/table-01.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-01.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "650658ac0bb8fe6c5cec63d24707521d3d63f4063e227b4113004a057e0b616f",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-01.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 1,
+        "caption": "Table 1: HBF topology and evaluation comparison [11].",
+        "bbox_pt": [
+          53,
+          606,
+          560,
+          708
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.7651515151515151,
+          0.9150326797385621,
+          0.8939393939393939
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "650658ac0bb8fe6c5cec63d24707521d3d63f4063e227b4113004a057e0b616f",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 2",
+      "source_id": "Table 2",
+      "kind": "table",
+      "label": "Table 2",
+      "caption": "Modeled H100 instances of KAIST’s HBF-1/HBF-2",
+      "pages": [
+        3
+      ],
+      "section_id": "sec:introduction",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 99,
+      "target_section": "关键结果",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-02.png",
+      "source_image_filename": "table-02.png",
+      "source_image_sha256": "d4bc5ec9ac215c7254a71a9e9c0f5082e36521d8b56a7b3037683a24fba10a12",
+      "relative_markdown_embed": "![Table 2](images/table-02.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-03.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 3,
+        "caption": "Table 2: Modeled H100 instances of KAIST’s HBF-1/HBF-2 organizations.",
+        "bbox_pt": [
+          62,
+          279,
+          285,
+          391
+        ],
+        "normalized_bbox": [
+          0.10130718954248366,
+          0.3522727272727273,
+          0.46568627450980393,
+          0.4936868686868687
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "d4bc5ec9ac215c7254a71a9e9c0f5082e36521d8b56a7b3037683a24fba10a12",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 3",
+      "source_id": "Table 3",
+      "kind": "table",
+      "label": "Table 3",
+      "caption": "from the Aliyun Qwen-Bailian deployment [24]. Each con-",
+      "pages": [
+        5
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-03.png",
+      "relative_markdown_embed": "![Table 3](images/table-03.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-03.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "a219e54266d2f055a786a9c1b317ba6fc2ed70fe86e6d9d463ffd9182e6a07b2",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-03.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-05.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 5,
+        "caption": "Table 3: Evaluation workloads, models, and systems.",
+        "bbox_pt": [
+          54,
+          273,
+          294,
+          495
+        ],
+        "normalized_bbox": [
+          0.08823529411764706,
+          0.3446969696969697,
+          0.4803921568627451,
+          0.625
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "a219e54266d2f055a786a9c1b317ba6fc2ed70fe86e6d9d463ffd9182e6a07b2",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 4",
+      "source_id": "Table 4",
+      "kind": "table",
+      "label": "Table 4",
+      "caption": "Each condition is a falsifiable prediction of the",
+      "pages": [
+        6
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-04.png",
+      "relative_markdown_embed": "![Table 4](images/table-04.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-04.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "b3473aeb550f8eccb1683131605b9764fb3219f5d582bcfe9ffa88aaeb7b63a0",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-04.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-06.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 6,
+        "caption": "Table 4: Each condition is a falsifiable prediction of the model in Eq. (6), tested by two findings for transient KV behind an SSD-style connector in §§6–8.",
+        "bbox_pt": [
+          321,
+          127,
+          556,
+          285
+        ],
+        "normalized_bbox": [
+          0.5245098039215687,
+          0.16035353535353536,
+          0.9084967320261438,
+          0.35984848484848486
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "b3473aeb550f8eccb1683131605b9764fb3219f5d582bcfe9ffa88aaeb7b63a0",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 5",
+      "source_id": "Table 5",
+      "kind": "table",
+      "label": "Table 5",
+      "caption": "B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to SSD24 and HBF-2 to SSD12.",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:model",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_filename": "table-05.png",
+      "relative_markdown_embed": "![Table 5](images/table-05.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-05.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "62939865dbc39054a65b3035f8c69b14210fe9762f0d4b990badcddfdd819312",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-05.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 8,
+        "caption": "Table 5: B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to SSD24 and HBF-2 to SSD12. Positive latency changes indicate slowdowns; negative throughput and goodput changes indicate losses.",
+        "bbox_pt": [
+          122,
+          116,
+          489,
+          212
+        ],
+        "normalized_bbox": [
+          0.19934640522875818,
+          0.14646464646464646,
+          0.7990196078431373,
+          0.2676767676767677
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "62939865dbc39054a65b3035f8c69b14210fe9762f0d4b990badcddfdd819312",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 6",
+      "source_id": "Table 6",
+      "kind": "table",
+      "label": "Table 6",
+      "caption": "Finding 2 NMP configuration.",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-06.png",
+      "relative_markdown_embed": "![Table 6](images/table-06.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-06.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "459571c71147b9fba33a1cfbf93bbebb5acfb0a5face8c3884936f1a93133e80",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-06.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-09.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 9,
+        "caption": "Table 6: Finding 2 NMP configuration.",
+        "bbox_pt": [
+          58,
+          106,
+          291,
+          217
+        ],
+        "normalized_bbox": [
+          0.09477124183006536,
+          0.13383838383838384,
+          0.47549019607843135,
+          0.273989898989899
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "459571c71147b9fba33a1cfbf93bbebb5acfb0a5face8c3884936f1a93133e80",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 7",
+      "source_id": "Table 7",
+      "kind": "table",
+      "label": "Table 7",
+      "caption": "Per-trace NMP leverage and coverage.",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-07.png",
+      "relative_markdown_embed": "![Table 7](images/table-07.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-07.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "fb3c1df1ff0a3b54a713b94ea58b46fcd01567d5592e0bd44366e64545d53c12",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-07.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-09.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 9,
+        "caption": "Table 7: Per-trace NMP leverage and coverage.",
+        "bbox_pt": [
+          59,
+          398,
+          290,
+          481
+        ],
+        "normalized_bbox": [
+          0.09640522875816994,
+          0.5025252525252525,
+          0.4738562091503268,
+          0.6073232323232324
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "fb3c1df1ff0a3b54a713b94ea58b46fcd01567d5592e0bd44366e64545d53c12",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 8",
+      "source_id": "Table 8",
+      "kind": "table",
+      "label": "Table 8",
+      "caption": "Flash-tier traffic over a full two-hour replay.",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-08.png",
+      "relative_markdown_embed": "![Table 8](images/table-08.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-08.png",
+      "source_image_sha256": "b2d54b30e608dc94495c30bdb785c4844822817a0da04eb5fd2bd171009065fb",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-08.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-09.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 9,
+        "caption": "Table 8: Flash-tier traffic over a full two-hour replay.",
+        "bbox_pt": [
+          330,
+          270,
+          546,
+          330
+        ],
+        "normalized_bbox": [
+          0.5392156862745098,
+          0.3409090909090909,
+          0.8921568627450981,
+          0.4166666666666667
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "b2d54b30e608dc94495c30bdb785c4844822817a0da04eb5fd2bd171009065fb",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 9",
+      "source_id": "Table 9",
+      "kind": "table",
+      "label": "Table 9",
+      "caption": "and Fig. 9(a) give the paired result. On SSD-12, request",
+      "pages": [
+        10
+      ],
+      "section_id": "sec:model-2",
+      "decision": "insert",
+      "reason": "原图及原页视觉核对后选定，图体完整、图号相符，放到对应机制或实验结果旁。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-09.png",
+      "relative_markdown_embed": "![Table 9](images/table-09.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-09.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "16fcbb7ab4b2ddf84de16b75f199f9ac7e2816ed7b8d64260086295ba3ea395b",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-09.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/page-10.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "source_page": 10,
+        "caption": "Table 9: Paired batching benefit (batched vs. matched no-batch), SSD-12 vs. HBF-2 on the shared traceA/traceB matrix.",
+        "bbox_pt": [
+          323,
+          126,
+          553,
+          247
+        ],
+        "normalized_bbox": [
+          0.5277777777777778,
+          0.1590909090909091,
+          0.9035947712418301,
+          0.31186868686868685
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "16fcbb7ab4b2ddf84de16b75f199f9ac7e2816ed7b8d64260086295ba3ea395b",
+        "preserved_scientific_elements": [
+          "完整图体和所有子图／表行",
+          "坐标轴、数值、图例、单位",
+          "原图编号对应关系和原页位置"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看21项资产的核对拼图，并与原页及逐段来源映射交叉核对；图注单独排在正文，原英文图注和周围正文均未混入图体。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    }
+  ],
+  "summary": {
+    "total_items": 21,
+    "by_decision": {
+      "insert": 0,
+      "low_priority": 9,
+      "placeholder": 0,
+      "review_pending": 11,
+      "skip": 0,
+      "visual_defect": 1
+    }
+  },
+  "visual_review_gate": "passed",
+  "decision_freeze": "completed_before_note_plan",
+  "user_format_override": "用户明确要求FlashAccel的三部分结构；target_section保留语义标签，展示位置由笔记三级标题决定。"
+}

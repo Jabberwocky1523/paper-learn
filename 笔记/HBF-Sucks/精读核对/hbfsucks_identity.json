@@ -1,0 +1,236 @@
+{
+  "status": "ok",
+  "run_status": "ok",
+  "script": "build_identity_contract.py",
+  "producer": "build_identity_contract.py",
+  "artifact_type": "canonical_identity",
+  "schema_version": 2,
+  "paper_id": "arxiv:2608.11668v4",
+  "identity_verdict": "accepted",
+  "identity_failure_class": "",
+  "failure_summary": "",
+  "work_level_identity": {
+    "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+    "translated_title": "HBF 真有那么糟吗？面向以 KV 为中心的 LLM 推理服务的高带宽闪存全栈特征分析",
+    "authors": [
+      "Zhuoran Li",
+      "Zhuohang Bian",
+      "Xin Huang",
+      "Yibo Zhao",
+      "Guangyu Sun",
+      "Youwei Zhuo"
+    ],
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "doi": "",
+    "arxiv_id": "2608.11668v4",
+    "zotero_key": ""
+  },
+  "source_manifestation": {
+    "source_kind": "local_pdf",
+    "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "source_url": "https://arxiv.org/abs/2608.11668v4",
+    "pdf_url": "",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+    "doi": "",
+    "arxiv_id": "2608.11668v4",
+    "zotero_key": ""
+  },
+  "accepted_metadata": {
+    "status": "ok",
+    "script": "resolve_paper.py",
+    "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+    "translated_title": "HBF 真有那么糟吗？面向以 KV 为中心的 LLM 推理服务的高带宽闪存全栈特征分析",
+    "authors": [
+      "Zhuoran Li",
+      "Zhuohang Bian",
+      "Xin Huang",
+      "Yibo Zhao",
+      "Guangyu Sun",
+      "Youwei Zhuo"
+    ],
+    "affiliations": [
+      "Peking University",
+      "Fudan University"
+    ],
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "arxiv_id": "2608.11668v4",
+    "source_url": "https://arxiv.org/abs/2608.11668v4",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+    "abstract": "A faster storage device should make serving faster. We find the opposite. High-Bandwidth Flash (HBF) stacks NAND behind a wide, package-local interface, promising flash-scale capacity with far lower read latency and higher bandwidth than an SSD. The obvious move is to keep an SSD-style Mooncake KV-offloading stack and swap in HBF underneath. We built that system and measured it: an extended TokenSim, four complete two-hour Qwen-Bailian production traces, five dense and mixture-of-experts models, and H100/B200 profiles. The upgrade backfires. Average end-to-end latency rises 2–5.5× and maximum SLO goodput falls 1.1–2.7× across H100 and B200, so the faster device yields a slower system. A cost-benefit model explains the paradox: a faster far tier pays off only when read I/O is the bottleneck, reads outweigh writes, and delivered bandwidth is sustainable. Transient KV violates all three at once. Buying flash through the package costs GPU near-tier capacity and bandwidth, while HBF’s own read/write latency barely matters: scaling it 3.75× moves latency less than 1%. Worse, the two-tier hierarchy keeps reuse in the near tier and hands HBF a relentless write-heavy stream. Writes outnumber reads on every trace, so a 3D-ICE model shows the stack hits its thermal limit well below peak bandwidth, and a TLC tier wears out sooner than the SSD pool it replaced. The device is fine; the drop-in deployment is not. HBF sucks as an SSD replacement for transient KV, but earns its place in LLM serving when used selectively with reuse-aware placement, write budgeting, and thermal coordination.",
+    "source_type": "seed_record",
+    "metadata_sources": [
+      "local_pdf_verified",
+      "arxiv_version_verified"
+    ],
+    "paper_id": "arxiv:2608.11668v4",
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  },
+  "bound_sources": [
+    {
+      "kind": "local_pdf",
+      "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "provider": "seed_record",
+      "binding_reason": "trusted_input"
+    },
+    {
+      "kind": "pdf_url",
+      "value": "https://arxiv.org/pdf/2608.11668.pdf",
+      "provider": "seed_record",
+      "binding_reason": "accepted_identifier_derived"
+    }
+  ],
+  "accepted_observations": [],
+  "rejected_observations": [],
+  "field_provenance": {
+    "title": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "translated_title": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "authors": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "affiliations": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "year": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "venue": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "arxiv_id": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "abstract": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "source_url": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "local_pdf_path": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    }
+  },
+  "selected_identity_evidence": [
+    {
+      "kind": "arxiv_id",
+      "value": "2608.11668v4",
+      "trust": "strong",
+      "source": "metadata"
+    },
+    {
+      "kind": "title",
+      "value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+      "trust": "metadata",
+      "source": "metadata"
+    },
+    {
+      "kind": "trusted_source_path",
+      "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "trust": "strong",
+      "source": "source_manifestation"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2608.11668v4",
+      "trust": "source_manifestation",
+      "source": "metadata"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2608.11668v4",
+      "trust": "source_manifestation",
+      "source": "source_manifestation"
+    }
+  ],
+  "equivalence_decision": {
+    "status": "equivalent",
+    "reason": "shared_work_identifier",
+    "location_binding": "source_manifestation",
+    "evidence": [
+      {
+        "kind": "shared_identifier",
+        "value": "arxiv_id:2608.11668"
+      },
+      {
+        "kind": "title_similarity",
+        "status": "match",
+        "score": 1.0,
+        "source_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+        "work_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving"
+      },
+      {
+        "kind": "leading_author",
+        "status": "match",
+        "source_value": "Zhuoran Li",
+        "work_value": "Zhuoran Li"
+      },
+      {
+        "kind": "abstract_similarity",
+        "status": "match",
+        "score": 1.0
+      }
+    ]
+  },
+  "warnings": [],
+  "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_identity_repair_trace.json",
+  "provenance": {
+    "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_resolve.json",
+    "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_metadata.json"
+  },
+  "diagnostics": {
+    "identity_confidence": "high",
+    "identity_confidence_reasons": [
+      "arxiv_id_present"
+    ]
+  }
+}

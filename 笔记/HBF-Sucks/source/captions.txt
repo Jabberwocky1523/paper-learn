@@ -1,0 +1,62 @@
+C001 F001
+Figure 1: Modeled layouts based on the KAIST HBF roadmap.
+
+C002 F002
+Figure 2: Physical organization of an HBF package.
+
+C003 F003
+Figure 3: SSD offloading of KV: host-staged path (a) versus GPU-direct path (b).
+
+C004 F004
+Figure 4: A faster connector, a slower system: HBF cuts transfer time yet raises end-to-end latency because the smaller near tier destabilizes the queue.
+
+C005 F005
+Figure 5: End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five models and four traces.
+
+C006 F006
+Figure 6: Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), across five models and four traces.
+
+C007 F007
+Figure 7: Time-to-first-token (top) and time-between-tokens (bottom) versus load, normalized within each panel to the low-load SSD12 value (1×), for representative traces on five models.
+
+C008 F008
+Figure 8: Base-die NMP operator leverage, HBF coverage, and end-to-end dilution. A–T denote traceA, traceB, coder, and thinking.
+
+C009 F009
+Figure 9: Batching gain does not transfer from SSD to HBF. (a) Request-p50 reduction from Mooncake batching on SSD-12 vs. HBF-2 across KV block sizes; SSD gains hold everywhere while HBF fades to negative. (b) HBF-2 bucket occupancy collapses as blocks grow, removing the only latency HBF batching can amortize.
+
+C010 F010
+Figure 10: (a) Dynamic power and peak temperature vs. single-stack bandwidth. (b) Full replay: thermal control caps delivered bandwidth. (c) Throttle zoom: temperature stays near 80 ◦ C while bandwidth is capped.
+
+C011 F011
+Figure 11: KV write volume and endurance budget. A–T denote traceA, traceB, coder, and thinking.
+
+C012 F012
+Figure 12: Placement map implied by the findings: exposed stall (C1) against reads-per-write (C2), with sustainable bandwidth (C3) shifting the boundary.
+
+C013 T001
+Table 1: HBF topology and evaluation comparison [11].
+
+C014 T002
+Table 2: Modeled H100 instances of KAIST’s HBF-1/HBF-2 organizations.
+
+C015 T003
+Table 3: Evaluation workloads, models, and systems.
+
+C016 T004
+Table 4: Each condition is a falsifiable prediction of the model in Eq. (6), tested by two findings for transient KV behind an SSD-style connector in §§6–8.
+
+C017 T005
+Table 5: B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to SSD24 and HBF-2 to SSD12. Positive latency changes indicate slowdowns; negative throughput and goodput changes indicate losses.
+
+C018 T006
+Table 6: Finding 2 NMP configuration.
+
+C019 T007
+Table 7: Per-trace NMP leverage and coverage.
+
+C020 T008
+Table 8: Flash-tier traffic over a full two-hour replay.
+
+C021 T009
+Table 9: Paired batching benefit (batched vs. matched nobatch), SSD-12 vs. HBF-2 on the shared traceA/traceB matrix.

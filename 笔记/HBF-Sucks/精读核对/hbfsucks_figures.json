@@ -1,0 +1,2411 @@
+{
+  "status": "ok",
+  "script": "plan_figures.py",
+  "paper_id": "arxiv:2608.11668v4",
+  "figure_plan": {
+    "paper_id": "arxiv:2608.11668v4",
+    "figures": [
+      {
+        "id": "Figure 3",
+        "caption": "SSD offloading of KV: host-staged path (a) versus",
+        "kind": "method_overview",
+        "section": "机制流程",
+        "reason": "这张图概括了整体方法或系统流程；如果匹配置信度足够高，最适合放在 `### 机制流程` 帮助快速建立执行链理解。",
+        "priority": 1,
+        "anchor_text": "机制流程",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_005_fig_figure_3.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+          "width": 697,
+          "height": 174,
+          "size_bytes": 40904,
+          "label": "Figure 3",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.141114,
+            "visual_rect_count": 21,
+            "visual_body_ratio": 0.615541,
+            "paragraph_text_chars": 611,
+            "table_body_rows": 0,
+            "caption_text_chars": 80,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 5,
+            "score": 8,
+            "matched_terms": [
+              "figure 3",
+              "offloading",
+              "host-staged",
+              "path",
+              "versus"
+            ],
+            "snippet": "on data path (a) Traditional MoonCake-style SSD offloading (b) GPU direct SSD offloading Figure 3: SSD offloading of KV: host-staged path (a) versus GPU-direct path (b). Table 3: Evaluati",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 1,
+            "score": 2,
+            "matched_terms": [
+              "offloading",
+              "path"
+            ],
+            "snippet": "cy and higher bandwidth than an SSD. The obvious move is to keep an SSD-style Mooncake KV-offloading stack and swap in HBF underneath. We built that system and measured it: an ex- tended Tok",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_001_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_figure_1.png",
+                "width": 722,
+                "height": 247,
+                "size_bytes": 63187,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.20737,
+                  "visual_rect_count": 73,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2379,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 57,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_001_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_table_1.png",
+                "width": 485,
+                "height": 166,
+                "size_bytes": 22267,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.093566,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 607,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 53,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 1,
+            "matched_terms": [
+              "path"
+            ],
+            "snippet": "nisms di- vide responsibility between the host and base die. Under the SSD- style pooling path, a later reuse still restores KV to the near tier before execution, so the pooling policy",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_figure_2.png",
+                "width": 685,
+                "height": 181,
+                "size_bytes": 49531,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.144046,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 0.617302,
+                  "paragraph_text_chars": 716,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 50,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_table_2.png",
+                "width": 277,
+                "height": 138,
+                "size_bytes": 10975,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.044765,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 134,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 69,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "A faster connector, a slower system: HBF cuts trans-",
+        "kind": "method_overview",
+        "section": "机制流程",
+        "reason": "这张图概括了整体方法或系统流程；如果匹配置信度足够高，最适合放在 `### 机制流程` 帮助快速建立执行链理解。",
+        "priority": 1,
+        "anchor_text": "机制流程",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_007_fig_figure_4.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+          "width": 702,
+          "height": 159,
+          "size_bytes": 30889,
+          "label": "Figure 4",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.129873,
+            "visual_rect_count": 48,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 464,
+            "table_body_rows": 0,
+            "caption_text_chars": 155,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 7,
+            "score": 8,
+            "matched_terms": [
+              "fig. 4",
+              "faster",
+              "connector",
+              "slower",
+              "system",
+              "cuts"
+            ],
+            "snippet": "nd- to-end latency over the replay is 2.6× higher (4,386 vs 1,682 s) and its TBT doubles (Fig. 4). Across the campaign 4,741 matched pairs share that shape, so the bottleneck lies outsid",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 1,
+            "score": 3,
+            "matched_terms": [
+              "faster",
+              "slower",
+              "system"
+            ],
+            "snippet": "bandwidth within thermal and endurance limits, and delivers an end-to-end win? Abstract A faster storage device should make serving faster. We find the op- posite. High-Bandwidth Flash (",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_001_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_figure_1.png",
+                "width": 722,
+                "height": 247,
+                "size_bytes": 63187,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.20737,
+                  "visual_rect_count": 73,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2379,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 57,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_001_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_table_1.png",
+                "width": 485,
+                "height": 166,
+                "size_bytes": 22267,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.093566,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 607,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 53,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "faster",
+              "connector",
+              "system"
+            ],
+            "snippet": "aximum P/E count and exposes the average P/E count to the host [1, §9]. 5 A Model of When Faster Flash Helps At matched capacity, an HBF read is faster than an SSD read; that much is unc",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_008_fig_figure_5.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_5.png",
+          "width": 683,
+          "height": 146,
+          "size_bytes": 43800,
+          "label": "Figure 5",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.116284,
+            "visual_rect_count": 100,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 148,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "figure 5",
+              "end-to-end",
+              "latency",
+              "versus",
+              "load",
+              "normalized"
+            ],
+            "snippet": "2.7-1.1T Qwen3-4B Qwen3-32B SSD12 HBF-1 (8/80) HBF-1 (30/300) HBF-2 (8/80) HBF-2 (30/300) Figure 5: End-to-end latency versus load on B200, normalized within each panel to the low-load SSD",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_table_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_table_5.png",
+                "width": 689,
+                "height": 283,
+                "size_bytes": 60434,
+                "label": "Table 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.226944,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 337,
+                  "table_body_rows": 18,
+                  "caption_text_chars": 224,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_5.png",
+                "width": 683,
+                "height": 146,
+                "size_bytes": 43800,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116284,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 148,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_6.png",
+                "width": 719,
+                "height": 165,
+                "size_bytes": 59306,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.138593,
+                  "visual_rect_count": 257,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 131,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 1,
+            "score": 3,
+            "matched_terms": [
+              "end-to-end",
+              "latency",
+              "load"
+            ],
+            "snippet": "reads per write, sustains bandwidth within thermal and endurance limits, and delivers an end-to-end win? Abstract A faster storage device should make serving faster. We find the op- posite.",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_001_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_figure_1.png",
+                "width": 722,
+                "height": 247,
+                "size_bytes": 63187,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.20737,
+                  "visual_rect_count": 73,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2379,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 57,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_001_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_table_1.png",
+                "width": 485,
+                "height": 166,
+                "size_bytes": 22267,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.093566,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 607,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 53,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "end-to-end",
+              "latency",
+              "versus",
+              "load"
+            ],
+            "snippet": "s, and KV-reuse relationships. 4.3 Metrics and Statistical Treatment We report TTFT, TBT, end-to-end latency, delivered request and to- ken throughput, queueing and connector delay, KV hits,",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), across five models and four",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_008_fig_figure_6.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_6.png",
+          "width": 719,
+          "height": 165,
+          "size_bytes": 59306,
+          "label": "Figure 6",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.138593,
+            "visual_rect_count": 257,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 131,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "figure 6",
+              "delivered",
+              "token",
+              "throughput",
+              "normalized",
+              "bottom"
+            ],
+            "snippet": "2.7-1.1T Qwen3-4B Qwen3-32B SSD12 HBF-1 (8/80) HBF-1 (30/300) HBF-2 (8/80) HBF-2 (30/300) Figure 6: Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), ac",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_table_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_table_5.png",
+                "width": 689,
+                "height": 283,
+                "size_bytes": 60434,
+                "label": "Table 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.226944,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 337,
+                  "table_body_rows": 18,
+                  "caption_text_chars": 224,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_5.png",
+                "width": 683,
+                "height": 146,
+                "size_bytes": 43800,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116284,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 148,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_6.png",
+                "width": 719,
+                "height": 165,
+                "size_bytes": 59306,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.138593,
+                  "visual_rect_count": 257,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 131,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "delivered",
+              "token",
+              "throughput"
+            ],
+            "snippet": "tionships. 4.3 Metrics and Statistical Treatment We report TTFT, TBT, end-to-end latency, delivered request and to- ken throughput, queueing and connector delay, KV hits, blocks and bytes r",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "delivered",
+              "token",
+              "throughput"
+            ],
+            "snippet": "-die NMP tests coverage (F2) C2 reads outweigh writes (𝜌> 𝜌★) per-tier byte counters give delivered 𝜌 (F3); paired batching tests the write cost 𝐶(F4) C3 sustained BW near nominal peak 3D-I",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 1",
+        "caption": "HBF topology and evaluation comparison [11].",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_001_fig_table_1.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_table_1.png",
+          "width": 485,
+          "height": 166,
+          "size_bytes": 22267,
+          "label": "Table 1",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.093566,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 607,
+            "table_body_rows": 9,
+            "caption_text_chars": 53,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 1,
+            "score": 8,
+            "matched_terms": [
+              "table 1",
+              "topology",
+              "evaluation",
+              "comparison"
+            ],
+            "snippet": "isited by agent workflows. Mooncake and related systems therefore extend the KV pool into Table 1: HBF topology and evaluation comparison [11]. Work HBF-resident data HBF topology Archite",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_001_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_figure_1.png",
+                "width": 722,
+                "height": 247,
+                "size_bytes": 63187,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.20737,
+                  "visual_rect_count": 73,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2379,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 57,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_001_fig_table_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_001_fig_table_1.png",
+                "width": 485,
+                "height": 166,
+                "size_bytes": 22267,
+                "label": "Table 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.093566,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 607,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 53,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 2,
+            "matched_terms": [
+              "evaluation",
+              "comparison"
+            ],
+            "snippet": "to co- package more HBM and HBF stacks alongside the GPU [11]. Our complete-organization evaluation focuses on the earlier HBF-1 and HBF-2 generations. Because HBF-1 and HBF-2 change GPU or",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_figure_2.png",
+                "width": 685,
+                "height": 181,
+                "size_bytes": 49531,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.144046,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 0.617302,
+                  "paragraph_text_chars": 716,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 50,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_table_2.png",
+                "width": 277,
+                "height": 138,
+                "size_bytes": 10975,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.044765,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 134,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 69,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 2,
+            "matched_terms": [
+              "evaluation",
+              "comparison"
+            ],
+            "snippet": "Figure 3: SSD offloading of KV: host-staged path (a) versus GPU-direct path (b). Table 3: Evaluation workloads, models, and systems. (a) Production traces Trace Requests/QPS Prompt Output Mu",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 3",
+        "caption": "from the Aliyun Qwen-Bailian deployment [24]. Each con-",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_005_fig_table_3.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+          "width": 331,
+          "height": 366,
+          "size_bytes": 33695,
+          "label": "Table 3",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.140743,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 1358,
+            "table_body_rows": 22,
+            "caption_text_chars": 51,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 5,
+            "score": 8,
+            "matched_terms": [
+              "table 3",
+              "aliyun",
+              "qwen-bailian",
+              "deployment",
+              "each",
+              "con-"
+            ],
+            "snippet": "floading Figure 3: SSD offloading of KV: host-staged path (a) versus GPU-direct path (b). Table 3: Evaluation workloads, models, and systems. (a) Production traces Trace Requests/QPS Prom",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 7,
+            "matched_terms": [
+              "table 3",
+              "each",
+              "con-"
+            ],
+            "snippet": "map’s GDDR– HBF and HBM–HBF organizations [11]. Table 2 lists the modeled H100 instances. Table 3(c) also gives the B200 profiles. Stack counts, capacities, and service settings belong to",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_figure_2.png",
+                "width": 685,
+                "height": 181,
+                "size_bytes": 49531,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.144046,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 0.617302,
+                  "paragraph_text_chars": 716,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 50,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_table_2.png",
+                "width": 277,
+                "height": 138,
+                "size_bytes": 10975,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.044765,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 134,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 69,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 7,
+            "matched_terms": [
+              "table 3",
+              "each",
+              "con-"
+            ],
+            "snippet": "D baseline of equal secondary-tier capacity, HBF-1 against SSD24 and HBF-2 against SSD12 (Table 3(c)). Both HBF generations give half of the GPU’s near tier to flash and hold equal near-t",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 4",
+        "caption": "Each condition is a falsifiable prediction of the",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_006_fig_table_4.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+          "width": 315,
+          "height": 206,
+          "size_bytes": 19428,
+          "label": "Table 4",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.075872,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 88,
+            "table_body_rows": 9,
+            "caption_text_chars": 158,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 6,
+            "score": 8,
+            "matched_terms": [
+              "table 4",
+              "each",
+              "condition",
+              "falsifiable",
+              "prediction"
+            ],
+            "snippet": "m must take for HBF to help, while a paired finding measures the value it actually takes (Table 4). C1: Read I/O is the serving bottleneck (𝑓must be large). We decompose end-to-end time a",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 2,
+            "matched_terms": [
+              "each",
+              "condition"
+            ],
+            "snippet": "ncy sweep recovers it while a capacity-matched swap answers what HBF delivers end to end. Each HBF organization is paired with the SSD baseline of equal secondary-tier capacity, HBF-1",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 8,
+            "score": 2,
+            "matched_terms": [
+              "each",
+              "condition"
+            ],
+            "snippet": "(8/80) HBF-2 (30/300) Figure 5: End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five models and four traces. 0.0x 0.2x 0.5",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_table_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_table_5.png",
+                "width": 689,
+                "height": 283,
+                "size_bytes": 60434,
+                "label": "Table 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.226944,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 337,
+                  "table_body_rows": 18,
+                  "caption_text_chars": 224,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_5.png",
+                "width": 683,
+                "height": 146,
+                "size_bytes": 43800,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116284,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 148,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_6.png",
+                "width": 719,
+                "height": 165,
+                "size_bytes": 59306,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.138593,
+                  "visual_rect_count": 257,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 131,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 5",
+        "caption": "B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to SSD24 and HBF-2 to SSD12.",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_008_fig_table_5.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_table_5.png",
+          "width": 689,
+          "height": 283,
+          "size_bytes": 60434,
+          "label": "Table 5",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.226944,
+            "visual_rect_count": 100,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 337,
+            "table_body_rows": 18,
+            "caption_text_chars": 224,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "table 5",
+              "performance",
+              "relative",
+              "capacity-matched",
+              "baselines",
+              "hbf-"
+            ],
+            "snippet": "Li et al. Table 5: B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_table_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_table_5.png",
+                "width": 689,
+                "height": 283,
+                "size_bytes": 60434,
+                "label": "Table 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.226944,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 337,
+                  "table_body_rows": 18,
+                  "caption_text_chars": 224,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_5.png",
+                "width": 683,
+                "height": 146,
+                "size_bytes": 43800,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116284,
+                  "visual_rect_count": 100,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 148,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_008_fig_figure_6.png",
+                "width": 719,
+                "height": 165,
+                "size_bytes": 59306,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.138593,
+                  "visual_rect_count": 257,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 131,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 7,
+            "matched_terms": [
+              "table 5",
+              "capacity-matched",
+              "hbf-"
+            ],
+            "snippet": "read/write point from 30/300 to 8/80 𝜇s, the 𝑘= 3.75× change Eq. (7) needs to recover 𝑓. Table 5 reports both sweeps for every GPU and retained model. The sweep shows every HBF configura",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 10,
+            "score": 3,
+            "matched_terms": [
+              "performance",
+              "relative",
+              "hbf-"
+            ],
+            "snippet": "d HBF service model and leaves the write-heavy pooling stream unchanged. 8 C3: Read/Write Performance Sustains Condition C3 requires the bandwidth the workload receives to stay near the datas",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_010_fig_table_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_010_fig_table_9.png",
+                "width": 305,
+                "height": 162,
+                "size_bytes": 13925,
+                "label": "Table 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.057675,
+                  "visual_rect_count": 3,
+                  "visual_body_ratio": 0.306366,
+                  "paragraph_text_chars": 133,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 120,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_010_fig_figure_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_010_fig_figure_9.png",
+                "width": 749,
+                "height": 202,
+                "size_bytes": 58851,
+                "label": "Figure 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.17589,
+                  "visual_rect_count": 24,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 357,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 316,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 6",
+        "caption": "Finding 2 NMP configuration.",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_009_fig_table_6.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_6.png",
+          "width": 309,
+          "height": 92,
+          "size_bytes": 9800,
+          "label": "Table 6",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.03322,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 300,
+            "table_body_rows": 4,
+            "caption_text_chars": 37,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 7,
+            "score": 7,
+            "matched_terms": [
+              "table 6",
+              "finding",
+              "configuration"
+            ],
+            "snippet": "hes only KV already resident in HBF, and hot HBM-resident KV falls back to GPU attention. Table 6 lists the full configuration. Fig. 8(a) reports both engines. Averaged over the 40 sweep",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 9,
+            "score": 7,
+            "matched_terms": [
+              "table 6",
+              "finding",
+              "configuration"
+            ],
+            "snippet": "HBF Sucks? Table 6: Finding 2 NMP configuration. Parameter Value Model / cluster DeepSeek-V3.2-685B, 8×H100",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_table_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_6.png",
+                "width": 309,
+                "height": 92,
+                "size_bytes": 9800,
+                "label": "Table 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.03322,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 4,
+                  "caption_text_chars": 37,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_009_fig_table_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_8.png",
+                "width": 729,
+                "height": 94,
+                "size_bytes": 14084,
+                "label": "Table 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.080324,
+                  "visual_rect_count": 16,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 56,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              },
+              {
+                "filename": "page_009_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_figure_8.png",
+                "width": 465,
+                "height": 144,
+                "size_bytes": 19364,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.078101,
+                  "visual_rect_count": 25,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 119,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 128,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Table 8"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 2,
+            "matched_terms": [
+              "finding",
+              "configuration"
+            ],
+            "snippet": "behave, not how one favorable point behaves. The write/read ratio and prefix hit rate in Finding 3 come from the per-tier byte counters over a full two-hour replay of each trace, so they",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 7",
+        "caption": "Per-trace NMP leverage and coverage.",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_009_fig_table_7.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_7.png",
+          "width": 308,
+          "height": 107,
+          "size_bytes": 8626,
+          "label": "Table 7",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.03834,
+            "visual_rect_count": 1,
+            "visual_body_ratio": 0.014597,
+            "paragraph_text_chars": 138,
+            "table_body_rows": 6,
+            "caption_text_chars": 45,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 9,
+            "score": 8,
+            "matched_terms": [
+              "table 7",
+              "per-trace",
+              "leverage",
+              "coverage"
+            ],
+            "snippet": "e, HBF coverage, and end-to-end dilution. A–T denote traceA, traceB, coder, and thinking. Table 7: Per-trace NMP leverage and coverage. Trace HBF-NMP HBF-NMP HBM-NMP HBF mean QPS≤1 mean r",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_table_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_6.png",
+                "width": 309,
+                "height": 92,
+                "size_bytes": 9800,
+                "label": "Table 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.03322,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 4,
+                  "caption_text_chars": 37,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_009_fig_table_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_8.png",
+                "width": 729,
+                "height": 94,
+                "size_bytes": 14084,
+                "label": "Table 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.080324,
+                  "visual_rect_count": 16,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 56,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              },
+              {
+                "filename": "page_009_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_figure_8.png",
+                "width": 465,
+                "height": 144,
+                "size_bytes": 19364,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.078101,
+                  "visual_rect_count": 25,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 119,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 128,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Table 8"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 7,
+            "matched_terms": [
+              "table 7",
+              "leverage",
+              "coverage"
+            ],
+            "snippet": ".48% (Fig. 8(b)), so even a perfect HBF engine cannot touch the common HBM-resident case. Table 7 tracks residency and leverage across traces. thinking keeps only 4% of attention in HBF a",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_007_fig_figure_4.png",
+                "width": 702,
+                "height": 159,
+                "size_bytes": 30889,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.129873,
+                  "visual_rect_count": 48,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 464,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 155,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 1,
+            "matched_terms": [
+              "coverage"
+            ],
+            "snippet": "ad I/O is the serving bottleneck media-latency sweep recov- ers 𝑓(F1); base-die NMP tests coverage (F2) C2 reads outweigh writes (𝜌> 𝜌★) per-tier byte counters give delivered 𝜌 (F3); paire",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 8",
+        "caption": "Flash-tier traffic over a full two-hour replay.",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_009_fig_table_8.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_8.png",
+          "width": 729,
+          "height": 94,
+          "size_bytes": 14084,
+          "label": "Table 8",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "reject",
+            "quality_reason_codes": [
+              "table_body_missing"
+            ],
+            "page_coverage_ratio": 0.080324,
+            "visual_rect_count": 16,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 300,
+            "table_body_rows": 0,
+            "caption_text_chars": 56,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "reject_visual_quality"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 9,
+            "score": 8,
+            "matched_terms": [
+              "table 8",
+              "flash-tier",
+              "traffic",
+              "over",
+              "full",
+              "two-hour"
+            ],
+            "snippet": "record the prefix hit rate, which separates cache effectiveness from flash- tier traffic. Table 8 reports all three quantities. Every trace writes more to the flash tier than it reads bac",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_table_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_6.png",
+                "width": 309,
+                "height": 92,
+                "size_bytes": 9800,
+                "label": "Table 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.03322,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 4,
+                  "caption_text_chars": 37,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_009_fig_table_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_table_8.png",
+                "width": 729,
+                "height": 94,
+                "size_bytes": 14084,
+                "label": "Table 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.080324,
+                  "visual_rect_count": 16,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 300,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 56,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              },
+              {
+                "filename": "page_009_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_009_fig_figure_8.png",
+                "width": 465,
+                "height": 144,
+                "size_bytes": 19364,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.078101,
+                  "visual_rect_count": 25,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 119,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 128,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Table 8"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "traffic",
+              "over",
+              "full",
+              "two-hour"
+            ],
+            "snippet": "order, lengths, session structure, and 16-token KV identifiers. traceA mixes pro- duction traffic with conversational reuse. traceB contains short- output API/text traffic without multi-t",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_figure_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_figure_3.png",
+                "width": 697,
+                "height": 174,
+                "size_bytes": 40904,
+                "label": "Figure 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.141114,
+                  "visual_rect_count": 21,
+                  "visual_body_ratio": 0.615541,
+                  "paragraph_text_chars": 611,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 80,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_005_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_005_fig_table_3.png",
+                "width": 331,
+                "height": 366,
+                "size_bytes": 33695,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.140743,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 1358,
+                  "table_body_rows": 22,
+                  "caption_text_chars": 51,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "traffic",
+              "over",
+              "two-hour"
+            ],
+            "snippet": "s safe junction temperature and use a throttling policy that closes the hottest, highest- traffic planes and redirects writes to cooler planes once the limit is reached. The OCP specifica",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 9",
+        "caption": "and Fig. 9(a) give the paired result. On SSD-12, request",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_010_fig_table_9.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_010_fig_table_9.png",
+          "width": 305,
+          "height": 162,
+          "size_bytes": 13925,
+          "label": "Table 9",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.057675,
+            "visual_rect_count": 3,
+            "visual_body_ratio": 0.306366,
+            "paragraph_text_chars": 133,
+            "table_body_rows": 9,
+            "caption_text_chars": 120,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 10,
+            "score": 8,
+            "matched_terms": [
+              "table 9",
+              "give",
+              "paired",
+              "ssd-",
+              "request"
+            ],
+            "snippet": "ed path, and a single-key control that pays the bucketing cost without grouping anything. Table 9 and Fig. 9(a) give the paired result. On SSD-12, request p50 falls by 8.9–21.1% at every",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_010_fig_table_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_010_fig_table_9.png",
+                "width": 305,
+                "height": 162,
+                "size_bytes": 13925,
+                "label": "Table 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.057675,
+                  "visual_rect_count": 3,
+                  "visual_body_ratio": 0.306366,
+                  "paragraph_text_chars": 133,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 120,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_010_fig_figure_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_010_fig_figure_9.png",
+                "width": 749,
+                "height": 202,
+                "size_bytes": 58851,
+                "label": "Figure 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.17589,
+                  "visual_rect_count": 24,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 357,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 316,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "give",
+              "paired",
+              "ssd-"
+            ],
+            "snippet": "and HBM–HBF organizations [11]. Table 2 lists the modeled H100 instances. Table 3(c) also gives the B200 profiles. Stack counts, capacities, and service settings belong to these modele",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_figure_2.png",
+                "width": 685,
+                "height": 181,
+                "size_bytes": 49531,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.144046,
+                  "visual_rect_count": 11,
+                  "visual_body_ratio": 0.617302,
+                  "paragraph_text_chars": 716,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 50,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_003_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_003_fig_table_2.png",
+                "width": 277,
+                "height": 138,
+                "size_bytes": 10975,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.044765,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 134,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 69,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "give",
+              "paired",
+              "ssd-",
+              "request"
+            ],
+            "snippet": "matched SSD reference has four KIOXIA CM7-V 3.2 TB drives [13]; its vendor 3-DWPD rating gives 38.4 TB/day. The HBF tier uses a deliberately favorable TLC endurance budget with unit w",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_table_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBF_Sucks_A_Full_Stack_Characterization_of_High_Bandwidth_Flash_for_KV_Centric_LLM_Serving/images/page_006_fig_table_4.png",
+                "width": 315,
+                "height": 206,
+                "size_bytes": 19428,
+                "label": "Table 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.075872,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 88,
+                  "table_body_rows": 9,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      }
+    ]
+  }
+}

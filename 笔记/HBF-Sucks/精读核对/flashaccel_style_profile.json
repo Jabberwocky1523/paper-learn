@@ -1,0 +1,25 @@
+{
+  "reference_url": "https://www.yuque.com/jabberwocky-zubgb/dwv0ny/yfgfqn94quli1up5",
+  "reference_title": "FlashAccel",
+  "reference_read_method": "authenticated page DOM, article rendered text",
+  "structure": [
+    "一、背景动机",
+    "二、设计方案",
+    "三、实验结果"
+  ],
+  "adapted_structure": [
+    "一、背景动机",
+    "二、分析框架与评估方案",
+    "三、实验结果"
+  ],
+  "style": [
+    "短段落与加粗开头的要点",
+    "先说明原因再说机制及结果",
+    "原图靠近相关文字，图下解释各部分",
+    "指标、设置、比较对象与数值并列",
+    "使用自然中文，保留HBM/HBF/KV等技术缩写"
+  ],
+  "save_target": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/HBF-Sucks.md",
+  "authorization": "当前用户指定FlashAccel格式；本会话已有将笔记保存到笔记文件夹的明确指示。",
+  "default_skill_structure_overridden": true
+}

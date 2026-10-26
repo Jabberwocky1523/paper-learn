@@ -1,0 +1,1034 @@
+{
+  "status": "ok",
+  "script": "extract_source_text.py",
+  "schema_version": 1,
+  "paper_id": "arxiv:2608.11668v4",
+  "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+  "source_kind": "pdf_text",
+  "raw_sections_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_raw_sections.jsonl",
+  "full_text_md_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_full_text.md",
+  "pdf": {
+    "path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+    "total_pages": 13,
+    "text_pages_extracted": 13,
+    "text_max_pages": null,
+    "text_truncated": false
+  },
+  "coverage": {
+    "total_pages": 13,
+    "text_max_pages": null,
+    "text_pages_extracted": 13,
+    "text_pages_scanned": 13,
+    "text_truncated": false,
+    "truncated_due_to_page_limit": false,
+    "appendix_detected": false,
+    "appendix_start_page": null,
+    "references_start_page": 12
+  },
+  "sections": [
+    {
+      "section_id": "sec:preamble",
+      "kind": "preamble",
+      "title": "preamble",
+      "page_start": 1,
+      "page_end": 1,
+      "char_count": 963,
+      "text_hash_sha256": "89e69a5564d819393ec0d823b5422c493de23f5a0708dbc3bd3d9617a55b71d6"
+    },
+    {
+      "section_id": "sec:abstract",
+      "kind": "abstract",
+      "title": "Abstract",
+      "page_start": 1,
+      "page_end": 1,
+      "char_count": 2325,
+      "text_hash_sha256": "6623afe178c78fdaea6fa4dbae95f72eb0237ba835af05588e021bdf4cbdc61c"
+    },
+    {
+      "section_id": "sec:introduction",
+      "kind": "introduction",
+      "title": "Introduction",
+      "page_start": 1,
+      "page_end": 4,
+      "char_count": 13231,
+      "text_hash_sha256": "b3633534f512cb37574c5164715c524446c7822112972df491a02996c0854baa"
+    },
+    {
+      "section_id": "sec:background",
+      "kind": "introduction",
+      "title": "Background",
+      "page_start": 4,
+      "page_end": 5,
+      "char_count": 6192,
+      "text_hash_sha256": "50c2f85518fb5a0bbb94277b94162080d48e1bb08f775a984bdf1749dec5758c"
+    },
+    {
+      "section_id": "sec:model",
+      "kind": "method",
+      "title": "Model",
+      "page_start": 5,
+      "page_end": 8,
+      "char_count": 17061,
+      "text_hash_sha256": "f4dccbf9314972f21f5670932731f6c6750eca26a93319c598d5f4fe33806356"
+    },
+    {
+      "section_id": "sec:model-2",
+      "kind": "method",
+      "title": "Model",
+      "page_start": 8,
+      "page_end": 12,
+      "char_count": 18903,
+      "text_hash_sha256": "0853b94bcb3e7a2d6066125cf3c6bb8fea2411e45017b4a4f55b1c9623767ac9"
+    },
+    {
+      "section_id": "sec:related-work",
+      "kind": "introduction",
+      "title": "Related Work",
+      "page_start": 12,
+      "page_end": 12,
+      "char_count": 1734,
+      "text_hash_sha256": "0aeeab1fb02962b4cc89e1ca7ea9920cc2e78654c74a43bc9c4ae8e5d678f044"
+    },
+    {
+      "section_id": "sec:limitations",
+      "kind": "conclusion",
+      "title": "Limitations",
+      "page_start": 12,
+      "page_end": 12,
+      "char_count": 586,
+      "text_hash_sha256": "e4bf5fadc6e26d52ec2286129cbe507b19519155c2dd9c2495e830c17344cfa5"
+    },
+    {
+      "section_id": "sec:conclusion",
+      "kind": "conclusion",
+      "title": "Conclusion",
+      "page_start": 12,
+      "page_end": 12,
+      "char_count": 838,
+      "text_hash_sha256": "a30a787d9d353a64f2b72cc6b9e09933fb76a67f2e212dceb2396a6837af07c7"
+    },
+    {
+      "section_id": "sec:references",
+      "kind": "references",
+      "title": "References",
+      "page_start": 12,
+      "page_end": 13,
+      "char_count": 7707,
+      "text_hash_sha256": "22471c59ed9d82a387d980f583abd6da383942b8a73f352c6e3a2d92f7cc1ebc"
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "char_count": 4821,
+      "section_ids": [
+        "sec:preamble",
+        "sec:abstract",
+        "sec:introduction"
+      ]
+    },
+    {
+      "page": 2,
+      "char_count": 6304,
+      "section_ids": [
+        "sec:introduction"
+      ]
+    },
+    {
+      "page": 3,
+      "char_count": 5031,
+      "section_ids": [
+        "sec:introduction"
+      ]
+    },
+    {
+      "page": 4,
+      "char_count": 5898,
+      "section_ids": [
+        "sec:introduction",
+        "sec:background"
+      ]
+    },
+    {
+      "page": 5,
+      "char_count": 5735,
+      "section_ids": [
+        "sec:background",
+        "sec:model"
+      ]
+    },
+    {
+      "page": 6,
+      "char_count": 5712,
+      "section_ids": [
+        "sec:model"
+      ]
+    },
+    {
+      "page": 7,
+      "char_count": 6172,
+      "section_ids": [
+        "sec:model"
+      ]
+    },
+    {
+      "page": 8,
+      "char_count": 4436,
+      "section_ids": [
+        "sec:model",
+        "sec:model-2"
+      ]
+    },
+    {
+      "page": 9,
+      "char_count": 4228,
+      "section_ids": [
+        "sec:model-2"
+      ]
+    },
+    {
+      "page": 10,
+      "char_count": 5211,
+      "section_ids": [
+        "sec:model-2"
+      ]
+    },
+    {
+      "page": 11,
+      "char_count": 4733,
+      "section_ids": [
+        "sec:model-2"
+      ]
+    },
+    {
+      "page": 12,
+      "char_count": 6070,
+      "section_ids": [
+        "sec:model-2",
+        "sec:related-work",
+        "sec:limitations",
+        "sec:conclusion",
+        "sec:references"
+      ]
+    },
+    {
+      "page": 13,
+      "char_count": 5961,
+      "section_ids": [
+        "sec:references"
+      ]
+    }
+  ],
+  "captions": {
+    "figures": [
+      {
+        "id": "Figure 1",
+        "caption": "Modeled layouts based on the KAIST HBF",
+        "page": 1,
+        "pages": [
+          1
+        ],
+        "section_id": "sec:preamble"
+      },
+      {
+        "id": "Figure 2",
+        "caption": "Physical organization of an HBF package.",
+        "page": 3,
+        "pages": [
+          3
+        ],
+        "section_id": "sec:introduction"
+      },
+      {
+        "id": "Figure 3",
+        "caption": "SSD offloading of KV: host-staged path (a) versus",
+        "page": 5,
+        "pages": [
+          5
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "A faster connector, a slower system: HBF cuts trans-",
+        "page": 7,
+        "pages": [
+          7
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "End-to-end latency versus load on B200, normalized within each panel to the low-load SSD12 value (1×), across five",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "Delivered token throughput normalized to SSD12 (1×) for H100 (top) and B200 (bottom), across five models and four",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Figure 7",
+        "caption": "Time-to-first-token (top) and time-between-tokens (bottom) versus load, normalized within each panel to the low-",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Figure 8",
+        "caption": "Base-die NMP operator leverage, HBF coverage,",
+        "page": 9,
+        "pages": [
+          9
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Figure 9",
+        "caption": "Batching gain does not transfer from SSD to HBF.",
+        "page": 10,
+        "pages": [
+          10
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Figure 10",
+        "caption": "(a) Dynamic power and peak temperature vs.",
+        "page": 11,
+        "pages": [
+          11
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Figure 11",
+        "caption": "KV write volume and endurance budget. A–T de-",
+        "page": 11,
+        "pages": [
+          11
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Figure 12",
+        "caption": "Placement map implied by the findings: ex-",
+        "page": 12,
+        "pages": [
+          12
+        ],
+        "section_id": "sec:model-2"
+      }
+    ],
+    "tables": [
+      {
+        "id": "Table 1",
+        "caption": "HBF topology and evaluation comparison [11].",
+        "page": 1,
+        "pages": [
+          1
+        ],
+        "section_id": "sec:preamble"
+      },
+      {
+        "id": "Table 2",
+        "caption": "Modeled H100 instances of KAIST’s HBF-1/HBF-2",
+        "page": 3,
+        "pages": [
+          3
+        ],
+        "section_id": "sec:introduction"
+      },
+      {
+        "id": "Table 3",
+        "caption": "from the Aliyun Qwen-Bailian deployment [24]. Each con-",
+        "page": 5,
+        "pages": [
+          5
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Table 4",
+        "caption": "Each condition is a falsifiable prediction of the",
+        "page": 6,
+        "pages": [
+          6
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Table 5",
+        "caption": "B200 HBF performance relative to capacity-matched SSD baselines. HBF-1 is normalized to SSD24 and HBF-2 to SSD12.",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:model"
+      },
+      {
+        "id": "Table 6",
+        "caption": "Finding 2 NMP configuration.",
+        "page": 9,
+        "pages": [
+          9
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Table 7",
+        "caption": "Per-trace NMP leverage and coverage.",
+        "page": 9,
+        "pages": [
+          9
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Table 8",
+        "caption": "Flash-tier traffic over a full two-hour replay.",
+        "page": 9,
+        "pages": [
+          9
+        ],
+        "section_id": "sec:model-2"
+      },
+      {
+        "id": "Table 9",
+        "caption": "and Fig. 9(a) give the paired result. On SSD-12, request",
+        "page": 10,
+        "pages": [
+          10
+        ],
+        "section_id": "sec:model-2"
+      }
+    ]
+  },
+  "math_index": [
+    {
+      "text": "stack yields a density ratio of≈21.3.",
+      "section_id": "sec:introduction",
+      "page_start": 1,
+      "page_end": 4
+    },
+    {
+      "text": "𝐵𝑊effective = min(𝐵𝑊interface, 𝐵𝑊array, 𝐵𝑊controller,",
+      "section_id": "sec:introduction",
+      "page_start": 1,
+      "page_end": 4
+    },
+    {
+      "text": "𝐵KV/request = 2𝑁𝐿𝐻KV𝐷head𝑏,",
+      "section_id": "sec:background",
+      "page_start": 4,
+      "page_end": 5
+    },
+    {
+      "text": "ΔHBF =",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "when ΔHBF > 0 under target latency, throughput, power, capacity,",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "decompose end-to-end time as 𝑇= 𝑇rest + 𝑡io, where 𝑡io is the ex-",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "pute, near-tier service, batching, and queueing; 𝑓= 𝑡io/𝑇is the",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "= 𝑓",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "≤𝑓.",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "(𝜌> 𝜌★)",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "measurement directly. §6.1 runs that 𝑘= 3.75× sweep, and §6.2",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "C2: Reads outweigh writes (𝜌> 𝜌★). A NAND program is spent",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "𝜌𝑆> 𝐴𝐶, i.e.",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "𝜌> 𝜌★= 𝐴𝐶",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "to 8/80 𝜇s, the 𝑘= 3.75× change Eq. (7) needs to recover 𝑓. Table 5",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "The media sweep moves almost nothing. A 𝑘= 3.75× improve-",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "(HBF-1) and 0.88% (HBF-2), which inverts through Eq. (7) to 𝑓=",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "𝑘) ≈1%. The media change remains measurable else-",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "The result is a ceiling, not a tuning outcome. With 𝑓≈1%, a",
+      "section_id": "sec:model",
+      "page_start": 5,
+      "page_end": 8
+    },
+    {
+      "text": "1x=646.5ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=76.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=550.8ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=67.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=646.9ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=76.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=96.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=18.5ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=649.0ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=75.9ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=881.5ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=3.45s",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=767.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=3.03s",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=882.0ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=3.45s",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=121.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=402.5ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=817.7ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=2.91s",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.9ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.6ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.4ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.9ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=9.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=9.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=10.3ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=11.0ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.6ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=2.0ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.4ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.7ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.6ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=2.0ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=0.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=0.2ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.7ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "1x=1.7ms",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "QPS≤1",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "Condition C2 requires HBF to be a read-heavy tier, 𝜌> 𝜌★≳1",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    },
+    {
+      "text": "reads outweigh its writes (𝜌> 𝜌★, C2), and the bandwidth it needs",
+      "section_id": "sec:model-2",
+      "page_start": 8,
+      "page_end": 12
+    }
+  ],
+  "appendix_index": {
+    "appendix_detected": false,
+    "start_page": null,
+    "sections": [],
+    "figure_captions": [],
+    "table_captions": []
+  },
+  "language_hint": "en",
+  "text_hash_sha256": "2f6949130a67988f32ddf08b4c1461a892e4aa0b5be169f010d2ee623b949394",
+  "identity_contract": {
+    "artifact_type": "canonical_identity",
+    "schema_version": 2,
+    "paper_id": "arxiv:2608.11668v4",
+    "identity_verdict": "accepted",
+    "work_level_identity": {
+      "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+      "translated_title": "HBF 真有那么糟吗？面向以 KV 为中心的 LLM 推理服务的高带宽闪存全栈特征分析",
+      "authors": [
+        "Zhuoran Li",
+        "Zhuohang Bian",
+        "Xin Huang",
+        "Yibo Zhao",
+        "Guangyu Sun",
+        "Youwei Zhuo"
+      ],
+      "year": "2026",
+      "venue": "arXiv preprint",
+      "doi": "",
+      "arxiv_id": "2608.11668v4",
+      "zotero_key": ""
+    },
+    "source_manifestation": {
+      "source_kind": "local_pdf",
+      "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+      "year": "2026",
+      "venue": "arXiv preprint",
+      "source_url": "https://arxiv.org/abs/2608.11668v4",
+      "pdf_url": "",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "doi": "",
+      "arxiv_id": "2608.11668v4",
+      "zotero_key": ""
+    },
+    "accepted_metadata": {
+      "status": "ok",
+      "script": "resolve_paper.py",
+      "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+      "translated_title": "HBF 真有那么糟吗？面向以 KV 为中心的 LLM 推理服务的高带宽闪存全栈特征分析",
+      "authors": [
+        "Zhuoran Li",
+        "Zhuohang Bian",
+        "Xin Huang",
+        "Yibo Zhao",
+        "Guangyu Sun",
+        "Youwei Zhuo"
+      ],
+      "affiliations": [
+        "Peking University",
+        "Fudan University"
+      ],
+      "year": "2026",
+      "venue": "arXiv preprint",
+      "arxiv_id": "2608.11668v4",
+      "source_url": "https://arxiv.org/abs/2608.11668v4",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "abstract": "A faster storage device should make serving faster. We find the opposite. High-Bandwidth Flash (HBF) stacks NAND behind a wide, package-local interface, promising flash-scale capacity with far lower read latency and higher bandwidth than an SSD. The obvious move is to keep an SSD-style Mooncake KV-offloading stack and swap in HBF underneath. We built that system and measured it: an extended TokenSim, four complete two-hour Qwen-Bailian production traces, five dense and mixture-of-experts models, and H100/B200 profiles. The upgrade backfires. Average end-to-end latency rises 2–5.5× and maximum SLO goodput falls 1.1–2.7× across H100 and B200, so the faster device yields a slower system. A cost-benefit model explains the paradox: a faster far tier pays off only when read I/O is the bottleneck, reads outweigh writes, and delivered bandwidth is sustainable. Transient KV violates all three at once. Buying flash through the package costs GPU near-tier capacity and bandwidth, while HBF’s own read/write latency barely matters: scaling it 3.75× moves latency less than 1%. Worse, the two-tier hierarchy keeps reuse in the near tier and hands HBF a relentless write-heavy stream. Writes outnumber reads on every trace, so a 3D-ICE model shows the stack hits its thermal limit well below peak bandwidth, and a TLC tier wears out sooner than the SSD pool it replaced. The device is fine; the drop-in deployment is not. HBF sucks as an SSD replacement for transient KV, but earns its place in LLM serving when used selectively with reuse-aware placement, write budgeting, and thermal coordination.",
+      "source_type": "seed_record",
+      "metadata_sources": [
+        "local_pdf_verified",
+        "arxiv_version_verified"
+      ],
+      "paper_id": "arxiv:2608.11668v4",
+      "identity_confidence": "high",
+      "identity_confidence_reasons": [
+        "arxiv_id_present"
+      ]
+    },
+    "bound_sources": [
+      {
+        "kind": "local_pdf",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "provider": "seed_record",
+        "binding_reason": "trusted_input"
+      },
+      {
+        "kind": "pdf_url",
+        "value": "https://arxiv.org/pdf/2608.11668.pdf",
+        "provider": "seed_record",
+        "binding_reason": "accepted_identifier_derived"
+      }
+    ],
+    "field_provenance": {
+      "title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "translated_title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "authors": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "affiliations": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "year": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "venue": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "arxiv_id": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "abstract": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "source_url": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      },
+      "local_pdf_path": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "arxiv:2608.11668v4"
+        }
+      }
+    },
+    "selected_identity_evidence": [
+      {
+        "kind": "arxiv_id",
+        "value": "2608.11668v4",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "title",
+        "value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+        "trust": "metadata",
+        "source": "metadata"
+      },
+      {
+        "kind": "trusted_source_path",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+        "trust": "strong",
+        "source": "source_manifestation"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2608.11668v4",
+        "trust": "source_manifestation",
+        "source": "metadata"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2608.11668v4",
+        "trust": "source_manifestation",
+        "source": "source_manifestation"
+      }
+    ],
+    "equivalence_decision": {
+      "status": "equivalent",
+      "reason": "shared_work_identifier",
+      "location_binding": "source_manifestation",
+      "evidence": [
+        {
+          "kind": "shared_identifier",
+          "value": "arxiv_id:2608.11668"
+        },
+        {
+          "kind": "title_similarity",
+          "status": "match",
+          "score": 1.0,
+          "source_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+          "work_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving"
+        },
+        {
+          "kind": "leading_author",
+          "status": "match",
+          "source_value": "Zhuoran Li",
+          "work_value": "Zhuoran Li"
+        },
+        {
+          "kind": "abstract_similarity",
+          "status": "match",
+          "score": 1.0
+        }
+      ]
+    },
+    "warnings": [],
+    "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_identity_repair_trace.json",
+    "provenance": {
+      "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_resolve.json",
+      "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_metadata.json"
+    }
+  },
+  "source_manifestation": {
+    "source_kind": "local_pdf",
+    "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+    "year": "2026",
+    "venue": "arXiv preprint",
+    "source_url": "https://arxiv.org/abs/2608.11668v4",
+    "pdf_url": "",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+    "doi": "",
+    "arxiv_id": "2608.11668v4",
+    "zotero_key": ""
+  }
+}

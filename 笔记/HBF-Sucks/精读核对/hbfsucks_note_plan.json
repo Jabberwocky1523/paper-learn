@@ -1,0 +1,31 @@
+{
+  "paper_type": "AI_method",
+  "paper_type_rationale": "这是LLM推理系统的全栈特征分析与性能建模论文；沿用技术论文的机制、对照与边界要求，但不把它写成提出新加速器或训练算法。",
+  "dominant_domain": "computer-architecture",
+  "format_override": "用户要求按其语雀FlashAccel笔记：背景动机、设计方案、实验结果。第二部分按本文性质改为分析框架与评估方案；不强行插入技能默认的十二个一级章节或全文摘要翻译。",
+  "must_cover": ["相同KV池化运行时与不同封装近端层", "保存/恢复路径及16词元块", "成本收益模型和三个必要条件", "完整架构比较与纯介质扫描的区别", "四轨迹五模型八GPU设置", "六个发现逐项的设置、数值、机制和结论", "全部12幅原图的解释", "原文容量基线及图12刻度问题", "与FlashAccel以及MBZUAI HBFSim的条件区别"],
+  "key_numbers": ["H100近端96GB/3.0TB/s→48GB/1.5TB/s", "30/300→8/80μs，3.75倍，E2E仅0.75%/0.88%", "全实验组E2E为基线2–5.5倍", "GLM例累计连接器399/1293s，单请求E2E4386/1682s", "NMP 42.84%对−0.03%，HBF覆盖15.48%，端到端0.39%/0.82%", "四轨迹ρ为0.47/0.20/0.88/0.45", "批量写入SSD13.98%对HBF2.69%，单键控制−4.25%", "202.27GB/s、53.72W、80°C热边界", "38.4TB/天对21.7TB/天寿命预算，HBF寿命0.56倍"],
+  "real_comparisons": ["完整HBF1/2与SSD组织，不能当作纯介质控制", "固定组织下四个介质时序点", "HBF-NMP与HBM-NMP覆盖差异", "不分桶、批处理与单键控制", "有无温度约束", "固定TBW预算下的SSD/HBF寿命", "FlashAccel优化过的布局预取路径与本文未修改的KV池化路径"],
+  "central_claims": [
+    {"claim": "更快的闪存不足以补偿近端资源损失", "supporting_evidence": [{"pages": [5, 6, 7, 8]}], "what_it_actually_proves": "在论文给定组织及运行时下，介质延迟敏感性远小于完整架构性能退化", "what_it_does_not_prove": "所有保持HBM不变的HBF系统都无收益；容量与带宽各自独立的影响"},
+    {"claim": "基础裸片注意力引擎不能解决当前瓶颈", "supporting_evidence": [{"pages": [7, 8, 9]}], "what_it_actually_proves": "给定DeepSeek八H100配置下受限覆盖和步规模使HBF-NMP近乎零收益", "what_it_does_not_prove": "所有近数据计算、布局或驻留策略均无效"},
+    {"claim": "近端缓存保留热点使HBF收到写密集冷尾", "supporting_evidence": [{"pages": [9]}], "what_it_actually_proves": "四个完整两小时回放中的字节读写比低于盈亏平衡，命中率不等于HBF读回", "what_it_does_not_prove": "共享前缀或稳定权重也具有同样低复用"},
+    {"claim": "SSD分桶收益不能直接迁移到本文HBF服务模型", "supporting_evidence": [{"pages": [10]}], "what_it_actually_proves": "随机顺序带宽相等的设定下，合桶只剩固定操作延迟摊薄，粗块收益消失", "what_it_does_not_prove": "所有HBF批处理或媒体布局优化都没有用"},
+    {"claim": "写密集访问使峰值带宽难以持续", "supporting_evidence": [{"pages": [5, 6, 10, 11]}], "what_it_actually_proves": "16-Hi TLC和80°C模型下单堆栈约202GB/s触及热约束", "what_it_does_not_prove": "所有HBF器件实测带宽均固定为202GB/s"},
+    {"claim": "写入预算使HBF在此流量下比SSD更早耗尽寿命", "supporting_evidence": [{"pages": [6, 11]}], "what_it_actually_proves": "单位写放大与固定预算下，四份轨迹的寿命比为0.56", "what_it_does_not_prove": "已观测真实芯片故障、不同NAND及写入策略都同寿命"}
+  ],
+  "claim_boundaries": ["路线图配置与仿真结果，不是现成硬件实测", "完整架构同时变化近端容量与带宽", "B200容量匹配口径冲突保留", "NMP只覆盖一个模型/八H100配置", "热阈值和TLC预算可改变绝对数字", "图12是定性示意且纵轴归一化未说明"],
+  "negative_or_limiting_results": ["每组HBF请求指标差于其SSD对照", "16/40个NMP点慢于GPU", "前缀命中38–53%仍不能让HBF读多写少", "512词元块HBF分桶p50收益−1.85%", "KV块变大后写入188→237→258TB", "原文尚未实现同时满足三个条件的完整新运行时"],
+  "mechanism_result_map": ["近端容量/带宽削弱→准入与排队恶化", "暴露I/O占比低→介质扫描E2E不敏感", "HBF冷KV覆盖小→算子收益被覆盖与整机流程稀释", "热点由近端服务→HBF字节写多读少", "每桶块数94→15→4→固定操作延迟摊薄变弱", "写入能量→过热限流；累计写入→耐久性预算耗尽"],
+  "comparative_positioning": ["本文研究未修改Mooncake式后备KV池；FlashAccel研究布局和预取协同设计", "本文权重留近端，与上一份MBZUAI HBFSim的KV-first组织不同", "对低暴露低复用KV的负结果不否定HBF存只读权重或共享前缀的机会"],
+  "reuse_takeaways": ["评估HBF先列近端层容量带宽", "报告全层命中与闪存层读写字节两种口径", "算子收益与端到端分开", "写预算和热模型随性能一起报告"],
+  "followup_questions": ["若保持近端HBM容量和带宽不变，HBF的净收益会怎样变化？", "如何按实测复用次数过滤只写不读的KV？", "温度及写预算同时进入准入策略后，SLO有效吞吐能否提高？"],
+  "section_plan": [
+    {"section": "研究问题", "display_section": "一、背景动机", "focus": "解释KV为何卸载、HBF替换SSD为何看似有利，以及NAND与封装资源带来的反向成本。", "evidence_sources": [{"pages": [1, 2, 3, 4]}]},
+    {"section": "数据与任务定义", "display_section": "二、分析框架与评估方案/4.平台与负载", "focus": "明确四份两小时轨迹、五模型、八GPU、四组读写时序和输入QPS的固定/变化项。", "evidence_sources": [{"pages": [5, 6]}]},
+    {"section": "方法主线", "display_section": "二、分析框架与评估方案", "focus": "用KV保存恢复流程串起建模，解释三个关键公式对应的暴露占比、读写偿还和可持续带宽。", "evidence_sources": [{"pages": [4, 5, 6]}]},
+    {"section": "关键结果", "display_section": "三、实验结果/1–6", "focus": "逐项交代六个发现的对照、指标方向和具体数值，并逐图区分算子、请求、吞吐、热及寿命。", "evidence_sources": [{"pages": [7, 8, 9, 10, 11]}]},
+    {"section": "深度分析", "display_section": "三、实验结果/7.这篇和FlashAccel放在一起怎么看", "focus": "把三条件映射到对象类别并对比FlashAccel的设计前提，避免用不同组织的正负结论直接互相推翻。", "evidence_sources": [{"pages": [11, 12]}]},
+    {"section": "局限", "display_section": "三、实验结果/8.阅读时需要保留的条件", "focus": "记录仿真、联合变化、NMP单配置、热寿命假设以及表3/5和图12的原文口径问题。", "evidence_sources": [{"pages": [5, 6, 7, 9, 12]}]}
+  ]
+}

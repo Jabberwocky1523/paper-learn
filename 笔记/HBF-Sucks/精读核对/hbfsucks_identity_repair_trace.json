@@ -1,0 +1,167 @@
+{
+  "status": "ok",
+  "run_status": "ok",
+  "script": "build_identity_contract.py",
+  "artifact_type": "identity_repair_trace",
+  "schema_version": 2,
+  "paper_id": "arxiv:2608.11668v4",
+  "identity_verdict": "accepted",
+  "identity_failure_class": "",
+  "repair_attempts": [],
+  "accepted_observations": [],
+  "rejected_observations": [],
+  "bound_sources": [
+    {
+      "kind": "local_pdf",
+      "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "provider": "seed_record",
+      "binding_reason": "trusted_input"
+    },
+    {
+      "kind": "pdf_url",
+      "value": "https://arxiv.org/pdf/2608.11668.pdf",
+      "provider": "seed_record",
+      "binding_reason": "accepted_identifier_derived"
+    }
+  ],
+  "field_provenance": {
+    "title": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "translated_title": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "authors": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "affiliations": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "year": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "venue": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "arxiv_id": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "abstract": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "source_url": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    },
+    "local_pdf_path": {
+      "provider": "seed_record",
+      "retrieved_by": {
+        "kind": "input",
+        "value": "arxiv:2608.11668v4"
+      }
+    }
+  },
+  "selected_identity_evidence": [
+    {
+      "kind": "arxiv_id",
+      "value": "2608.11668v4",
+      "trust": "strong",
+      "source": "metadata"
+    },
+    {
+      "kind": "title",
+      "value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+      "trust": "metadata",
+      "source": "metadata"
+    },
+    {
+      "kind": "trusted_source_path",
+      "value": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+      "trust": "strong",
+      "source": "source_manifestation"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2608.11668v4",
+      "trust": "source_manifestation",
+      "source": "metadata"
+    },
+    {
+      "kind": "source_url",
+      "value": "https://arxiv.org/abs/2608.11668v4",
+      "trust": "source_manifestation",
+      "source": "source_manifestation"
+    }
+  ],
+  "equivalence_decision": {
+    "status": "equivalent",
+    "reason": "shared_work_identifier",
+    "location_binding": "source_manifestation",
+    "evidence": [
+      {
+        "kind": "shared_identifier",
+        "value": "arxiv_id:2608.11668"
+      },
+      {
+        "kind": "title_similarity",
+        "status": "match",
+        "score": 1.0,
+        "source_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+        "work_value": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving"
+      },
+      {
+        "kind": "leading_author",
+        "status": "match",
+        "source_value": "Zhuoran Li",
+        "work_value": "Zhuoran Li"
+      },
+      {
+        "kind": "abstract_similarity",
+        "status": "match",
+        "score": 1.0
+      }
+    ]
+  },
+  "warnings": [],
+  "unresolved_risks": [],
+  "failure_summary": "",
+  "provenance": {
+    "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_resolve.json",
+    "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/hbfsucks_metadata.json"
+  }
+}

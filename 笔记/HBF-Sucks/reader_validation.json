@@ -1,0 +1,29 @@
+{
+  "status": "complete",
+  "source_version": "arXiv:2608.11668v4",
+  "source_sha256": "8aede6f264482075a8e0a8b6643b10a5bc9c02008e27d954e360515ef9808654",
+  "pages": 13,
+  "source_anchors": 229,
+  "bilingual_text_pairs": 200,
+  "figures": 12,
+  "tables": 9,
+  "numbered_display_equations": 8,
+  "references": 28,
+  "assets_checked": 21,
+  "all_assets_linked": true,
+  "all_local_links_exist": true,
+  "identical_reader_copies": true,
+  "source_pdf_unchanged": true,
+  "strict_math_validation": "No math validation findings. Ready: yes",
+  "visual_checks": [
+    "All 21 figure/table crops reviewed in assets-contact.png",
+    "All eight numbered equations checked against PDF crops in equation-check.png"
+  ],
+  "untranslated_blocks": [],
+  "source_issues_preserved": [
+    "Table 3(c) vs Table 5 B200 capacity matching",
+    "Figure 12 qualitative axis vs rho threshold",
+    "Table 3(a) unspecified slash-pair statistics",
+    "Table 9 distinct aggregation labels"
+  ]
+}
