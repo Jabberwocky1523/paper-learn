@@ -1,0 +1,49 @@
+{
+  "status": "pass",
+  "stage": "final_quality_review",
+  "note_sha256": "016380318f1f3ed804be34aa8ac4b061e3efe8f029cb8b29371ca6ac016b332d",
+  "checks": {
+    "central_claims_are_supported_by_raw_sections_or_pages": {
+      "pass_check": true,
+      "evidence": "对照源段S027–S080及原页核对：三层闭环、五条初步结论和敏感性都有对应证据。"
+    },
+    "key_experimental_settings_and_numbers_are_present": {
+      "pass_check": true,
+      "evidence": "保留单卡八槽位、可用HBM、32序列、三负载、7步及各实验的单位/基线；表2完整权重与活跃专家集分别解释。"
+    },
+    "mechanisms_or_protocol_choices_are_mapped_to_results": {
+      "pass_check": true,
+      "evidence": "解释循环抖动、早期整层保留、单平面串行、提前写入失效KV及阵列供数上限。"
+    },
+    "comparisons_explain_positioning_against_alternatives": {
+      "pass_check": true,
+      "evidence": "图4a权重优先固定溢出与图4b槽位系统KV优先分别解释；缓存、路由、FTL及批大小有对照。"
+    },
+    "discussion_or_limitation_claims_are_explained_mechanistically": {
+      "pass_check": true,
+      "evidence": "短窗口无GC、算子大批外推、预填充唯一字节下界以及HBF假设会影响何种结果均写明。"
+    },
+    "proven_claims_are_separated_from_unproven_or_unvalidated_claims": {
+      "pass_check": true,
+      "evidence": "寿命不写成实测年限；热和写延迟无影响限定在读密集KV优先窗口；不声称所有缓存/块映射失败。"
+    },
+    "research_or_engineering_takeaways_are_specific_and_reusable": {
+      "pass_check": true,
+      "evidence": "提出实际访问集合、可用HBM、按层读写、元数据与映射并行性联合核对。"
+    },
+    "followup_questions_are_specific_to_replication_or_extension": {
+      "pass_check": true,
+      "evidence": "跨层专家热度加KV优先、真实路由、改变行大小为明确待验证问题。"
+    },
+    "figure_identity_and_visual_usability": {
+      "pass_check": true,
+      "evidence": "9图3表均从已确认原PDF裁取，300dpi图体完整，人工查看三拼图及图4–6原页；全部嵌入对应小节。"
+    },
+    "formula_scope": {
+      "pass_check": true,
+      "evidence": "原文无编号显示公式；寿命与阵列吞吐只作有来源的中文计算说明，没有虚构原文公式编号。"
+    }
+  },
+  "format_override": "用户FlashAccel三部分结构及既有笔记目录优先于技能默认模板。",
+  "unresolved_factual_questions": []
+}

@@ -1,0 +1,162 @@
+{
+  "paper": {
+    "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+    "source_type": "pdf",
+    "source_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/source/HBF_Sucks.pdf",
+    "language": "en",
+    "page_count": 13,
+    "source_sha256": "8aede6f264482075a8e0a8b6643b10a5bc9c02008e27d954e360515ef9808654",
+    "arxiv_id": "2608.11668v4",
+    "authors": [
+      "Zhuoran Li",
+      "Zhuohang Bian",
+      "Xin Huang",
+      "Yibo Zhao",
+      "Guangyu Sun",
+      "Youwei Zhuo"
+    ],
+    "institutions": [
+      "Peking University",
+      "Fudan University"
+    ],
+    "original_path": "/home/kurisu/Desktop/HBF Sucks.pdf",
+    "revision_date": "2026-09-14",
+    "source_format": "pdf-text"
+  },
+  "blocks": [
+    {
+      "id": "E001",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "6",
+      "latex": "\\begin{aligned}\\Delta_{\\mathrm{HBF}}={}&\\underbrace{f\\Delta t_{\\mathrm{media}}}_{\\text{critical-path I/O}}-\\underbrace{C_{\\mathrm{move}}}_{\\text{movement/control}}-\\underbrace{C_{\\mathrm{pkg}}}_{\\text{near-tier opportunity}}\\\\ &-\\underbrace{C_{\\mathrm{var}}}_{\\text{throttle/variability}}-\\underbrace{C_{\\mathrm{life}}}_{\\text{endurance/capacity}}.\\end{aligned}",
+      "name": "HBF 的净收益与各项成本",
+      "bbox": [
+        53,
+        389,
+        296,
+        453
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 100,
+      "reading_note": "五项依次是关键路径 I/O 收益、搬移／控制成本、近端层机会成本、限流／波动成本、耐久性／容量成本。原式注释保留英文；中文只解释各项，不改变量。",
+      "source_equation_id": "E006"
+    },
+    {
+      "id": "E002",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "7",
+      "latex": "\\frac{\\Delta T}{T}=f\\left(1-\\frac{1}{k}\\right)\\le f.",
+      "name": "介质加速收益的上限",
+      "bbox": [
+        53,
+        653,
+        296,
+        676
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 103,
+      "reading_note": "介质快 $k$ 倍时，端到端可减少的比例受 $f$ 限制。关键是未被隐藏的 I/O 占比，而不是设备规格快了多少。",
+      "source_equation_id": "E007"
+    },
+    {
+      "id": "E003",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "8",
+      "latex": "\\rho>\\rho^{\\star}=\\frac{AC}{S}.",
+      "name": "每次写入所需的有效读取门槛",
+      "bbox": [
+        318,
+        400,
+        560,
+        421
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 106,
+      "reading_note": "每写入一字节带来的有用读取量 $\\rho$ 必须超过门槛 $\\rho^{\\star}$；$A$、$C$ 越大，门槛越高；每读取字节实际节省的暴露时间 $S$ 越大，门槛越低。",
+      "source_equation_id": "E008"
+    }
+  ],
+  "equations": [
+    {
+      "id": "E001",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "6",
+      "latex": "\\begin{aligned}\\Delta_{\\mathrm{HBF}}={}&\\underbrace{f\\Delta t_{\\mathrm{media}}}_{\\text{critical-path I/O}}-\\underbrace{C_{\\mathrm{move}}}_{\\text{movement/control}}-\\underbrace{C_{\\mathrm{pkg}}}_{\\text{near-tier opportunity}}\\\\ &-\\underbrace{C_{\\mathrm{var}}}_{\\text{throttle/variability}}-\\underbrace{C_{\\mathrm{life}}}_{\\text{endurance/capacity}}.\\end{aligned}",
+      "name": "HBF 的净收益与各项成本",
+      "bbox": [
+        53,
+        389,
+        296,
+        453
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 100,
+      "reading_note": "五项依次是关键路径 I/O 收益、搬移／控制成本、近端层机会成本、限流／波动成本、耐久性／容量成本。原式注释保留英文；中文只解释各项，不改变量。",
+      "source_equation_id": "E006"
+    },
+    {
+      "id": "E002",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "7",
+      "latex": "\\frac{\\Delta T}{T}=f\\left(1-\\frac{1}{k}\\right)\\le f.",
+      "name": "介质加速收益的上限",
+      "bbox": [
+        53,
+        653,
+        296,
+        676
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 103,
+      "reading_note": "介质快 $k$ 倍时，端到端可减少的比例受 $f$ 限制。关键是未被隐藏的 I/O 占比，而不是设备规格快了多少。",
+      "source_equation_id": "E007"
+    },
+    {
+      "id": "E003",
+      "page": 6,
+      "pages": [
+        6
+      ],
+      "type": "equation",
+      "equation_number": "8",
+      "latex": "\\rho>\\rho^{\\star}=\\frac{AC}{S}.",
+      "name": "每次写入所需的有效读取门槛",
+      "bbox": [
+        318,
+        400,
+        560,
+        421
+      ],
+      "confidence": "medium",
+      "image_path": null,
+      "order": 106,
+      "reading_note": "每写入一字节带来的有用读取量 $\\rho$ 必须超过门槛 $\\rho^{\\star}$；$A$、$C$ 越大，门槛越高；每读取字节实际节省的暴露时间 $S$ 越大，门槛越低。",
+      "source_equation_id": "E008"
+    }
+  ]
+}

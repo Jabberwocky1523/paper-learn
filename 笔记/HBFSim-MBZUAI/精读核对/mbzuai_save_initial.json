@@ -1,0 +1,98 @@
+{
+  "status": "ok",
+  "script": "write_obsidian_note.py",
+  "paper_id": "doi:10.1145/3848591.3856870",
+  "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+  "note_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/HBFSim_MBZUAI.md",
+  "subdir": "HBFSim-MBZUAI",
+  "images_dir": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images",
+  "materialized_figures": [
+    {
+      "source_id": "Figure 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-01.png",
+      "relative_markdown_path": "images/figure-01.png",
+      "reviewed_asset_sha256": "f8232518f94530be3bf855d43e1e928f8491d7d4f303845bdf6577bfbd5a685e"
+    },
+    {
+      "source_id": "Figure 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-02.png",
+      "relative_markdown_path": "images/figure-02.png",
+      "reviewed_asset_sha256": "9f5f823667c2e36c35ee41085451e78d6bfc78e77a50449e2d396214d6c4824a"
+    },
+    {
+      "source_id": "Figure 3",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-03.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-03.png",
+      "relative_markdown_path": "images/figure-03.png",
+      "reviewed_asset_sha256": "ca97516cd4a3038490c84103fb5d36a0010dbdd37a571c09824fdc7e3af47930"
+    },
+    {
+      "source_id": "Figure 4",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-04.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-04.png",
+      "relative_markdown_path": "images/figure-04.png",
+      "reviewed_asset_sha256": "d7d213a57175cdaf1766a2e6a886be51ce8952d806b5e3d449951625e346bc44"
+    },
+    {
+      "source_id": "Figure 5",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-05.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-05.png",
+      "relative_markdown_path": "images/figure-05.png",
+      "reviewed_asset_sha256": "0f49e23d76b36ecc1186cf916935549525ebf6e947dd2cd2001fa0c3fbd75e7c"
+    },
+    {
+      "source_id": "Figure 6",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-06.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-06.png",
+      "relative_markdown_path": "images/figure-06.png",
+      "reviewed_asset_sha256": "4bf0b45375ea5cde482465d27e34574679ada0a4cbff4f9f0be9d7cde98f75e8"
+    },
+    {
+      "source_id": "Figure 7",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-07.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-07.png",
+      "relative_markdown_path": "images/figure-07.png",
+      "reviewed_asset_sha256": "8d8f32d662f6342e5f6849a5572e4b1e1c67d31f871dce99501aae2573906afd"
+    },
+    {
+      "source_id": "Figure 8",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-08.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-08.png",
+      "relative_markdown_path": "images/figure-08.png",
+      "reviewed_asset_sha256": "4ce859122d16605de78b10c459a36f62308b9a49ee22e13a67ea537198f9f809"
+    },
+    {
+      "source_id": "Figure 9",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-09.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/figure-09.png",
+      "relative_markdown_path": "images/figure-09.png",
+      "reviewed_asset_sha256": "7194e50727deef105ab02ba949e66e2c7423e6d0a5ab283c478adc1e5d7900e7"
+    },
+    {
+      "source_id": "Table 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/table-01.png",
+      "relative_markdown_path": "images/table-01.png",
+      "reviewed_asset_sha256": "0f3f0f93303b9aaaf0953b9598448b8be7acd5d7027d06fb4e02d43ebe9a7e16"
+    },
+    {
+      "source_id": "Table 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/table-02.png",
+      "relative_markdown_path": "images/table-02.png",
+      "reviewed_asset_sha256": "4c62191cba19b6378f7496b47965151f086f22e3e221df2064f7016d7124b8d1"
+    },
+    {
+      "source_id": "Table 3",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-03.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim_MBZUAI/images/table-03.png",
+      "relative_markdown_path": "images/table-03.png",
+      "reviewed_asset_sha256": "14ca13949661c1493b2245e75f872efb7da86da247a02a66a0515d6d7c74f30e"
+    }
+  ],
+  "output_mode": "obsidian",
+  "base_output_root": "/home/kurisu/Desktop/论文",
+  "vault": "/home/kurisu/Desktop/论文"
+}

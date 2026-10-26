@@ -1,0 +1,261 @@
+{
+  "status": "ok",
+  "script": "fetch_pdf.py",
+  "paper_id": "doi:10.1145/3848591.3856870",
+  "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+  "pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+  "pdf_source": "local_pdf",
+  "source_url": "https://arxiv.org/abs/2610.23503v1",
+  "pdf_url": "",
+  "identity_contract": {
+    "artifact_type": "canonical_identity",
+    "schema_version": 2,
+    "paper_id": "doi:10.1145/3848591.3856870",
+    "identity_verdict": "accepted",
+    "work_level_identity": {
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "translated_title": "HBFSim：用于探索大语言模型存储层次中HBF的模拟器",
+      "authors": [
+        "Jinheng Li",
+        "Guosheng Wang",
+        "Hongchao Du",
+        "Shangyu Wu",
+        "Qiao Li",
+        "Chun Jason Xue"
+      ],
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "zotero_key": ""
+    },
+    "source_manifestation": {
+      "source_kind": "local_pdf",
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "source_url": "https://arxiv.org/abs/2610.23503v1",
+      "pdf_url": "",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "zotero_key": ""
+    },
+    "accepted_metadata": {
+      "status": "ok",
+      "script": "resolve_paper.py",
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "translated_title": "HBFSim：用于探索大语言模型存储层次中HBF的模拟器",
+      "authors": [
+        "Jinheng Li",
+        "Guosheng Wang",
+        "Hongchao Du",
+        "Shangyu Wu",
+        "Qiao Li",
+        "Chun Jason Xue"
+      ],
+      "affiliations": [
+        "Mohamed bin Zayed University of Artificial Intelligence"
+      ],
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "source_url": "https://arxiv.org/abs/2610.23503v1",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+      "abstract": "High Bandwidth Flash (HBF) has recently emerged as a promising technology that provides terabyte-scale accelerator-local capacity at bandwidths approaching HBM, with a potential cost-per-bit advantage over HBM. However, its NAND foundation brings long latency, out-of-place updates, and finite write endurance directly into the accelerator memory hierarchy, making its effects on performance and lifetime difficult to predict. To study this emerging design space, we present HBFSim, an LLM-aware event-driven simulator for heterogeneous HBM+HBF memory systems that preserves application-level memory semantics while modeling flash-internal behavior. HBFSim models HBM, HBF with host-managed flash translation, and conventional capacity tiers in one simulation driven by a calibrated serving frontend. Using HBFSim, we study decoding of Llama-3.1-70B and Qwen3-235B-A22B under three workloads that differ in their input and output lengths. HBF serves data that does not fit in HBM 11.0–19.0× faster than host DRAM; HBM is better used to hold the running sequences’ KV cache than as a cache for HBF; and at a published peak load of Llama-3.1-70B, HBF lasts 2.0 to 6.9 years, in proportion to the stacks that share the KV writes. The artifact is available at https://github.com/FlashLabAE/HBFSim and will track public HBF device data as it becomes available.",
+      "source_type": "seed_record",
+      "metadata_sources": [
+        "user_local_pdf_verified"
+      ],
+      "paper_id": "doi:10.1145/3848591.3856870",
+      "identity_confidence": "high",
+      "identity_confidence_reasons": [
+        "doi_present",
+        "arxiv_id_present"
+      ]
+    },
+    "bound_sources": [
+      {
+        "kind": "local_pdf",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "provider": "seed_record",
+        "binding_reason": "trusted_input"
+      },
+      {
+        "kind": "pdf_url",
+        "value": "https://arxiv.org/pdf/2610.23503.pdf",
+        "provider": "seed_record",
+        "binding_reason": "accepted_identifier_derived"
+      }
+    ],
+    "field_provenance": {
+      "title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "translated_title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "authors": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "affiliations": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "year": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "venue": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "doi": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "arxiv_id": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "abstract": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "source_url": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "local_pdf_path": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      }
+    },
+    "selected_identity_evidence": [
+      {
+        "kind": "doi",
+        "value": "10.1145/3848591.3856870",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "arxiv_id",
+        "value": "2610.23503v1",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "title",
+        "value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+        "trust": "metadata",
+        "source": "metadata"
+      },
+      {
+        "kind": "trusted_source_path",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "trust": "strong",
+        "source": "source_manifestation"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2610.23503v1",
+        "trust": "source_manifestation",
+        "source": "metadata"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2610.23503v1",
+        "trust": "source_manifestation",
+        "source": "source_manifestation"
+      }
+    ],
+    "equivalence_decision": {
+      "status": "equivalent",
+      "reason": "shared_work_identifier",
+      "location_binding": "source_manifestation",
+      "evidence": [
+        {
+          "kind": "shared_identifier",
+          "value": "doi:10.1145/3848591.3856870"
+        },
+        {
+          "kind": "shared_identifier",
+          "value": "arxiv_id:2610.23503"
+        },
+        {
+          "kind": "title_similarity",
+          "status": "match",
+          "score": 1.0,
+          "source_value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+          "work_value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs"
+        },
+        {
+          "kind": "leading_author",
+          "status": "match",
+          "source_value": "Jinheng Li",
+          "work_value": "Jinheng Li"
+        },
+        {
+          "kind": "abstract_similarity",
+          "status": "match",
+          "score": 1.0
+        }
+      ]
+    },
+    "warnings": [],
+    "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_identity_repair_trace.json",
+    "provenance": {
+      "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_resolve.json",
+      "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_metadata.json"
+    }
+  },
+  "source_manifestation": {
+    "source_kind": "local_pdf",
+    "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+    "year": "2026",
+    "venue": "RACS 2026 (as printed in supplied PDF)",
+    "source_url": "https://arxiv.org/abs/2610.23503v1",
+    "pdf_url": "",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+    "doi": "10.1145/3848591.3856870",
+    "arxiv_id": "2610.23503v1",
+    "zotero_key": ""
+  }
+}

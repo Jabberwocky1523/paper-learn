@@ -1,0 +1,31 @@
+{
+ "paper_type":"AI_method",
+ "paper_type_rationale":"这是一篇面向LLM存储层次的事件驱动模拟器论文；采用技术方法的机制、校准、受控实验与失败边界要求，不写成新神经网络或实际HBF硬件评测。",
+ "dominant_domain":"computer-architecture",
+ "format_override":"依用户FlashAccel笔记的三部分组织：背景动机、设计方案、实验结果；不添加默认十二部分或摘要翻译。沿用已授权的笔记目录保存。",
+ "must_cover":["MBZUAI论文身份及与上科大同名工具的区别","三层闭环架构及两种输入路径","对等组织的两种优先级与HBM缓存HBF的区别","主机FTL与闪存资源时序","校准精度、模拟速度与器件假设","单步工作集与MoE权重并集","所有9张图、3张表的阅读说明","容量、缓存抖动、热点专家、批大小、写回、FTL、寿命和敏感性实验","与FlashAccel和HBF Sucks的结论条件区别"],
+ "key_numbers":["48GiB/2TB/s/42ns HBM4；512GiB/1.5TB/s/4μs读/75μs写 HBF","8个堆栈槽位而非8张GPU；2H6F可用HBM91.9GiB","32序列、三种8K总长工作负载、7个decode步","Llama70B权重67.7GiB、工作集118.9–138.6GiB","Qwen235B权重223GiB；均匀路由批32读88%专家约197.9GiB","整批耗时平均误差10.2% A100、5.8% H200；模拟速度27万页读/秒/核","图4a HBF比主机DRAM快11–19倍，但8HBM可将TPOT降至49–55ms","2H6F KV优先70B69–83ms，权重优先75–95ms","LRU/FIFO超容量时耗时为KV优先1.7–2.2倍70B、1.3–2.4倍235B","热点专家且4H4F有余量时LFU耗时降至KV优先0.78–0.87","块映射解码324–399ms对页映射75–95ms","SLC十万P/E假设下70B24–83个月，Qwen40–141个月","读延迟4→8μs增时30–42%；接口1.5→3.1TB/s变化不足0.1%"],
+ "real_comparisons":["图4a固定权重优先与溢出量，替换容量介质","图4b八槽位整体配置采用KV优先，与图4a分别解释","KV优先对权重优先及4MiB行LRU/FIFO/衰减LFU","均匀与Zipf路由检验缓存结论边界","批8/16/32/64吞吐与TPOT不同方向","立即写回与驱逐写回及直接溢出","页/连续区间/单平面块映射","读延迟、平面、接口敏感性避免把通道变化混成纯带宽"],
+ "central_claims":[
+  {"claim":"模拟器把服务调度、数据语义和闪存事件放在同一闭环中","supporting_evidence":[{"pages":[2,3,4,5]}],"what_it_actually_proves":"给出可运行工具及现有GPU/调度校准，支持受假设约束的系统比较","what_it_does_not_prove":"未来HBM4/HBF器件时序已经被真实硬件验证"},
+  {"claim":"HBF在HBM容量不足时比封装外容量层快，但不保证优于更多HBM","supporting_evidence":[{"pages":[5,6]}],"what_it_actually_proves":"固定溢出快11–19倍，8HBM容纳工作集时反而49–55ms更快","what_it_does_not_prove":"HBF总能胜过HBM或已证明整机成本最优"},
+  {"claim":"超容量时按用途优先放活跃KV比所测通用替换策略更稳","supporting_evidence":[{"pages":[6,7]}],"what_it_actually_proves":"4MiB行、给定路由与负载下循环扫描造成补入抖动；热点专家工作集有余量时缓存可以反胜","what_it_does_not_prove":"所有缓存算法都失败或KV优先代表HBM里绝不放权重"},
+  {"claim":"FTL应保留阵列并行性，映射小不代表更快","supporting_evidence":[{"pages":[4,8]}],"what_it_actually_proves":"条带化区间映射与页映射相近，单平面块映射解码慢4.2–4.3倍","what_it_does_not_prove":"任何形式的块映射都必定慢同样倍数"},
+  {"claim":"少写KV和分摊写入决定耐久性预算","supporting_evidence":[{"pages":[8,9]}],"what_it_actually_proves":"给定SLC、负载、写入比例与完美磨损均衡假设可估算24–83/40–141个月","what_it_does_not_prove":"真实硬件已运行这些年限或实际Qwen达到了引用的70B吞吐"},
+  {"claim":"该配置读阵列并行性比继续加宽外部接口更关键","supporting_evidence":[{"pages":[9]}],"what_it_actually_proves":"2H6F KV优先读多写少配置下tR和平面数显著影响TPOT，接口升级几乎无收益","what_it_does_not_prove":"写延迟、热限流和接口带宽对所有HBF工作负载都不重要"}
+ ],
+ "claim_boundaries":["真实GPU校准不等于HBF器件校准","表2完整权重容量不等于一轮实际活跃专家集或HBF流量","性能窗口无GC，寿命另做含GC回放","7步短窗口而非完整长时服务轨迹","固定4MiB缓存行和有限替换策略","单加速器无多GPU并行模拟","寿命受SLC十万P/E、持续峰值和写入比例约束"],
+ "negative_or_limiting_results":["全HBM放得下时HBF不带来延迟优势","增加HBM同时减少HBF可能让缓存方案变慢","LFU在1H7F反比LRU慢约1.4倍","名义180GiB放进188.9GiB仍可能因缓存行粒度而抖动","GPU混合长短序列层级误差最大41.8%","没有真实HBF硬件验证或完整成本模型"],
+ "mechanism_result_map":["调度闭环→内存变慢会反向改变批组成","保活跃KV→避免失效前反复迁移且把HBF主要变成只读权重层","循环扫描超容量→替换把刚需数据反复踢出并补入","Zipf热点跨层复用→缓存胜过按地址保留早期整层","一块单平面→256页串行压低并行度","只在必须离开HBM时写KV→减少失效前无用写入","tR和可并行平面数→阵列吞吐上限而非接口标称带宽"],
+ "comparative_positioning":["FlashAccel是设计优化路径，本文是评估多种组织的模拟器","上科大同名HBFSim在真实GPU执行中注入延迟，MBZUAI为事件驱动模拟","HBF Sucks分析KV后备池与近端削减；本文KV优先组织让HBF读权重，不能把结论视作直接矛盾"],
+ "reuse_takeaways":["先核对当前一步实际会访问多少数据，再选HBM/HBF比例","按对象可变性和生命期设计策略，不仅按最近使用","同时报告闪存读字节、KV写字节、阵列并行度、TPOT及吞吐","复现必须记录路由、行大小、HBM元数据占用和P/E假设"],
+ "followup_questions":["实际专家路由和更小缓存行能否削弱循环抖动？","预留KV后按跨层专家热度放权重，能否优于原文KV优先？","把预填充、GC与持续到达一起模拟，尾延迟和耐久性如何变化？"],
+ "section_plan":[
+  {"section":"研究问题","display_section":"一、背景动机","focus":"由权重与活跃及保留KV容量引出HBF机会，并说明NAND延迟、写入限制和现有模拟器缺口。","evidence_sources":[{"pages":[1,2]}]},
+  {"section":"数据与任务定义","display_section":"三、实验结果/1.平台、模型与负载","focus":"解释单卡八槽位、器件参数、32序列三种8K负载和7步测量；分清表2总权重工作集与MoE活跃专家并集。","evidence_sources":[{"pages":[5,6]}]},
+  {"section":"方法主线","display_section":"二、设计方案","focus":"用四步流程解释请求、编译、放置、设备事件和反馈；拆开对等组织与通用缓存以及三类主机FTL。","evidence_sources":[{"pages":[2,3,4]}]},
+  {"section":"关键结果","display_section":"三、实验结果/2–10","focus":"逐图交代校准、容量层、放置与缓存、热点路由、批大小、写回、FTL、寿命及敏感性，保持所有指标口径一致。","evidence_sources":[{"pages":[5,6,7,8,9]}]},
+  {"section":"深度分析","display_section":"三、实验结果/11.这篇和前面几篇放在一起怎么看","focus":"将五条结论对应到机制和实验，并对比FlashAccel及HBF Sucks各自的数据用途和近端资源条件，提出可验证扩展。","evidence_sources":[{"pages":[7,8,9,10]}]},
+  {"section":"局限","display_section":"三、实验结果/12.阅读时需要保留的条件","focus":"明确GPU校准与器件假设、短窗口和无GC性能实验的边界，解释为何不能外推寿命、缓存或写延迟结论。","evidence_sources":[{"pages":[4,5,8,9,10]}]}
+ ]
+}

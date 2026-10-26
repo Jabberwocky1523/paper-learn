@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "script": "create_input_record.py",
+  "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+  "translated_title": "HBFSim：用于探索大语言模型存储层次中HBF的模拟器",
+  "authors": [
+    "Jinheng Li",
+    "Guosheng Wang",
+    "Hongchao Du",
+    "Shangyu Wu",
+    "Qiao Li",
+    "Chun Jason Xue"
+  ],
+  "affiliations": [
+    "Mohamed bin Zayed University of Artificial Intelligence"
+  ],
+  "year": "2026",
+  "venue": "RACS 2026 (as printed in supplied PDF)",
+  "doi": "10.1145/3848591.3856870",
+  "arxiv_id": "2610.23503v1",
+  "source_url": "https://arxiv.org/abs/2610.23503v1",
+  "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+  "abstract": "High Bandwidth Flash (HBF) has recently emerged as a promising technology that provides terabyte-scale accelerator-local capacity at bandwidths approaching HBM, with a potential cost-per-bit advantage over HBM. However, its NAND foundation brings long latency, out-of-place updates, and finite write endurance directly into the accelerator memory hierarchy, making its effects on performance and lifetime difficult to predict. To study this emerging design space, we present HBFSim, an LLM-aware event-driven simulator for heterogeneous HBM+HBF memory systems that preserves application-level memory semantics while modeling flash-internal behavior. HBFSim models HBM, HBF with host-managed flash translation, and conventional capacity tiers in one simulation driven by a calibrated serving frontend. Using HBFSim, we study decoding of Llama-3.1-70B and Qwen3-235B-A22B under three workloads that differ in their input and output lengths. HBF serves data that does not fit in HBM 11.0–19.0× faster than host DRAM; HBM is better used to hold the running sequences’ KV cache than as a cache for HBF; and at a published peak load of Llama-3.1-70B, HBF lasts 2.0 to 6.9 years, in proportion to the stacks that share the KV writes. The artifact is available at https://github.com/FlashLabAE/HBFSim and will track public HBF device data as it becomes available.",
+  "source_type": "seed_record",
+  "metadata_sources": [
+    "user_local_pdf_verified"
+  ]
+}

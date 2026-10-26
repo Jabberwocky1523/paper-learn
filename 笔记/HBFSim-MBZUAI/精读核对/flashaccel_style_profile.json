@@ -1,0 +1,20 @@
+{
+  "reference_url": "https://www.yuque.com/jabberwocky-zubgb/dwv0ny/yfgfqn94quli1up5",
+  "reference_title": "FlashAccel",
+  "reference_read_method": "会话中已通过认证语雀页面读取正文",
+  "structure": [
+    "一、背景动机",
+    "二、设计方案",
+    "三、实验结果"
+  ],
+  "style": [
+    "短段落和加粗开头要点",
+    "先问题、再机制、后数字与原因",
+    "图片紧邻解释，中文图注放下一行",
+    "采用紧凑中文表格比较多种设置",
+    "沿用HBM/HBF/KV/FTL等稳定缩写"
+  ],
+  "save_target": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim-MBZUAI.md",
+  "authorization": "用户要求同时整理该篇笔记；此前明确要求保存到笔记文件夹。",
+  "default_skill_structure_overridden": true
+}

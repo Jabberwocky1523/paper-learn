@@ -1,0 +1,606 @@
+{
+  "status": "ok",
+  "script": "extract_source_text.py",
+  "schema_version": 1,
+  "paper_id": "doi:10.1145/3848591.3856870",
+  "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+  "source_kind": "pdf_text",
+  "raw_sections_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_raw_sections.jsonl",
+  "full_text_md_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_full_text.md",
+  "pdf": {
+    "path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+    "total_pages": 11,
+    "text_pages_extracted": 11,
+    "text_max_pages": null,
+    "text_truncated": false
+  },
+  "coverage": {
+    "total_pages": 11,
+    "text_max_pages": null,
+    "text_pages_extracted": 11,
+    "text_pages_scanned": 11,
+    "text_truncated": false,
+    "truncated_due_to_page_limit": false,
+    "appendix_detected": false,
+    "appendix_start_page": null,
+    "references_start_page": 10
+  },
+  "sections": [
+    {
+      "section_id": "sec:preamble",
+      "kind": "preamble",
+      "title": "preamble",
+      "page_start": 1,
+      "page_end": 1,
+      "char_count": 811,
+      "text_hash_sha256": "fa2be2bed1f8adadb1b448783374402608ce4e10122dda193b5a01b146b8f30e"
+    },
+    {
+      "section_id": "sec:abstract",
+      "kind": "abstract",
+      "title": "ABSTRACT",
+      "page_start": 1,
+      "page_end": 1,
+      "char_count": 2261,
+      "text_hash_sha256": "4917d2281fb37936db6063278c735cf89b40166438bca47edbd81bc38b8aafd1"
+    },
+    {
+      "section_id": "sec:introduction",
+      "kind": "introduction",
+      "title": "INTRODUCTION",
+      "page_start": 1,
+      "page_end": 2,
+      "char_count": 5012,
+      "text_hash_sha256": "2f4d429de9fbccc44ca337077e4bd4ff313ced6623944a7605499003fcdcdb2a"
+    },
+    {
+      "section_id": "sec:background",
+      "kind": "introduction",
+      "title": "BACKGROUND",
+      "page_start": 2,
+      "page_end": 9,
+      "char_count": 41605,
+      "text_hash_sha256": "ff16d2aac302517a6dd4b414f58e6c6c89f700062e8310ad18c4b266d01b9c19"
+    },
+    {
+      "section_id": "sec:discussion",
+      "kind": "conclusion",
+      "title": "DISCUSSION",
+      "page_start": 9,
+      "page_end": 9,
+      "char_count": 974,
+      "text_hash_sha256": "fa9d0f46b8060dff5b0398fee9b14c437423112336a0f0e0b78407e6a891fa74"
+    },
+    {
+      "section_id": "sec:related-work",
+      "kind": "introduction",
+      "title": "RELATED WORK",
+      "page_start": 9,
+      "page_end": 9,
+      "char_count": 1387,
+      "text_hash_sha256": "95c1478b0d1e8a8f4695dafd8cd2d5b94fc808d099db74008f115568ef6fdb67"
+    },
+    {
+      "section_id": "sec:conclusion",
+      "kind": "conclusion",
+      "title": "CONCLUSION",
+      "page_start": 9,
+      "page_end": 10,
+      "char_count": 1119,
+      "text_hash_sha256": "3ba1402ca77f8d522b6240008d63ede363dabd89a3fcd10f4f4932fb0789acda"
+    },
+    {
+      "section_id": "sec:references",
+      "kind": "references",
+      "title": "REFERENCES",
+      "page_start": 10,
+      "page_end": 11,
+      "char_count": 9458,
+      "text_hash_sha256": "a22fba548be7444e9411d0ba20bb2041446f86732fe907eec8ef27dd22b76889"
+    }
+  ],
+  "pages": [
+    {
+      "page": 1,
+      "char_count": 4770,
+      "section_ids": [
+        "sec:preamble",
+        "sec:abstract",
+        "sec:introduction"
+      ]
+    },
+    {
+      "page": 2,
+      "char_count": 6178,
+      "section_ids": [
+        "sec:introduction",
+        "sec:background"
+      ]
+    },
+    {
+      "page": 3,
+      "char_count": 6547,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 4,
+      "char_count": 6772,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 5,
+      "char_count": 6012,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 6,
+      "char_count": 6031,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 7,
+      "char_count": 4988,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 8,
+      "char_count": 5478,
+      "section_ids": [
+        "sec:background"
+      ]
+    },
+    {
+      "page": 9,
+      "char_count": 6122,
+      "section_ids": [
+        "sec:background",
+        "sec:discussion",
+        "sec:related-work",
+        "sec:conclusion"
+      ]
+    },
+    {
+      "page": 10,
+      "char_count": 10014,
+      "section_ids": [
+        "sec:conclusion",
+        "sec:references"
+      ]
+    },
+    {
+      "page": 11,
+      "char_count": 135,
+      "section_ids": [
+        "sec:references"
+      ]
+    }
+  ],
+  "captions": {
+    "figures": [
+      {
+        "id": "Figure 1",
+        "caption": "Weights (one byte per parameter) and BF16 KV",
+        "page": 2,
+        "pages": [
+          2
+        ],
+        "section_id": "sec:introduction"
+      },
+      {
+        "id": "Figure 2",
+        "caption": "HBFSim structure: three layers. Feedback from the",
+        "page": 3,
+        "pages": [
+          3
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 3",
+        "caption": "Calibration and simulation cost. (a) Absolute error",
+        "page": 5,
+        "pages": [
+          5
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "Mean TPOT at the decode step of each workload",
+        "page": 6,
+        "pages": [
+          6
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to the running sequences’ KV;",
+        "page": 7,
+        "pages": [
+          7
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "Qwen3-235B-A22B under skewed expert popularity",
+        "page": 7,
+        "pages": [
+          7
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 7",
+        "caption": "Decode throughput of Qwen3-235B-A22B against",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 8",
+        "caption": "Page-level, extent, and block mapping for Llama-",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Figure 9",
+        "caption": "TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first,",
+        "page": 9,
+        "pages": [
+          9
+        ],
+        "section_id": "sec:background"
+      }
+    ],
+    "tables": [
+      {
+        "id": "Table 1",
+        "caption": "Memory devices of capacity tiers.",
+        "page": 5,
+        "pages": [
+          5
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Table 2",
+        "caption": "Workloads at the representative decode step: prompt",
+        "page": 5,
+        "pages": [
+          5
+        ],
+        "section_id": "sec:background"
+      },
+      {
+        "id": "Table 3",
+        "caption": "Estimated HBF lifetime in months at the published",
+        "page": 8,
+        "pages": [
+          8
+        ],
+        "section_id": "sec:background"
+      }
+    ]
+  },
+  "math_index": [
+    {
+      "text": "1490+10 = 1500",
+      "section_id": "sec:introduction",
+      "page_start": 1,
+      "page_end": 2
+    },
+    {
+      "text": "2235+92 = 2327",
+      "section_id": "sec:introduction",
+      "page_start": 1,
+      "page_end": 2
+    },
+    {
+      "text": "2608+27 = 2635",
+      "section_id": "sec:introduction",
+      "page_start": 1,
+      "page_end": 2
+    },
+    {
+      "text": "experts at 𝛼= 1, 1.5, and 2 instead of 88%. At 4 HBM + 4 HBF, where",
+      "section_id": "sec:background",
+      "page_start": 2,
+      "page_end": 9
+    },
+    {
+      "text": "𝛼= 1.5 leaves 135–147 GiB in 188.9, decayed LFU takes 0.83–0.87",
+      "section_id": "sec:background",
+      "page_start": 2,
+      "page_end": 9
+    },
+    {
+      "text": "of the KV-first time and LRU 0.89–1.00; at 𝛼= 2 they take 0.78 and",
+      "section_id": "sec:background",
+      "page_start": 2,
+      "page_end": 9
+    },
+    {
+      "text": "the margin must be real: at 𝛼= 1 and 4 HBM + 4 HBF the 180 GiB",
+      "section_id": "sec:background",
+      "page_start": 2,
+      "page_end": 9
+    }
+  ],
+  "appendix_index": {
+    "appendix_detected": false,
+    "start_page": null,
+    "sections": [],
+    "figure_captions": [],
+    "table_captions": []
+  },
+  "language_hint": "en",
+  "text_hash_sha256": "e9d88d008cac7b7e5ef69221096aa73aaa3830a35d21c353d0a9eca9fd770536",
+  "identity_contract": {
+    "artifact_type": "canonical_identity",
+    "schema_version": 2,
+    "paper_id": "doi:10.1145/3848591.3856870",
+    "identity_verdict": "accepted",
+    "work_level_identity": {
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "translated_title": "HBFSim：用于探索大语言模型存储层次中HBF的模拟器",
+      "authors": [
+        "Jinheng Li",
+        "Guosheng Wang",
+        "Hongchao Du",
+        "Shangyu Wu",
+        "Qiao Li",
+        "Chun Jason Xue"
+      ],
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "zotero_key": ""
+    },
+    "source_manifestation": {
+      "source_kind": "local_pdf",
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "source_url": "https://arxiv.org/abs/2610.23503v1",
+      "pdf_url": "",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "zotero_key": ""
+    },
+    "accepted_metadata": {
+      "status": "ok",
+      "script": "resolve_paper.py",
+      "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+      "translated_title": "HBFSim：用于探索大语言模型存储层次中HBF的模拟器",
+      "authors": [
+        "Jinheng Li",
+        "Guosheng Wang",
+        "Hongchao Du",
+        "Shangyu Wu",
+        "Qiao Li",
+        "Chun Jason Xue"
+      ],
+      "affiliations": [
+        "Mohamed bin Zayed University of Artificial Intelligence"
+      ],
+      "year": "2026",
+      "venue": "RACS 2026 (as printed in supplied PDF)",
+      "doi": "10.1145/3848591.3856870",
+      "arxiv_id": "2610.23503v1",
+      "source_url": "https://arxiv.org/abs/2610.23503v1",
+      "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+      "abstract": "High Bandwidth Flash (HBF) has recently emerged as a promising technology that provides terabyte-scale accelerator-local capacity at bandwidths approaching HBM, with a potential cost-per-bit advantage over HBM. However, its NAND foundation brings long latency, out-of-place updates, and finite write endurance directly into the accelerator memory hierarchy, making its effects on performance and lifetime difficult to predict. To study this emerging design space, we present HBFSim, an LLM-aware event-driven simulator for heterogeneous HBM+HBF memory systems that preserves application-level memory semantics while modeling flash-internal behavior. HBFSim models HBM, HBF with host-managed flash translation, and conventional capacity tiers in one simulation driven by a calibrated serving frontend. Using HBFSim, we study decoding of Llama-3.1-70B and Qwen3-235B-A22B under three workloads that differ in their input and output lengths. HBF serves data that does not fit in HBM 11.0–19.0× faster than host DRAM; HBM is better used to hold the running sequences’ KV cache than as a cache for HBF; and at a published peak load of Llama-3.1-70B, HBF lasts 2.0 to 6.9 years, in proportion to the stacks that share the KV writes. The artifact is available at https://github.com/FlashLabAE/HBFSim and will track public HBF device data as it becomes available.",
+      "source_type": "seed_record",
+      "metadata_sources": [
+        "user_local_pdf_verified"
+      ],
+      "paper_id": "doi:10.1145/3848591.3856870",
+      "identity_confidence": "high",
+      "identity_confidence_reasons": [
+        "doi_present",
+        "arxiv_id_present"
+      ]
+    },
+    "bound_sources": [
+      {
+        "kind": "local_pdf",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "provider": "seed_record",
+        "binding_reason": "trusted_input"
+      },
+      {
+        "kind": "pdf_url",
+        "value": "https://arxiv.org/pdf/2610.23503.pdf",
+        "provider": "seed_record",
+        "binding_reason": "accepted_identifier_derived"
+      }
+    ],
+    "field_provenance": {
+      "title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "translated_title": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "authors": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "affiliations": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "year": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "venue": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "doi": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "arxiv_id": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "abstract": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "source_url": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      },
+      "local_pdf_path": {
+        "provider": "seed_record",
+        "retrieved_by": {
+          "kind": "input",
+          "value": "doi:10.1145/3848591.3856870"
+        }
+      }
+    },
+    "selected_identity_evidence": [
+      {
+        "kind": "doi",
+        "value": "10.1145/3848591.3856870",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "arxiv_id",
+        "value": "2610.23503v1",
+        "trust": "strong",
+        "source": "metadata"
+      },
+      {
+        "kind": "title",
+        "value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+        "trust": "metadata",
+        "source": "metadata"
+      },
+      {
+        "kind": "trusted_source_path",
+        "value": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "trust": "strong",
+        "source": "source_manifestation"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2610.23503v1",
+        "trust": "source_manifestation",
+        "source": "metadata"
+      },
+      {
+        "kind": "source_url",
+        "value": "https://arxiv.org/abs/2610.23503v1",
+        "trust": "source_manifestation",
+        "source": "source_manifestation"
+      }
+    ],
+    "equivalence_decision": {
+      "status": "equivalent",
+      "reason": "shared_work_identifier",
+      "location_binding": "source_manifestation",
+      "evidence": [
+        {
+          "kind": "shared_identifier",
+          "value": "doi:10.1145/3848591.3856870"
+        },
+        {
+          "kind": "shared_identifier",
+          "value": "arxiv_id:2610.23503"
+        },
+        {
+          "kind": "title_similarity",
+          "status": "match",
+          "score": 1.0,
+          "source_value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+          "work_value": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs"
+        },
+        {
+          "kind": "leading_author",
+          "status": "match",
+          "source_value": "Jinheng Li",
+          "work_value": "Jinheng Li"
+        },
+        {
+          "kind": "abstract_similarity",
+          "status": "match",
+          "score": 1.0
+        }
+      ]
+    },
+    "warnings": [],
+    "repair_trace_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_identity_repair_trace.json",
+    "provenance": {
+      "resolve_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_resolve.json",
+      "metadata_artifact_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/mbzuai_metadata.json"
+    }
+  },
+  "source_manifestation": {
+    "source_kind": "local_pdf",
+    "title": "HBFSim: A Simulator for Exploring HBF in Memory Hierarchies for LLMs",
+    "year": "2026",
+    "venue": "RACS 2026 (as printed in supplied PDF)",
+    "source_url": "https://arxiv.org/abs/2610.23503v1",
+    "pdf_url": "",
+    "local_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+    "doi": "10.1145/3848591.3856870",
+    "arxiv_id": "2610.23503v1",
+    "zotero_key": ""
+  }
+}

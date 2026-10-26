@@ -1,0 +1,1828 @@
+{
+  "status": "ok",
+  "script": "plan_figures.py",
+  "paper_id": "doi:10.1145/3848591.3856870",
+  "figure_plan": {
+    "paper_id": "doi:10.1145/3848591.3856870",
+    "figures": [
+      {
+        "id": "Figure 7",
+        "caption": "Decode throughput of Qwen3-235B-A22B against",
+        "kind": "main_result",
+        "section": "关键结果",
+        "reason": "这张图或表直接承载主结果，适合放在关键结果部分。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "figure 7",
+              "decode",
+              "throughput",
+              "qwen",
+              "against"
+            ],
+            "snippet": "UTPUT 8 16 32 64 Batch size Balanced HBM:HBF stacks 1:7 2:6 4:4 6:2 8 16 32 64 Long INPUT Figure 7: Decode throughput of Qwen3-235B-A22B against the batch size, peer mode with KV first. mo",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_figure_8.png",
+                "width": 749,
+                "height": 266,
+                "size_bytes": 34514,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.232221,
+                  "visual_rect_count": 52,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 265,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_table_3.png",
+                "width": 336,
+                "height": 116,
+                "size_bytes": 7974,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.045406,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 204,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "decode",
+              "qwen",
+              "against"
+            ],
+            "snippet": ".5-1.5B-Instruct (bfloat16, batch size 1), a 32-token prefill followed by two fixed-token decode steps required 43.4 minutes for trace collection on an RTX 4000 Ada with NVBit [30]. The",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "decode",
+              "qwen",
+              "against"
+            ],
+            "snippet": "O NVMe SSD 16 GB/s link same NAND as the CXL SSD Table 2: Workloads at the representative decode step: prompt and output tokens per request, mean context of the running sequences (Ctx),",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "page-proximity-and-caption-cues"
+      },
+      {
+        "id": "Table 1",
+        "caption": "Memory devices of capacity tiers.",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "candidate_pages": [
+          {
+            "page_number": 5,
+            "score": 8,
+            "matched_terms": [
+              "table 1",
+              "memory",
+              "devices",
+              "capacity",
+              "tiers"
+            ],
+            "snippet": "erature, or assumed; 18 of the 30 parameter groups are assumptions. The engine checks its Table 1: Memory devices of capacity tiers. Device Bandwidth Latency and other parameters HBM4 sta",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 3,
+            "matched_terms": [
+              "memory",
+              "capacity",
+              "tiers"
+            ],
+            "snippet": "consumes write endurance. Therefore, it is necessary to study the performance of HBM+HBF memory hierarchies under realistic LLM serving work- loads before committing to a design. Becaus",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+                "width": 370,
+                "height": 156,
+                "size_bytes": 16783,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.067186,
+                  "visual_rect_count": 2,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 104,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 154,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "memory",
+              "devices",
+              "capacity",
+              "tiers"
+            ],
+            "snippet": ", prefix cache Compiler layer DAG: reads, writes, prefetch GPU timing calibrated kernels, memory overlap batch time Memory policies objects →device addresses Peer mode each object in eit",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "page-proximity-and-caption-cues"
+      },
+      {
+        "id": "Table 2",
+        "caption": "Workloads at the representative decode step: prompt",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_005_fig_table_2.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+          "width": 333,
+          "height": 132,
+          "size_bytes": 16954,
+          "label": "Table 2",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "reject",
+            "quality_reason_codes": [
+              "table_body_missing"
+            ],
+            "page_coverage_ratio": 0.051325,
+            "visual_rect_count": 8,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 209,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "reject_visual_quality"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 5,
+            "score": 8,
+            "matched_terms": [
+              "table 2",
+              "workloads",
+              "representative",
+              "decode",
+              "step",
+              "prompt"
+            ],
+            "snippet": "GB/s NAND; DRAM cache of 5% of flash, FIFO NVMe SSD 16 GB/s link same NAND as the CXL SSD Table 2: Workloads at the representative decode step: prompt and output tokens per request, mean",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 3,
+            "matched_terms": [
+              "workloads",
+              "step",
+              "prompt"
+            ],
+            "snippet": "traces. Using HBFSim, we study decoding of Llama-3.1-70B and Qwen3-235B-A22B under three workloads that differ in their input and output lengths. We find that HBF serves the data that does",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+                "width": 370,
+                "height": 156,
+                "size_bytes": 16783,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.067186,
+                  "visual_rect_count": 2,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 104,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 154,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "workloads",
+              "decode",
+              "step",
+              "prompt"
+            ],
+            "snippet": "r tier or preempts requests, which shrinks the batch. Three challenges shape this design. Workloads and device accesses differ in granularity and semantics. A serving system works with requ",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Table 3",
+        "caption": "Estimated HBF lifetime in months at the published",
+        "kind": "table_result",
+        "section": "关键结果",
+        "reason": "这是关键结果表，适合放在关键结果部分辅助定位核心数值。",
+        "priority": 2,
+        "anchor_text": "关键结果",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_008_fig_table_3.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_table_3.png",
+          "width": 336,
+          "height": 116,
+          "size_bytes": 7974,
+          "label": "Table 3",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.045406,
+            "visual_rect_count": 0,
+            "visual_body_ratio": 0.0,
+            "paragraph_text_chars": 204,
+            "table_body_rows": 7,
+            "caption_text_chars": 158,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "table 3",
+              "estimated",
+              "lifetime",
+              "months",
+              "published"
+            ],
+            "snippet": "hisker: smallest), decode TPOT, and request time in the prefill win- dows of Section 4.3. Table 3: Estimated HBF lifetime in months at the published H200 peak load of Llama-3.3-70B (5,000",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_figure_8.png",
+                "width": 749,
+                "height": 266,
+                "size_bytes": 34514,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.232221,
+                  "visual_rect_count": 52,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 265,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_table_3.png",
+                "width": 336,
+                "height": 116,
+                "size_bytes": 7974,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.045406,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 204,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 9,
+            "score": 8,
+            "matched_terms": [
+              "table 3",
+              "lifetime",
+              "months",
+              "published"
+            ],
+            "snippet": "still erased. Assuming 100,000 P/E cycles, as for the SLC NAND used in HBF designs [32], Table 3 gives the resulting lifetime: 24–83 months for Llama-3.1-70B and 40–141 months for Qwen3-",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_figure_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_009_fig_figure_9.png",
+                "width": 686,
+                "height": 146,
+                "size_bytes": 39524,
+                "label": "Figure 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116989,
+                  "visual_rect_count": 10,
+                  "visual_body_ratio": 0.732889,
+                  "paragraph_text_chars": 993,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 240,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 6,
+            "matched_terms": [
+              "table 3",
+              "published"
+            ],
+            "snippet": "te 2 HBM + 6 HBF for a package of two HBM and six HBF stacks (2:6 in the figures, 2H6F in Table 3). We compare 1 HBM + 7 HBF, 2 HBM + 6 HBF, 4 HBM + 4 HBF, and 6 HBM + 2 HBF, whose HBM ho",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 1",
+        "caption": "Weights (one byte per parameter) and BF16 KV",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_002_fig_figure_1.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+          "width": 370,
+          "height": 156,
+          "size_bytes": 16783,
+          "label": "Figure 1",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.067186,
+            "visual_rect_count": 2,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 104,
+            "table_body_rows": 0,
+            "caption_text_chars": 154,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 2,
+            "score": 8,
+            "matched_terms": [
+              "figure 1",
+              "weights",
+              "byte",
+              "parameter"
+            ],
+            "snippet": "635 H200 131 GiB 8 HBM4 stacks 384 GiB 8×H200 1051 GiB Weights KV cache, 1M-token context Figure 1: Weights (one byte per parameter) and BF16 KV cache of a 1M-token context against the HBM",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+                "width": 370,
+                "height": 156,
+                "size_bytes": 16783,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.067186,
+                  "visual_rect_count": 2,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 104,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 154,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "weights",
+              "byte",
+              "parameter"
+            ],
+            "snippet": "we timed the Marlin GEMMs and FlashAttention-2 paged attention that vLLM uses with 8-bit weights, inside whole layers under CUDA graphs, over 525 shapes per GPU spanning batch, query, an",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 9,
+            "score": 3,
+            "matched_terms": [
+              "weights",
+              "byte",
+              "parameter"
+            ],
+            "snippet": "t 320 KiB, it writes 41% less. HBFSim measures the share of this KV that reaches HBF with weights first (87.5–100%) and replays each workload’s KV writes and releases (about 1 TiB, twice",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_figure_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_009_fig_figure_9.png",
+                "width": 686,
+                "height": 146,
+                "size_bytes": 39524,
+                "label": "Figure 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116989,
+                  "visual_rect_count": 10,
+                  "visual_body_ratio": 0.732889,
+                  "paragraph_text_chars": 993,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 240,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 2",
+        "caption": "HBFSim structure: three layers. Feedback from the",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_003_fig_figure_2.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+          "width": 310,
+          "height": 203,
+          "size_bytes": 24995,
+          "label": "Figure 2",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.073258,
+            "visual_rect_count": 13,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 220,
+            "table_body_rows": 0,
+            "caption_text_chars": 163,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 3,
+            "score": 8,
+            "matched_terms": [
+              "figure 2",
+              "hbfsim",
+              "structure",
+              "three",
+              "layers",
+              "feedback"
+            ],
+            "snippet": ": time per output token, bytes per object class and device, programs and erases per block Figure 2: HBFSim structure: three layers. Feedback from the device engine closes the loop to the s",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "hbfsim",
+              "three",
+              "layers"
+            ],
+            "snippet": "HBFSim RACS ’26, November 17–20, 2026, Fukuoka, Japan 0 10 20 30 40 (a) Absolute error (%) 0 0.5",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 3,
+            "matched_terms": [
+              "hbfsim",
+              "three",
+              "layers"
+            ],
+            "snippet": "HBFSim RACS ’26, November 17–20, 2026, Fukuoka, Japan 1:7 2:6 4:4 0 80 160 240 70B TPOT (ms) Lon",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_5.png",
+                "width": 807,
+                "height": 263,
+                "size_bytes": 47283,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.246605,
+                  "visual_rect_count": 174,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 103,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 201,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_007_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_6.png",
+                "width": 742,
+                "height": 199,
+                "size_bytes": 54823,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.171735,
+                  "visual_rect_count": 71,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 751,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 235,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Figure 5"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 3",
+        "caption": "Calibration and simulation cost. (a) Absolute error",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "candidate_pages": [
+          {
+            "page_number": 5,
+            "score": 8,
+            "matched_terms": [
+              "figure 3",
+              "calibration",
+              "simulation",
+              "cost",
+              "absolute",
+              "error"
+            ],
+            "snippet": "h Host time on one core dashed: 2.7×105 page reads/s Peer mode Tiered mode No flash reads Figure 3: Calibration and simulation cost. (a) Absolute error of predicted time for held-out layer",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 2,
+            "matched_terms": [
+              "simulation",
+              "cost"
+            ],
+            "snippet": "ch traces are replayed directly. Detailed instruction-and-address tracing and cycle-level simulation incur substantial costs even for a small inference workload. For Qwen2.5-1.5B-Instruct (b",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 1,
+            "matched_terms": [
+              "cost"
+            ],
+            "snippet": "s HBM, and that KV should be written to HBF only when it must leave HBM; and that the FTL costs little on the read path as long as its layout keeps reads parallel, while HBF’s lifetime",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+                "width": 370,
+                "height": 156,
+                "size_bytes": 16783,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.067186,
+                  "visual_rect_count": 2,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 104,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 154,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "page-proximity-and-caption-cues"
+      },
+      {
+        "id": "Figure 4",
+        "caption": "Mean TPOT at the decode step of each workload",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_006_fig_figure_4.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_006_fig_figure_4.png",
+          "width": 737,
+          "height": 377,
+          "size_bytes": 83625,
+          "label": "Figure 4",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.323063,
+            "visual_rect_count": 59,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 2191,
+            "table_body_rows": 0,
+            "caption_text_chars": 387,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 6,
+            "score": 8,
+            "matched_terms": [
+              "figure 4",
+              "mean",
+              "tpot",
+              "decode",
+              "step",
+              "each"
+            ],
+            "snippet": "M + NVMe SSD 8 HBM + host DRAM + CXL SSD 2 HBM + CXL SSD 2 HBM + NVMe SSD 8 HBM + CXL SSD Figure 4: Mean TPOT at the decode step of each workload (logarithmic axes). (a) HBF against the ot",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_006_fig_figure_4.png",
+                "width": 737,
+                "height": 377,
+                "size_bytes": 83625,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.323063,
+                  "visual_rect_count": 59,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2191,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 387,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "decode",
+              "step",
+              "each"
+            ],
+            "snippet": ".5-1.5B-Instruct (bfloat16, batch size 1), a 32-token prefill followed by two fixed-token decode steps required 43.4 minutes for trace collection on an RTX 4000 Ada with NVBit [30]. The",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "mean",
+              "tpot",
+              "decode",
+              "step",
+              "each"
+            ],
+            "snippet": "e by least squares. We then predict 64 whole-layer shapes that never entered the fit: the mean absolute error is 5.8% on the A100 and 5.0% on the H200, and the largest, 41.8% on the A1",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 5",
+        "caption": "Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to the running sequences’ KV;",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_007_fig_figure_5.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_5.png",
+          "width": 807,
+          "height": 263,
+          "size_bytes": 47283,
+          "label": "Figure 5",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.246605,
+            "visual_rect_count": 174,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 103,
+            "table_body_rows": 0,
+            "caption_text_chars": 201,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 6,
+            "score": 8,
+            "matched_terms": [
+              "figure 5",
+              "mean",
+              "tpot",
+              "stack"
+            ],
+            "snippet": ", and What Should It Hold? Capacity and placement. We vary the split between HBM and HBF (Figure 5). In peer mode, HBM should give priority to the running sequences’ KV. The working set of",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_006_fig_figure_4.png",
+                "width": 737,
+                "height": 377,
+                "size_bytes": 83625,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.323063,
+                  "visual_rect_count": 59,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2191,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 387,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 7,
+            "score": 8,
+            "matched_terms": [
+              "figure 5",
+              "mean",
+              "tpot",
+              "across",
+              "stack",
+              "splits"
+            ],
+            "snippet": "first Peer, KV first Tiered, LRU Tiered, FIFO Tiered, decayed LFU Working set fits in HBM Figure 5: Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to th",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_5.png",
+                "width": 807,
+                "height": 263,
+                "size_bytes": 47283,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.246605,
+                  "visual_rect_count": 174,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 103,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 201,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_007_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_6.png",
+                "width": 742,
+                "height": 199,
+                "size_bytes": 54823,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.171735,
+                  "visual_rect_count": 71,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 751,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 235,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Figure 5"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "mean",
+              "tpot",
+              "across",
+              "stack"
+            ],
+            "snippet": "e by least squares. We then predict 64 whole-layer shapes that never entered the fit: the mean absolute error is 5.8% on the A100 and 5.0% on the H200, and the largest, 41.8% on the A1",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 6",
+        "caption": "Qwen3-235B-A22B under skewed expert popularity",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_007_fig_figure_6.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_6.png",
+          "width": 742,
+          "height": 199,
+          "size_bytes": 54823,
+          "label": "Figure 6",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "reject",
+            "quality_reason_codes": [
+              "multiple_caption_regions_suspected"
+            ],
+            "page_coverage_ratio": 0.171735,
+            "visual_rect_count": 71,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 751,
+            "table_body_rows": 0,
+            "caption_text_chars": 235,
+            "other_caption_count": 1,
+            "other_caption_labels": [
+              "Figure 5"
+            ]
+          },
+          "candidate_status": "reject_visual_quality"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 7,
+            "score": 8,
+            "matched_terms": [
+              "figure 6",
+              "qwen",
+              "under",
+              "skewed",
+              "expert",
+              "popularity"
+            ],
+            "snippet": "100 150 TPOT (ms) 2:6 HBM:HBF Zipf 1 64% Zipf 1.5 46% Zipf 2 34% 0 80 160 240 4:4 HBM:HBF Figure 6: Qwen3-235B-A22B under skewed expert popularity (balanced workload; legend as in Figure 5",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_007_fig_figure_5.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_5.png",
+                "width": 807,
+                "height": 263,
+                "size_bytes": 47283,
+                "label": "Figure 5",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.246605,
+                  "visual_rect_count": 174,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 103,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 201,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_007_fig_figure_6.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_007_fig_figure_6.png",
+                "width": 742,
+                "height": 199,
+                "size_bytes": 54823,
+                "label": "Figure 6",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "multiple_caption_regions_suspected"
+                  ],
+                  "page_coverage_ratio": 0.171735,
+                  "visual_rect_count": 71,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 751,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 235,
+                  "other_caption_count": 1,
+                  "other_caption_labels": [
+                    "Figure 5"
+                  ]
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "qwen",
+              "under",
+              "expert"
+            ],
+            "snippet": "d cycle-level simulation incur substantial costs even for a small inference workload. For Qwen2.5-1.5B-Instruct (bfloat16, batch size 1), a 32-token prefill followed by two fixed-token",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "qwen",
+              "under",
+              "expert"
+            ],
+            "snippet": "ma-3.1-70B [5] with 8-bit weights (67.7 GiB) and a BF16 KV cache (320 KiB per token), and Qwen3-235B-A22B with FP8 weights (223.0 GiB for the 128 experts of each of its 94 MoE layers)",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 8",
+        "caption": "Page-level, extent, and block mapping for Llama-",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_008_fig_figure_8.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_figure_8.png",
+          "width": 749,
+          "height": 266,
+          "size_bytes": 34514,
+          "label": "Figure 8",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.232221,
+            "visual_rect_count": 52,
+            "visual_body_ratio": 1.0,
+            "paragraph_text_chars": 0,
+            "table_body_rows": 0,
+            "caption_text_chars": 265,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 8,
+            "score": 8,
+            "matched_terms": [
+              "figure 8",
+              "page-level",
+              "extent",
+              "block",
+              "mapping",
+              "llama-"
+            ],
+            "snippet": "-level Extent Block Long OUTPUT Balanced Long INPUT 0 50 100 150 Request time (s) Prefill Figure 8: Page-level, extent, and block mapping for Llama- 3.1-70B at 2 HBM + 6 HBF, weights first",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_008_fig_figure_8.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_figure_8.png",
+                "width": 749,
+                "height": 266,
+                "size_bytes": 34514,
+                "label": "Figure 8",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.232221,
+                  "visual_rect_count": 52,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 265,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              },
+              {
+                "filename": "page_008_fig_table_3.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_008_fig_table_3.png",
+                "width": 336,
+                "height": 116,
+                "size_bytes": 7974,
+                "label": "Table 3",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.045406,
+                  "visual_rect_count": 0,
+                  "visual_body_ratio": 0.0,
+                  "paragraph_text_chars": 204,
+                  "table_body_rows": 7,
+                  "caption_text_chars": 158,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 2,
+            "score": 3,
+            "matched_terms": [
+              "block",
+              "mapping",
+              "llama-"
+            ],
+            "snippet": "s 320 KiB per token [5], 320 GiB for 1M tokens. Serving systems allocate KV in fixed-size blocks [11] and retain the blocks of finished requests so that later requests with the same pre",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_002_fig_figure_1.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_002_fig_figure_1.png",
+                "width": 370,
+                "height": 156,
+                "size_bytes": 16783,
+                "label": "Figure 1",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.067186,
+                  "visual_rect_count": 2,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 104,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 154,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 3,
+            "score": 3,
+            "matched_terms": [
+              "block",
+              "mapping",
+              "llama-"
+            ],
+            "snippet": "esults: time per output token, bytes per object class and device, programs and erases per block Figure 2: HBFSim structure: three layers. Feedback from the device engine closes the loop",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_003_fig_figure_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_003_fig_figure_2.png",
+                "width": 310,
+                "height": 203,
+                "size_bytes": 24995,
+                "label": "Figure 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.073258,
+                  "visual_rect_count": 13,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 220,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 163,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      },
+      {
+        "id": "Figure 9",
+        "caption": "TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first,",
+        "kind": "supporting_figure",
+        "section": "深度分析",
+        "reason": "这张图更适合作为补充图，放在深度分析部分帮助解释作者论点。",
+        "priority": 3,
+        "anchor_text": "深度分析",
+        "insert_mode": "placeholder",
+        "figure_asset_candidate": {
+          "filename": "page_009_fig_figure_9.png",
+          "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_009_fig_figure_9.png",
+          "width": 686,
+          "height": 146,
+          "size_bytes": 39524,
+          "label": "Figure 9",
+          "extraction_level": "figure",
+          "quality_signals": {
+            "visual_quality_status": "usable",
+            "quality_reason_codes": [],
+            "page_coverage_ratio": 0.116989,
+            "visual_rect_count": 10,
+            "visual_body_ratio": 0.732889,
+            "paragraph_text_chars": 993,
+            "table_body_rows": 0,
+            "caption_text_chars": 240,
+            "other_caption_count": 0,
+            "other_caption_labels": []
+          },
+          "candidate_status": "usable_candidate"
+        },
+        "candidate_pages": [
+          {
+            "page_number": 9,
+            "score": 8,
+            "matched_terms": [
+              "figure 9",
+              "tpot",
+              "llama-",
+              "first"
+            ],
+            "snippet": ".1 G3⋅16 Interface per stack (TB/s) Long OUTPUT Balanced Long INPUT 4 8 16 Planes per die Figure 9: TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first, when one HBF parameter changes (logari",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_009_fig_figure_9.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_009_fig_figure_9.png",
+                "width": 686,
+                "height": 146,
+                "size_bytes": 39524,
+                "label": "Figure 9",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.116989,
+                  "visual_rect_count": 10,
+                  "visual_body_ratio": 0.732889,
+                  "paragraph_text_chars": 993,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 240,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          },
+          {
+            "page_number": 5,
+            "score": 3,
+            "matched_terms": [
+              "tpot",
+              "llama-",
+              "first"
+            ],
+            "snippet": "batches); for Llama-3.1-70B on the H200, the time to first token differs by 9.3–13.6% and TPOT by 4.6–7.0%. The host DRAM path is fitted to measured pinned-memory copies between an H20",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_005_fig_table_2.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_005_fig_table_2.png",
+                "width": 333,
+                "height": 132,
+                "size_bytes": 16954,
+                "label": "Table 2",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "reject",
+                  "quality_reason_codes": [
+                    "table_body_missing"
+                  ],
+                  "page_coverage_ratio": 0.051325,
+                  "visual_rect_count": 8,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 0,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 209,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "reject_visual_quality"
+              }
+            ]
+          },
+          {
+            "page_number": 6,
+            "score": 3,
+            "matched_terms": [
+              "tpot",
+              "llama-",
+              "first"
+            ],
+            "snippet": "RACS ’26, November 17–20, 2026, Fukuoka, Japan Li et al. 0.01 0.1 1 10 TPOT (s) 70B 235B (a) HBF Host DRAM CXL SSD NVMe SSD Long OUTPUT Balanced Long INPUT Long OUTP",
+            "images": [],
+            "figure_assets": [
+              {
+                "filename": "page_006_fig_figure_4.png",
+                "path": "/home/kurisu/Desktop/论文/tmp/DeepPaperNote/assets/HBFSim_A_Simulator_for_Exploring_HBF_in_Memory_Hierarchies_for_LLMs/images/page_006_fig_figure_4.png",
+                "width": 737,
+                "height": 377,
+                "size_bytes": 83625,
+                "label": "Figure 4",
+                "extraction_level": "figure",
+                "quality_signals": {
+                  "visual_quality_status": "usable",
+                  "quality_reason_codes": [],
+                  "page_coverage_ratio": 0.323063,
+                  "visual_rect_count": 59,
+                  "visual_body_ratio": 1.0,
+                  "paragraph_text_chars": 2191,
+                  "table_body_rows": 0,
+                  "caption_text_chars": 387,
+                  "other_caption_count": 0,
+                  "other_caption_labels": []
+                },
+                "candidate_status": "usable_candidate"
+              }
+            ]
+          }
+        ],
+        "matching_strategy": "figure-asset-candidate"
+      }
+    ]
+  }
+}

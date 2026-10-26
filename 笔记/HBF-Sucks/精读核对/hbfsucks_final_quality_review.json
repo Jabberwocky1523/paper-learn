@@ -1,0 +1,48 @@
+{
+  "status": "pass",
+  "stage": "final_quality_review",
+  "note_sha256": "041dfac84e42f8a6c18849b87590127288c709eea7451a42e64348820eb3e02b",
+  "checks": {
+    "central_evidence_chain": {
+      "pass": true,
+      "evidence": "三必要条件与六发现逐项对应，未把后备介质加速等同于端到端收益。"
+    },
+    "settings_and_numbers": {
+      "pass": true,
+      "evidence": "四轨迹、五模型、八GPU、四组时序、指标方向和六发现主要数值已交叉核对。"
+    },
+    "mechanism_to_result": {
+      "pass": true,
+      "evidence": "近端资源、暴露I/O、覆盖与步规模、热点保留、分桶占用、热功耗与写预算均解释到结果。"
+    },
+    "comparison_positioning": {
+      "pass": true,
+      "evidence": "完整架构/纯介质、NMP对照、批处理/单键、热约束/无约束，以及FlashAccel前提差异已分开。"
+    },
+    "limitations_mechanistic": {
+      "pass": true,
+      "evidence": "同时变化近端容量带宽、NMP单配置、热/寿命假设以及原文容量口径冲突均保留。"
+    },
+    "proof_boundaries": {
+      "pass": true,
+      "evidence": "没有将建模结果写成芯片故障实测，没有声称所有HBF用途或NMP方案无效。"
+    },
+    "reusable_takeaways": {
+      "pass": true,
+      "evidence": "具体到先列近端资源、按层计读写、算子与端到端分开、热写预算联动及后续控制实验。"
+    },
+    "figure_review": {
+      "pass": true,
+      "evidence": "21幅图表全部从原页300dpi裁取、已逐项查看拼图并绑定哈希，图体和子图完整。"
+    },
+    "formula_review": {
+      "pass": true,
+      "evidence": "原文式6/7/8变量、符号和含义保持；式6省略图示下括号标签，由正文逐项解释。"
+    }
+  },
+  "format_override": "按用户FlashAccel三部分结构；第二部分按论文类型改为分析框架与评估方案。",
+  "unresolved_factual_questions": [
+    "表3与表5的B200容量匹配冲突为原文问题，已显式保留；未猜测修正。",
+    "图12纵轴标度未说明归一化，为原文定性图局限，已显式提醒。"
+  ]
+}

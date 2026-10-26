@@ -1,0 +1,161 @@
+{
+  "status": "ok",
+  "script": "write_obsidian_note.py",
+  "paper_id": "arxiv:2608.11668v4",
+  "title": "HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash for KV-Centric LLM Serving",
+  "note_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/HBF-Sucks.md",
+  "subdir": "HBF-Sucks",
+  "images_dir": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images",
+  "materialized_figures": [
+    {
+      "source_id": "Figure 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-01.png",
+      "relative_markdown_path": "images/figure-01.png",
+      "reviewed_asset_sha256": "82b4aa4aeefe5c04f216374f8bd3ad497a4bc72e1849aea2b2199bbde6fa79ed"
+    },
+    {
+      "source_id": "Figure 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-02.png",
+      "relative_markdown_path": "images/figure-02.png",
+      "reviewed_asset_sha256": "05f6471d5ac4ddc103b0106fe5821feaa4f4ce38b60bae9232aa7cb75f6a4a06"
+    },
+    {
+      "source_id": "Figure 3",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-03.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-03.png",
+      "relative_markdown_path": "images/figure-03.png",
+      "reviewed_asset_sha256": "b2861ad9418d654fa737009a1227b58d10c80b478734a00e411bc9c386bc8b71"
+    },
+    {
+      "source_id": "Figure 4",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-04.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-04.png",
+      "relative_markdown_path": "images/figure-04.png",
+      "reviewed_asset_sha256": "4476a4c25817289baff33a90556ae9b160ff204d91c660a0676db4875d88270a"
+    },
+    {
+      "source_id": "Figure 5",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-05.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-05.png",
+      "relative_markdown_path": "images/figure-05.png",
+      "reviewed_asset_sha256": "6accc0b1ad1d4cd4ad969c327420c6606be15514e01d7bdfefdfde9e118e57e4"
+    },
+    {
+      "source_id": "Figure 6",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-06.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-06.png",
+      "relative_markdown_path": "images/figure-06.png",
+      "reviewed_asset_sha256": "fc00393c2e711c32bdb25df725846d2ec294971fb656d9625341dbb164346bed"
+    },
+    {
+      "source_id": "Figure 7",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-07.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-07.png",
+      "relative_markdown_path": "images/figure-07.png",
+      "reviewed_asset_sha256": "d0e76f37b67ed7541086cee7491e55da26d40ab2a13d6f4679a8317aba818911"
+    },
+    {
+      "source_id": "Figure 8",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-08.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-08.png",
+      "relative_markdown_path": "images/figure-08.png",
+      "reviewed_asset_sha256": "f668880bad120e33e9f89f7b01265c603992fd41c8bb05b5aa3420b9d6dfb0e0"
+    },
+    {
+      "source_id": "Figure 9",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-09.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-09.png",
+      "relative_markdown_path": "images/figure-09.png",
+      "reviewed_asset_sha256": "856c13dca1c20295d102a782d9b958d2b17a205ff6b660491e15984072cf61c1"
+    },
+    {
+      "source_id": "Figure 10",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-10.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-10.png",
+      "relative_markdown_path": "images/figure-10.png",
+      "reviewed_asset_sha256": "af30266d12f43f2d8ef85ead1a4ec938f77617b772b4b713b89dd4d375f205c8"
+    },
+    {
+      "source_id": "Figure 11",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-11.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-11.png",
+      "relative_markdown_path": "images/figure-11.png",
+      "reviewed_asset_sha256": "51de2c3cd8ee2557426fcdba56a1c3154d1e56dc2314f02e1f015ede67e56cc4"
+    },
+    {
+      "source_id": "Figure 12",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/figure-12.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/figure-12.png",
+      "relative_markdown_path": "images/figure-12.png",
+      "reviewed_asset_sha256": "d19b48382690617a893aa940b2170edd15118a79630ab60c96489c6a67fa2139"
+    },
+    {
+      "source_id": "Table 1",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-01.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-01.png",
+      "relative_markdown_path": "images/table-01.png",
+      "reviewed_asset_sha256": "650658ac0bb8fe6c5cec63d24707521d3d63f4063e227b4113004a057e0b616f"
+    },
+    {
+      "source_id": "Table 2",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-02.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-02.png",
+      "relative_markdown_path": "images/table-02.png",
+      "reviewed_asset_sha256": "d4bc5ec9ac215c7254a71a9e9c0f5082e36521d8b56a7b3037683a24fba10a12"
+    },
+    {
+      "source_id": "Table 3",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-03.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-03.png",
+      "relative_markdown_path": "images/table-03.png",
+      "reviewed_asset_sha256": "a219e54266d2f055a786a9c1b317ba6fc2ed70fe86e6d9d463ffd9182e6a07b2"
+    },
+    {
+      "source_id": "Table 4",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-04.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-04.png",
+      "relative_markdown_path": "images/table-04.png",
+      "reviewed_asset_sha256": "b3473aeb550f8eccb1683131605b9764fb3219f5d582bcfe9ffa88aaeb7b63a0"
+    },
+    {
+      "source_id": "Table 5",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-05.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-05.png",
+      "relative_markdown_path": "images/table-05.png",
+      "reviewed_asset_sha256": "62939865dbc39054a65b3035f8c69b14210fe9762f0d4b990badcddfdd819312"
+    },
+    {
+      "source_id": "Table 6",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-06.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-06.png",
+      "relative_markdown_path": "images/table-06.png",
+      "reviewed_asset_sha256": "459571c71147b9fba33a1cfbf93bbebb5acfb0a5face8c3884936f1a93133e80"
+    },
+    {
+      "source_id": "Table 7",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-07.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-07.png",
+      "relative_markdown_path": "images/table-07.png",
+      "reviewed_asset_sha256": "fb3c1df1ff0a3b54a713b94ea58b46fcd01567d5592e0bd44366e64545d53c12"
+    },
+    {
+      "source_id": "Table 8",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-08.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-08.png",
+      "relative_markdown_path": "images/table-08.png",
+      "reviewed_asset_sha256": "b2d54b30e608dc94495c30bdb785c4844822817a0da04eb5fd2bd171009065fb"
+    },
+    {
+      "source_id": "Table 9",
+      "source_image": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/精读核对/visuals/table-09.png",
+      "dest_image_path": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/images/table-09.png",
+      "relative_markdown_path": "images/table-09.png",
+      "reviewed_asset_sha256": "16fcbb7ab4b2ddf84de16b75f199f9ac7e2816ed7b8d64260086295ba3ea395b"
+    }
+  ],
+  "output_mode": "obsidian",
+  "base_output_root": "/home/kurisu/Desktop/论文",
+  "vault": "/home/kurisu/Desktop/论文"
+}

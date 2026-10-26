@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "note_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/HBFSim-MBZUAI.md",
+  "all_twelve_assets_materialized_and_hash_verified": true,
+  "all_local_links_exist": true,
+  "protected_bilingual_sha256": "ec33eb962443b728ea6b5aece4cba7a189141820862418aee41eb87a8b7e8a4e",
+  "original_pdf_sha256": "4641ccbbe62ccdab3aa26faf6bda5dd3bd8354e8281d27b599b59fd72216ab1c",
+  "main_sections": [
+    "一、背景动机",
+    "二、设计方案",
+    "三、实验结果"
+  ],
+  "chinese_character_count": 9316,
+  "note_sha256": "016380318f1f3ed804be34aa8ac4b061e3efe8f029cb8b29371ca6ac016b332d"
+}

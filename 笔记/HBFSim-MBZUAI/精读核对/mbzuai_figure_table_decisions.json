@@ -1,0 +1,705 @@
+{
+  "status": "ok",
+  "script": "plan_figure_table_decisions.py",
+  "paper_id": "doi:10.1145/3848591.3856870",
+  "decisions": [
+    {
+      "item_id": "figure:Figure 1",
+      "source_id": "Figure 1",
+      "kind": "figure",
+      "label": "Figure 1",
+      "caption": "Weights (one byte per parameter) and BF16 KV",
+      "pages": [
+        2
+      ],
+      "section_id": "sec:introduction",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "研究问题",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-01.png",
+      "relative_markdown_embed": "![Figure 1](images/figure-01.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-01.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "f8232518f94530be3bf855d43e1e928f8491d7d4f303845bdf6577bfbd5a685e",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-02.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 2,
+        "caption": "Figure 1: Weights (one byte per parameter) and BF16 KV cache of a 1M-token context against the HBM of one H200, eight HBM4 stacks, and an eight-H200 node.",
+        "bbox_pt": [
+          52,
+          82,
+          296,
+          195
+        ],
+        "normalized_bbox": [
+          0.08496732026143791,
+          0.10353535353535354,
+          0.48366013071895425,
+          0.24621212121212122
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "f8232518f94530be3bf855d43e1e928f8491d7d4f303845bdf6577bfbd5a685e",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 2",
+      "source_id": "Figure 2",
+      "kind": "figure",
+      "label": "Figure 2",
+      "caption": "HBFSim structure: three layers. Feedback from the",
+      "pages": [
+        3
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "方法主线",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-02.png",
+      "relative_markdown_embed": "![Figure 2](images/figure-02.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-02.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "9f5f823667c2e36c35ee41085451e78d6bfc78e77a50449e2d396214d6c4824a",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-03.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 3,
+        "caption": "Figure 2: HBFSim structure: three layers. Feedback from the device engine closes the loop to the scheduler, and the host FTL keeps its tables and GC copies in HBM.",
+        "bbox_pt": [
+          53,
+          82,
+          296,
+          242
+        ],
+        "normalized_bbox": [
+          0.08660130718954248,
+          0.10353535353535354,
+          0.48366013071895425,
+          0.3055555555555556
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "9f5f823667c2e36c35ee41085451e78d6bfc78e77a50449e2d396214d6c4824a",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 3",
+      "source_id": "Figure 3",
+      "kind": "figure",
+      "label": "Figure 3",
+      "caption": "Calibration and simulation cost. (a) Absolute error",
+      "pages": [
+        5
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-03.png",
+      "source_image_filename": "figure-03.png",
+      "source_image_sha256": "ca97516cd4a3038490c84103fb5d36a0010dbdd37a571c09824fdc7e3af47930",
+      "relative_markdown_embed": "![Figure 3](images/figure-03.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-03.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-05.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 5,
+        "caption": "Figure 3: Calibration and simulation cost. (a) Absolute error of predicted time for held-out layer shapes and for complete-request batches. (b) Host time of the 405 configurations of Section 4 against their flash page reads; configurations without flash reads sit on the vertical axis.",
+        "bbox_pt": [
+          51,
+          81,
+          297,
+          193
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.10227272727272728,
+          0.4852941176470588,
+          0.24368686868686867
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "ca97516cd4a3038490c84103fb5d36a0010dbdd37a571c09824fdc7e3af47930",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 4",
+      "source_id": "Figure 4",
+      "kind": "figure",
+      "label": "Figure 4",
+      "caption": "Mean TPOT at the decode step of each workload",
+      "pages": [
+        6
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-04.png",
+      "relative_markdown_embed": "![Figure 4](images/figure-04.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-04.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "d7d213a57175cdaf1766a2e6a886be51ce8952d806b5e3d449951625e346bc44",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-04.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-06.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 6,
+        "caption": "Figure 4: Mean TPOT at the decode step of each workload (logarithmic axes). (a) HBF against the other capacity tiers at 2 HBM + 6 HBF, peer mode with the weights placed first in HBM. (b) The tiers as systems with eight stack sites: 2 HBM + 6 HBF, or 2 or 8 HBM with the HBF’s capacity off package as a CXL SSD or an NVMe SSD, alone or behind 256 GiB of host DRAM; KV placed first in HBM.",
+        "bbox_pt": [
+          52,
+          82,
+          297,
+          274
+        ],
+        "normalized_bbox": [
+          0.08496732026143791,
+          0.10353535353535354,
+          0.4852941176470588,
+          0.34595959595959597
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "d7d213a57175cdaf1766a2e6a886be51ce8952d806b5e3d449951625e346bc44",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 5",
+      "source_id": "Figure 5",
+      "kind": "figure",
+      "label": "Figure 5",
+      "caption": "Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to the running sequences’ KV;",
+      "pages": [
+        7
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-05.png",
+      "relative_markdown_embed": "![Figure 5](images/figure-05.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-05.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "0f49e23d76b36ecc1186cf916935549525ebf6e947dd2cd2001fa0c3fbd75e7c",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-05.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-07.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 7,
+        "caption": "Figure 5: Mean TPOT across HBM:HBF stack splits. Peer mode gives HBM first to the weights or to the running sequences’ KV; tiered mode replaces by LRU, FIFO, or decayed LFU and writes back on eviction.",
+        "bbox_pt": [
+          52,
+          80,
+          561,
+          224
+        ],
+        "normalized_bbox": [
+          0.08496732026143791,
+          0.10101010101010101,
+          0.9166666666666666,
+          0.2828282828282828
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "0f49e23d76b36ecc1186cf916935549525ebf6e947dd2cd2001fa0c3fbd75e7c",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 6",
+      "source_id": "Figure 6",
+      "kind": "figure",
+      "label": "Figure 6",
+      "caption": "Qwen3-235B-A22B under skewed expert popularity",
+      "pages": [
+        7
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-06.png",
+      "relative_markdown_embed": "![Figure 6](images/figure-06.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-06.png",
+      "source_image_sha256": "4bf0b45375ea5cde482465d27e34574679ada0a4cbff4f9f0be9d7cde98f75e8",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-06.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-07.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 7,
+        "caption": "Figure 6: Qwen3-235B-A22B under skewed expert popularity (balanced workload; legend as in Figure 5): a token’s top-8 experts are drawn with weight $(r+1)^{-\\alpha}$ over a seeded per-layer rank $r$. Tick labels: share of the experts a step reads.",
+        "bbox_pt": [
+          317,
+          259,
+          561,
+          355
+        ],
+        "normalized_bbox": [
+          0.5179738562091504,
+          0.32702020202020204,
+          0.9166666666666666,
+          0.44823232323232326
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "4bf0b45375ea5cde482465d27e34574679ada0a4cbff4f9f0be9d7cde98f75e8",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 7",
+      "source_id": "Figure 7",
+      "kind": "figure",
+      "label": "Figure 7",
+      "caption": "Decode throughput of Qwen3-235B-A22B against",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "main_result",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-07.png",
+      "source_image_filename": "figure-07.png",
+      "source_image_sha256": "8d8f32d662f6342e5f6849a5572e4b1e1c67d31f871dce99501aae2573906afd",
+      "relative_markdown_embed": "![Figure 7](images/figure-07.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-07.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 8,
+        "caption": "Figure 7: Decode throughput of Qwen3-235B-A22B against the batch size, peer mode with KV first.",
+        "bbox_pt": [
+          52,
+          82,
+          297,
+          200
+        ],
+        "normalized_bbox": [
+          0.08496732026143791,
+          0.10353535353535354,
+          0.4852941176470588,
+          0.25252525252525254
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "8d8f32d662f6342e5f6849a5572e4b1e1c67d31f871dce99501aae2573906afd",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 8",
+      "source_id": "Figure 8",
+      "kind": "figure",
+      "label": "Figure 8",
+      "caption": "Page-level, extent, and block mapping for Llama-",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-08.png",
+      "relative_markdown_embed": "![Figure 8](images/figure-08.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-08.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "4ce859122d16605de78b10c459a36f62308b9a49ee22e13a67ea537198f9f809",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-08.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 8,
+        "caption": "Figure 8: Page-level, extent, and block mapping for Llama-3.1-70B at 2 HBM + 6 HBF, weights first: the index kept for the pages a decode step touches (bar: largest workload; whisker: smallest), decode TPOT, and request time in the prefill windows of Section 4.3.",
+        "bbox_pt": [
+          316,
+          82,
+          561,
+          191
+        ],
+        "normalized_bbox": [
+          0.5163398692810458,
+          0.10353535353535354,
+          0.9166666666666666,
+          0.24116161616161616
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "4ce859122d16605de78b10c459a36f62308b9a49ee22e13a67ea537198f9f809",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "figure:Figure 9",
+      "source_id": "Figure 9",
+      "kind": "figure",
+      "label": "Figure 9",
+      "caption": "TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first,",
+      "pages": [
+        9
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 3,
+      "target_section": "关键结果",
+      "plan_kind": "supporting_figure",
+      "source_image_filename": "figure-09.png",
+      "relative_markdown_embed": "![Figure 9](images/figure-09.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-09.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "7194e50727deef105ab02ba949e66e2c7423e6d0a5ab283c478adc1e5d7900e7",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/figure-09.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-09.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 9,
+        "caption": "Figure 9: TPOT of Llama-3.1-70B at 2 HBM + 6 HBF, KV first, when one HBF parameter changes (logarithmic axis). Dashed: default setting. Interface points give the OCP speed grade and channels per stack; 8-channel stacks have half the planes.",
+        "bbox_pt": [
+          51,
+          82,
+          297,
+          181
+        ],
+        "normalized_bbox": [
+          0.08333333333333333,
+          0.10353535353535354,
+          0.4852941176470588,
+          0.22853535353535354
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "7194e50727deef105ab02ba949e66e2c7423e6d0a5ab283c478adc1e5d7900e7",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 1",
+      "source_id": "Table 1",
+      "kind": "table",
+      "label": "Table 1",
+      "caption": "Memory devices of capacity tiers.",
+      "pages": [
+        5
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-01.png",
+      "source_image_filename": "table-01.png",
+      "source_image_sha256": "0f3f0f93303b9aaaf0953b9598448b8be7acd5d7027d06fb4e02d43ebe9a7e16",
+      "relative_markdown_embed": "![Table 1](images/table-01.png)",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-01.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-05.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 5,
+        "caption": "Table 1: Memory devices of capacity tiers.",
+        "bbox_pt": [
+          331,
+          99,
+          543,
+          173
+        ],
+        "normalized_bbox": [
+          0.5408496732026143,
+          0.125,
+          0.8872549019607843,
+          0.21843434343434343
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "0f3f0f93303b9aaaf0953b9598448b8be7acd5d7027d06fb4e02d43ebe9a7e16",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 2",
+      "source_id": "Table 2",
+      "kind": "table",
+      "label": "Table 2",
+      "caption": "Workloads at the representative decode step: prompt",
+      "pages": [
+        5
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-02.png",
+      "relative_markdown_embed": "![Table 2](images/table-02.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-02.png",
+      "source_image_sha256": "4c62191cba19b6378f7496b47965151f086f22e3e221df2064f7016d7124b8d1",
+      "materialization_status": "pending",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-02.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-05.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 5,
+        "caption": "Table 2: Workloads at the representative decode step: prompt and output tokens per request, mean context of the running sequences (Ctx), KV read per step (KV, GiB), and working set of weights and KV (WS, GiB).",
+        "bbox_pt": [
+          334,
+          228,
+          539,
+          283
+        ],
+        "normalized_bbox": [
+          0.545751633986928,
+          0.2878787878787879,
+          0.880718954248366,
+          0.3573232323232323
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "4c62191cba19b6378f7496b47965151f086f22e3e221df2064f7016d7124b8d1",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    },
+    {
+      "item_id": "table:Table 3",
+      "source_id": "Table 3",
+      "kind": "table",
+      "label": "Table 3",
+      "caption": "Estimated HBF lifetime in months at the published",
+      "pages": [
+        8
+      ],
+      "section_id": "sec:background",
+      "decision": "insert",
+      "reason": "以原PDF来源映射重新渲染300dpi图体并查看三张核对拼图；图号、子图、坐标、图例和表行完整。",
+      "skip_reason": "",
+      "visual_quality_status": "usable_candidate",
+      "priority": 2,
+      "target_section": "关键结果",
+      "plan_kind": "table_result",
+      "source_image_filename": "table-03.png",
+      "relative_markdown_embed": "![Table 3](images/table-03.png)",
+      "source_image_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-03.png",
+      "materialization_status": "pending",
+      "source_image_sha256": "14ca13949661c1493b2245e75f872efb7da86da247a02a66a0515d6d7c74f30e",
+      "review_evidence": {
+        "candidate_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/table-03.png",
+        "page_preview_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/精读核对/visuals/page-08.png",
+        "source_pdf_path": "/home/kurisu/Desktop/论文/笔记/HBFSim-MBZUAI/source/HBFSim_MBZUAI.pdf",
+        "source_page": 8,
+        "caption": "Table 3: Estimated HBF lifetime in months at the published H200 peak load of Llama-3.3-70B (5,000-token prompts, 500-token outputs), with 100,000 P/E cycles.",
+        "bbox_pt": [
+          316,
+          297,
+          561,
+          382
+        ],
+        "normalized_bbox": [
+          0.5163398692810458,
+          0.375,
+          0.9166666666666666,
+          0.4823232323232323
+        ],
+        "render_dpi": 300
+      },
+      "visual_review": {
+        "status": "pass",
+        "reviewed_asset_sha256": "14ca13949661c1493b2245e75f872efb7da86da247a02a66a0515d6d7c74f30e",
+        "preserved_scientific_elements": [
+          "全部子图、坐标轴、图例、数值及单位",
+          "图表完整边界与原始编号对应",
+          "表格完整表头及数据行"
+        ],
+        "omitted_scientific_elements": [],
+        "notes": "已查看review-1/2/3拼图；图4/5/6另与第6/7页原页对照。图注移到笔记紧邻图体的下一行，裁图不混入正文。",
+        "failure_reason": "",
+        "repair_attempts": 0,
+        "revised_bbox": []
+      }
+    }
+  ],
+  "summary": {
+    "total_items": 12,
+    "by_decision": {
+      "insert": 0,
+      "low_priority": 0,
+      "placeholder": 3,
+      "review_pending": 7,
+      "skip": 0,
+      "visual_defect": 2
+    }
+  },
+  "visual_review_gate": "passed",
+  "decision_freeze": "completed_before_note_plan",
+  "user_format_override": "FlashAccel三部分结构；语义标签保留用于证据校验。"
+}

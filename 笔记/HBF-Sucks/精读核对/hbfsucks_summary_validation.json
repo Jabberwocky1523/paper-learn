@@ -1,0 +1,18 @@
+{
+  "status": "complete",
+  "file": "/home/kurisu/Desktop/论文/笔记/HBF-Sucks/HBF-Sucks.md",
+  "reference_format": "FlashAccel on Yuque",
+  "main_sections": 3,
+  "figures": 12,
+  "tables": 9,
+  "key_display_equations": 3,
+  "all_local_links_exist": true,
+  "all_21_images_materialized_and_hash_verified": true,
+  "all_note_lint_gates_passed": true,
+  "grounding_lint_passed": true,
+  "final_quality_review": "pass",
+  "final_readability_review": "pass",
+  "user_requested_structure_override_documented": true,
+  "bilingual_reader_preserved": true,
+  "saved_sha256": "041dfac84e42f8a6c18849b87590127288c709eea7451a42e64348820eb3e02b"
+}
