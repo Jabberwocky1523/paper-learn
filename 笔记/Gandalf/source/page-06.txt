@@ -1,0 +1,99 @@
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Oracle-based approximation. We know that we can improve
+the SSD lifetime by 𝐼 type−aware , but this model may not preserve the 1
+cache hit rate. We therefore modeled an offline oracle condition
+that optimizes cache hit rates while minimizing SSD write volume
+.5
+to prolong SSD lifetime. Sparse states are still kept in DRAM, while
+full KV caches are kept in SSD.
+Cost model. We keep two costs of admission: the benefit and 0
+the cost. Benefit: Promoting an object that is hit 𝐻 times saves 1 2 3 4 5+
+𝐶 𝑟 · 𝐻 dollars of recomputation, where 𝐶 𝑟 is the portion of GPU Number of linear state reuses
+rent to recompute one chunk of KV. Cost: Promoting an object of
+size 𝑠 bytes costs 𝐶 𝑤 · 𝑠 dollars, where 𝐶 𝑤 is the portion of SSD
+purchase cost to write one byte. Since SSD is eventually broken
+due to the write volume, we need to consider the cost of writing.
+When an admission causes eviction of another object that still has
+remaining 𝐻 hits, the benefit paid by the evicted object becomes left
+the replacement cost of the admitted object. Hence, the total cost
+becomes 𝐶 𝑤 · 𝑠 + 𝐶 𝑟 · 𝐻 left . We want to maximize the net benefit, which is equivalent to
+maximizing the number of hits minus the consumed write volume:
+𝐶 max 𝐶 𝑟 (cid:0)𝐻 −𝐻 left (cid:1)−𝐶 𝑤 𝑊 ⇔ max (cid:0)𝐻 −𝐻 left (cid:1)−𝜆 𝑊 , 𝜆 = 𝐶 𝑤 , (4)
+𝑟
+where 𝐻 and 𝐻 are summed over all promotions and 𝑊 is the
+left
+total bytes written to SSD. 𝜆 tells us how many hits a written byte
+must earn to be worth writing.
+SSD Promotion rule. When an object 𝑖 leaves DRAM, the oracle
+decides whether to write it to SSD or drop it. Because the oracle
+knows the future, it knows 𝐻 𝑖, the number of times object 𝑖 will be
+requested again. Let 𝑥 𝑖 = 1 if the oracle writes 𝑖 to SSD and 𝑥 𝑖 = 0
+if it drops it. The total cost of object 𝑖 is then
+𝐶 𝑖 (𝑥 𝑖) = (1 − 𝑥 𝑖) 𝐻 𝑖 𝐶 𝑟 + 𝑥 𝑖 𝐶 𝑤 𝑠 𝑖 . (5)
+(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32) (cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32) (cid:32)(cid:32) (cid:32)(cid:32)
+(cid:124) (cid:123)(cid:122) (cid:125) (cid:124) (cid:123)(cid:122) (cid:125)
+recompute if dropped write if kept
+The cheaper option wins, so the oracle writes an object only when
+the recompute benefit worth more than the endurance cost.
+Eviction when the SSD is full. If the admission causes an
+eviction, there is additional replacement cost of losing the future hits
+of the evicted objects. The oracle picks the residents with the fewest
+future hits as eviction candidates. It writes the new object only if its
+benefit, 𝐻 𝑖 𝐶 𝑟 − 𝐶 𝑤 𝑠 𝑖, is larger than the recompute cost of the hits
+lost by evicting the victim candidates, i.e., 𝐻 𝑖 − 𝜆𝑠 𝑖 > 𝐻 left , where
+𝐻 sums the remaining hits of the evicted candidates. Otherwise left
+it keeps the SSD as it is and drops the new object.
+3.3 Capacity-aware KV Cache Management
+Gandalf keeps the oracle’s objective (4): maximize the recomputa-
+tion saved by cache hits while minimizing the cost of SSD writes
+and replacement cost of evicted objects. With the CPU/SSD ratio
+insight in §3.2, we design a practical policy that approximates the
+oracle’s decisions while considering the occupancy of each tier in
+an online manner.
+Promotion decision. Every admitted KV cache is first placed
+in DRAM, which costs no endurance. When DRAM is full, Gan- dalf prefers moving the cache 𝑗 to SSD when dropping causes
+FDP
+0.96
+0.04 0.004 <0.001 <0.001
+Figure 6: In Claude Code WEKA trace, most linear-attention
+states are reused once or never.
+recomputation that exceeds the cost of writing it to SSD:
+𝛼 · 𝑚𝑜𝑣𝑒_𝑐𝑜𝑠𝑡 𝑗 < 𝑑𝑟𝑜𝑝_𝑐𝑜𝑠𝑡 𝑗 ⇔ 𝑚 𝑑𝑟 𝑜 𝑜 𝑣 𝑝 𝑒 _ _ 𝑐 𝑐 𝑜 𝑜 𝑠 𝑠 𝑡 𝑡 𝑗 𝑗 > 𝛼, (6)
+and otherwise drops it. 𝛼 is a tunable hyperparameter. Larger 𝛼
+makes writes more selectively, reducing SSD wear but increasing
+cache misses, whereas smaller 𝛼 does the opposite.
+3.3.1 Dropping a DRAM candidate. Dropping an item misses the
+cache hit opportunity, so it costs the recomputation of the dropped
+object on its next read, which is the factor of number of hits 𝐻 𝑑 ,
+the chunks have to be recomputed 𝑣 𝑑 , and the GPU cost to recom-
+pute one chunk 𝐶 𝑟 . However, in online setting, 𝐻 𝑑 is unknown,
+so Gandalf estimates it from the past history of requests. Three
+observations make the estimation simple.
+First, only the next read matters. A drop decision directly loses
+the next hit. When it is reused again, the next read is recomputed
+and admitted back to DRAM, where Gandalf decides its fate again.
+When Gandalf decides its fate, it already pays for the recompu-
+tation cost of the object that it causes to be evicted. We therefore
+needs to know only whether 𝑑 will be read again, not how many
+times. Linear attention states is simple to predict: as shown in Fig-
+ure 6 most linear states are read once and then discarded, so 𝐻 𝑑
+is either one or zero. We therefore only need to predict next reuse
+probability for full attention KV chunks.
+Second, returns are predictable from history. In the history, there
+has been many requests being processed, and we can learn from
+them to predict the future. Suppose the chunk’s session has been
+idle for 𝑎 𝑑 requests. Gandalf asks: of the past sessions that were
+also idle this long, how many came back? The chance of return is
+the share that came back, denoted as 𝐻 𝑑 . It is close to 1 when the
+predictor, based on the past experience with many requests, sure
+that the cache will be read again, close to 0 otherwise.
+Third, an object needed soon has a high value. Keeping 𝑑 is not
+free: it holds 𝑠 𝑑 bytes of DRAM until its next read. Thus, evicting an
+object that is needed farthest in the future is the cheapest, because
+it frees the most DRAM for the longest time [3]. In the same light,
+an object idle for long is likely to stay idle for long. Therefore,
+Gandalf divides (7) by 𝑠 𝑑 and by 𝑎 𝑑 , the wait time of 𝑑 so far. It
+prices a drop by its cost per byte of DRAM per request it frees,
+shown in Equation 7.
+𝐻 𝑣 𝐶 𝑑𝑟𝑜𝑝_𝑐𝑜𝑠𝑡 = 𝐻 𝑑 𝑣 𝑑 𝐶 𝑟 → ℎ 𝑑 = 𝑑 𝑠 𝑎 𝑑 𝑟 . (7)
+𝑑 𝑑

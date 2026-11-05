@@ -1,0 +1,84 @@
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Table 3: The traces writes exceed the SSD’s workload DWPD • Cache miss ratio, the fraction of requests that are served
+rating.
+from the cache (DRAM or SSD) without needing to recom-
+pute the KV cache entries.
+Required DWPD • Cache load latency, measured in seconds, is the time taken
+to load KV cache from DRAM and SSD to GPU, or to re-
+Trace Model 1TB 4TB
+compute the KV cache entries if they are not present in the
+cc-traces-weka-062126 Qwen3.5-27B 34.4 8.60 cache.
+Kimi-K3 48.2 12.0
+qwen_traceA_blksz_16 Qwen3.5-27B 130 32.4 5.2 End-to-end Performance
+Kimi-K3 274 68.5
+Figure 7 compares Gandalf with the baselines on TraceA, Claude-
+aiperf-100r-500o-noshare Qwen3.5-27B 278 69.4 Code and AIPerf with the Kimi-K3 model, 100 GB of DRAM and
+Kimi-K3 579 145
+a 1 TB SSD. Gandalf , as well as other baselines with trade-off
+hyperparameters, are shown as lines through their hyperparameter
+space. Gandalf uses the write-fee multiplier 𝛼 (0–64), LRU-K uses
+Workload-aware [44]; general tier selective admission policy such as 𝐾 (1–10), HotPrefix uses the frequency threshold 𝐹 (1–10), and
+MeritKV [17]; and GPU to DRAM selective admission policies such Marconi uses its own 𝛼 (0–2).
+SSD lifetime. In this hardware configuration, at its lowest miss
+as HotPrefix [22] and LRU-K [35];
+ratio (𝛼 = 0), Gandalf extends the SSD lifetime over the lowest-
+Since not all baselines are designed to operate with DRAM and
+miss baseline by 2× on TraceA, 3.3× on ClaudeCode, and 6.5× on
+SSD, for evaluation fairness, we augment each baseline with both
+AIPerf. It does so by writing 2.0–6.5× fewer bytes to the SSD. Raising
+tiers as a capacity expansion to GPU HBM, thereby increasing their
+𝛼 trades hits for a longer lifetime. On ClaudeCode, every baseline
+effective cache capacity while preserving their original admission
+point with a miss ratio of up to 0.47 lasts 2.9–10.3× shorter than
+and victim selection rules. A KV cache entry is admitted to lower
+Gandalf at an equal or lower miss ratio. Only Marconi with 𝛼 ≥ 1
+tiers only if it is evicted from the upper tier. Eviction happens as a
+and HotPrefix with 𝐹 ≥ 7 last longer than Gandalf ’s longest-
+side effect of admission, and the eviction policy of each baseline is
+lived point, and they miss 4.5–6.1× more. On AIPerf, every baseline
+retained as is. For all baselines that has hyperparameters, we sweep
+point except Marconi with 𝛼 ≥ 0.5 lasts 1.0–23.8× shorter than
+the hyperparameter space to show the best configuration on each
+Gandalf at an equal or lower miss ratio. Marconi last 1.3× longer
+trace.
+Workload Traces. We evaluate Gandalf on real-world traces than Gandalf ’s longest-lived point, but results in 2.2× more cache
+misses. On TraceA, Gandalf reaches 57.7 months at a 0.839 miss
+with known timestamps and request sequences, including:
+ratio, 4.1× the 12.7 months of the longest-lived baseline, HotPrefix
+(1) Qwen Bailian Trace A [44], the trace from Aliyun Bailian with 𝐹 = 10, at the same miss ratio. LRU-K works in the opposite
+inference service that contains 46.4% multi-turn conversa- direction, where increasing 𝐾 trades a lower miss ratio for a longer
+tions with text, file understanding, multimodal understand-
+lifetime.
+ing, and search tasks; Cache miss ratio. Gandalf reaches the lowest miss ratio of all
+(2) Claude Code WEKA SemiAnalysis trace [40], Claude Code
+policies on TraceA and on AIPerf. On ClaudeCode, Marconi with
+agentic serving traces showing multi agents, subagents, and 𝛼 = 0 and LRU miss slightly less than Gandalf (0.045 and 0.047 vs.
+compacted traces; 0.052), but write 3.3× more to the SSD.
+(3) AIPerf Trace [9], a trace generated using the AIPerf bench- In summary, with DRAM size of 100GB and 1TB SSD, Gandalf im-
+mark tool that contains 400k requests, where each session proves SSD lifetime by 7.3× on average while maintaining or even
+contains 100 turns of user queries and responses. reducing the cache miss ratio.
+The statistics of the traces are summarized in Table 3.
+Models and Cache Sizes. Throughout the experiments, we 5.3 Cache Ratio Sensitivity
+evaluate Gandalf and the baselines on Kimi-K3, a representative Figure 8 shows TraceA with Kimi-K3 under different DRAM/SSD
+hybrid model having 72% linear attention layers, a typical ratio for
+capacity ratios, keeping the total DRAM+SSD capacity at 4TB, from
+many hybrid LLMs. We set the DRAM cache size to 100GB and vary
+200GB of DRAM with a 3.8TB SSD to 1000GB with a 3TB SSD.
+the SSD size: 1TB, 4TB, following the common SSD capacity range
+Gandalf is ran while keeping write price per GB constant, so
+for enterprise SSDs. This DRAM size is chosen to hold less than
+the decision to write to SSD is only affected by the capacity ratio.
+1% of the peak active KV cache size of most of the traces shown in
+Gandalf uses the extra DRAM to keep more KV cache entries in
+Table 3, which is a reasonable assumption for a production system
+memory, which reduces the miss ratio from 0.75 to 0.6, while its
+with limited DRAM capacity.
+SSD lifetime stays similar across all ratios. Its SSD lifetime stays
+Metrics. We evaluate Gandalf and the baselines on the follow-
+between 29 and 35 months across all ratios, decreasing slightly only
+ing metrics:
+because the SSD size itself shrinks. The baselines barely benefit
+• SSD lifetime, measured in years, is the time until the SSD from the extra DRAM. LRU-K’s miss ratio stays at 0.785–0.791. Hot-
+reaches its write endurance limit, given the total bytes writ- Prefix, while it increases SSD lifetime to 33-122 months, it has an
+ten (TBW) and the drive writes per day (DWPD) specifica- impractical miss ratio of 0.852–0.856, which does not meet deploy-
+tion. ment Service Level Objectives (SLOs) because it is too far from the

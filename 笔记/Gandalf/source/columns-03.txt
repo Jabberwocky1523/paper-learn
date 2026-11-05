@@ -1,0 +1,123 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading
+200
+100
+0
+1 2 3 4 5
+Number of KV cache reuses
+)syad(
+emitefil
+erawdraH
+Lifetime within a $20k budget
+HDD
+SSD
+HDD better SSD better
+Figure 2: Under same acquisition budget, SSD is more optimal
+to be used for KV cache offloading workload, which is reuse-
+heavy.
+the cache capacity must extend beyond GPU and host memory to
+higher-capacity local storage.
+2.2 Why not HDD cluster?
+Local NVMe SSD is a popular extension of the memory hierarchy
+for LLM serving [13, 16, 28, 38, 41, 43]. Since SSD is known to have a
+limited endurance problem, why haven’t people used HDD instead?
+To make HDD fast enough, we could parallelize I/O across a cluster
+of HDDs. To answer this question, we first compare the endurance
+of SSD and HDD given the manufacturer’s specifications.
+SSD stores data by programming charge in NAND-flash cells,
+which tolerate only a finite number of program/erase (write) cy-
+cles. Manufacturers quantify this endurance as Terabytes Written
+(TBW), or equivalently Drive Writes Per Day (DWPD) over a war-
+ranty period. For a drive with capacity 𝐶, rated for 𝐷 DWPD over
+𝑌 years, its host-write endurance budget is 𝐸 = 𝐶 × 𝐷 × 365 ×𝑌 .
+TBW
+Garbage collection can amplify host writes by copying live data
+while reclaiming space. The write-amplification factor (WAF) mea-
+sures this additional write traffic: WAF = 𝑊 NAND , where 𝑊 and
+𝑊 host
+𝑊 denote the logical host writes and ph ho y s s t ical NAND writes,
+NAND
+respectively. Thus, SSD will live until
+𝐸
+𝑇 = TBW Terabytes Written (1)
+SSD WAF × 𝐸
+workload
+HDDs store data by magnetizing regions of rotating platters.
+Manufacturers specify an annual total read and write limit of
+𝑅𝑊 TB/year. Over 𝑌 years, this rate corresponds to a nominal
+limit
+cumulative transfer envelope of 𝐸 = 𝑅𝑊 ×𝑌 . Manufacturers
+HDD limit
+also specify HDD reliability by Annualized Failure Rate (AFR) and
+Mean Time Between Failures (MTBF). Exceeding 𝐸 results in
+HDD
+increasing AFR and decreasing MTBF, hence more frequent fail-
+ures and recovery overhead will occur, slowing the HDD for both
+reads and writes. For a KV-cache workload that writes 𝑊 bytes
+host
+and reads each written byte an average of ℎ times, the total HDD
+workload is 𝐸 = (1 + ℎ)𝑊 . HDD operates reliably until
+workload host
+𝐸
+𝑇 = HDD Terabytes Read and Written (2)
+HDD 𝐸
+workload
+This differs from SSDs, for which reads do not consume the rated
+TBW endurance.
+Takeaway: Although HDDs avoid flash wear-out, both reads
+and writes exercise their mechanical components and count toward
+their lifetime. KV-cache workloads generate substantial traffic in
+--- RIGHT COLUMN ---
+g in LLM Serving
+both directions, making HDDs poorly suited as a storage. Figure 2
+compares SSD and HDD configurations with equal aggregate I/O
+bandwidth and $20k Total Cost of Ownership (TCO) budget. HDDs
+require substantially more devices, power, and space, yet it has a
+shorter projected lifetime than SSD when each written KV-cache
+entry is reused at least 3×.
+Since multi-round conversation and agentic workloads trigger
+heavy reuse as shown in Table 1, SSD is the more cost-effective op-
+tion compared to HDD, at the same Total Cost of Ownership (TCO).
+Therefore, we focused on SSD for this work, and leave the integra-
+tion with HDD for future work. Although we focus on commodity
+enterprise SSDs, our placement and endurance-management tech-
+niques also apply to emerging flash-based context-memory tiers,
+including high-bandwidth flash (HBF).
+2.3 KV Caching is Rapidly Killing SSDs
+Under frontier model and agentic workloads, our analysis shows
+that even a 30-TB enterprise SSD can exhaust its rated TBW in
+less than one year. Smaller enterprise SSDs wear out even faster,
+with a 2-TB drive reaching its rated TBW in just days. In §2.2, we
+discussed that SSD wear is a product of host-write volume and
+device-level write amplification. We target host writes by reducing
+the KV-cache writes issued to SSD.
+Tiered KV caches commonly use write-through or write-back
+offloading.
+Write-through immediately copies every admitted KV states to
+SSD, maximizing availability at multiple tiers, but generating sub-
+stantial SSD write. This duplication preserves the entry after DRAM
+eviction, but wastes SSD endurance when all of its reuse occurs in a
+short time while it remains in DRAM. The SSD copy then consumes
+write budget without serving a cache hit.
+Write-back persists demoted KV states from higher storage tier
+regardless of its expected reuse. This policy still writes every DRAM
+eviction to SSD, including states that contribute little to future cache
+hits.
+Selective write-through reduces this traffic using a fixed reuse
+threshold; for example, NVIDIA Dynamo offloads a block only after
+its access frequency reaches two [30]. However, frequency-only
+filtering ignores state size, layer-specific reuse, tier occupancy, and
+the remaining write budget, allowing large, short-lived states to
+consume substantial endurance for little benefit.
+2.4 How does prior work address SSD
+endurance?
+SSD endurance has long been a concern in flash-based caching
+systems. Traditional systems, such as Flashcache [11] and Google’s
+Colossus Flash Cache [51], use SSDs to accelerate access to persis-
+tent data. Recent studies show that KV-cache offloading introduces
+similar endurance challenges in LLM serving [23, 42]. Existing
+approaches can be grouped into three categories.
+Increasing physical write endurance. Hardware provisioning dis-
+tributes writes across more SSDs, aggregating write budget and
+reducing the per-device write rate, thereby increasing aggregate
+write endurance at the cost of additional acquisition, power, and
+maintenance costs [19]. Classic SSD endurance technique called

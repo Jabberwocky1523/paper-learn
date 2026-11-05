@@ -1,0 +1,118 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+60
+45
+30
+15
+0
+.5 .6 .7 .8 .9 1
+Cache miss ratio
+)shtnom(
+emitefil
+DSS
+QwenBailianTraceA
+80
+60
+40
+20
+0
+.1 .2 .3 .4 .5 .6 .7 .8 .9 1
+Cache miss ratio
+)shtnom(
+emitefil
+DSS
+ClaudeCodeSemiAnalysis
+45
+30
+15
+0
+.1 .2 .3 .4 .5 .6 .7 .8 .9 1
+Cache miss ratio
+)syad(
+emitefil
+DSS
+LRU HotPrefix Workload-aware MeritKV LRU-K Marconi Gandalf
+AIPerf
+Figure 7: SSD lifetime against cache miss ratio for Gandalf and the baselines on all traces with Kimi-K3 model, 100 GB of
+DRAM and a 1 TB SSD. Gandalf , LRU-K, HotPrefix and Marconi are lines through their hyperparameters (Gandalf ’s 𝛼,
+LRU-K’s 𝐾, HotPrefix’s hotness frequency, and Marconi’s 𝛼).
+0.9
+0.8
+0.7
+0.6
+oitar
+ssim
+ehcaC
+100
+50
+0
+200/ 300/ 400/ 500/ 1000/
+3800 3700 3600 3500 3000
+DRAM/SSD capacity (GB), 4 TB total
+)shtnom(
+emitefil
+DSS
+60
+40
+Gandalf
+LRU-K (K=3) 20
+HotPrefix (F=1)
+0
+0 .2 .4
+Cache miss ratio
+Figure 8: Gandalf achieves lower cache miss ratio while
+achieving higher SSD lifetime under different DRAM/SSD
+capacity ratios. We fix the total capacity of DRAM and SSD
+to 4TB to make sure the cache miss ratio and lifetime is
+comparable across different setups.
+trace’s maximum achievable miss ratio of 0.6. LRU-K writes a KV
+entry evicted from DRAM to the SSD when the session’s 𝐾-th most
+recent entry is still in DRAM, hence relying on the past historical
+access without considering whether the entry will be reused in the
+future. On TraceA most entries pass it, so LRU-K writes about 60TB
+to the SSD and keeps both tiers full; with the total capacity fixed,
+moving capacity from the SSD to DRAM changes little, and its miss
+ratio stays at 0.785–0.791. Gandalf instead writes only about 0.5TB
+to the SSD, keeping most of its working set in DRAM where writes
+cost no SSD wear, so additional DRAM turns directly into hits.
+Hence, Gandalf improves cache miss ratio by 5–25% over the
+best baseline at every capacity ratio, while extending SSD lifetime by
+120× in various tested scenarios with total cache capacity at 4TB.
+5.4 Trade-Off Hyperparameter Sensitivity
+Figure 7 also sweeps 𝛼, the weight Gandalf gives to the move cost
+when deciding whether to write an entry to the SSD (6), from 0 to
+)syad(
+emitefil
+DSS
+Gandalf LRU-K (K=1) HotPrefix (F=1)
+Qwen3.5-27B (147) Gemma3-27B (333) Kimi-K3 (1,016)
+40 60
+5.0× 20 4.8× 40 7.1×
+3.9× 5.8× 6.6×
+20
+0 0
+0 .2 .4 0 .2 .4
+Cache miss ratio Cache miss ratio
+Figure 9: Gandalf improves baselines in wide range of hy-
+brid models having different linear-to-full cache size ratios.
+64, with 100GB of DRAM and a 1TB SSD. By default, Gandalf sets
+𝛼 = 1, which balances SSD lifetime and cache hit ratio across all
+traces. A larger 𝛼 makes writing to the SSD more selective, so the
+SSD lives longer at the cost of more misses: from 𝛼 = 1 to 𝛼 = 64,
+the SSD lifetime grows 6.5× on TraceA, 2.3× on ClaudeCode, and
+2.7× on AIPerf (0.4 to 1.2 months), while the miss ratio rises by
+0.016, 0.071, and 0.172, respectively. A lower 𝛼 lets Gandalf trade
+lifetime for hits. With 𝛼 = 0, Gandalf wins in both metrics against
+the baseline with the lowest miss ratio on TraceA and on AIPerf.
+On ClaudeCode, Gandalf at 𝛼 = 0 comes within 0.007 of Marconi’s
+miss ratio while its SSD lasts 3.3× longer.
+Therefore, operators can tune 𝛼 to meet their desired trade-off
+between SSD lifetime and cache hit ratio, and Gandalf is robust to a
+wide range of 𝛼 values.
+5.5 Model Linear-to-Full Sensitivity
+Figure 9 compares Gandalf with LRU-K and HotPrefix on AIPerf
+for four hybrid models with 100GB of DRAM and a 4TB SSD, or-
+dered by the size of a linear-attention state relative to a full-attention
+KV chunk, from 147× for Qwen3.5-27B to 1,016× for Kimi-K3. Gan-
+dalf extends the SSD lifetime on every model, by 3.6–6.6× over
+LRU-K and 3.6–7.1× over HotPrefix. It also reduces the miss ra-
+tio on three of the four models, by 0.006–0.034 relative to LRU-K

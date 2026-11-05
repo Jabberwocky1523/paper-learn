@@ -1,0 +1,1231 @@
+
+===== PAGE 1 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime
+for KV Cache Offloading in LLM Serving
+Maharani A. P. Irawan∗ Kuntai Du Jiayi Yao Dongjoo Seo
+The University of Chicago TensorMesh Inc. The University of Chicago Samsung Semiconductor
+USA USA USA USA
+Yuyang Huang Haryadi S. Gunawi Junchen Jiang†
+The University of Chicago The University of Chicago TensorMesh Inc.
+USA USA USA
+Abstract
+KV caching reduces the serving cost of large language models
+(LLMs), but the growing KV cache footprint is increasingly ex-
+ceeds GPU and host-memory capacity. Therefore, people use SSD
+to expand the KV cache storage capacity with high I/O bandwidth.
+However, in production LLM workload, such as multi-round con-
+Cache Hit Rate
+versation and LLM agents, the total amount of KV cache writes
+significantly exceeds SSD capacity, shortening SSD lifetime from
+years to months. To improve SSD lifetime, a natural solution is to
+reduce the KV cache writes by gating the KV cache writes via his-
+torical access patterns. However, that significantly lowers the KV
+cache hit rate (and increase the LLM serving cost) since KV caches
+from different attention types might have identical historical access
+pattern but different future access patterns. Our insight is that, to
+reduce KV cache writes without hurting KV cache hit rate, one need
+to not only consider the access pattern, but also application-level
+information such as the attention type of KV cache. Leveraging this
+observation, we propose Gandalf , the first SSD KV cache offload-
+ing system with SSD life time awareness. Gandalf prioritize the
+admission of full-attention KV cache into SSD over the cache gener-
+ated by other types of attention, which significantly increases SSD
+lifetime without sacrificing cache hit rate. Our evaluation shows
+that Gandalf extends the SSD lifetime by 7.3× on average, while
+having negligible impact on cache hit rate across multiple workload
+traces and wide range of hardware capacity. Gandalf design can
+be extended to other flash-based storage, such as High Bandwidth
+Flash (HBF).
+1 Introduction
+Large language models (LLMs) have demonstrated strong capabili-
+ties in multi-round conversations and agentic workflows, garnering
+wide adoption. These workloads accumulate conversation histories,
+tool outputs, and intermediate states, resulting in increasingly long
+and frequently reused contexts. However, recomputing the atten-
+tion key-value (KV) states for these contexts at every rounds sub-
+stantially increases inference latency and cost. Hence, people store
+all KV caches in their system to avoid recomputation and increase
+cache hit rate [1, 32]. Production workloads generates Terabytes of
+KV-cache per day at the amount that exceeds the capacity of GPU
+and host memory, motivating the use of higher-capacity storage
+tiers. Flash-based storage, e.g. NVMe SSDs, provides a scalable and
+comparatively cost-effective tier for storing these caches [29].
+∗Part of this work was done while the author was an intern at TensorMesh Inc.
+†Also with The University of Chicago.
+emitefiL
+DSS
+Frequency-based filtering
+Ideal
+Figure 1: Using historical access pattern creates a trade-off
+between cache hit rate and SSD lifetime. Gandalf maintains
+cache hit rate while increasing SSD lifetime.
+Table 1: Reuse pattern of first round’s KV caches in multi-
+round conversation
+Type 2nd-round 3rd-round Future rounds Reuse count
+Full attn ✓ ✓ ✓ 𝑁 rounds Linear attn ✓ ✗ ✗ 1
+This additional capacity comes with an endurance challenge
+because SSDs can only handle a finite volume of writes before
+they are worn out [4]. Under production workloads, aggressive KV-
+cache admission improves cache-hit rate but generates substantial
+write volume, exhausting SSD endurance within days to months.
+Therefore, existing production-level systems came up with simple
+filtering techniques that gates SSD admission, trading potential
+cache hits for fewer writes. Frequency-based solutions, for example,
+offloads a KV cache to SSD only if it has demonstrated 𝑁 × reuse,
+with 𝑁 as a hyperparameter [30, 35]. However, even with such
+filtering, the aggregate KV-cache write volume remains excessive
+for practical SSD endurance. This raises a central question:
+How can we improve the SSD lifetime without sacrificing KV caching
+performance benefit?
+The key challenge lies in predicting the future reuse of KV caches
+such that we can selectively retain only the most reusable caches to
+make the most of SSD’s capacity. Future prediction is difficult, but
+we found application-specific property that strongly correlates with
+reuse pattern. We leverage two observations: (1) Recent LLMs in-
+creasingly employ hybrid architectures that combine full-attention
+layers with linear- or sparse-attention layers, and (2) These dif-
+ferent attention layer types produce KV caches with substantially
+different reuse patterns under emerging mainstream workloads:
+multi-round conversations and agentic workflows. In particular,
+6202
+tcO
+22
+]GL.sc[
+1v19703.0162:viXra
+
+===== PAGE 2 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Table 2: Under KV cache offloading workloads, SSDs may
+states from linear- and sparse-attention layers are reused less fre-
+last less than a year—far short of their five-year warranty.
+quently than KV caches from full-attention layers.
+Consider a multi-round conversation workload use-case, which
+reuse pattern illustrated in Table 1. At the beginning of each new KV cache
+round, the full-attention KV entries for the entire preceding con- Workload Model size (TB) SSD lifetime (y)
+text is needed. This pattern repeats for every new round, hence
+Claude Code Qwen3.5-27B 98 0.4
+these KV entries are reused across all future rounds. In contrast,
+cc-traces-062126
+a linear-attention layer’s state and sliding-window cache is only Kimi-K3 240 0.2
+needed to generate the immediate next round’s response, and is Claude Code Qwen3.5-27B 81 0.4
+then discarded, hence every state is only reused once. cc-traces-060826
+This reuse pattern heterogeneity motivates attention-type-aware Kimi-K3 199 0.2
+cache placement. Writing large, one-time use linear-attention states
+to SSD provides little cache hit benefit while consuming both write
+endurance and cache capacity. Layer type can therefore serve as Contributions. Our work makes the following contributions:
+a practical placement signal, allowing us to utilize SSDs to ex- (1) We are the first to show that the SSD lifetime is significantly
+pand cache capacity while minimizing endurance loss. We propose lower than its factory guarantee in production-scale SSD-
+an attention layer-aware placement policy that caches short-lived based KV cache offloading.
+linear-attention states in host memory while keeping longer-lived (2) We show that, leveraging application-level information (the
+full-attention KV caches on SSD. attention type corresponds to each KV cache objects), we
+However, there are 2 practical challenges that entail this place- can significantly reduce the write volume and increase SSD
+ment policy. life time with negligible impact on KV cache hit rate.
+First, this placement policy is too rigid: the size of CPU DRAM (3) We propose Gandalf , a KV caching system that can in-
+and SSD is fixed, but workload can generate different amounts crease SSD lifetime by 7.3× (on average) with negligible
+of different attention states. Particularly, a workload with many impact on hit rate across a wide range of LLMs and hard-
+concurrent sessions can generate a large number of reusable linear- ware capacity.
+attention states that exceeds the available DRAM capacity, simi-
+Although this paper only demonstrates Gandalf on SSD, but
+larly, a workload with long contexts can generate a large number
+the technique is extendable to other flash-based storage devices,
+of reusable full-attention KV caches that exceeds the available SSD
+such as High Bandwidth Flash (HBF).
+capacity. We call this a hardware-to-utilization imbalance. This
+imbalance forces frequent cache eviction on the saturated tier de- 2 Motivation
+spite available capacity elsewhere in the storage hierarchy, thus
+2.1 KV Caches Exceed Memory Capacity
+lowering cache-hit rate. Worse, if the overutilization happens in
+SSD, the resulting write churn can consume its endurance budget Over the past years, the increasing intelligence and context window
+more rapidly and further shorten its lifetime. Therefore, we design size of LLMs empowered multi-round conversations and agentic
+a capacity-aware placement policy that filters SSD admission based workflows. These types of workloads continuously accumulate
+on utilization and pressure of each tier, balancing cache hit rate conversation history, intermediate reasoning, tool outputs, and
+against SSD endurance. subagent results. Unlike single-turn requests, these workloads re-
+Second, such rigid placement moves cache hit from DRAM to SSD, peatedly extend and reuse an existing prefix, causing each session’s
+which can hurt TTFT because SSD bandwidth is substantially lower KV-cache footprint to grow throughout its lifetime. Hence, the
+than DRAM bandwidth. Hence, transferring large full-attention KV aggregate KV cache sizes saved across requests and sessions are
+caches from SSD may hurt TTFT. getting enormous.
+We explore the potential of attention-type-aware placement us- Long contexts also make cache misses increasingly expensive.
+ing an offline oracle that jointly optimizes SSD admission and cache When a reusable prefix is not cached, the serving system must
+eviction decisions, biased towards our tier placement. The oracle recompute its KV states by prefilling all preceding tokens before
+reveals two complementary design principles. First, placement must generating a response. In workloads with long context sizes, such
+adapt to tier capacity and selectively persist KV caches on SSD to as multi-round conversation, agentic workflow, and long document
+preserve the prefix-hit boundary. Second, admission and eviction processing, this repeatedly consumes scarce GPU computation,
+must be optimized jointly: admitting a new cache has cost and ben- increasing TTFT and serving cost. People therefore seek to retain
+efit. It benefits future reuse, but it has write cost and replacement as much reusable KV state as possible, effectively trading storage
+cost—cost of replacing other cache entries, may or may not already capacity for computation.
+pay for its promised benefit. An SSD admission is beneficial only Our analysis of two one-day SemiAnalysis Claude Code traces [40]
+when its expected reuse value exceeds the sum of write cost and estimates that representative hybrid models generate 81–240 TB
+the value of the entries it evicts. Together, these principles charac- of KV-cache state per day (Table 2). At peak, the concurrently
+terize the best attainable trade-off among SSD lifetime, cache-hit active KV-cache working set reaches 8.6TB, exceeding practical
+rate, and TTFT. We then distill the oracle’s decisions into an online, host-memory capacity, hence provisioning sufficient CPU DRAM
+capacity-aware policy that estimates future reuse from historical would be prohibitively expensive. Retaining this state for future
+access patterns. reuse is therefore infeasible using memory alone. Consequently,
+
+===== PAGE 3 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+200
+100
+0
+1 2 3 4 5
+Number of KV cache reuses
+)syad(
+emitefil
+erawdraH
+Lifetime within a $20k budget both directions, making HDDs poorly suited as a storage. Figure 2
+compares SSD and HDD configurations with equal aggregate I/O
+HDD
+SSD bandwidth and $20k Total Cost of Ownership (TCO) budget. HDDs
+require substantially more devices, power, and space, yet it has a
+shorter projected lifetime than SSD when each written KV-cache
+HDD better SSD better entry is reused at least 3×.
+Since multi-round conversation and agentic workloads trigger
+heavy reuse as shown in Table 1, SSD is the more cost-effective op-
+tion compared to HDD, at the same Total Cost of Ownership (TCO).
+Figure 2: Under same acquisition budget, SSD is more optimal Therefore, we focused on SSD for this work, and leave the integra-
+to be used for KV cache offloading workload, which is reuse- tion with HDD for future work. Although we focus on commodity
+heavy. enterprise SSDs, our placement and endurance-management tech-
+niques also apply to emerging flash-based context-memory tiers,
+including high-bandwidth flash (HBF).
+the cache capacity must extend beyond GPU and host memory to
+higher-capacity local storage. 2.3 KV Caching is Rapidly Killing SSDs
+2.2 Why not HDD cluster? Under frontier model and agentic workloads, our analysis shows
+that even a 30-TB enterprise SSD can exhaust its rated TBW in
+Local NVMe SSD is a popular extension of the memory hierarchy
+less than one year. Smaller enterprise SSDs wear out even faster,
+for LLM serving [13, 16, 28, 38, 41, 43]. Since SSD is known to have a
+with a 2-TB drive reaching its rated TBW in just days. In §2.2, we
+limited endurance problem, why haven’t people used HDD instead?
+discussed that SSD wear is a product of host-write volume and
+To make HDD fast enough, we could parallelize I/O across a cluster
+device-level write amplification. We target host writes by reducing
+of HDDs. To answer this question, we first compare the endurance
+the KV-cache writes issued to SSD.
+of SSD and HDD given the manufacturer’s specifications.
+Tiered KV caches commonly use write-through or write-back
+SSD stores data by programming charge in NAND-flash cells,
+offloading.
+which tolerate only a finite number of program/erase (write) cy-
+Write-through immediately copies every admitted KV states to
+cles. Manufacturers quantify this endurance as Terabytes Written
+SSD, maximizing availability at multiple tiers, but generating sub-
+(TBW), or equivalently Drive Writes Per Day (DWPD) over a war-
+stantial SSD write. This duplication preserves the entry after DRAM
+ranty period. For a drive with capacity 𝐶, rated for 𝐷 DWPD over
+eviction, but wastes SSD endurance when all of its reuse occurs in a
+𝑌 years, its host-write endurance budget is 𝐸 = 𝐶 × 𝐷 × 365 ×𝑌 .
+TBW short time while it remains in DRAM. The SSD copy then consumes
+Garbage collection can amplify host writes by copying live data
+write budget without serving a cache hit.
+while reclaiming space. The write-amplification factor (WAF) mea-
+sures this additional write traffic: WAF = 𝑊 NAND , where 𝑊 and Write-back persists demoted KV states from higher storage tier
+𝑊 host regardless of its expected reuse. This policy still writes every DRAM
+𝑊 denote the logical host writes and ph ho y s s t ical NAND writes,
+NAND eviction to SSD, including states that contribute little to future cache
+respectively. Thus, SSD will live until
+hits.
+𝐸 Selective write-through reduces this traffic using a fixed reuse
+𝑇 = TBW Terabytes Written (1)
+SSD WAF × 𝐸 threshold; for example, NVIDIA Dynamo offloads a block only after
+workload
+HDDs store data by magnetizing regions of rotating platters. its access frequency reaches two [30]. However, frequency-only
+filtering ignores state size, layer-specific reuse, tier occupancy, and
+Manufacturers specify an annual total read and write limit of
+𝑅𝑊 TB/year. Over 𝑌 years, this rate corresponds to a nominal the remaining write budget, allowing large, short-lived states to
+limit
+cumulative transfer envelope of 𝐸 = 𝑅𝑊 ×𝑌 . Manufacturers consume substantial endurance for little benefit.
+HDD limit
+also specify HDD reliability by Annualized Failure Rate (AFR) and
+Mean Time Between Failures (MTBF). Exceeding 𝐸 results in 2.4 How does prior work address SSD
+HDD
+increasing AFR and decreasing MTBF, hence more frequent fail- endurance?
+ures and recovery overhead will occur, slowing the HDD for both
+reads and writes. For a KV-cache workload that writes 𝑊 bytes SSD endurance has long been a concern in flash-based caching
+host
+and reads each written byte an average of ℎ times, the total HDD systems. Traditional systems, such as Flashcache [11] and Google’s
+workload is 𝐸 = (1 + ℎ)𝑊 . HDD operates reliably until Colossus Flash Cache [51], use SSDs to accelerate access to persis-
+workload host
+tent data. Recent studies show that KV-cache offloading introduces
+𝐸
+𝑇 = HDD Terabytes Read and Written (2) similar endurance challenges in LLM serving [23, 42]. Existing
+HDD 𝐸
+workload approaches can be grouped into three categories.
+This differs from SSDs, for which reads do not consume the rated Increasing physical write endurance. Hardware provisioning dis-
+TBW endurance. tributes writes across more SSDs, aggregating write budget and
+Takeaway: Although HDDs avoid flash wear-out, both reads reducing the per-device write rate, thereby increasing aggregate
+and writes exercise their mechanical components and count toward write endurance at the cost of additional acquisition, power, and
+their lifetime. KV-cache workloads generate substantial traffic in maintenance costs [19]. Classic SSD endurance technique called
+
+===== PAGE 4 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+30
+20
+10
+0
+0 20 40 60 80
+Cache Hit Rate (%)
+)syad(
+emitefiL
+DSS
+Generated CPU DRAM SSD LRU cache Admission Persistence
+HotPrefix
+Workload-aware Move
+Bidaw first → drop_cost
+MeritKV or
+RR-Evict Drop → move cost= write + replacement
+LRU-K first
+Marconi
+Figure 4: Gandalf overview. Gandalf admits new KV caches
+Figure 3: Existing systems trades off SSD lifetime and cache to host memory and, when it is full, chooses between drop-
+hit rate. ping a DRAM cache or moving it to SSD based on SSD write
+and replacement-cache recomputation costs.
+retention relaxation increases tolerable NAND program/erase cy-
+lifetime, but may discard reusable state, lowering the cache-hit rate
+cles by reducing data retention requirements [5, 26]. FlashAccel
+and increasing TTFT. Thus, when cache entries are homogeneous,
+exploits the short lifetime of KV caches to trade retention for en-
+improving one objective necessarily comes at the expense of the
+durance [45]. However, both approaches increase the available
+other. Breaking this trade-off requires identifying writes that con-
+write budget rather than reducing host-level KV-cache writes, and
+sume SSD endurance but contribute little to future cache reuse.
+may require additional hardware or device support. They also do
+not leverage unique property of KV caches: we can choose to not 2.6 Key Observation: Hybrid model has
+cache the KV cache and recompute it when needed. It may there-
+heterogeneous reuse pattern
+fore remain insufficient for sustained LLM serving, especially in
+multi-round and agentic workloads. Dense models use full attention across all layers. When a cached
+Selective KV cache admission and eviction. Although not aimed context is resumed, the KV entries of every tokens in the sequence
+at prolonging SSD lifetime, many existing cache admission and prefix are reused. Thus, storing a larger portion of the prefix allows
+eviction policies selectively filters KV caches to optimize cache more recomputation to be avoided, creating a near one-for-one
+utilization and reuse to increase cache hit rate, indirectly reducing trade-off between SSD writes and cache-hit rate. Each layer and
+writes. One approach schedules requests that involve resident KV token’s admitted KV entry provides comparable reuse value, and
+caches, which KV caches fits in the available space [52]. LRU-𝐾 reducing SSD writes generally sacrifices a corresponding caching
+admits a KV cache only after it has been accessed 𝐾 times [31, 35]. opportunity. This creates the apparent one-for-one trade-off be-
+DeepSeek-V4.1 retains sliding window KV caches in distributed tween SSD lifetime and cache-hit rate.
+memory pool to guarantee other KV cache availability for at least Hybrid models break this trade-off due to its model architec-
+72 hours inside the persistent storage [8]. HotPrefix [22] and Pre- ture: combining full-attention layers with sparse attention layers,
+fixShield [46] leverages prefix-based policies to evict cold KV caches such as linear and sliding-window attention. As shown in Table 1,
+from GPU HBM, while Workload-Aware [44] considers reuse prob- cached states from different layer types exhibit substantially non-
+ability, block position, and lifetime. LPC [49] and SAECache [12] uniform reuse patterns, where linear state is reused much less
+predict reuse through learning-based methods. RR-evict [34] uses than full attention KV cache. We observed that under append-only
+a round-robin eviction to ensure fairness across sessions, while workloads such as multi-round conversation, all prefix tokens’ full-
+Bidaw [14] predicts reuse distance from prior responses in the ses- attention KV caches are reused in every subsequent round, so their
+sion. Another approach uses recency, frequency, and EWMA-based reuse count increases as the conversation grows. By contrast, each
+reuse estimates for prefetching and eviction [43]. MeritKV [17] sparse-attention state is typically used only once—to generate the
+gates admission to storage backend if the saved prefill time, minus immediately following round—before being superseded by a newer
+lookup and transfer costs, minus historical miss’ recomputation state.
+costs, is less than a threshold. However, these approaches do not Uniformly writing these short-lived states to SSD is inefficient.
+explicitly optimize SSD endurance. Write-through immediately persists them, while write-back may
+persist them upon eviction, even though they are likely to be super-
+2.5 SSD lifetime and Cache Hit Rate Trade-off
+seded after only one reuse. When the latest linear-attention state
+Hardware configuration—size of host memory and SSD capacity—is can remain in DRAM until the next round, its SSD copy provides no
+fixed. But workload demand can vary substantially over time. Since additional cache hit but still consumes SSD endurance and capacity.
+cache entries are reused homogeneously, the storage hierarchy Such writes may also evict more reusable full-attention KV entries,
+must treat them uniformly. Hence, existing solutions trades off SSD further reducing cache effectiveness.
+lifetime against cache hit rate, as shown in Figure 3.
+3 Overview
+Storing more KV-cache entries on SSD increases the probabil-
+ity that future requests find reusable state, thereby improving the As shown in Figure 4, Gandalf involves a two-tier storage hierar-
+cache-hit rate and reducing TTFT. However, the resulting write chy setup, comprising of DRAM (L1) and SSD (L2). § 3.1 describes
+volume rapidly consumes the SSD’s finite endurance budget. Con- our attention type-aware placement policy that strictly decides the
+versely, storing fewer entries reduces SSD traffic and extends device placement of each admitted state based on the attention type’s reuse
+
+===== PAGE 5 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+pattern. § 3.2 investigates the potential of attention-type-aware 10
+placement by an oracle-based optimal algorithmic approximation
+that maximizes cache hit rate while minimizing SSD writes in a
+wear-aware manner. As a result of the investigation, § 3.3 explains 5
+the capacity-aware cache management policy that decides whether
+to drop or move the state to SSD based on its expected future reuse
+and the SSD write cost consumed. § 3.4 explains an optimization 0
+0 10000 20000 30000
+to reduce the score computation overhead while maintaining its
+Sequence length (tokens)
+effectiveness.
+3.1 Attention type-aware placement
+Hybrid models produce cached states with substantially different
+sizes and reuse patterns. Full-attention layers retain per-token KV
+entries, so their cache grows with the prefix length, whereas linear-
+attention layers maintain a fixed-size recurrent state at each check-
+point. Sliding-window layers retain only the most recent 𝑊 tokens
+and can therefore use the same placement policy as linear-attention
+layers. The state types also differ substantially in size. Across our
+evaluated models, a single linear-attention state occupies as much
+space as the full-attention KV entries for 2𝑘–16𝑘 tokens. However,
+reuse is only meaningful when all types of states are available at
+the same prefix boundary.
+This heterogeneity in size and reuse pattern brings 2 opportu-
+nities: (1) not all KV state needs to be cached, and (2) where an admitted state should be placed. The heterogeneity creates two
+distinct cache-management decisions. First, admission determines
+which generated states provide sufficient reuse value to retain. Sec-
+ond, placement determines the storage tier in which each admitted
+state should reside.
+Prior works has solved “which KV state should be cached” by
+probing the reuse boundary [33, 46]. These mechanisms address
+which states should be retained, but they do not determine whether
+an admitted state should reside in DRAM or in SSD. Our work is
+aimed to improve SSD lifetime by managing KV cache placement
+leveraging its attention layer type to give a hint on the most suitable
+placement in the storage tier.
+We therefore retain linear state in DRAM and full attention
+KV caches in SSD. Each linear state generated at the end of each
+conversation round is put in DRAM while the full attention KV
+cache is put on SSD. When the storage tier (DRAM/SSD) is out of
+space, the least-recently-used cache on the tier is evicted.
+3.2 Understanding the Potential
+Mathematical model to estimate the SSD-lifetime improvement
+of attention-type-aware placement over conventional write-back,
+independent from eviction strategies. Consider a workload con-
+taining 𝑠 sessions, each with an average of 𝑛 cached tokens and
+𝑟 conversation rounds. Let 𝑓 denote the size of full-attention KV
+entries per token, and let ℓ denote the size of one linear-attention
+state. The size of full-attention and linear-attention state for each
+session are therefore 𝐹 = 𝑛𝑓 and 𝐿 = 𝑟ℓ, respectively.
+Under write-back, both full-attention KV entries and linear-
+attention states are admitted to DRAM and written to SSD upon
+eviction. Let 𝐶 denote the CPU DRAM capacity reserved for KV
+cache. Assuming each evicted byte is written to SSD at most once
+oitar
+DSS
+/
+UPC
+lamitpO
+Figure 5: CPU/SSD capacity ratio to obtain maximum SSD
+lifetime improvement.
+except the last 𝐶 bytes, the SSD host-write volume is 𝑊 write−back =
+𝑠 (𝐹 + 𝐿) − 𝐶.
+With attention type-aware placement, only a fraction 𝑝 ∈ [0, 1]
+of the linear-attention states needs to be spilled to SSD, while all full-
+attention KV entries are written to SSD. Hence, the SSD host-write
+volume is 𝑊 type−aware = 𝑠𝐹 + 𝑝𝑠𝐿 = 𝑠 (𝐹 + 𝑝𝐿).
+SSD’s projected lifetime 𝑇 is inversely proportional to its write
+rate since writing to SSD reduces its lifespan. So the approximate
+SSD-lifetime improvement is
+𝐼 type−aware = 𝑇 𝑇 type−aware ≈ 𝑊 𝑊 write−back = 𝑠 ( 𝑠 𝐹 (𝐹 + + 𝐿) 𝑝𝐿 − ) 𝐶 (3)
+write−back type−aware
+Thus, the attainable SSD-lifetime improvement grows with the size
+of linear-attention state relative to full-attention KV cache and
+decreases with the fraction of linear state that must spill to SSD.
+Capacity requirement for type-aware placement. The ideal
+type-aware placement keeps linear-attention states in DRAM and
+full-attention KV cache in SSD. In Equation 3, this corresponds to
+𝑝 = 0, which maximizes the SSD lifetime improvement. However,
+achieving this upper bound requires sufficient DRAM capacity to
+retain the live linear states.
+As observed in Section 2.6, in multi-round conversation and agen-
+tic workloads, each session only needs to retain one linear-attention
+state at a time, but it must retain all full-attention KV entries for
+the entire prefix. Strict separation requires enough DRAM to hold
+one live linear-attention state for every session and enough SSD
+capacity to hold every session’s full-attention KV cache. As shown
+in Figure 5, with the same number of sessions, the CPU/SSD capac-
+ity ratio required to achieve maximum SSD-lifetime improvement
+decreases with session length because the live linear state has fixed
+size, whereas full-attention KV grows with the number of tokens.
+Consequently, strict type-based placement cannot always use both
+tiers efficiently. For short sessions, linear states dominate capac-
+ity and some may need to borrow SSD space. For long sessions,
+full-attention KV dominates and may benefit from borrowing un-
+used DRAM space. We therefore design a capacity-aware placement
+algorithm as an SSD admission gate that treats attention type as
+a reuse pattern proxy for placement preference. The gate selects
+which objects to move, retain, or evict based on their size, atten-
+tion type-specific expected reuse, tier occupancy, and SSD-write
+cost. We first study an offline optimal algorithm, approximate its
+decisions, and then derive a practical online policy.
+
+===== PAGE 6 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Oracle-based approximation. We know that we can improve
+the SSD lifetime by 𝐼 type−aware , but this model may not preserve the 1
+cache hit rate. We therefore modeled an offline oracle condition
+that optimizes cache hit rates while minimizing SSD write volume
+.5
+to prolong SSD lifetime. Sparse states are still kept in DRAM, while
+full KV caches are kept in SSD.
+Cost model. We keep two costs of admission: the benefit and 0
+the cost. Benefit: Promoting an object that is hit 𝐻 times saves 1 2 3 4 5+
+𝐶 𝑟 · 𝐻 dollars of recomputation, where 𝐶 𝑟 is the portion of GPU Number of linear state reuses
+rent to recompute one chunk of KV. Cost: Promoting an object of
+size 𝑠 bytes costs 𝐶 𝑤 · 𝑠 dollars, where 𝐶 𝑤 is the portion of SSD
+purchase cost to write one byte. Since SSD is eventually broken
+due to the write volume, we need to consider the cost of writing.
+When an admission causes eviction of another object that still has
+remaining 𝐻 hits, the benefit paid by the evicted object becomes left
+the replacement cost of the admitted object. Hence, the total cost
+becomes 𝐶 𝑤 · 𝑠 + 𝐶 𝑟 · 𝐻 left . We want to maximize the net benefit, which is equivalent to
+maximizing the number of hits minus the consumed write volume:
+𝐶 max 𝐶 𝑟 (cid:0)𝐻 −𝐻 left (cid:1)−𝐶 𝑤 𝑊 ⇔ max (cid:0)𝐻 −𝐻 left (cid:1)−𝜆 𝑊 , 𝜆 = 𝐶 𝑤 , (4)
+𝑟
+where 𝐻 and 𝐻 are summed over all promotions and 𝑊 is the
+left
+total bytes written to SSD. 𝜆 tells us how many hits a written byte
+must earn to be worth writing.
+SSD Promotion rule. When an object 𝑖 leaves DRAM, the oracle
+decides whether to write it to SSD or drop it. Because the oracle
+knows the future, it knows 𝐻 𝑖, the number of times object 𝑖 will be
+requested again. Let 𝑥 𝑖 = 1 if the oracle writes 𝑖 to SSD and 𝑥 𝑖 = 0
+if it drops it. The total cost of object 𝑖 is then
+𝐶 𝑖 (𝑥 𝑖) = (1 − 𝑥 𝑖) 𝐻 𝑖 𝐶 𝑟 + 𝑥 𝑖 𝐶 𝑤 𝑠 𝑖 . (5)
+(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32) (cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32)(cid:32) (cid:32)(cid:32) (cid:32)(cid:32)
+(cid:124) (cid:123)(cid:122) (cid:125) (cid:124) (cid:123)(cid:122) (cid:125)
+recompute if dropped write if kept
+The cheaper option wins, so the oracle writes an object only when
+the recompute benefit worth more than the endurance cost.
+Eviction when the SSD is full. If the admission causes an
+eviction, there is additional replacement cost of losing the future hits
+of the evicted objects. The oracle picks the residents with the fewest
+future hits as eviction candidates. It writes the new object only if its
+benefit, 𝐻 𝑖 𝐶 𝑟 − 𝐶 𝑤 𝑠 𝑖, is larger than the recompute cost of the hits
+lost by evicting the victim candidates, i.e., 𝐻 𝑖 − 𝜆𝑠 𝑖 > 𝐻 left , where
+𝐻 sums the remaining hits of the evicted candidates. Otherwise left
+it keeps the SSD as it is and drops the new object.
+3.3 Capacity-aware KV Cache Management
+Gandalf keeps the oracle’s objective (4): maximize the recomputa-
+tion saved by cache hits while minimizing the cost of SSD writes
+and replacement cost of evicted objects. With the CPU/SSD ratio
+insight in §3.2, we design a practical policy that approximates the
+oracle’s decisions while considering the occupancy of each tier in
+an online manner.
+Promotion decision. Every admitted KV cache is first placed
+in DRAM, which costs no endurance. When DRAM is full, Gan- dalf prefers moving the cache 𝑗 to SSD when dropping causes
+FDP
+0.96
+0.04 0.004 <0.001 <0.001
+Figure 6: In Claude Code WEKA trace, most linear-attention
+states are reused once or never.
+recomputation that exceeds the cost of writing it to SSD:
+𝛼 · 𝑚𝑜𝑣𝑒_𝑐𝑜𝑠𝑡 𝑗 < 𝑑𝑟𝑜𝑝_𝑐𝑜𝑠𝑡 𝑗 ⇔ 𝑚 𝑑𝑟 𝑜 𝑜 𝑣 𝑝 𝑒 _ _ 𝑐 𝑐 𝑜 𝑜 𝑠 𝑠 𝑡 𝑡 𝑗 𝑗 > 𝛼, (6)
+and otherwise drops it. 𝛼 is a tunable hyperparameter. Larger 𝛼
+makes writes more selectively, reducing SSD wear but increasing
+cache misses, whereas smaller 𝛼 does the opposite.
+3.3.1 Dropping a DRAM candidate. Dropping an item misses the
+cache hit opportunity, so it costs the recomputation of the dropped
+object on its next read, which is the factor of number of hits 𝐻 𝑑 ,
+the chunks have to be recomputed 𝑣 𝑑 , and the GPU cost to recom-
+pute one chunk 𝐶 𝑟 . However, in online setting, 𝐻 𝑑 is unknown,
+so Gandalf estimates it from the past history of requests. Three
+observations make the estimation simple.
+First, only the next read matters. A drop decision directly loses
+the next hit. When it is reused again, the next read is recomputed
+and admitted back to DRAM, where Gandalf decides its fate again.
+When Gandalf decides its fate, it already pays for the recompu-
+tation cost of the object that it causes to be evicted. We therefore
+needs to know only whether 𝑑 will be read again, not how many
+times. Linear attention states is simple to predict: as shown in Fig-
+ure 6 most linear states are read once and then discarded, so 𝐻 𝑑
+is either one or zero. We therefore only need to predict next reuse
+probability for full attention KV chunks.
+Second, returns are predictable from history. In the history, there
+has been many requests being processed, and we can learn from
+them to predict the future. Suppose the chunk’s session has been
+idle for 𝑎 𝑑 requests. Gandalf asks: of the past sessions that were
+also idle this long, how many came back? The chance of return is
+the share that came back, denoted as 𝐻 𝑑 . It is close to 1 when the
+predictor, based on the past experience with many requests, sure
+that the cache will be read again, close to 0 otherwise.
+Third, an object needed soon has a high value. Keeping 𝑑 is not
+free: it holds 𝑠 𝑑 bytes of DRAM until its next read. Thus, evicting an
+object that is needed farthest in the future is the cheapest, because
+it frees the most DRAM for the longest time [3]. In the same light,
+an object idle for long is likely to stay idle for long. Therefore,
+Gandalf divides (7) by 𝑠 𝑑 and by 𝑎 𝑑 , the wait time of 𝑑 so far. It
+prices a drop by its cost per byte of DRAM per request it frees,
+shown in Equation 7.
+𝐻 𝑣 𝐶 𝑑𝑟𝑜𝑝_𝑐𝑜𝑠𝑡 = 𝐻 𝑑 𝑣 𝑑 𝐶 𝑟 → ℎ 𝑑 = 𝑑 𝑠 𝑎 𝑑 𝑟 . (7)
+𝑑 𝑑
+
+===== PAGE 7 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+4 Implementation
+3.3.2 Moving a DRAM candidate to SSD. Moving an object to SSD
+costs the SSD’s endurance, plus the future hits lost on the objects Verifying the simulator. We first ran vLLM [18] and connect it
+evicted to make room for it. with LMCache [7] on RawBlock mode, with a Claude Code trace,
+SSD write cost. Writing 𝑠 𝑗 bytes to SSD consumes 𝐶 𝑤 𝑠 𝑗 dollars of then attaching an eBPF-based logger to dump out the storage-facing
+endurance, where 𝐶 𝑤 = 𝑃 SSD /𝐸 TBW is the SSD’s purchase price per trace. This includes columns such as: timestamp since first run, type
+byte of rated write endurance. To make SSD lasts for 𝑇 target years, of operation (R/W), logical block address (LBA) accessed, size, and
+Gandalf limits the bytes written to SSD at elapsed time 𝑡, so the number of pages. We then replayed this trace on FEMU [21] with
+write cost is scaled by a multiplier 𝑡 𝐿 that grows when the bytes a 1TB @ 0.3 DWPD for 5 years SSD configuration to observe SSD
+written 𝑊 exceeds the budget at time 𝑡, and shrinks when they fall lifetime given a KV cache offloading workload, resulting to our
+behind 𝑊 . Without a target, 𝑡 𝐿 = 1 and the price alone limits wear. finding that KV cache is killing SSD. From this result, we obtained
+Replacement cost. Promoting 𝑗 may evict other objects 𝐸 𝑗 from the SSD lifetime duration. Then, we build a trace-based simulator
+SSD. Each of the evicted objects might still be needed in the future, that estimates SSD lifetime by the TBW, and confirm the lifetime
+losing its remaining 𝐻 𝑒 reads, each worth 𝑣 𝑒 𝐶 𝑟 , as in (7). using the SSD lifetime we obtained by using SSD emulator. Simula-
+Total move cost. Following the third observation, Gandalf prices tor are needed to test all of our experiments prior to implementing
+a move by its cost per byte of DRAM per request it frees, so that it in real hardware, which will effectively kills SSD for sure. After
+compares with ℎ 𝑑 : all technique was confirmed, we move our technique to real pro-
+𝑡 𝐶 duction system, involving LMCache [7] deployed as a backend for
+𝑚𝑜𝑣𝑒_𝑐𝑜𝑠𝑡 = 𝐶 𝑤 𝑠 𝑗 + (cid:205) (cid:32)(cid:32) 𝑒 (cid:32)(cid:32)(cid:32) ∈ (cid:32)(cid:32)(cid:32) 𝐸 (cid:32)(cid:32)(cid:32)𝑗(cid:32) 𝐻 𝑒 (cid:32)(cid:32)(cid:32) 𝑣 (cid:32)(cid:32)(cid:32) 𝑒 (cid:32)(cid:32)(cid:32)(cid:32) 𝐶 (cid:32)(cid:32) 𝑟 , → 𝐿 𝑎 𝑗 𝑤 + 𝑒 m ∈ i 𝐸 n 𝑗 ℎ 𝑒 vLLM [18] inference engine.
+(cid:124)(cid:123)(cid:122)(cid:125) (cid:124) (cid:123)(cid:122) (cid:125) SSD lifetime estimation. Specifically, given that we confirmed
+cost of writing 𝑗 replacement cost in SSD
+the SSD lifetime using an emulator in the small scale, we estimate
+(8)
+Gandalf evicts the SSD leaves with the lowest ℎ 𝑒 and charges SSD lifetime by the TBW (Total Bytes Written). Once one trace is
+the cheapest of them. While the SSD has room, 𝐸 𝑗 is empty and replayed, we can obtain the total write volume to SSD. Assuming
+that this trace is replayed over and over in production system, we
+replacement cost is not charged.
+can then obtain the total write volume per day, and then estimate
+3.4 Optimization the SSD lifetime by dividing the TBW by the total write volume
+per day.
+Scoring every cached chunk for every eviction is expensive: the Transfer between tiers. Transfer between one tier and an-
+cache holds millions of chunks, and their probability-weighted other assumes modes two-hops, using CPU as a staging buffer.
+scores evolve over time. Gandalf avoids this cost with three obser- Hit served from SSD must be transferred to CPU DRAM adhering
+vations. SSD read bandwidth and SSD transfer bandwidth; hit served from
+First, only leaves can be dropped, and only root-side DRAM CPU DRAM will go to GPU memory adhering CPU-to-GPU PCIe
+nodes can be moved to SSD. Gandalf only maintains these two bandwidth;
+sets in an incremental manner. Dropping a leaf exposes at most Hardware specs. The simulator models the hardware specs of
+its parent as a new leaf, while moving a root-side node exposes its the system that affects the transfer between SSD, CPU DRAM, and
+children as new move candidates. Thus, recomputing the scores of GPU HBM. We assume a specific GPU model, check the tokens per
+the caches only happens when there is cache pressure, to a small second throughput, and every generated KV cache is directly saved
+number of items. in the KV cache storage, e.g. LMCache [7]. For the SSD model, the
+Second, scores in Equation (7) change as objects age, but remain simulator supports specifying DWPD (Drive Writes Per Day) and
+fixed within a request. Gandalf keeps each tier’s leaf candidates in capacity. However, for our evaluation, we assume 1 DWPD (Drive
+a min-heap ordered by their probability-weighted drop scores 𝐻 𝑑 . Writes Per Day) for 5 years, which is a majority specification for
+A heap is rebuilt only when first queried in a new request and is enterprise SSDs. We check the SSD read and transfer bandwidth
+reused for all subsequent evictions in that request. New leaves are via FIO [2]. We then vary the SSD capacity for the evaluation.
+inserted immediately, while stale entries are discarded lazily from Known limitation. The simulator assumes write-amplification
+the heap top. factor (WAF) to be 1, since the simulator does not model the SSD
+Third, Gandalf partitions root-side DRAM candidates by cache internal operations, such as garbage collection, wear leveling, and
+type: linear and full. Within each size class, the candidate with the other internal operations that may affect the SSD lifetime. Hence,
+longest estimated remaining life has the lowest SSD write fee. A lazy the simulator may overestimate the SSD lifetime for all the evalu-
+heap ordered by remaining life therefore identifies this candidate ated techniques, Gandalf and baselines. However, since WAF is
+without rescoring the class again during the request. By default, implicated by the fast write rate, if we reduce the write volume
+Gandalf compares only the longest-lived candidate from each using Gandalf , we can still reduce the WAF and improve the SSD
+size class. In later evaluation, we show that comparing only one lifetime.
+candidate does not sacrifice performance. A separate lazy min-heap
+over SSD leaves identifies the lowest-valued SSD victim, and hence 5 Evaluation
+the replacement cost when DRAM pressure triggers a move from
+5.1 Setup
+DRAM to SSD such that an object needs to be evicted from SSD to
+make room. After the heaps are built, each decision examines only Baselines. We compare Gandalf against six cache-management
+their heads, rather than rescoring or sorting all cache objects. baselines: general tier eviction policies such as LRU, Marconi [33],
+
+===== PAGE 8 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Table 3: The traces writes exceed the SSD’s workload DWPD • Cache miss ratio, the fraction of requests that are served
+rating.
+from the cache (DRAM or SSD) without needing to recom-
+pute the KV cache entries.
+Required DWPD • Cache load latency, measured in seconds, is the time taken
+to load KV cache from DRAM and SSD to GPU, or to re-
+Trace Model 1TB 4TB
+compute the KV cache entries if they are not present in the
+cc-traces-weka-062126 Qwen3.5-27B 34.4 8.60 cache.
+Kimi-K3 48.2 12.0
+qwen_traceA_blksz_16 Qwen3.5-27B 130 32.4 5.2 End-to-end Performance
+Kimi-K3 274 68.5
+Figure 7 compares Gandalf with the baselines on TraceA, Claude-
+aiperf-100r-500o-noshare Qwen3.5-27B 278 69.4 Code and AIPerf with the Kimi-K3 model, 100 GB of DRAM and
+Kimi-K3 579 145
+a 1 TB SSD. Gandalf , as well as other baselines with trade-off
+hyperparameters, are shown as lines through their hyperparameter
+space. Gandalf uses the write-fee multiplier 𝛼 (0–64), LRU-K uses
+Workload-aware [44]; general tier selective admission policy such as 𝐾 (1–10), HotPrefix uses the frequency threshold 𝐹 (1–10), and
+MeritKV [17]; and GPU to DRAM selective admission policies such Marconi uses its own 𝛼 (0–2).
+SSD lifetime. In this hardware configuration, at its lowest miss
+as HotPrefix [22] and LRU-K [35];
+ratio (𝛼 = 0), Gandalf extends the SSD lifetime over the lowest-
+Since not all baselines are designed to operate with DRAM and
+miss baseline by 2× on TraceA, 3.3× on ClaudeCode, and 6.5× on
+SSD, for evaluation fairness, we augment each baseline with both
+AIPerf. It does so by writing 2.0–6.5× fewer bytes to the SSD. Raising
+tiers as a capacity expansion to GPU HBM, thereby increasing their
+𝛼 trades hits for a longer lifetime. On ClaudeCode, every baseline
+effective cache capacity while preserving their original admission
+point with a miss ratio of up to 0.47 lasts 2.9–10.3× shorter than
+and victim selection rules. A KV cache entry is admitted to lower
+Gandalf at an equal or lower miss ratio. Only Marconi with 𝛼 ≥ 1
+tiers only if it is evicted from the upper tier. Eviction happens as a
+and HotPrefix with 𝐹 ≥ 7 last longer than Gandalf ’s longest-
+side effect of admission, and the eviction policy of each baseline is
+lived point, and they miss 4.5–6.1× more. On AIPerf, every baseline
+retained as is. For all baselines that has hyperparameters, we sweep
+point except Marconi with 𝛼 ≥ 0.5 lasts 1.0–23.8× shorter than
+the hyperparameter space to show the best configuration on each
+Gandalf at an equal or lower miss ratio. Marconi last 1.3× longer
+trace.
+Workload Traces. We evaluate Gandalf on real-world traces than Gandalf ’s longest-lived point, but results in 2.2× more cache
+misses. On TraceA, Gandalf reaches 57.7 months at a 0.839 miss
+with known timestamps and request sequences, including:
+ratio, 4.1× the 12.7 months of the longest-lived baseline, HotPrefix
+(1) Qwen Bailian Trace A [44], the trace from Aliyun Bailian with 𝐹 = 10, at the same miss ratio. LRU-K works in the opposite
+inference service that contains 46.4% multi-turn conversa- direction, where increasing 𝐾 trades a lower miss ratio for a longer
+tions with text, file understanding, multimodal understand-
+lifetime.
+ing, and search tasks; Cache miss ratio. Gandalf reaches the lowest miss ratio of all
+(2) Claude Code WEKA SemiAnalysis trace [40], Claude Code
+policies on TraceA and on AIPerf. On ClaudeCode, Marconi with
+agentic serving traces showing multi agents, subagents, and 𝛼 = 0 and LRU miss slightly less than Gandalf (0.045 and 0.047 vs.
+compacted traces; 0.052), but write 3.3× more to the SSD.
+(3) AIPerf Trace [9], a trace generated using the AIPerf bench- In summary, with DRAM size of 100GB and 1TB SSD, Gandalf im-
+mark tool that contains 400k requests, where each session proves SSD lifetime by 7.3× on average while maintaining or even
+contains 100 turns of user queries and responses. reducing the cache miss ratio.
+The statistics of the traces are summarized in Table 3.
+Models and Cache Sizes. Throughout the experiments, we 5.3 Cache Ratio Sensitivity
+evaluate Gandalf and the baselines on Kimi-K3, a representative Figure 8 shows TraceA with Kimi-K3 under different DRAM/SSD
+hybrid model having 72% linear attention layers, a typical ratio for
+capacity ratios, keeping the total DRAM+SSD capacity at 4TB, from
+many hybrid LLMs. We set the DRAM cache size to 100GB and vary
+200GB of DRAM with a 3.8TB SSD to 1000GB with a 3TB SSD.
+the SSD size: 1TB, 4TB, following the common SSD capacity range
+Gandalf is ran while keeping write price per GB constant, so
+for enterprise SSDs. This DRAM size is chosen to hold less than
+the decision to write to SSD is only affected by the capacity ratio.
+1% of the peak active KV cache size of most of the traces shown in
+Gandalf uses the extra DRAM to keep more KV cache entries in
+Table 3, which is a reasonable assumption for a production system
+memory, which reduces the miss ratio from 0.75 to 0.6, while its
+with limited DRAM capacity.
+SSD lifetime stays similar across all ratios. Its SSD lifetime stays
+Metrics. We evaluate Gandalf and the baselines on the follow-
+between 29 and 35 months across all ratios, decreasing slightly only
+ing metrics:
+because the SSD size itself shrinks. The baselines barely benefit
+• SSD lifetime, measured in years, is the time until the SSD from the extra DRAM. LRU-K’s miss ratio stays at 0.785–0.791. Hot-
+reaches its write endurance limit, given the total bytes writ- Prefix, while it increases SSD lifetime to 33-122 months, it has an
+ten (TBW) and the drive writes per day (DWPD) specifica- impractical miss ratio of 0.852–0.856, which does not meet deploy-
+tion. ment Service Level Objectives (SLOs) because it is too far from the
+
+===== PAGE 9 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+60
+45
+30
+15
+0
+.5 .6 .7 .8 .9 1
+Cache miss ratio
+)shtnom(
+emitefil
+DSS
+QwenBailianTraceA
+80
+60
+40
+20
+0
+.1 .2 .3 .4 .5 .6 .7 .8 .9 1
+Cache miss ratio
+)shtnom(
+emitefil
+DSS
+ClaudeCodeSemiAnalysis
+45
+30
+15
+0
+.1 .2 .3 .4 .5 .6 .7 .8 .9 1
+Cache miss ratio
+)syad(
+emitefil
+DSS
+LRU HotPrefix Workload-aware MeritKV LRU-K Marconi Gandalf
+AIPerf
+Figure 7: SSD lifetime against cache miss ratio for Gandalf and the baselines on all traces with Kimi-K3 model, 100 GB of
+DRAM and a 1 TB SSD. Gandalf , LRU-K, HotPrefix and Marconi are lines through their hyperparameters (Gandalf ’s 𝛼,
+LRU-K’s 𝐾, HotPrefix’s hotness frequency, and Marconi’s 𝛼).
+0.9
+0.8
+0.7
+0.6
+oitar
+ssim
+ehcaC
+100
+50
+0
+200/ 300/ 400/ 500/ 1000/
+3800 3700 3600 3500 3000
+DRAM/SSD capacity (GB), 4 TB total
+)shtnom(
+emitefil
+DSS
+60
+40
+Gandalf
+LRU-K (K=3) 20
+HotPrefix (F=1)
+0
+0 .2 .4
+Cache miss ratio
+Figure 8: Gandalf achieves lower cache miss ratio while
+achieving higher SSD lifetime under different DRAM/SSD
+capacity ratios. We fix the total capacity of DRAM and SSD
+to 4TB to make sure the cache miss ratio and lifetime is
+comparable across different setups.
+trace’s maximum achievable miss ratio of 0.6. LRU-K writes a KV
+entry evicted from DRAM to the SSD when the session’s 𝐾-th most
+recent entry is still in DRAM, hence relying on the past historical
+access without considering whether the entry will be reused in the
+future. On TraceA most entries pass it, so LRU-K writes about 60TB
+to the SSD and keeps both tiers full; with the total capacity fixed,
+moving capacity from the SSD to DRAM changes little, and its miss
+ratio stays at 0.785–0.791. Gandalf instead writes only about 0.5TB
+to the SSD, keeping most of its working set in DRAM where writes
+cost no SSD wear, so additional DRAM turns directly into hits.
+Hence, Gandalf improves cache miss ratio by 5–25% over the
+best baseline at every capacity ratio, while extending SSD lifetime by
+120× in various tested scenarios with total cache capacity at 4TB.
+5.4 Trade-Off Hyperparameter Sensitivity
+Figure 7 also sweeps 𝛼, the weight Gandalf gives to the move cost
+when deciding whether to write an entry to the SSD (6), from 0 to
+)syad(
+emitefil
+DSS
+Gandalf LRU-K (K=1) HotPrefix (F=1)
+Qwen3.5-27B (147) Gemma3-27B (333) Kimi-K3 (1,016)
+40 60
+5.0× 20 4.8× 40 7.1×
+3.9× 5.8× 6.6×
+20
+0 0
+0 .2 .4 0 .2 .4
+Cache miss ratio Cache miss ratio
+Figure 9: Gandalf improves baselines in wide range of hy-
+brid models having different linear-to-full cache size ratios.
+64, with 100GB of DRAM and a 1TB SSD. By default, Gandalf sets
+𝛼 = 1, which balances SSD lifetime and cache hit ratio across all
+traces. A larger 𝛼 makes writing to the SSD more selective, so the
+SSD lives longer at the cost of more misses: from 𝛼 = 1 to 𝛼 = 64,
+the SSD lifetime grows 6.5× on TraceA, 2.3× on ClaudeCode, and
+2.7× on AIPerf (0.4 to 1.2 months), while the miss ratio rises by
+0.016, 0.071, and 0.172, respectively. A lower 𝛼 lets Gandalf trade
+lifetime for hits. With 𝛼 = 0, Gandalf wins in both metrics against
+the baseline with the lowest miss ratio on TraceA and on AIPerf.
+On ClaudeCode, Gandalf at 𝛼 = 0 comes within 0.007 of Marconi’s
+miss ratio while its SSD lasts 3.3× longer.
+Therefore, operators can tune 𝛼 to meet their desired trade-off
+between SSD lifetime and cache hit ratio, and Gandalf is robust to a
+wide range of 𝛼 values.
+5.5 Model Linear-to-Full Sensitivity
+Figure 9 compares Gandalf with LRU-K and HotPrefix on AIPerf
+for four hybrid models with 100GB of DRAM and a 4TB SSD, or-
+dered by the size of a linear-attention state relative to a full-attention
+KV chunk, from 147× for Qwen3.5-27B to 1,016× for Kimi-K3. Gan-
+dalf extends the SSD lifetime on every model, by 3.6–6.6× over
+LRU-K and 3.6–7.1× over HotPrefix. It also reduces the miss ra-
+tio on three of the four models, by 0.006–0.034 relative to LRU-K
+
+===== PAGE 10 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+1
+.5
+0
+oitar
+tih
+setirW
+Full-attention KV
+Gandalf LRU-K (K=1) LRU-K (K=2)
+.5
+0
+Time
+oitar
+tih
+setirW
+100%
+80%
+60%
+Linear states 40%
+20%
+0%
+Gandalf LRU-K
+Figure 10: Gandalf SSD admission results in higher fraction
+of SSD writes that contributes to cache hits at least once.
+Unlike baselines, Gandalf cache hit is stable across time.
+and by 0.089–0.419 relative to HotPrefix. On Nemotron-H, Gan-
+dalf keeps the miss ratio similar to LRU-K, but extends the SSD
+lifetime by 3.6× . Among Nemotron-H, Gemma3-27B, and Kimi-K3,
+the lifetime gain over LRU-K grows with the state-to-KV ratio, from
+3.6× to 5.8× and 6.6× , and Qwen3.5-27B. Even in the model with
+the smallest ratio, Gandalf still gains 3.9× .
+The larger the ratio, the higher the penalty of writing a linear
+state that is never reused, so the improvement obtained by Gandalf ’s
+filtering is larger. This makes Gandalf especially needed for de-
+ployment of hybrid models with large linear-attention states, which
+are increasingly common in modern LLMs.
+5.6 Where does the improvement come from?
+Avoid writing non-reused linear states in SSD. Gandalf avoids
+writing linear states that will not be reused multiple times, such as
+those at every turn of a multi-turn conversation, to the SSD. Fig-
+ure 10 shows, over time, the fraction of SSD writes that contribute
+to cache hits at least once, for Gandalf and LRU-K on ClaudeCode
+with Qwen3.5-27B, 100GB of DRAM and a 1TB SSD. Throughout
+the trace, a higher fraction of Gandalf ’s SSD writes are hit than
+those of LRU-K at 𝐾 = 1, for both full-attention KV and linear
+states.
+LRU-K at 𝐾 = 1 writes 120.6k linear states to the SSD, and only
+21% of them are ever hit there: 43% are never requested again, and
+45% had already served their one hit from DRAM before being
+moved to the SSD, i.e., the state of a turn that the next turn already
+reused. A larger 𝐾 does not fix this. LRU-K [35] counts references
+per object, which captures hotness for objects that persist across
+requests, such as a user’s KV cache in generative recommendation.
+A linear state, however, is superseded at every turn and is referenced
+at most about twice, so it reaches 𝐾 = 2 references only after its one
+reuse is over: LRU-K drops a state that leaves DRAM before the next
+turn arrives, and writes one that the next turn has already reused.
+With 𝐾 = 2, LRU-K writes 1.9× fewer linear states (62.6k), but 90%
+of them had already been hit before being written, 58% are never
+requested again, and only 13% are hit on the SSD; meanwhile its miss
+ratio rises from 0.1 to 0.14. Gandalf instead decides by whether
+a state will be reused later, not by how often it was referenced: it
+writes 8.8× fewer linear states than LRU-K at 𝐾 = 1, and 57% of
+them are hit on the SSD.
+)%(
+DSS
+morf
+daeR
+Full-attention KV Linear states
+87.2%
+73.8%
+33.0%
+10.2%
+Gandalf LRU-K
+Figure 11: A bigger portion of linear state cache hit in Gan-
+dalf comes from DRAM, while most full attention KV cache
+hit comes from SSD.
+As the SSD is full, LRU-K gets more selective at admitting cache
+to SSD, hence the cache hit rate decreases. Gandalf , however,
+maintains a high cache hit rate throughout.
+Avoid writing rarely reused full-attention KV in SSD. We
+also increase the reusability of the full-attention KV cache entries
+that are written to the SSD, by filtering out those that are unlikely
+to be reused in the future, such as those at the end of a conversation
+or session. Gandalf writes 33% fewer full-attention KV chunks
+than LRU-K at 𝐾 = 1 (21.5M vs. 32.1M), and 61% of them are hit on
+the SSD, compared to 50% for LRU-K. Of the chunks LRU-K writes,
+9.6% are never requested again, compared to 5.3% for Gandalf , so
+Gandalf writes 2.7× fewer such chunks (1.1M vs. 3.1M). Despite
+writing fewer chunks, Gandalf serves 18% more full-attention hits
+from the SSD (265M vs. 225M), i.e., 12.3 hits per chunk written
+compared to 7.0 for LRU-K. Together, Gandalf writes 92TB to the
+SSD instead of 153TB, which extends the SSD lifetime by 1.7× (98
+vs. 59 days) at a similar miss ratio (0.099 vs. 0.098).
+Attention type-aware placement. Gandalf places linear states
+in DRAM and full-attention KV in the SSD. Figure 11 shows where
+the cache hits of each kind are served from, for Gandalf and LRU-K
+at 𝐾 = 1 in the same setting as above. Gandalf serves 87% of its
+full-attention KV hits from the SSD and 90% of its linear-state hits
+from DRAM. LRU-K, which places objects by recency regardless of
+their kind, serves 74% of its full-attention KV hits from the SSD and
+only 67% of its linear-state hits from DRAM since its DRAM also
+holds full-attention KV that Gandalf would have moved to the
+SSD. To serve the remaining 33% (27.0k hits) from the SSD, LRU-K
+writes 120.6k linear states to it, 4.5 writes per hit, whereas Gan-
+dalf serves 8.0k linear-state hits from the SSD with 13.7k writes,
+1.7 writes per hit.
+In summary, the improvement of Gandalf comes from leveraging
+attention type as a proxy for reusability, which: (1) avoids writing
+linear states at the end of each rounds to the SSD, (2) avoids writing
+rarely reused full-attention KV to the SSD, and (3) places linear states
+in DRAM and full-attention KV in the SSD.
+5.7 Comparing Gandalf to each baseline.
+Figure 12 breaks down each policy’s SSD writes on TraceA (2
+hours duration) with Kimi-K3, 100GB of DRAM and a 1TB SSD,
+with Gandalf at 𝛼 = 1, HotPrefix at 𝐹 = 1, LRU-K at 𝐾 = 3, and
+Marconi at 𝛼 = 0.
+
+===== PAGE 11 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+LRU 42 0.2 40
+Workload-aware 63 0.17
+32
+Marconi 43 0.21
+24
+MeritKV 36 0.089
+16
+HotPrefix 4.4 2.5
+8
+LRU-K 6.8 Linear 1.1
+Gandalf 0.54 Full attention 13 0
+0.8 1.2 1.6 2
+0 25 50 0 10 Average cache load latency (s)
+SSD writes (TB) SSD read/write ratio (bytes)
+Figure 12: The gain from Gandalf comes from both reducing
+the amount of writes to the SSD (left) and increasing the
+Read/Write ratio (right).
+Write-back baselines (LRU, Workload-aware, Marconi). These poli-
+cies write every object evicted from DRAM to the SSD: they decide
+which object to evict, but not whether to move it to the SSD or
+drop it. Linear states make up 96% of the bytes they write, yet only
+1.6–8.5% of the linear states they write are ever hit on the SSD,
+and 57% of LRU’s are never requested again. Gandalf writes 25
+linear states instead of LRU’s 90k, and 3.2× fewer full-attention
+bytes (0.53 against 1.70TB). In total, it writes 73× fewer bytes than
+LRU (0.58 against 42.2TB), and its SSD lasts 73× longer (253 against
+3.5 days). Workload-aware and Marconi change only which object
+to evict; Marconi writes about as much as LRU (42.7TB, 3.4 days),
+and Workload-aware writes 1.5× more (63.5TB, 2.3 days). At 𝛼 = 1,
+Gandalf has a higher miss ratio than LRU (0.818 against 0.697;
+see below). With 𝛼 = 0, Gandalf has the lowest miss ratio of all
+policies, 0.603, and its SSD still lasts 1.4× longer than LRU’s (4.95
+against 3.46 days), because what it writes is read more: its SSD
+serves 1.8× as many full-attention hits (2.04M against 1.14M) and
+2.2× as many linear-state hits (38.9k against 18.0k).
+MeritKV. MeritKV admits an object to the SSD only when the
+prefill it saves outweighs the expected reuse latency plus the write
+cost, but it admits the first three demands of every object uncondi-
+tionally to learn its reuse. Most linear states are written before this
+estimate applies: 97% of the linear states it writes had never been
+hit before the write. It still writes 36.1TB (4.0 days), only 5.6% of its
+linear-state writes are hit on the SSD, and it misses 0.807 of chunks.
+HotPrefix. HotPrefix admits a prefix to DRAM only if it has been
+requested at least 𝐹 times while DRAM has room, and otherwise
+only if its frequency times its recency clock beats the coldest DRAM
+entry; a refused prefix is dropped rather than written to the SSD.
+This cuts its writes to 4.4TB, 9.6× fewer than LRU, and its SSD
+lasts 33 days. The filter, however, does not tell reused linear states
+from the rest: 97% of the linear states it writes had never been hit
+before, 51% are never requested again, and only 17% are hit on the
+SSD. The dropped prefixes become misses, so its miss ratio is 0.802;
+Gandalf at 𝛼 = 1 lasts 7.6× longer at a 0.016 higher miss ratio.
+With 𝐹 = 10, HotPrefix writes 0.38TB and lasts 388 days, but misses
+0.839 of chunks.
+LRU-K. LRU-K writes an object to the SSD only once it has been
+referenced 𝐾 times. With 𝐾 = 3, it writes 6.8TB, 6.2× fewer than
+LRU, and 31% of the linear states it writes are hit on the SSD, against
+)shtnom(
+emitefil
+DSS
+ClaudeCodeSemiAnalysis
+LRU
+HotPrefix
+MeritKV
+LRU-K
+Marconi
+Gandalf
+Figure 13: Gandalf increases SSD lifetime while maintaining
+low cache load latency.
+7.9% for LRU. The objects it refuses are dropped, so its miss ratio
+rises to 0.750, and its SSD lasts 21.5 days; Gandalf at 𝛼 = 1 lasts
+11.8× longer at a 0.068 higher miss ratio.
+Where Gandalf gives up hits. At 𝛼 = 1, Gandalf misses more
+than LRU on TraceA (0.818 against 0.697). Since it writes only 25
+linear states, a conversation whose linear state has left DRAM must
+be recomputed from the start, and its full-attention KV cannot be
+used either: Gandalf serves 19.5k linear-state hits against 42.4k
+for LRU, and 1.11M full-attention hits against 1.91M. In exchange,
+its SSD lasts 73× longer. A smaller 𝛼 recovers these hits at a shorter
+lifetime (§5.4).
+5.8 How much is the cache load latency
+affected?
+We approximate the cache load latency of a request as the maxi-
+mum of the time to transfer its cached KV to GPU HBM and the
+time to recompute its missed tokens, since the two overlap. The
+transfer uses DRAM as a staging buffer: KV on the SSD is first read
+into DRAM (10GB/s), then every cached byte is sent to GPU HBM
+(50GB/s); recomputation runs at 60k tokens/s. Figure 13 shows the
+average cache load latency against SSD lifetime on ClaudeCode
+with Kimi-K3, 100GB of DRAM and a 1TB SSD. The baselines with
+the lowest load latency, Marconi at 𝛼 = 0 and LRU, load in 0.66s
+and their SSDs last 4 months. Gandalf at 𝛼 = 1 lasts 4.2× longer
+(17.0 months) at a load latency of 0.78s, 0.12s higher. It reads more
+of its hits from the SSD, which is slower than DRAM, and its miss
+ratio is 0.01 higher (0.056 against 0.045), so slightly more tokens are
+recomputed. At a similar load latency, Gandalf lasts 3.7× longer
+than LRU-K at 𝐾 = 2 (21.2 against 5.7 months, 0.79s against 0.81s),
+and with 𝛼 = 64 it lasts 5.3× longer than LRU-K at 𝐾 = 3 while still
+loading faster (38.6 against 7.3 months, 0.91s against 0.93s).
+However, more recomputation is not always worse. Every write
+wears out the SSD, effectively using a portion of its purchase price,
+so the cost of a request is the GPU cost of recomputing its missed
+tokens plus the SSD price share. Figure 14 shows this cost as an
+average per request, choosing the cheapest hyperparameters for
+each policy. SSD wear makes up 66–86% of the cost of LRU, Marconi
+and LRU-K, and the cheapest baseline, LRU-K at 𝐾 = 2, costs $0.74
+per 1k requests. Gandalf at 𝛼 = 1 costs $0.30 per 1k requests,
+2.5× less: it recomputes more than LRU and Marconi ($0.13 against
+$0.11 per 1k requests), but its SSD wear is 3.0× lower than that of
+any baseline ($0.16 against $0.49–0.73).
+
+===== PAGE 12 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+1.5
+1.0
+0.5
+0.0
+LRU MeritKV HotPrefix Marconi LRU-K Gandalf
+(F=1) (α=0) (K=2) (α=1)
+)stseuqer
+k1
+/
+$(
+tsoC
+Flash-aware caching and storage. General flash caches control
+1.66
+Recompute wear through admission filtering and write-rate constraints [10, 47,
+1.25 SSD wear 51], while offline work extends Bélady-style analysis to account for
+flash erasures [6]. Device- and interface-level techniques reduce
+0.80 0.79 0.74
+physical writes through retention management, stream placement,
+0.30 and cache-aware reclamation [24, 26, 27, 39]. For LLM serving,
+HiFC, FlashAccel, and HBFlex optimize flash data paths, writeback,
+and reclamation [15, 45, 54]. These mechanisms are complementary
+to Gandalf because they do not use attention semantics to value
+individual KV states.
+Figure 14: Average cost per request, recomputation plus SSD Lifetime-aware KV placement. Most closely related, Lachesis
+wear, on ClaudeCode with Kimi-K3, 100 GB of DRAM and a places agent KV segments across HBM and high-bandwidth flash
+1 TB SSD. Gandalf has the lowest cost once the SSD wear is using lifetimes inferred from the agent harness [50]. In contrast,
+counted. Gandalf targets host DRAM and SSD, derives reuse differences
+from hybrid-attention semantics without harness-specific informa-
+tion, and jointly considers capacity, recomputation benefit, and SSD
+Therefore, Gandalf may choose to recompute more tokens if the write cost.
+SSD write cost is high, since the inference saving cost involves not
+7 Conclusion
+only GPU as a hardware resource, but also SSD.
+This paper presents Gandalf , an SSD-based KV cache offloading
+5.9 The optimization does not affect the
+system that uses the attention type associated with each KV cache
+performance negatively. object to predict its likelihood of future reuse. Gandalf retains
+short-lived linear-attention states in DRAM, while offloading full-
+To keep each decision cheap, the move door (§3.4) checks, for each
+attention KV caches with high reuse potential to SSD. Its placement
+slot size, only the longest-lived DRAM entry as a candidate to move
+policy balances the expected cache hits from each SSD write against
+to the SSD. A move is then blocked whenever that one entry’s score
+the resulting device wear. By filtering writes based on both reuse
+falls below its write fee, even if another entry of the same size
+potential and wear cost, Gandalf preserves cache hit rates while
+would be worth writing. To measure what this costs, we let the
+extending SSD lifetime. Across a range of hybrid models and hard-
+move door check up to 64 candidates per slot size, with Kimi-K3,
+100GB of DRAM, a 1TB SSD and 𝛼 = 1. Checking more candidates ware capacities, Gandalf improves SSD lifetime by 2–7.3× over the
+best baseline. As KV caches continue to outgrow available memory,
+does not lower Gandalf ’s miss ratio: it stays at 0.823 on TraceA
+we hope Gandalf motivates future KV cache systems to consider
+and 0.036 on AIPerf for every number of candidates. On TraceA,
+not only the performance benefits of SSD offloading, but also the
+the extra candidates only move entries that are not read again, so
+wear caused by each write. We leave the extension of Gandalf to
+the SSD writes grow by 1.4% (501 to 508GiB) and the SSD lifetime
+other types of flash-based storage as a future work.
+shortens from 271 to 268 days; on AIPerf, the first candidate is never
+blocked, so the result is identical. A single candidate per slot size
+References
+therefore loses no hits.
+[1] Anthropic. [n. d.]. Prompt caching. https://platform.claude.com/docs/en/build-
+6 Related Work with-claude/prompt-caching. Accessed: 2026-09-30.
+[2] Jens Axboe and Vincent Fu. [n. d.]. 1. fio - Flexible I/O tester.
+Tiered KV-cache systems. CachedAttention, FlashGen, LMCache, https://fio.readthedocs.io/en/latest/fio_doc.html. [Accessed 12-10-2026].
+[3] L. A. Belady. 1966. A Study of Replacement Algorithms for a Virtual-Storage
+and Mooncake extend GPU memory with host DRAM, SSD, or Computer. IBM Systems Journal 5, 2 (1966), 78–101.
+distributed storage [7, 13, 16, 36], while TENURE and placement [4] Joe Brewer and Manzur Gill. 2011. Nonvolatile memory technologies with emphasis
+on flash: a comprehensive guide to understanding and using flash memory devices.
+studies decide where KV caches should reside across these tiers [28,
+John Wiley & Sons.
+43]. InfiniGen and Tutti instead reduce lower-tier access overhead [5] Yu Cai, Gulay Yalcin, Onur Mutlu, Erich F Haratsch, Adrian Cristal, Osman S
+through selective fetching and GPU-directed SSD I/O [20, 37]. These Unsal, and Ken Mai. 2012. Flash correct-and-refresh: Retention-aware error
+management for increased flash memory lifetime. In 2012 IEEE 30th International
+systems primarily optimize capacity, latency, or throughput rather Conference on Computer Design (ICCD). IEEE, 94–101.
+than SSD endurance. [6] Yue Cheng, Fred Douglis, Philip Shilane, Michael Trachtman, Grant Wallace,
+KV admission, eviction, and compression. Prior policies predict P C e a t c e h r e D O es ffl n i o n y e er O s p , a ti n m d a K li a t i y L . I i. n 2 2 0 0 1 1 6 6 . E U r S a E s N in I g X B A é n la n d u y a ’ l s T L e im ch i n ta ic t a io l n C s o : n In fe S r e en ar c c e h (U of S F E l N as IX h
+reuse from prefix structure, recency, frequency, semantics, queued ATC 16). USENIX Association, 379–392. https://www.usenix.org/conference/
+demand, or workload history [12, 22, 33, 34, 44, 46, 48, 49]. MeritKV, atc16/technical-sessions/presentation/cheng
+[7] Yihua Cheng, Yuhan Liu, Jiayi Yao, Yuwei An, Xiaokun Chen, Shaoting Feng,
+Bidaw, LRU-K, and NVIDIA KVBM further incorporate reuse utility,
+Yuyang Huang, Samuel Shen, Kuntai Du, and Junchen Jiang. 2025. LMCache:
+storage cost, or write awareness [14, 17, 30, 35]. Orthogonal tech- An Efficient KV Cache Layer for Enterprise-Scale LLM Inference. arXiv preprint
+niques reduce the footprint through token eviction, quantization, arXiv:2510.09665 (2025).
+[8] DeepSeek-AI. 2026. DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache
+or model-level KV compression [8, 25, 53]. Most of these techniques Compression. arXiv:2609.19969 [cs.CL] https://arxiv.org/abs/2609.19969
+do not jointly manage DRAM placement, SSD admission, and SSD [9] NVIDIA Dynamo. [n. d.]. GitHub - ai-dynamo/aiperf: AIPerf is a comprehensive
+benchmarking tool that measures the performance of generative AI models
+eviction using attention-type reuse heterogeneity and an explicit
+served by your preferred inference solution. — github.com. https://github.com/ai-
+endurance cost. dynamo/aiperf. [Accessed 21-10-2026].
+
+===== PAGE 13 =====
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+[10] Assaf Eisenman, Asaf Cidon, Evgenya Pergament, Or Haimovich, Ryan Stutsman, next-frontier-of-ai/?ncid=so-twit-393593. [Accessed 30-09-2026].
+Mohammad Alizadeh, and Sachin Katti. 2019. Flashield: A Hybrid Key-Value [30] NVIDIA. 2026. KVBM Guide. https://docs.nvidia.com/dynamo/v1.4.2/knowledge-
+Cache that Controls Flash Write Amplification. In 16th USENIX Symposium on base/modular-components/kvbm/kvbm-guide. NVIDIA Dynamo Documenta-
+Networked Systems Design and Implementation (NSDI 19). USENIX Association, tion, version 1.4.2; accessed 2026-10-01.
+65–78. https://www.usenix.org/conference/nsdi19/presentation/eisenman [31] Elizabeth J. O’Neil, Patrick E. O’Neil, and Gerhard Weikum. 1993. The LRU-K
+[11] Facebook. [n. d.]. Flashcache: A General-Purpose Write-Back Block Cache for page replacement algorithm for database disk buffering. SIGMOD Rec. 22, 2 (June
+Linux. https://github.com/facebookarchive/flashcache. Accessed: 2026-10-03. 1993), 297–306. doi:10.1145/170036.170081
+[12] Shaoke Fang, Ziang Li, Wenfei Wu, Jiatong Ji, Qingsong Liu, and Ruizhi Pu. 2026. [32] OpenAI. [n. d.]. Prompt caching. https://developers.openai.com/api/docs/guides/
+Not All Tokens Are Worth Caching: Learning Semantic-Aware Eviction for LLM prompt-caching. Accessed: 2026-09-30.
+Prefix Caches. arXiv preprint arXiv:2605.18825 (2026). [33] Rui Pan, Zhuang Wang, Zhen Jia, Can Karakus, Luca Zancato, Tri Dao, Yida
+[13] Bin Gao, Zhuomin He, Puru Sharma, Qingxuan Kang, Djordje Jevdjic, Junbo Wang, and Ravi Netravali. 2025. Marconi: Prefix caching for the era of hybrid
+Deng, Xingkun Yang, Zhou Yu, and Pengfei Zuo. 2024. {Cost-Efficient} large llms. Proceedings of Machine Learning and Systems 7 (2025).
+language model serving for multi-turn conversations with {CachedAttention}. [34] Zaifeng Pan, Chris Wu, Zhengding Hu, Xinwei Qiang, Zhongkai Yu, and Yufei
+In 2024 USENIX annual technical conference (USENIX ATC 24). 111–126. Ding. 2026. RR-Evict: Fine-Grained Prefix Cache Eviction beyond LRU for Agentic
+[14] Shipeng Hu, Guangyan Zhang, Yuqi Zhou, Yaya Wei, Ziyan Zhong, and Jike LLM Serving. arXiv preprint arXiv:2609.32278 (2026).
+Chen. 2026. Bidaw: Enhancing {Key-Value} Caching for Interactive {LLM} [35] Danni Peng, Kai Wu, Tianyu Zuo, Pengfei Xia, and Hui Zang. 2026. Enabling
+Serving via Bidirectional {Computation–Storage} Awareness. In 24th USENIX High-Bandwidth Flash for Generative Recommendation Serving with Write-
+Conference on File and Storage Technologies (FAST 26). 101–116. Aware KV Cache Policy. arXiv preprint arXiv:2609.07175 (2026).
+[15] Inho Jeong, Sunghyeon Woo, Sol Namkung, and Dongsuk Jeon. 2026. HiFC: High- [36] Ruoyu Qin, Zheming Li, Weiran He, Jialei Cui, Feng Ren, Mingxing Zhang,
+efficiency flash-based KV cache swapping for scaling LLM inference. Advances Yongwei Wu, Weimin Zheng, and Xinran Xu. 2025. Mooncake: Trading More
+in Neural Information Processing Systems 38 (2026), 47561–47590. Storage for Less Computation—A KVCache-Centric Architecture for Serving
+[16] Jinwoo Jeong and Jeongseob Ahn. 2025. Accelerating llm serving for multi-turn LLM Chatbot. In 23rd USENIX Conference on File and Storage Technologies (FAST
+dialogues with efficient resource management. In Proceedings of the 30th ACM 25). USENIX Association, 155–170. https://www.usenix.org/conference/fast25/
+International Conference on Architectural Support for Programming Languages presentation/qin
+and Operating Systems, Volume 2. 1–15. [37] Shi Qiu, Yifan Hu, Xintao Wang, Wenhao Zhu, Jianqin Yan, Hao Chen, Kaiqiang
+[17] Kushal Khemani, Evan J. Leri, and Sparsh Mittal. 2026. MeritKV: Utility-Gated Xu, Kai Chen, and Yiming Zhang. 2026. Tutti: Making SSD-Backed KV Cache
+Admission Control for KV-Cache Reuse in LLM Serving. Transactions on Machine Practical for Long-Context LLM Serving. arXiv:2605.03375 [cs.OS] https://arxiv.
+Learning Research (TMLR) (2026). Accepted by TMLR. https://openreview.net/ org/abs/2605.03375
+forum?id=y3j6fucWQP [38] Jeff Rasley, Samyam Rajbhandari, Olatunji Ruwase, and Yuxiong He. 2020. Deep-
+[18] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, speed: System optimizations enable training deep learning models with over
+Cody Hao Yu, Joseph Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient 100 billion parameters. In Proceedings of the 26th ACM SIGKDD international
+memory management for large language model serving with pagedattention. In conference on knowledge discovery & data mining. 3505–3506.
+Proceedings of the 29th symposium on operating systems principles. 611–626. [39] Eunhee Rho, Kanchan Joshi, Seung-Uk Shin, Nitesh Jagadeesh Shetty, Jooyoung
+[19] Joohee Lee, Kwangjin Ko, Taeho Hwang, Woosuk Chung, Hoshik Kim, and Hwang, Sangyeun Cho, Daniel DG Lee, and Jaeheon Jeong. 2018. FStream:
+Donguk Moon. 2026. Prompt Caching on Flash: Achieving Memory-Class Latency Managing Flash Streams in the File System. In 16th USENIX Conference on File
+for LLM Inference. IEEE Computer Architecture Letters (2026). and Storage Technologies (FAST 18). USENIX Association, 257–264. https://www.
+[20] Wonbeom Lee, Jungi Lee, Junghwan Seo, and Jaewoong Sim. 2024. InfiniGen: usenix.org/conference/fast18/presentation/rho
+Efficient Generative Inference of Large Language Models with Dynamic KV [40] SemiAnalysis. 2026. cc-traces-weka-062126: WekaTrace corpus derived
+Cache Management. In 18th USENIX Symposium on Operating Systems Design from SemiAnalysis Claude Code proxy traces. https://huggingface.
+and Implementation (OSDI 24). USENIX Association, 155–172. https://www. co/datasets/semianalysisai/cc-traces-weka-062126. Built 2026-06-21 via
+usenix.org/conference/osdi24/presentation/lee utils/agentic/build_weka_hf_dataset.py.
+[21] Huaicheng Li, Mingzhe Hao, Michael Hao Tong, Swaminathan Sundararaman, [41] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi
+Matias Bjørling, and Haryadi S Gunawi. 2018. The {CASE} of {FEMU}: Cheap, Chen, Percy Liang, Christopher Ré, Ion Stoica, and Ce Zhang. 2023. Flexgen:
+accurate, scalable and extensible flash emulator. In 16th USENIX Conference on High-throughput generative inference of large language models with a single
+File and Storage Technologies (FAST 18). 83–90. gpu. In International Conference on Machine Learning. PMLR, 31094–31116.
+[22] Yuhang Li, Rong Gu, Chengying Huan, Zhibin Wang, Renjie Yao, Chen Tian, and [42] Dowon Son, Yonggon Park, Hyunuk Cho, Hyungkyu Ham, Onur Mutlu, Sungjin
+Guihai Chen. 2025. HotPrefix: Hotness-aware KV cache scheduling for efficient Lee, Gwangsun Kim, and Jisung Park. 2026. Exploring High-Bandwidth Flash
+prefix sharing in LLM inference systems. Proceedings of the ACM on Management for Modern LLM Inference: Opportunities and Challenges. IEEE Computer Archi-
+of Data 3, 4 (2025), 1–27. tecture Letters 25, 2 (July 2026), 251–254. doi:10.1109/LCA.2026.3705817
+[23] Zhuoran Li, Zhuohang Bian, Xin Huang, Yibo Zhao, Guangyu Sun, and Youwei [43] Srikanta Datta Tumkur, Jay Iyer, Mehar Simhadri, Sai Pavan Kumar, Sai Kapil
+Zhuo. 2026. HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash Kumar, and Ramesh Nampelly. 2026. Where Should the KV Cache Live? Place-
+for KV-Centric LLM Serving. arXiv:2608.11668 [cs.AR] doi:10.48550/arXiv.2608. ment Policies Across GPU, CPU, and SSD for Long-Lived Sessions. arXiv preprint
+11668 arXiv:2609.16215 (2026).
+[24] Ren-Shuo Liu, Chia-Lin Yang, and Wei Wu. 2012. Optimizing NAND Flash- [44] Jiahao Wang, Jinbo Han, Xingda Wei, Sijie Shen, Dingyan Zhang, Chenguang
+Based SSDs via Retention Relaxation. In 10th USENIX Conference on File and Fang, Rong Chen, Wenyuan Yu, and Haibo Chen. 2025. {KVCache} Cache in
+Storage Technologies (FAST 12). USENIX Association. https://www.usenix.org/ the Wild: Characterizing and Optimizing {KVCache} Cache at a Large Cloud
+conference/fast12/optimizing-nand-flash-based-ssds-retention-relaxation Provider. In 2025 USENIX Annual Technical Conference (USENIX ATC 25). 465–482.
+[25] Zirui Liu, Jiayi Yuan, Hongye Jin, Shaochen Zhong, Zhaozhuo Xu, Vladimir [45] Xinyu Wang, Yalong Xue, Xiaotian Sun, Xiaoyu Zhang, Chunmeng Dou, Xueqi
+Braverman, Beidi Chen, and Xia Hu. 2024. KIVI: A Tuning-Free Asymmetric 2bit Li, and Xiaoming Chen. 2026. FlashAccel: Leveraging High-Bandwidth Flash for
+Quantization for KV Cache. In Proceedings of the 41st International Conference on High-Throughput LLM Inference. arXiv preprint arXiv:2607.10186 (2026).
+Machine Learning (Proceedings of Machine Learning Research, Vol. 235). PMLR, [46] Zhiyu Wang and Rajkumar Buyya. 2026. Preserving Admission Responsibility
+32332–32344. https://proceedings.mlr.press/v235/liu24bz.html in Multi-Tenant Large Language Model Prefix Caches. arXiv:2608.01657 [cs.DC]
+[26] Yixin Luo, Yu Cai, Saugata Ghose, Jongmoo Choi, and Onur Mutlu. 2015. WARM: https://arxiv.org/abs/2608.01657
+Improving NAND flash memory lifetime with write-hotness aware retention [47] Daniel Lin-Kit Wong, Hao Wu, Carson Molder, Sathya Gunasekar, Jimmy Lu,
+management. In 2015 31st Symposium on Mass Storage Systems and Technologies Snehal Khandkar, Abhinav Sharma, Daniel S. Berger, Nathan Beckmann, and
+(MSST). IEEE, 1–14. Gregory R. Ganger. 2024. Baleen: ML Admission and Prefetching for Flash Caches.
+[27] Sara McAllister, Yucong Sherry Wang, Benjamin Berg, Daniel S. Berger, George In 22nd USENIX Conference on File and Storage Technologies (FAST 24). USENIX
+Amvrosiadis, Nathan Beckmann, and Gregory R. Ganger. 2024. FairyWREN: Association, 347–371. https://www.usenix.org/conference/fast24/presentation/
+A Sustainable Cache for Emerging Write-Read-Erase Flash Interfaces. In 18th wong
+USENIX Symposium on Operating Systems Design and Implementation (OSDI [48] Bing Xie, Zhipeng Wang, Masahiro Tanaka, and Zhen Zheng. 2026.
+24). USENIX Association, 745–764. https://www.usenix.org/conference/osdi24/ PEEK: Predictive Queue-Informed KV Cache Management for LLM Serving.
+presentation/mcallister arXiv:2607.02525 [cs.DC] https://arxiv.org/abs/2607.02525
+[28] Amir Noohi and Antonio Barbalace. 2026. TENURE: Residency Leases for Tiered [49] Dongsheng Yang, Austin Li, Kai Li, and Wyatt Lloyd. 2026. Learned prefix caching
+LLM KV Caches. In ACM Symposium on Cloud Computing (SoCC). for efficient LLM inference. Advances in Neural Information Processing Systems
+[29] NVIDIA. [n. d.]. Introducing NVIDIA BlueField-4-Powered CMX Context 38 (2026), 45770–45792.
+Memory Storage Platform for the Next Frontier of AI | NVIDIA Technical Blog — [50] Jaehoon Yang, Jeongmin Lee, Haneul Park, Seung Yul Lee, Nam Sung Kim, and
+developer.nvidia.com. https://developer.nvidia.com/blog/introducing-nvidia- Jae W. Lee. 2026. Lachesis: Lifetime-Aware KV Cache Placement for Agent
+bluefield-4-powered-inference-context-memory-storage-platform-for-the- Serving across HBM and High-Bandwidth Flash. arXiv:2610.08378 [cs.AR] https:
+
+===== PAGE 14 =====
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+//arxiv.org/abs/2610.08378 [53] Zhenyu Zhang, Ying Sheng, Tianyi Zhou, Tianlong Chen, Lianmin Zheng, Ruisi
+[51] Tzu-Wei Yang, Seth Pollen, Mustafa Uysal, Arif Merchant, and Homer Wolfmeis- Cai, Zhao Song, Yuandong Tian, Christopher Ré, Clark Barrett, Zhangyang
+ter. 2022. {CacheSack}: Admission optimization for google datacenter flash Wang, and Beidi Chen. 2023. 𝐻 2O: Heavy-Hitter Oracle for Efficient Generative
+caches. In 2022 USENIX Annual Technical Conference (USENIX ATC 22). 1021– Inference of Large Language Models. In Advances in Neural Information Processing
+1036. Systems, Vol. 36. https://proceedings.neurips.cc/paper_files/paper/2023/hash/
+[52] Zack Yu, Chloe Wong, Coleman Hooper, Minjae Lee, Wonjun Kang, Youngjin Cho, 6ceefa7b15572587b78ecfcebb2827f8-Abstract-Conference.html
+Michael W. Mahoney, Yakun Sophia Shao, Kurt Keutzer, and Amir Gholami. 2026. [54] Shuzhang Zhong, Weikai Xu, Yifan Zhou, Tongbin Zhao, Tenghao Zhao, Yifei
+Characterizing High Bandwidth Flash for LLM Serving. arXiv:2609.39131 [cs.LG] Kang, Cunyin Chang, Shu Li, Guangyu Sun, and Meng Li. 2026. HBFlex: A Flexible
+https://arxiv.org/abs/2609.39131 Memory System for Bridging Fine-Grained LLM States and Coarse-Grained HBF
+Parallel Execution. arXiv:2609.18675 [cs.AR] https://arxiv.org/abs/2609.18675

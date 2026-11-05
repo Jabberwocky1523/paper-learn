@@ -1,0 +1,74 @@
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+30
+20
+10
+0
+0 20 40 60 80
+Cache Hit Rate (%)
+)syad(
+emitefiL
+DSS
+Generated CPU DRAM SSD LRU cache Admission Persistence
+HotPrefix
+Workload-aware Move
+Bidaw first → drop_cost
+MeritKV or
+RR-Evict Drop → move cost= write + replacement
+LRU-K first
+Marconi
+Figure 4: Gandalf overview. Gandalf admits new KV caches
+Figure 3: Existing systems trades off SSD lifetime and cache to host memory and, when it is full, chooses between drop-
+hit rate. ping a DRAM cache or moving it to SSD based on SSD write
+and replacement-cache recomputation costs.
+retention relaxation increases tolerable NAND program/erase cy-
+lifetime, but may discard reusable state, lowering the cache-hit rate
+cles by reducing data retention requirements [5, 26]. FlashAccel
+and increasing TTFT. Thus, when cache entries are homogeneous,
+exploits the short lifetime of KV caches to trade retention for en-
+improving one objective necessarily comes at the expense of the
+durance [45]. However, both approaches increase the available
+other. Breaking this trade-off requires identifying writes that con-
+write budget rather than reducing host-level KV-cache writes, and
+sume SSD endurance but contribute little to future cache reuse.
+may require additional hardware or device support. They also do
+not leverage unique property of KV caches: we can choose to not 2.6 Key Observation: Hybrid model has
+cache the KV cache and recompute it when needed. It may there-
+heterogeneous reuse pattern
+fore remain insufficient for sustained LLM serving, especially in
+multi-round and agentic workloads. Dense models use full attention across all layers. When a cached
+Selective KV cache admission and eviction. Although not aimed context is resumed, the KV entries of every tokens in the sequence
+at prolonging SSD lifetime, many existing cache admission and prefix are reused. Thus, storing a larger portion of the prefix allows
+eviction policies selectively filters KV caches to optimize cache more recomputation to be avoided, creating a near one-for-one
+utilization and reuse to increase cache hit rate, indirectly reducing trade-off between SSD writes and cache-hit rate. Each layer and
+writes. One approach schedules requests that involve resident KV token’s admitted KV entry provides comparable reuse value, and
+caches, which KV caches fits in the available space [52]. LRU-𝐾 reducing SSD writes generally sacrifices a corresponding caching
+admits a KV cache only after it has been accessed 𝐾 times [31, 35]. opportunity. This creates the apparent one-for-one trade-off be-
+DeepSeek-V4.1 retains sliding window KV caches in distributed tween SSD lifetime and cache-hit rate.
+memory pool to guarantee other KV cache availability for at least Hybrid models break this trade-off due to its model architec-
+72 hours inside the persistent storage [8]. HotPrefix [22] and Pre- ture: combining full-attention layers with sparse attention layers,
+fixShield [46] leverages prefix-based policies to evict cold KV caches such as linear and sliding-window attention. As shown in Table 1,
+from GPU HBM, while Workload-Aware [44] considers reuse prob- cached states from different layer types exhibit substantially non-
+ability, block position, and lifetime. LPC [49] and SAECache [12] uniform reuse patterns, where linear state is reused much less
+predict reuse through learning-based methods. RR-evict [34] uses than full attention KV cache. We observed that under append-only
+a round-robin eviction to ensure fairness across sessions, while workloads such as multi-round conversation, all prefix tokens’ full-
+Bidaw [14] predicts reuse distance from prior responses in the ses- attention KV caches are reused in every subsequent round, so their
+sion. Another approach uses recency, frequency, and EWMA-based reuse count increases as the conversation grows. By contrast, each
+reuse estimates for prefetching and eviction [43]. MeritKV [17] sparse-attention state is typically used only once—to generate the
+gates admission to storage backend if the saved prefill time, minus immediately following round—before being superseded by a newer
+lookup and transfer costs, minus historical miss’ recomputation state.
+costs, is less than a threshold. However, these approaches do not Uniformly writing these short-lived states to SSD is inefficient.
+explicitly optimize SSD endurance. Write-through immediately persists them, while write-back may
+persist them upon eviction, even though they are likely to be super-
+2.5 SSD lifetime and Cache Hit Rate Trade-off
+seded after only one reuse. When the latest linear-attention state
+Hardware configuration—size of host memory and SSD capacity—is can remain in DRAM until the next round, its SSD copy provides no
+fixed. But workload demand can vary substantially over time. Since additional cache hit but still consumes SSD endurance and capacity.
+cache entries are reused homogeneously, the storage hierarchy Such writes may also evict more reusable full-attention KV entries,
+must treat them uniformly. Hence, existing solutions trades off SSD further reducing cache effectiveness.
+lifetime against cache hit rate, as shown in Figure 3.
+3 Overview
+Storing more KV-cache entries on SSD increases the probabil-
+ity that future requests find reusable state, thereby improving the As shown in Figure 4, Gandalf involves a two-tier storage hierar-
+cache-hit rate and reducing TTFT. However, the resulting write chy setup, comprising of DRAM (L1) and SSD (L2). § 3.1 describes
+volume rapidly consumes the SSD’s finite endurance budget. Con- our attention type-aware placement policy that strictly decides the
+versely, storing fewer entries reduces SSD traffic and extends device placement of each admitted state based on the attention type’s reuse

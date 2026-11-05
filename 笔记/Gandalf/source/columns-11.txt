@@ -1,0 +1,116 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading
+LRU 42 0.2
+Workload-aware 63 0.17
+Marconi 43 0.21
+MeritKV 36 0.089
+HotPrefix 4.4 2.5
+LRU-K 6.8 Linear 1.1
+Gandalf 0.54 Full attention 13
+0 25 50 0 10
+SSD writes (TB) SSD read/write ratio (bytes)
+Figure 12: The gain from Gandalf comes from both reducing
+the amount of writes to the SSD (left) and increasing the
+Read/Write ratio (right).
+Write-back baselines (LRU, Workload-aware, Marconi). These poli-
+cies write every object evicted from DRAM to the SSD: they decide
+which object to evict, but not whether to move it to the SSD or
+drop it. Linear states make up 96% of the bytes they write, yet only
+1.6–8.5% of the linear states they write are ever hit on the SSD,
+and 57% of LRU’s are never requested again. Gandalf writes 25
+linear states instead of LRU’s 90k, and 3.2× fewer full-attention
+bytes (0.53 against 1.70TB). In total, it writes 73× fewer bytes than
+LRU (0.58 against 42.2TB), and its SSD lasts 73× longer (253 against
+3.5 days). Workload-aware and Marconi change only which object
+to evict; Marconi writes about as much as LRU (42.7TB, 3.4 days),
+and Workload-aware writes 1.5× more (63.5TB, 2.3 days). At 𝛼 = 1,
+Gandalf has a higher miss ratio than LRU (0.818 against 0.697;
+see below). With 𝛼 = 0, Gandalf has the lowest miss ratio of all
+policies, 0.603, and its SSD still lasts 1.4× longer than LRU’s (4.95
+against 3.46 days), because what it writes is read more: its SSD
+serves 1.8× as many full-attention hits (2.04M against 1.14M) and
+2.2× as many linear-state hits (38.9k against 18.0k).
+MeritKV. MeritKV admits an object to the SSD only when the
+prefill it saves outweighs the expected reuse latency plus the write
+cost, but it admits the first three demands of every object uncondi-
+tionally to learn its reuse. Most linear states are written before this
+estimate applies: 97% of the linear states it writes had never been
+hit before the write. It still writes 36.1TB (4.0 days), only 5.6% of its
+linear-state writes are hit on the SSD, and it misses 0.807 of chunks.
+HotPrefix. HotPrefix admits a prefix to DRAM only if it has been
+requested at least 𝐹 times while DRAM has room, and otherwise
+only if its frequency times its recency clock beats the coldest DRAM
+entry; a refused prefix is dropped rather than written to the SSD.
+This cuts its writes to 4.4TB, 9.6× fewer than LRU, and its SSD
+lasts 33 days. The filter, however, does not tell reused linear states
+from the rest: 97% of the linear states it writes had never been hit
+before, 51% are never requested again, and only 17% are hit on the
+SSD. The dropped prefixes become misses, so its miss ratio is 0.802;
+Gandalf at 𝛼 = 1 lasts 7.6× longer at a 0.016 higher miss ratio.
+With 𝐹 = 10, HotPrefix writes 0.38TB and lasts 388 days, but misses
+0.839 of chunks.
+LRU-K. LRU-K writes an object to the SSD only once it has been
+referenced 𝐾 times. With 𝐾 = 3, it writes 6.8TB, 6.2× fewer than
+LRU, and 31% of the linear states it writes are hit on the SSD, against
+--- RIGHT COLUMN ---
+g in LLM Serving
+40
+32
+24
+16
+8
+0
+0.8 1.2 1.6 2
+Average cache load latency (s)
+)shtnom(
+emitefil
+DSS
+ClaudeCodeSemiAnalysis
+LRU
+HotPrefix
+MeritKV
+LRU-K
+Marconi
+Gandalf
+Figure 13: Gandalf increases SSD lifetime while maintaining
+low cache load latency.
+7.9% for LRU. The objects it refuses are dropped, so its miss ratio
+rises to 0.750, and its SSD lasts 21.5 days; Gandalf at 𝛼 = 1 lasts
+11.8× longer at a 0.068 higher miss ratio.
+Where Gandalf gives up hits. At 𝛼 = 1, Gandalf misses more
+than LRU on TraceA (0.818 against 0.697). Since it writes only 25
+linear states, a conversation whose linear state has left DRAM must
+be recomputed from the start, and its full-attention KV cannot be
+used either: Gandalf serves 19.5k linear-state hits against 42.4k
+for LRU, and 1.11M full-attention hits against 1.91M. In exchange,
+its SSD lasts 73× longer. A smaller 𝛼 recovers these hits at a shorter
+lifetime (§5.4).
+5.8 How much is the cache load latency
+affected?
+We approximate the cache load latency of a request as the maxi-
+mum of the time to transfer its cached KV to GPU HBM and the
+time to recompute its missed tokens, since the two overlap. The
+transfer uses DRAM as a staging buffer: KV on the SSD is first read
+into DRAM (10GB/s), then every cached byte is sent to GPU HBM
+(50GB/s); recomputation runs at 60k tokens/s. Figure 13 shows the
+average cache load latency against SSD lifetime on ClaudeCode
+with Kimi-K3, 100GB of DRAM and a 1TB SSD. The baselines with
+the lowest load latency, Marconi at 𝛼 = 0 and LRU, load in 0.66s
+and their SSDs last 4 months. Gandalf at 𝛼 = 1 lasts 4.2× longer
+(17.0 months) at a load latency of 0.78s, 0.12s higher. It reads more
+of its hits from the SSD, which is slower than DRAM, and its miss
+ratio is 0.01 higher (0.056 against 0.045), so slightly more tokens are
+recomputed. At a similar load latency, Gandalf lasts 3.7× longer
+than LRU-K at 𝐾 = 2 (21.2 against 5.7 months, 0.79s against 0.81s),
+and with 𝛼 = 64 it lasts 5.3× longer than LRU-K at 𝐾 = 3 while still
+loading faster (38.6 against 7.3 months, 0.91s against 0.93s).
+However, more recomputation is not always worse. Every write
+wears out the SSD, effectively using a portion of its purchase price,
+so the cost of a request is the GPU cost of recomputing its missed
+tokens plus the SSD price share. Figure 14 shows this cost as an
+average per request, choosing the cheapest hyperparameters for
+each policy. SSD wear makes up 66–86% of the cost of LRU, Marconi
+and LRU-K, and the cheapest baseline, LRU-K at 𝐾 = 2, costs $0.74
+per 1k requests. Gandalf at 𝛼 = 1 costs $0.30 per 1k requests,
+2.5× less: it recomputes more than LRU and Marconi ($0.13 against
+$0.11 per 1k requests), but its SSD wear is 3.0× lower than that of
+any baseline ($0.16 against $0.49–0.73).

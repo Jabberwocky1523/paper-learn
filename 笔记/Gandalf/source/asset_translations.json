@@ -1,0 +1,19 @@
+{
+"figure-01":"图 1：使用历史访问模式，会在缓存命中率与 SSD 寿命之间形成权衡。Gandalf 在延长 SSD 寿命的同时维持缓存命中率。",
+"table-01":"表 1：多轮对话中第一轮 KV 缓存的复用模式。",
+"table-02":"表 2：在 KV 缓存卸载工作负载下，SSD 的寿命可能不足一年，远短于五年保修期。",
+"figure-02":"图 2：在相同购置预算下，SSD 更适合用于复用密集的 KV 缓存卸载工作负载。",
+"figure-03":"图 3：现有系统需要在 SSD 寿命和缓存命中率之间作出权衡。",
+"figure-04":"图 4：Gandalf 概览。Gandalf 将新 KV 缓存准入主机内存；内存满时，根据 SSD 写入成本及替换缓存的重新计算成本，在丢弃 DRAM 缓存与将其移入 SSD 之间选择。",
+"figure-05":"图 5：获得最大 SSD 寿命改善所需的 CPU／SSD 容量比。",
+"figure-06":"图 6：在 Claude Code WEKA 轨迹中，大多数线性注意力状态只复用一次，或从不复用。",
+"table-03":"表 3：各轨迹的写入负载超过 SSD 的额定 DWPD。",
+"figure-07":"图 7：在 Kimi-K3、100 GB DRAM 和 1 TB SSD 下，Gandalf 及各基线在所有轨迹上的 SSD 寿命与缓存未命中率关系。Gandalf、LRU-K、HotPrefix 和 Marconi 的曲线连接不同超参数配置，分别为 Gandalf 的 α、LRU-K 的 K、HotPrefix 的热度频率阈值和 Marconi 的 α。",
+"figure-08":"图 8：在不同 DRAM／SSD 容量比例下，Gandalf 同时实现较低的缓存未命中率和较长的 SSD 寿命。DRAM 与 SSD 总容量固定为 4 TB，确保不同配置间的未命中率和寿命可比。",
+"figure-09":"图 9：对于线性状态与全注意力缓存大小比不同的多种混合模型，Gandalf 均优于基线。",
+"figure-10":"图 10：采用 Gandalf 的 SSD 准入后，SSD 写入中至少贡献一次缓存命中的比例更高。与基线不同，Gandalf 的缓存命中表现随时间保持稳定。",
+"figure-11":"图 11：Gandalf 的线性状态缓存命中有更大比例来自 DRAM，而大多数全注意力 KV 缓存命中来自 SSD。",
+"figure-12":"图 12：Gandalf 的收益同时来自减少 SSD 写入量（左）和提高读／写比（右）。",
+"figure-13":"图 13：Gandalf 在保持较低缓存加载延迟的同时延长 SSD 寿命。",
+"figure-14":"图 14：在 ClaudeCode、Kimi-K3、100 GB DRAM 和 1 TB SSD 下，每个请求的平均成本，包括重新计算和 SSD 磨损。计入 SSD 磨损后，Gandalf 的成本最低。"
+}

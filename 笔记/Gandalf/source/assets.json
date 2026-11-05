@@ -1,0 +1,342 @@
+[
+  {
+    "type": "figure",
+    "number": 1,
+    "page": 1,
+    "bbox": [
+      350,
+      218,
+      517,
+      296
+    ],
+    "caption_bbox": [
+      317,
+      303,
+      560,
+      338
+    ],
+    "original_text": "Figure 1: Using historical access pattern creates a trade-off between cache hit rate and SSD lifetime. Gandalf maintains cache hit rate while increasing SSD lifetime.",
+    "path": "assets/figure-01.png",
+    "translation": ""
+  },
+  {
+    "type": "table",
+    "number": 1,
+    "page": 1,
+    "bbox": [
+      317,
+      385,
+      560,
+      430
+    ],
+    "caption_bbox": [
+      317,
+      348,
+      560,
+      375
+    ],
+    "original_text": "Table 1: Reuse pattern of first round’s KV caches in multi-round conversation",
+    "path": "assets/table-01.png",
+    "translation": ""
+  },
+  {
+    "type": "table",
+    "number": 2,
+    "page": 2,
+    "bbox": [
+      317,
+      115,
+      560,
+      210
+    ],
+    "caption_bbox": [
+      317,
+      80,
+      560,
+      105
+    ],
+    "original_text": "Table 2: Under KV cache offloading workloads, SSDs may last less than a year—far short of their five-year warranty.",
+    "path": "assets/table-02.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 2,
+    "page": 3,
+    "bbox": [
+      83,
+      86,
+      258,
+      176
+    ],
+    "caption_bbox": [
+      53,
+      185,
+      296,
+      222
+    ],
+    "original_text": "Figure 2: Under same acquisition budget, SSD is more optimal to be used for KV cache offloading workload, which is reuse-heavy.",
+    "path": "assets/figure-02.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 3,
+    "page": 4,
+    "bbox": [
+      53,
+      86,
+      296,
+      168
+    ],
+    "caption_bbox": [
+      53,
+      179,
+      296,
+      203
+    ],
+    "original_text": "Figure 3: Existing systems trades off SSD lifetime and cache hit rate.",
+    "path": "assets/figure-03.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 4,
+    "page": 4,
+    "bbox": [
+      318,
+      86,
+      559,
+      155
+    ],
+    "caption_bbox": [
+      317,
+      167,
+      560,
+      212
+    ],
+    "original_text": "Figure 4: Gandalf overview. Gandalf admits new KV caches to host memory and, when it is full, chooses between dropping a DRAM cache or moving it to SSD based on SSD write and replacement-cache recomputation costs.",
+    "path": "assets/figure-04.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 5,
+    "page": 5,
+    "bbox": [
+      343,
+      86,
+      535,
+      178
+    ],
+    "caption_bbox": [
+      317,
+      192,
+      560,
+      217
+    ],
+    "original_text": "Figure 5: CPU/SSD capacity ratio to obtain maximum SSD lifetime improvement.",
+    "path": "assets/figure-05.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 6,
+    "page": 6,
+    "bbox": [
+      353,
+      86,
+      528,
+      179
+    ],
+    "caption_bbox": [
+      317,
+      193,
+      560,
+      219
+    ],
+    "original_text": "Figure 6: In Claude Code WEKA trace, most linear-attention states are reused once or never.",
+    "path": "assets/figure-06.png",
+    "translation": ""
+  },
+  {
+    "type": "table",
+    "number": 3,
+    "page": 8,
+    "bbox": [
+      61,
+      116,
+      286,
+      224
+    ],
+    "caption_bbox": [
+      53,
+      80,
+      296,
+      105
+    ],
+    "original_text": "Table 3: The traces writes exceed the SSD’s workload DWPD rating.",
+    "path": "assets/table-03.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 7,
+    "page": 9,
+    "bbox": [
+      53,
+      87,
+      559,
+      208
+    ],
+    "caption_bbox": [
+      53,
+      219,
+      560,
+      256
+    ],
+    "original_text": "Figure 7: SSD lifetime against cache miss ratio for Gandalf and the baselines on all traces with Kimi-K3 model, 100 GB of DRAM and a 1 TB SSD. Gandalf , LRU-K, HotPrefix and Marconi are lines through their hyperparameters (Gandalf ’s 𝛼, LRU-K’s 𝐾, HotPrefix’s hotness frequency, and Marconi’s 𝛼).",
+    "path": "assets/figure-07.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 8,
+    "page": 9,
+    "bbox": [
+      77,
+      273,
+      272,
+      434
+    ],
+    "caption_bbox": [
+      53,
+      445,
+      296,
+      503
+    ],
+    "original_text": "Figure 8: Gandalf achieves lower cache miss ratio while achieving higher SSD lifetime under different DRAM/SSD capacity ratios. We fix the total capacity of DRAM and SSD to 4TB to make sure the cache miss ratio and lifetime is comparable across different setups.",
+    "path": "assets/figure-08.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 9,
+    "page": 9,
+    "bbox": [
+      321,
+      274,
+      557,
+      405
+    ],
+    "caption_bbox": [
+      317,
+      415,
+      560,
+      441
+    ],
+    "original_text": "Figure 9: Gandalf improves baselines in wide range of hybrid models having different linear-to-full cache size ratios.",
+    "path": "assets/figure-09.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 10,
+    "page": 10,
+    "bbox": [
+      78,
+      87,
+      273,
+      202
+    ],
+    "caption_bbox": [
+      53,
+      215,
+      296,
+      251
+    ],
+    "original_text": "Figure 10: Gandalf SSD admission results in higher fraction of SSD writes that contributes to cache hits at least once. Unlike baselines, Gandalf cache hit is stable across time.",
+    "path": "assets/figure-10.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 11,
+    "page": 10,
+    "bbox": [
+      350,
+      87,
+      507,
+      196
+    ],
+    "caption_bbox": [
+      317,
+      206,
+      560,
+      242
+    ],
+    "original_text": "Figure 11: A bigger portion of linear state cache hit in Gandalf comes from DRAM, while most full attention KV cache hit comes from SSD.",
+    "path": "assets/figure-11.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 12,
+    "page": 11,
+    "bbox": [
+      53,
+      87,
+      293,
+      196
+    ],
+    "caption_bbox": [
+      53,
+      209,
+      296,
+      246
+    ],
+    "original_text": "Figure 12: The gain from Gandalf comes from both reducing the amount of writes to the SSD (left) and increasing the Read/Write ratio (right).",
+    "path": "assets/figure-12.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 13,
+    "page": 11,
+    "bbox": [
+      322,
+      87,
+      552,
+      184
+    ],
+    "caption_bbox": [
+      317,
+      196,
+      560,
+      221
+    ],
+    "original_text": "Figure 13: Gandalf increases SSD lifetime while maintaining low cache load latency.",
+    "path": "assets/figure-13.png",
+    "translation": ""
+  },
+  {
+    "type": "figure",
+    "number": 14,
+    "page": 12,
+    "bbox": [
+      77,
+      87,
+      273,
+      181
+    ],
+    "caption_bbox": [
+      53,
+      193,
+      296,
+      240
+    ],
+    "original_text": "Figure 14: Average cost per request, recomputation plus SSD wear, on ClaudeCode with Kimi-K3, 100 GB of DRAM and a 1 TB SSD. Gandalf has the lowest cost once the SSD wear is counted.",
+    "path": "assets/figure-14.png",
+    "translation": ""
+  }
+]
