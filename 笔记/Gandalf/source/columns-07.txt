@@ -1,0 +1,115 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading
+3.3.2 Moving a DRAM candidate to SSD. Moving an object to SSD
+costs the SSD’s endurance, plus the future hits lost on the objects
+evicted to make room for it.
+SSD write cost. Writing 𝑠 𝑗 bytes to SSD consumes 𝐶 𝑤 𝑠 𝑗 dollars of
+endurance, where 𝐶 𝑤 = 𝑃 SSD /𝐸 TBW is the SSD’s purchase price per
+byte of rated write endurance. To make SSD lasts for 𝑇 years,
+target
+Gandalf limits the bytes written to SSD at elapsed time 𝑡, so the
+write cost is scaled by a multiplier 𝑡 𝐿 that grows when the bytes
+written 𝑊 exceeds the budget at time 𝑡, and shrinks when they fall
+behind 𝑊 . Without a target, 𝑡 𝐿 = 1 and the price alone limits wear.
+Replacement cost. Promoting 𝑗 may evict other objects 𝐸 𝑗 from
+SSD. Each of the evicted objects might still be needed in the future,
+losing its remaining 𝐻 𝑒 reads, each worth 𝑣 𝑒 𝐶 𝑟 , as in (7).
+Total move cost. Following the third observation, Gandalf prices
+a move by its cost per byte of DRAM per request it frees, so that it
+compares with ℎ 𝑑 :
+𝑡 𝐶
+𝑚𝑜𝑣𝑒_𝑐𝑜𝑠𝑡 = 𝐶 𝑤 𝑠 𝑗 + (cid:205) (cid:32)(cid:32) 𝑒 (cid:32)(cid:32)(cid:32) ∈ (cid:32)(cid:32)(cid:32) 𝐸 (cid:32)(cid:32)(cid:32)𝑗(cid:32) 𝐻 𝑒 (cid:32)(cid:32)(cid:32) 𝑣 (cid:32)(cid:32)(cid:32) 𝑒 (cid:32)(cid:32)(cid:32)(cid:32) 𝐶 (cid:32)(cid:32) 𝑟 , → 𝐿 𝑎 𝑗 𝑤 + 𝑒 m ∈ i 𝐸 n 𝑗 ℎ 𝑒
+(cid:124)(cid:123)(cid:122)(cid:125) (cid:124) (cid:123)(cid:122) (cid:125)
+cost of writing 𝑗 replacement cost in SSD
+(8)
+Gandalf evicts the SSD leaves with the lowest ℎ 𝑒 and charges
+the cheapest of them. While the SSD has room, 𝐸 𝑗 is empty and
+replacement cost is not charged.
+3.4 Optimization
+Scoring every cached chunk for every eviction is expensive: the
+cache holds millions of chunks, and their probability-weighted
+scores evolve over time. Gandalf avoids this cost with three obser-
+vations.
+First, only leaves can be dropped, and only root-side DRAM
+nodes can be moved to SSD. Gandalf only maintains these two
+sets in an incremental manner. Dropping a leaf exposes at most
+its parent as a new leaf, while moving a root-side node exposes its
+children as new move candidates. Thus, recomputing the scores of
+the caches only happens when there is cache pressure, to a small
+number of items.
+Second, scores in Equation (7) change as objects age, but remain
+fixed within a request. Gandalf keeps each tier’s leaf candidates in
+a min-heap ordered by their probability-weighted drop scores 𝐻 𝑑 .
+A heap is rebuilt only when first queried in a new request and is
+reused for all subsequent evictions in that request. New leaves are
+inserted immediately, while stale entries are discarded lazily from
+the heap top.
+Third, Gandalf partitions root-side DRAM candidates by cache
+type: linear and full. Within each size class, the candidate with the
+longest estimated remaining life has the lowest SSD write fee. A lazy
+heap ordered by remaining life therefore identifies this candidate
+without rescoring the class again during the request. By default,
+Gandalf compares only the longest-lived candidate from each
+size class. In later evaluation, we show that comparing only one
+candidate does not sacrifice performance. A separate lazy min-heap
+over SSD leaves identifies the lowest-valued SSD victim, and hence
+the replacement cost when DRAM pressure triggers a move from
+DRAM to SSD such that an object needs to be evicted from SSD to
+make room. After the heaps are built, each decision examines only
+their heads, rather than rescoring or sorting all cache objects.
+--- RIGHT COLUMN ---
+g in LLM Serving
+4 Implementation
+Verifying the simulator. We first ran vLLM [18] and connect it
+with LMCache [7] on RawBlock mode, with a Claude Code trace,
+then attaching an eBPF-based logger to dump out the storage-facing
+trace. This includes columns such as: timestamp since first run, type
+of operation (R/W), logical block address (LBA) accessed, size, and
+number of pages. We then replayed this trace on FEMU [21] with
+a 1TB @ 0.3 DWPD for 5 years SSD configuration to observe SSD
+lifetime given a KV cache offloading workload, resulting to our
+finding that KV cache is killing SSD. From this result, we obtained
+the SSD lifetime duration. Then, we build a trace-based simulator
+that estimates SSD lifetime by the TBW, and confirm the lifetime
+using the SSD lifetime we obtained by using SSD emulator. Simula-
+tor are needed to test all of our experiments prior to implementing
+in real hardware, which will effectively kills SSD for sure. After
+all technique was confirmed, we move our technique to real pro-
+duction system, involving LMCache [7] deployed as a backend for
+vLLM [18] inference engine.
+SSD lifetime estimation. Specifically, given that we confirmed
+the SSD lifetime using an emulator in the small scale, we estimate
+SSD lifetime by the TBW (Total Bytes Written). Once one trace is
+replayed, we can obtain the total write volume to SSD. Assuming
+that this trace is replayed over and over in production system, we
+can then obtain the total write volume per day, and then estimate
+the SSD lifetime by dividing the TBW by the total write volume
+per day.
+Transfer between tiers. Transfer between one tier and an-
+other assumes modes two-hops, using CPU as a staging buffer.
+Hit served from SSD must be transferred to CPU DRAM adhering
+SSD read bandwidth and SSD transfer bandwidth; hit served from
+CPU DRAM will go to GPU memory adhering CPU-to-GPU PCIe
+bandwidth;
+Hardware specs. The simulator models the hardware specs of
+the system that affects the transfer between SSD, CPU DRAM, and
+GPU HBM. We assume a specific GPU model, check the tokens per
+second throughput, and every generated KV cache is directly saved
+in the KV cache storage, e.g. LMCache [7]. For the SSD model, the
+simulator supports specifying DWPD (Drive Writes Per Day) and
+capacity. However, for our evaluation, we assume 1 DWPD (Drive
+Writes Per Day) for 5 years, which is a majority specification for
+enterprise SSDs. We check the SSD read and transfer bandwidth
+via FIO [2]. We then vary the SSD capacity for the evaluation.
+Known limitation. The simulator assumes write-amplification
+factor (WAF) to be 1, since the simulator does not model the SSD
+internal operations, such as garbage collection, wear leveling, and
+other internal operations that may affect the SSD lifetime. Hence,
+the simulator may overestimate the SSD lifetime for all the evalu-
+ated techniques, Gandalf and baselines. However, since WAF is
+implicated by the fast write rate, if we reduce the write volume
+using Gandalf , we can still reduce the WAF and improve the SSD
+lifetime.
+5 Evaluation
+5.1 Setup
+Baselines. We compare Gandalf against six cache-management
+baselines: general tier eviction policies such as LRU, Marconi [33],

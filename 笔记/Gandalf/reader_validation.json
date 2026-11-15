@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "errors": [],
+  "source_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "body_paragraphs": 119,
+  "references": 54,
+  "figures": 14,
+  "tables": 3,
+  "table_data_rows": 12,
+  "equations": 8,
+  "footnotes": 2,
+  "text_characters": 130982,
+  "asset_visual_review": "All 17 inspected; figure 4 top margin and figure 9 y-axis recropped and re-inspected.",
+  "numeric_review": "Body numbers compared across languages; currency conversion and LaTeX comparison operators reviewed separately."
+}

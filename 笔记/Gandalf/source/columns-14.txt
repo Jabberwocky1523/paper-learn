@@ -1,0 +1,22 @@
+Maharani A. P. Irawan, Ku
+//arxiv.org/abs/2610.08378
+[51] Tzu-Wei Yang, Seth Pollen, Mustafa Uysal, Arif Merchant, and Homer Wolfmeis-
+ter. 2022. {CacheSack}: Admission optimization for google datacenter flash
+caches. In 2022 USENIX Annual Technical Conference (USENIX ATC 22). 1021–
+1036.
+[52] Zack Yu, Chloe Wong, Coleman Hooper, Minjae Lee, Wonjun Kang, Youngjin Cho,
+Michael W. Mahoney, Yakun Sophia Shao, Kurt Keutzer, and Amir Gholami. 2026.
+Characterizing High Bandwidth Flash for LLM Serving. arXiv:2609.39131 [cs.LG]
+https://arxiv.org/abs/2609.39131
+--- RIGHT COLUMN ---
+untai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+[53] Zhenyu Zhang, Ying Sheng, Tianyi Zhou, Tianlong Chen, Lianmin Zheng, Ruisi
+Cai, Zhao Song, Yuandong Tian, Christopher Ré, Clark Barrett, Zhangyang
+Wang, and Beidi Chen. 2023. 𝐻 2O: Heavy-Hitter Oracle for Efficient Generative
+Inference of Large Language Models. In Advances in Neural Information Processing
+Systems, Vol. 36. https://proceedings.neurips.cc/paper_files/paper/2023/hash/
+6ceefa7b15572587b78ecfcebb2827f8-Abstract-Conference.html
+[54] Shuzhang Zhong, Weikai Xu, Yifan Zhou, Tongbin Zhao, Tenghao Zhao, Yifei
+Kang, Cunyin Chang, Shu Li, Guangyu Sun, and Meng Li. 2026. HBFlex: A Flexible
+Memory System for Bridging Fine-Grained LLM States and Coarse-Grained HBF
+Parallel Execution. arXiv:2609.18675 [cs.AR] https://arxiv.org/abs/2609.18675

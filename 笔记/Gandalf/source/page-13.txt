@@ -1,0 +1,79 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+[10] Assaf Eisenman, Asaf Cidon, Evgenya Pergament, Or Haimovich, Ryan Stutsman, next-frontier-of-ai/?ncid=so-twit-393593. [Accessed 30-09-2026].
+Mohammad Alizadeh, and Sachin Katti. 2019. Flashield: A Hybrid Key-Value [30] NVIDIA. 2026. KVBM Guide. https://docs.nvidia.com/dynamo/v1.4.2/knowledge-
+Cache that Controls Flash Write Amplification. In 16th USENIX Symposium on base/modular-components/kvbm/kvbm-guide. NVIDIA Dynamo Documenta-
+Networked Systems Design and Implementation (NSDI 19). USENIX Association, tion, version 1.4.2; accessed 2026-10-01.
+65–78. https://www.usenix.org/conference/nsdi19/presentation/eisenman [31] Elizabeth J. O’Neil, Patrick E. O’Neil, and Gerhard Weikum. 1993. The LRU-K
+[11] Facebook. [n. d.]. Flashcache: A General-Purpose Write-Back Block Cache for page replacement algorithm for database disk buffering. SIGMOD Rec. 22, 2 (June
+Linux. https://github.com/facebookarchive/flashcache. Accessed: 2026-10-03. 1993), 297–306. doi:10.1145/170036.170081
+[12] Shaoke Fang, Ziang Li, Wenfei Wu, Jiatong Ji, Qingsong Liu, and Ruizhi Pu. 2026. [32] OpenAI. [n. d.]. Prompt caching. https://developers.openai.com/api/docs/guides/
+Not All Tokens Are Worth Caching: Learning Semantic-Aware Eviction for LLM prompt-caching. Accessed: 2026-09-30.
+Prefix Caches. arXiv preprint arXiv:2605.18825 (2026). [33] Rui Pan, Zhuang Wang, Zhen Jia, Can Karakus, Luca Zancato, Tri Dao, Yida
+[13] Bin Gao, Zhuomin He, Puru Sharma, Qingxuan Kang, Djordje Jevdjic, Junbo Wang, and Ravi Netravali. 2025. Marconi: Prefix caching for the era of hybrid
+Deng, Xingkun Yang, Zhou Yu, and Pengfei Zuo. 2024. {Cost-Efficient} large llms. Proceedings of Machine Learning and Systems 7 (2025).
+language model serving for multi-turn conversations with {CachedAttention}. [34] Zaifeng Pan, Chris Wu, Zhengding Hu, Xinwei Qiang, Zhongkai Yu, and Yufei
+In 2024 USENIX annual technical conference (USENIX ATC 24). 111–126. Ding. 2026. RR-Evict: Fine-Grained Prefix Cache Eviction beyond LRU for Agentic
+[14] Shipeng Hu, Guangyan Zhang, Yuqi Zhou, Yaya Wei, Ziyan Zhong, and Jike LLM Serving. arXiv preprint arXiv:2609.32278 (2026).
+Chen. 2026. Bidaw: Enhancing {Key-Value} Caching for Interactive {LLM} [35] Danni Peng, Kai Wu, Tianyu Zuo, Pengfei Xia, and Hui Zang. 2026. Enabling
+Serving via Bidirectional {Computation–Storage} Awareness. In 24th USENIX High-Bandwidth Flash for Generative Recommendation Serving with Write-
+Conference on File and Storage Technologies (FAST 26). 101–116. Aware KV Cache Policy. arXiv preprint arXiv:2609.07175 (2026).
+[15] Inho Jeong, Sunghyeon Woo, Sol Namkung, and Dongsuk Jeon. 2026. HiFC: High- [36] Ruoyu Qin, Zheming Li, Weiran He, Jialei Cui, Feng Ren, Mingxing Zhang,
+efficiency flash-based KV cache swapping for scaling LLM inference. Advances Yongwei Wu, Weimin Zheng, and Xinran Xu. 2025. Mooncake: Trading More
+in Neural Information Processing Systems 38 (2026), 47561–47590. Storage for Less Computation—A KVCache-Centric Architecture for Serving
+[16] Jinwoo Jeong and Jeongseob Ahn. 2025. Accelerating llm serving for multi-turn LLM Chatbot. In 23rd USENIX Conference on File and Storage Technologies (FAST
+dialogues with efficient resource management. In Proceedings of the 30th ACM 25). USENIX Association, 155–170. https://www.usenix.org/conference/fast25/
+International Conference on Architectural Support for Programming Languages presentation/qin
+and Operating Systems, Volume 2. 1–15. [37] Shi Qiu, Yifan Hu, Xintao Wang, Wenhao Zhu, Jianqin Yan, Hao Chen, Kaiqiang
+[17] Kushal Khemani, Evan J. Leri, and Sparsh Mittal. 2026. MeritKV: Utility-Gated Xu, Kai Chen, and Yiming Zhang. 2026. Tutti: Making SSD-Backed KV Cache
+Admission Control for KV-Cache Reuse in LLM Serving. Transactions on Machine Practical for Long-Context LLM Serving. arXiv:2605.03375 [cs.OS] https://arxiv.
+Learning Research (TMLR) (2026). Accepted by TMLR. https://openreview.net/ org/abs/2605.03375
+forum?id=y3j6fucWQP [38] Jeff Rasley, Samyam Rajbhandari, Olatunji Ruwase, and Yuxiong He. 2020. Deep-
+[18] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, speed: System optimizations enable training deep learning models with over
+Cody Hao Yu, Joseph Gonzalez, Hao Zhang, and Ion Stoica. 2023. Efficient 100 billion parameters. In Proceedings of the 26th ACM SIGKDD international
+memory management for large language model serving with pagedattention. In conference on knowledge discovery & data mining. 3505–3506.
+Proceedings of the 29th symposium on operating systems principles. 611–626. [39] Eunhee Rho, Kanchan Joshi, Seung-Uk Shin, Nitesh Jagadeesh Shetty, Jooyoung
+[19] Joohee Lee, Kwangjin Ko, Taeho Hwang, Woosuk Chung, Hoshik Kim, and Hwang, Sangyeun Cho, Daniel DG Lee, and Jaeheon Jeong. 2018. FStream:
+Donguk Moon. 2026. Prompt Caching on Flash: Achieving Memory-Class Latency Managing Flash Streams in the File System. In 16th USENIX Conference on File
+for LLM Inference. IEEE Computer Architecture Letters (2026). and Storage Technologies (FAST 18). USENIX Association, 257–264. https://www.
+[20] Wonbeom Lee, Jungi Lee, Junghwan Seo, and Jaewoong Sim. 2024. InfiniGen: usenix.org/conference/fast18/presentation/rho
+Efficient Generative Inference of Large Language Models with Dynamic KV [40] SemiAnalysis. 2026. cc-traces-weka-062126: WekaTrace corpus derived
+Cache Management. In 18th USENIX Symposium on Operating Systems Design from SemiAnalysis Claude Code proxy traces. https://huggingface.
+and Implementation (OSDI 24). USENIX Association, 155–172. https://www. co/datasets/semianalysisai/cc-traces-weka-062126. Built 2026-06-21 via
+usenix.org/conference/osdi24/presentation/lee utils/agentic/build_weka_hf_dataset.py.
+[21] Huaicheng Li, Mingzhe Hao, Michael Hao Tong, Swaminathan Sundararaman, [41] Ying Sheng, Lianmin Zheng, Binhang Yuan, Zhuohan Li, Max Ryabinin, Beidi
+Matias Bjørling, and Haryadi S Gunawi. 2018. The {CASE} of {FEMU}: Cheap, Chen, Percy Liang, Christopher Ré, Ion Stoica, and Ce Zhang. 2023. Flexgen:
+accurate, scalable and extensible flash emulator. In 16th USENIX Conference on High-throughput generative inference of large language models with a single
+File and Storage Technologies (FAST 18). 83–90. gpu. In International Conference on Machine Learning. PMLR, 31094–31116.
+[22] Yuhang Li, Rong Gu, Chengying Huan, Zhibin Wang, Renjie Yao, Chen Tian, and [42] Dowon Son, Yonggon Park, Hyunuk Cho, Hyungkyu Ham, Onur Mutlu, Sungjin
+Guihai Chen. 2025. HotPrefix: Hotness-aware KV cache scheduling for efficient Lee, Gwangsun Kim, and Jisung Park. 2026. Exploring High-Bandwidth Flash
+prefix sharing in LLM inference systems. Proceedings of the ACM on Management for Modern LLM Inference: Opportunities and Challenges. IEEE Computer Archi-
+of Data 3, 4 (2025), 1–27. tecture Letters 25, 2 (July 2026), 251–254. doi:10.1109/LCA.2026.3705817
+[23] Zhuoran Li, Zhuohang Bian, Xin Huang, Yibo Zhao, Guangyu Sun, and Youwei [43] Srikanta Datta Tumkur, Jay Iyer, Mehar Simhadri, Sai Pavan Kumar, Sai Kapil
+Zhuo. 2026. HBF Sucks? A Full-Stack Characterization of High-Bandwidth Flash Kumar, and Ramesh Nampelly. 2026. Where Should the KV Cache Live? Place-
+for KV-Centric LLM Serving. arXiv:2608.11668 [cs.AR] doi:10.48550/arXiv.2608. ment Policies Across GPU, CPU, and SSD for Long-Lived Sessions. arXiv preprint
+11668 arXiv:2609.16215 (2026).
+[24] Ren-Shuo Liu, Chia-Lin Yang, and Wei Wu. 2012. Optimizing NAND Flash- [44] Jiahao Wang, Jinbo Han, Xingda Wei, Sijie Shen, Dingyan Zhang, Chenguang
+Based SSDs via Retention Relaxation. In 10th USENIX Conference on File and Fang, Rong Chen, Wenyuan Yu, and Haibo Chen. 2025. {KVCache} Cache in
+Storage Technologies (FAST 12). USENIX Association. https://www.usenix.org/ the Wild: Characterizing and Optimizing {KVCache} Cache at a Large Cloud
+conference/fast12/optimizing-nand-flash-based-ssds-retention-relaxation Provider. In 2025 USENIX Annual Technical Conference (USENIX ATC 25). 465–482.
+[25] Zirui Liu, Jiayi Yuan, Hongye Jin, Shaochen Zhong, Zhaozhuo Xu, Vladimir [45] Xinyu Wang, Yalong Xue, Xiaotian Sun, Xiaoyu Zhang, Chunmeng Dou, Xueqi
+Braverman, Beidi Chen, and Xia Hu. 2024. KIVI: A Tuning-Free Asymmetric 2bit Li, and Xiaoming Chen. 2026. FlashAccel: Leveraging High-Bandwidth Flash for
+Quantization for KV Cache. In Proceedings of the 41st International Conference on High-Throughput LLM Inference. arXiv preprint arXiv:2607.10186 (2026).
+Machine Learning (Proceedings of Machine Learning Research, Vol. 235). PMLR, [46] Zhiyu Wang and Rajkumar Buyya. 2026. Preserving Admission Responsibility
+32332–32344. https://proceedings.mlr.press/v235/liu24bz.html in Multi-Tenant Large Language Model Prefix Caches. arXiv:2608.01657 [cs.DC]
+[26] Yixin Luo, Yu Cai, Saugata Ghose, Jongmoo Choi, and Onur Mutlu. 2015. WARM: https://arxiv.org/abs/2608.01657
+Improving NAND flash memory lifetime with write-hotness aware retention [47] Daniel Lin-Kit Wong, Hao Wu, Carson Molder, Sathya Gunasekar, Jimmy Lu,
+management. In 2015 31st Symposium on Mass Storage Systems and Technologies Snehal Khandkar, Abhinav Sharma, Daniel S. Berger, Nathan Beckmann, and
+(MSST). IEEE, 1–14. Gregory R. Ganger. 2024. Baleen: ML Admission and Prefetching for Flash Caches.
+[27] Sara McAllister, Yucong Sherry Wang, Benjamin Berg, Daniel S. Berger, George In 22nd USENIX Conference on File and Storage Technologies (FAST 24). USENIX
+Amvrosiadis, Nathan Beckmann, and Gregory R. Ganger. 2024. FairyWREN: Association, 347–371. https://www.usenix.org/conference/fast24/presentation/
+A Sustainable Cache for Emerging Write-Read-Erase Flash Interfaces. In 18th wong
+USENIX Symposium on Operating Systems Design and Implementation (OSDI [48] Bing Xie, Zhipeng Wang, Masahiro Tanaka, and Zhen Zheng. 2026.
+24). USENIX Association, 745–764. https://www.usenix.org/conference/osdi24/ PEEK: Predictive Queue-Informed KV Cache Management for LLM Serving.
+presentation/mcallister arXiv:2607.02525 [cs.DC] https://arxiv.org/abs/2607.02525
+[28] Amir Noohi and Antonio Barbalace. 2026. TENURE: Residency Leases for Tiered [49] Dongsheng Yang, Austin Li, Kai Li, and Wyatt Lloyd. 2026. Learned prefix caching
+LLM KV Caches. In ACM Symposium on Cloud Computing (SoCC). for efficient LLM inference. Advances in Neural Information Processing Systems
+[29] NVIDIA. [n. d.]. Introducing NVIDIA BlueField-4-Powered CMX Context 38 (2026), 45770–45792.
+Memory Storage Platform for the Next Frontier of AI | NVIDIA Technical Blog — [50] Jaehoon Yang, Jeongmin Lee, Haneul Park, Seung Yul Lee, Nam Sung Kim, and
+developer.nvidia.com. https://developer.nvidia.com/blog/introducing-nvidia- Jae W. Lee. 2026. Lachesis: Lifetime-Aware KV Cache Placement for Agent
+bluefield-4-powered-inference-context-memory-storage-platform-for-the- Serving across HBM and High-Bandwidth Flash. arXiv:2610.08378 [cs.AR] https:

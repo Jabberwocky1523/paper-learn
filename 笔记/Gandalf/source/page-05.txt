@@ -1,0 +1,103 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime for KV Cache Offloading in LLM Serving
+pattern. § 3.2 investigates the potential of attention-type-aware 10
+placement by an oracle-based optimal algorithmic approximation
+that maximizes cache hit rate while minimizing SSD writes in a
+wear-aware manner. As a result of the investigation, § 3.3 explains 5
+the capacity-aware cache management policy that decides whether
+to drop or move the state to SSD based on its expected future reuse
+and the SSD write cost consumed. § 3.4 explains an optimization 0
+0 10000 20000 30000
+to reduce the score computation overhead while maintaining its
+Sequence length (tokens)
+effectiveness.
+3.1 Attention type-aware placement
+Hybrid models produce cached states with substantially different
+sizes and reuse patterns. Full-attention layers retain per-token KV
+entries, so their cache grows with the prefix length, whereas linear-
+attention layers maintain a fixed-size recurrent state at each check-
+point. Sliding-window layers retain only the most recent 𝑊 tokens
+and can therefore use the same placement policy as linear-attention
+layers. The state types also differ substantially in size. Across our
+evaluated models, a single linear-attention state occupies as much
+space as the full-attention KV entries for 2𝑘–16𝑘 tokens. However,
+reuse is only meaningful when all types of states are available at
+the same prefix boundary.
+This heterogeneity in size and reuse pattern brings 2 opportu-
+nities: (1) not all KV state needs to be cached, and (2) where an admitted state should be placed. The heterogeneity creates two
+distinct cache-management decisions. First, admission determines
+which generated states provide sufficient reuse value to retain. Sec-
+ond, placement determines the storage tier in which each admitted
+state should reside.
+Prior works has solved “which KV state should be cached” by
+probing the reuse boundary [33, 46]. These mechanisms address
+which states should be retained, but they do not determine whether
+an admitted state should reside in DRAM or in SSD. Our work is
+aimed to improve SSD lifetime by managing KV cache placement
+leveraging its attention layer type to give a hint on the most suitable
+placement in the storage tier.
+We therefore retain linear state in DRAM and full attention
+KV caches in SSD. Each linear state generated at the end of each
+conversation round is put in DRAM while the full attention KV
+cache is put on SSD. When the storage tier (DRAM/SSD) is out of
+space, the least-recently-used cache on the tier is evicted.
+3.2 Understanding the Potential
+Mathematical model to estimate the SSD-lifetime improvement
+of attention-type-aware placement over conventional write-back,
+independent from eviction strategies. Consider a workload con-
+taining 𝑠 sessions, each with an average of 𝑛 cached tokens and
+𝑟 conversation rounds. Let 𝑓 denote the size of full-attention KV
+entries per token, and let ℓ denote the size of one linear-attention
+state. The size of full-attention and linear-attention state for each
+session are therefore 𝐹 = 𝑛𝑓 and 𝐿 = 𝑟ℓ, respectively.
+Under write-back, both full-attention KV entries and linear-
+attention states are admitted to DRAM and written to SSD upon
+eviction. Let 𝐶 denote the CPU DRAM capacity reserved for KV
+cache. Assuming each evicted byte is written to SSD at most once
+oitar
+DSS
+/
+UPC
+lamitpO
+Figure 5: CPU/SSD capacity ratio to obtain maximum SSD
+lifetime improvement.
+except the last 𝐶 bytes, the SSD host-write volume is 𝑊 write−back =
+𝑠 (𝐹 + 𝐿) − 𝐶.
+With attention type-aware placement, only a fraction 𝑝 ∈ [0, 1]
+of the linear-attention states needs to be spilled to SSD, while all full-
+attention KV entries are written to SSD. Hence, the SSD host-write
+volume is 𝑊 type−aware = 𝑠𝐹 + 𝑝𝑠𝐿 = 𝑠 (𝐹 + 𝑝𝐿).
+SSD’s projected lifetime 𝑇 is inversely proportional to its write
+rate since writing to SSD reduces its lifespan. So the approximate
+SSD-lifetime improvement is
+𝐼 type−aware = 𝑇 𝑇 type−aware ≈ 𝑊 𝑊 write−back = 𝑠 ( 𝑠 𝐹 (𝐹 + + 𝐿) 𝑝𝐿 − ) 𝐶 (3)
+write−back type−aware
+Thus, the attainable SSD-lifetime improvement grows with the size
+of linear-attention state relative to full-attention KV cache and
+decreases with the fraction of linear state that must spill to SSD.
+Capacity requirement for type-aware placement. The ideal
+type-aware placement keeps linear-attention states in DRAM and
+full-attention KV cache in SSD. In Equation 3, this corresponds to
+𝑝 = 0, which maximizes the SSD lifetime improvement. However,
+achieving this upper bound requires sufficient DRAM capacity to
+retain the live linear states.
+As observed in Section 2.6, in multi-round conversation and agen-
+tic workloads, each session only needs to retain one linear-attention
+state at a time, but it must retain all full-attention KV entries for
+the entire prefix. Strict separation requires enough DRAM to hold
+one live linear-attention state for every session and enough SSD
+capacity to hold every session’s full-attention KV cache. As shown
+in Figure 5, with the same number of sessions, the CPU/SSD capac-
+ity ratio required to achieve maximum SSD-lifetime improvement
+decreases with session length because the live linear state has fixed
+size, whereas full-attention KV grows with the number of tokens.
+Consequently, strict type-based placement cannot always use both
+tiers efficiently. For short sessions, linear states dominate capac-
+ity and some may need to borrow SSD space. For long sessions,
+full-attention KV dominates and may benefit from borrowing un-
+used DRAM space. We therefore design a capacity-aware placement
+algorithm as an SSD admission gate that treats attention type as
+a reuse pattern proxy for placement preference. The gate selects
+which objects to move, retain, or evict based on their size, atten-
+tion type-specific expected reuse, tier occupancy, and SSD-write
+cost. We first study an offline optimal algorithm, approximate its
+decisions, and then derive a practical online policy.

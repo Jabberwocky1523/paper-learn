@@ -1,0 +1,94 @@
+Maharani A. P. Irawan, Kuntai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+1.5
+1.0
+0.5
+0.0
+LRU MeritKV HotPrefix Marconi LRU-K Gandalf
+(F=1) (α=0) (K=2) (α=1)
+)stseuqer
+k1
+/
+$(
+tsoC
+Flash-aware caching and storage. General flash caches control
+1.66
+Recompute wear through admission filtering and write-rate constraints [10, 47,
+1.25 SSD wear 51], while offline work extends Bélady-style analysis to account for
+flash erasures [6]. Device- and interface-level techniques reduce
+0.80 0.79 0.74
+physical writes through retention management, stream placement,
+0.30 and cache-aware reclamation [24, 26, 27, 39]. For LLM serving,
+HiFC, FlashAccel, and HBFlex optimize flash data paths, writeback,
+and reclamation [15, 45, 54]. These mechanisms are complementary
+to Gandalf because they do not use attention semantics to value
+individual KV states.
+Figure 14: Average cost per request, recomputation plus SSD Lifetime-aware KV placement. Most closely related, Lachesis
+wear, on ClaudeCode with Kimi-K3, 100 GB of DRAM and a places agent KV segments across HBM and high-bandwidth flash
+1 TB SSD. Gandalf has the lowest cost once the SSD wear is using lifetimes inferred from the agent harness [50]. In contrast,
+counted. Gandalf targets host DRAM and SSD, derives reuse differences
+from hybrid-attention semantics without harness-specific informa-
+tion, and jointly considers capacity, recomputation benefit, and SSD
+Therefore, Gandalf may choose to recompute more tokens if the write cost.
+SSD write cost is high, since the inference saving cost involves not
+7 Conclusion
+only GPU as a hardware resource, but also SSD.
+This paper presents Gandalf , an SSD-based KV cache offloading
+5.9 The optimization does not affect the
+system that uses the attention type associated with each KV cache
+performance negatively. object to predict its likelihood of future reuse. Gandalf retains
+short-lived linear-attention states in DRAM, while offloading full-
+To keep each decision cheap, the move door (§3.4) checks, for each
+attention KV caches with high reuse potential to SSD. Its placement
+slot size, only the longest-lived DRAM entry as a candidate to move
+policy balances the expected cache hits from each SSD write against
+to the SSD. A move is then blocked whenever that one entry’s score
+the resulting device wear. By filtering writes based on both reuse
+falls below its write fee, even if another entry of the same size
+potential and wear cost, Gandalf preserves cache hit rates while
+would be worth writing. To measure what this costs, we let the
+extending SSD lifetime. Across a range of hybrid models and hard-
+move door check up to 64 candidates per slot size, with Kimi-K3,
+100GB of DRAM, a 1TB SSD and 𝛼 = 1. Checking more candidates ware capacities, Gandalf improves SSD lifetime by 2–7.3× over the
+best baseline. As KV caches continue to outgrow available memory,
+does not lower Gandalf ’s miss ratio: it stays at 0.823 on TraceA
+we hope Gandalf motivates future KV cache systems to consider
+and 0.036 on AIPerf for every number of candidates. On TraceA,
+not only the performance benefits of SSD offloading, but also the
+the extra candidates only move entries that are not read again, so
+wear caused by each write. We leave the extension of Gandalf to
+the SSD writes grow by 1.4% (501 to 508GiB) and the SSD lifetime
+other types of flash-based storage as a future work.
+shortens from 271 to 268 days; on AIPerf, the first candidate is never
+blocked, so the result is identical. A single candidate per slot size
+References
+therefore loses no hits.
+[1] Anthropic. [n. d.]. Prompt caching. https://platform.claude.com/docs/en/build-
+6 Related Work with-claude/prompt-caching. Accessed: 2026-09-30.
+[2] Jens Axboe and Vincent Fu. [n. d.]. 1. fio - Flexible I/O tester.
+Tiered KV-cache systems. CachedAttention, FlashGen, LMCache, https://fio.readthedocs.io/en/latest/fio_doc.html. [Accessed 12-10-2026].
+[3] L. A. Belady. 1966. A Study of Replacement Algorithms for a Virtual-Storage
+and Mooncake extend GPU memory with host DRAM, SSD, or Computer. IBM Systems Journal 5, 2 (1966), 78–101.
+distributed storage [7, 13, 16, 36], while TENURE and placement [4] Joe Brewer and Manzur Gill. 2011. Nonvolatile memory technologies with emphasis
+on flash: a comprehensive guide to understanding and using flash memory devices.
+studies decide where KV caches should reside across these tiers [28,
+John Wiley & Sons.
+43]. InfiniGen and Tutti instead reduce lower-tier access overhead [5] Yu Cai, Gulay Yalcin, Onur Mutlu, Erich F Haratsch, Adrian Cristal, Osman S
+through selective fetching and GPU-directed SSD I/O [20, 37]. These Unsal, and Ken Mai. 2012. Flash correct-and-refresh: Retention-aware error
+management for increased flash memory lifetime. In 2012 IEEE 30th International
+systems primarily optimize capacity, latency, or throughput rather Conference on Computer Design (ICCD). IEEE, 94–101.
+than SSD endurance. [6] Yue Cheng, Fred Douglis, Philip Shilane, Michael Trachtman, Grant Wallace,
+KV admission, eviction, and compression. Prior policies predict P C e a t c e h r e D O es ffl n i o n y e er O s p , a ti n m d a K li a t i y L . I i. n 2 2 0 0 1 1 6 6 . E U r S a E s N in I g X B A é n la n d u y a ’ l s T L e im ch i n ta ic t a io l n C s o : n In fe S r e en ar c c e h (U of S F E l N as IX h
+reuse from prefix structure, recency, frequency, semantics, queued ATC 16). USENIX Association, 379–392. https://www.usenix.org/conference/
+demand, or workload history [12, 22, 33, 34, 44, 46, 48, 49]. MeritKV, atc16/technical-sessions/presentation/cheng
+[7] Yihua Cheng, Yuhan Liu, Jiayi Yao, Yuwei An, Xiaokun Chen, Shaoting Feng,
+Bidaw, LRU-K, and NVIDIA KVBM further incorporate reuse utility,
+Yuyang Huang, Samuel Shen, Kuntai Du, and Junchen Jiang. 2025. LMCache:
+storage cost, or write awareness [14, 17, 30, 35]. Orthogonal tech- An Efficient KV Cache Layer for Enterprise-Scale LLM Inference. arXiv preprint
+niques reduce the footprint through token eviction, quantization, arXiv:2510.09665 (2025).
+[8] DeepSeek-AI. 2026. DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache
+or model-level KV compression [8, 25, 53]. Most of these techniques Compression. arXiv:2609.19969 [cs.CL] https://arxiv.org/abs/2609.19969
+do not jointly manage DRAM placement, SSD admission, and SSD [9] NVIDIA Dynamo. [n. d.]. GitHub - ai-dynamo/aiperf: AIPerf is a comprehensive
+benchmarking tool that measures the performance of generative AI models
+eviction using attention-type reuse heterogeneity and an explicit
+served by your preferred inference solution. — github.com. https://github.com/ai-
+endurance cost. dynamo/aiperf. [Accessed 21-10-2026].

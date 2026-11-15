@@ -1,0 +1,92 @@
+Gandalf: Flash Shall Not Die! Increasing Flash Storage Lifetime
+for KV Cache Offloading in LLM Serving
+Maharani A. P. Irawan∗ Kuntai Du Jiayi Yao Dongjoo Seo
+The University of Chicago TensorMesh Inc. The University of Chicago Samsung Semiconductor
+USA USA USA USA
+Yuyang Huang Haryadi S. Gunawi Junchen Jiang†
+The University of Chicago The University of Chicago TensorMesh Inc.
+USA USA USA
+Abstract
+KV caching reduces the serving cost of large language models
+(LLMs), but the growing KV cache footprint is increasingly ex-
+ceeds GPU and host-memory capacity. Therefore, people use SSD
+to expand the KV cache storage capacity with high I/O bandwidth.
+However, in production LLM workload, such as multi-round con-
+Cache Hit Rate
+versation and LLM agents, the total amount of KV cache writes
+significantly exceeds SSD capacity, shortening SSD lifetime from
+years to months. To improve SSD lifetime, a natural solution is to
+reduce the KV cache writes by gating the KV cache writes via his-
+torical access patterns. However, that significantly lowers the KV
+cache hit rate (and increase the LLM serving cost) since KV caches
+from different attention types might have identical historical access
+pattern but different future access patterns. Our insight is that, to
+reduce KV cache writes without hurting KV cache hit rate, one need
+to not only consider the access pattern, but also application-level
+information such as the attention type of KV cache. Leveraging this
+observation, we propose Gandalf , the first SSD KV cache offload-
+ing system with SSD life time awareness. Gandalf prioritize the
+admission of full-attention KV cache into SSD over the cache gener-
+ated by other types of attention, which significantly increases SSD
+lifetime without sacrificing cache hit rate. Our evaluation shows
+that Gandalf extends the SSD lifetime by 7.3× on average, while
+having negligible impact on cache hit rate across multiple workload
+traces and wide range of hardware capacity. Gandalf design can
+be extended to other flash-based storage, such as High Bandwidth
+Flash (HBF).
+1 Introduction
+Large language models (LLMs) have demonstrated strong capabili-
+ties in multi-round conversations and agentic workflows, garnering
+wide adoption. These workloads accumulate conversation histories,
+tool outputs, and intermediate states, resulting in increasingly long
+and frequently reused contexts. However, recomputing the atten-
+tion key-value (KV) states for these contexts at every rounds sub-
+stantially increases inference latency and cost. Hence, people store
+all KV caches in their system to avoid recomputation and increase
+cache hit rate [1, 32]. Production workloads generates Terabytes of
+KV-cache per day at the amount that exceeds the capacity of GPU
+and host memory, motivating the use of higher-capacity storage
+tiers. Flash-based storage, e.g. NVMe SSDs, provides a scalable and
+comparatively cost-effective tier for storing these caches [29].
+∗Part of this work was done while the author was an intern at TensorMesh Inc.
+†Also with The University of Chicago.
+emitefiL
+DSS
+Frequency-based filtering
+Ideal
+Figure 1: Using historical access pattern creates a trade-off
+between cache hit rate and SSD lifetime. Gandalf maintains
+cache hit rate while increasing SSD lifetime.
+Table 1: Reuse pattern of first round’s KV caches in multi-
+round conversation
+Type 2nd-round 3rd-round Future rounds Reuse count
+Full attn ✓ ✓ ✓ 𝑁 rounds Linear attn ✓ ✗ ✗ 1
+This additional capacity comes with an endurance challenge
+because SSDs can only handle a finite volume of writes before
+they are worn out [4]. Under production workloads, aggressive KV-
+cache admission improves cache-hit rate but generates substantial
+write volume, exhausting SSD endurance within days to months.
+Therefore, existing production-level systems came up with simple
+filtering techniques that gates SSD admission, trading potential
+cache hits for fewer writes. Frequency-based solutions, for example,
+offloads a KV cache to SSD only if it has demonstrated 𝑁 × reuse,
+with 𝑁 as a hyperparameter [30, 35]. However, even with such
+filtering, the aggregate KV-cache write volume remains excessive
+for practical SSD endurance. This raises a central question:
+How can we improve the SSD lifetime without sacrificing KV caching
+performance benefit?
+The key challenge lies in predicting the future reuse of KV caches
+such that we can selectively retain only the most reusable caches to
+make the most of SSD’s capacity. Future prediction is difficult, but
+we found application-specific property that strongly correlates with
+reuse pattern. We leverage two observations: (1) Recent LLMs in-
+creasingly employ hybrid architectures that combine full-attention
+layers with linear- or sparse-attention layers, and (2) These dif-
+ferent attention layer types produce KV caches with substantially
+different reuse patterns under emerging mainstream workloads:
+multi-round conversations and agentic workflows. In particular,
+6202
+tcO
+22
+]GL.sc[
+1v19703.0162:viXra

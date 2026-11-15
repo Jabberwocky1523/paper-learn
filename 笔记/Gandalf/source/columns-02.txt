@@ -1,0 +1,112 @@
+Maharani A. P. Irawan, Ku
+states from linear- and sparse-attention layers are reused less fre-
+quently than KV caches from full-attention layers.
+Consider a multi-round conversation workload use-case, which
+reuse pattern illustrated in Table 1. At the beginning of each new
+round, the full-attention KV entries for the entire preceding con-
+text is needed. This pattern repeats for every new round, hence
+these KV entries are reused across all future rounds. In contrast,
+a linear-attention layer’s state and sliding-window cache is only
+needed to generate the immediate next round’s response, and is
+then discarded, hence every state is only reused once.
+This reuse pattern heterogeneity motivates attention-type-aware
+cache placement. Writing large, one-time use linear-attention states
+to SSD provides little cache hit benefit while consuming both write
+endurance and cache capacity. Layer type can therefore serve as
+a practical placement signal, allowing us to utilize SSDs to ex-
+pand cache capacity while minimizing endurance loss. We propose
+an attention layer-aware placement policy that caches short-lived
+linear-attention states in host memory while keeping longer-lived
+full-attention KV caches on SSD.
+However, there are 2 practical challenges that entail this place-
+ment policy.
+First, this placement policy is too rigid: the size of CPU DRAM
+and SSD is fixed, but workload can generate different amounts
+of different attention states. Particularly, a workload with many
+concurrent sessions can generate a large number of reusable linear-
+attention states that exceeds the available DRAM capacity, simi-
+larly, a workload with long contexts can generate a large number
+of reusable full-attention KV caches that exceeds the available SSD
+capacity. We call this a hardware-to-utilization imbalance. This
+imbalance forces frequent cache eviction on the saturated tier de-
+spite available capacity elsewhere in the storage hierarchy, thus
+lowering cache-hit rate. Worse, if the overutilization happens in
+SSD, the resulting write churn can consume its endurance budget
+more rapidly and further shorten its lifetime. Therefore, we design
+a capacity-aware placement policy that filters SSD admission based
+on utilization and pressure of each tier, balancing cache hit rate
+against SSD endurance.
+Second, such rigid placement moves cache hit from DRAM to SSD,
+which can hurt TTFT because SSD bandwidth is substantially lower
+than DRAM bandwidth. Hence, transferring large full-attention KV
+caches from SSD may hurt TTFT.
+We explore the potential of attention-type-aware placement us-
+ing an offline oracle that jointly optimizes SSD admission and cache
+eviction decisions, biased towards our tier placement. The oracle
+reveals two complementary design principles. First, placement must
+adapt to tier capacity and selectively persist KV caches on SSD to
+preserve the prefix-hit boundary. Second, admission and eviction
+must be optimized jointly: admitting a new cache has cost and ben-
+efit. It benefits future reuse, but it has write cost and replacement
+cost—cost of replacing other cache entries, may or may not already
+pay for its promised benefit. An SSD admission is beneficial only
+when its expected reuse value exceeds the sum of write cost and
+the value of the entries it evicts. Together, these principles charac-
+terize the best attainable trade-off among SSD lifetime, cache-hit
+rate, and TTFT. We then distill the oracle’s decisions into an online,
+capacity-aware policy that estimates future reuse from historical
+access patterns.
+--- RIGHT COLUMN ---
+untai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+Table 2: Under KV cache offloading workloads, SSDs may
+last less than a year—far short of their five-year warranty.
+KV cache
+Workload Model size (TB) SSD lifetime (y)
+Claude Code Qwen3.5-27B 98 0.4
+cc-traces-062126
+Kimi-K3 240 0.2
+Claude Code Qwen3.5-27B 81 0.4
+cc-traces-060826
+Kimi-K3 199 0.2
+Contributions. Our work makes the following contributions:
+(1) We are the first to show that the SSD lifetime is significantly
+lower than its factory guarantee in production-scale SSD-
+based KV cache offloading.
+(2) We show that, leveraging application-level information (the
+attention type corresponds to each KV cache objects), we
+can significantly reduce the write volume and increase SSD
+life time with negligible impact on KV cache hit rate.
+(3) We propose Gandalf , a KV caching system that can in-
+crease SSD lifetime by 7.3× (on average) with negligible
+impact on hit rate across a wide range of LLMs and hard-
+ware capacity.
+Although this paper only demonstrates Gandalf on SSD, but
+the technique is extendable to other flash-based storage devices,
+such as High Bandwidth Flash (HBF).
+2 Motivation
+2.1 KV Caches Exceed Memory Capacity
+Over the past years, the increasing intelligence and context window
+size of LLMs empowered multi-round conversations and agentic
+workflows. These types of workloads continuously accumulate
+conversation history, intermediate reasoning, tool outputs, and
+subagent results. Unlike single-turn requests, these workloads re-
+peatedly extend and reuse an existing prefix, causing each session’s
+KV-cache footprint to grow throughout its lifetime. Hence, the
+aggregate KV cache sizes saved across requests and sessions are
+getting enormous.
+Long contexts also make cache misses increasingly expensive.
+When a reusable prefix is not cached, the serving system must
+recompute its KV states by prefilling all preceding tokens before
+generating a response. In workloads with long context sizes, such
+as multi-round conversation, agentic workflow, and long document
+processing, this repeatedly consumes scarce GPU computation,
+increasing TTFT and serving cost. People therefore seek to retain
+as much reusable KV state as possible, effectively trading storage
+capacity for computation.
+Our analysis of two one-day SemiAnalysis Claude Code traces [40]
+estimates that representative hybrid models generate 81–240 TB
+of KV-cache state per day (Table 2). At peak, the concurrently
+active KV-cache working set reaches 8.6TB, exceeding practical
+host-memory capacity, hence provisioning sufficient CPU DRAM
+would be prohibitively expensive. Retaining this state for future
+reuse is therefore infeasible using memory alone. Consequently,

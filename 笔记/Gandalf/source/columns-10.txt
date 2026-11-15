@@ -1,0 +1,120 @@
+Maharani A. P. Irawan, Ku
+1
+.5
+0
+oitar
+tih
+setirW
+Full-attention KV
+Gandalf LRU-K (K=1) LRU-K (K=2)
+.5
+0
+Time
+oitar
+tih
+setirW
+Linear states
+Figure 10: Gandalf SSD admission results in higher fraction
+of SSD writes that contributes to cache hits at least once.
+Unlike baselines, Gandalf cache hit is stable across time.
+and by 0.089–0.419 relative to HotPrefix. On Nemotron-H, Gan-
+dalf keeps the miss ratio similar to LRU-K, but extends the SSD
+lifetime by 3.6× . Among Nemotron-H, Gemma3-27B, and Kimi-K3,
+the lifetime gain over LRU-K grows with the state-to-KV ratio, from
+3.6× to 5.8× and 6.6× , and Qwen3.5-27B. Even in the model with
+the smallest ratio, Gandalf still gains 3.9× .
+The larger the ratio, the higher the penalty of writing a linear
+state that is never reused, so the improvement obtained by Gandalf ’s
+filtering is larger. This makes Gandalf especially needed for de-
+ployment of hybrid models with large linear-attention states, which
+are increasingly common in modern LLMs.
+5.6 Where does the improvement come from?
+Avoid writing non-reused linear states in SSD. Gandalf avoids
+writing linear states that will not be reused multiple times, such as
+those at every turn of a multi-turn conversation, to the SSD. Fig-
+ure 10 shows, over time, the fraction of SSD writes that contribute
+to cache hits at least once, for Gandalf and LRU-K on ClaudeCode
+with Qwen3.5-27B, 100GB of DRAM and a 1TB SSD. Throughout
+the trace, a higher fraction of Gandalf ’s SSD writes are hit than
+those of LRU-K at 𝐾 = 1, for both full-attention KV and linear
+states.
+LRU-K at 𝐾 = 1 writes 120.6k linear states to the SSD, and only
+21% of them are ever hit there: 43% are never requested again, and
+45% had already served their one hit from DRAM before being
+moved to the SSD, i.e., the state of a turn that the next turn already
+reused. A larger 𝐾 does not fix this. LRU-K [35] counts references
+per object, which captures hotness for objects that persist across
+requests, such as a user’s KV cache in generative recommendation.
+A linear state, however, is superseded at every turn and is referenced
+at most about twice, so it reaches 𝐾 = 2 references only after its one
+reuse is over: LRU-K drops a state that leaves DRAM before the next
+turn arrives, and writes one that the next turn has already reused.
+With 𝐾 = 2, LRU-K writes 1.9× fewer linear states (62.6k), but 90%
+of them had already been hit before being written, 58% are never
+requested again, and only 13% are hit on the SSD; meanwhile its miss
+ratio rises from 0.1 to 0.14. Gandalf instead decides by whether
+a state will be reused later, not by how often it was referenced: it
+writes 8.8× fewer linear states than LRU-K at 𝐾 = 1, and 57% of
+them are hit on the SSD.
+--- RIGHT COLUMN ---
+untai Du, Jiayi Yao, Dongjoo Seo, Yuyang Huang, Haryadi S. Gunawi, and Junchen Jiang
+100%
+80%
+60%
+40%
+20%
+0%
+Gandalf LRU-K
+)%(
+DSS
+morf
+daeR
+Full-attention KV Linear states
+87.2%
+73.8%
+33.0%
+10.2%
+Gandalf LRU-K
+Figure 11: A bigger portion of linear state cache hit in Gan-
+dalf comes from DRAM, while most full attention KV cache
+hit comes from SSD.
+As the SSD is full, LRU-K gets more selective at admitting cache
+to SSD, hence the cache hit rate decreases. Gandalf , however,
+maintains a high cache hit rate throughout.
+Avoid writing rarely reused full-attention KV in SSD. We
+also increase the reusability of the full-attention KV cache entries
+that are written to the SSD, by filtering out those that are unlikely
+to be reused in the future, such as those at the end of a conversation
+or session. Gandalf writes 33% fewer full-attention KV chunks
+than LRU-K at 𝐾 = 1 (21.5M vs. 32.1M), and 61% of them are hit on
+the SSD, compared to 50% for LRU-K. Of the chunks LRU-K writes,
+9.6% are never requested again, compared to 5.3% for Gandalf , so
+Gandalf writes 2.7× fewer such chunks (1.1M vs. 3.1M). Despite
+writing fewer chunks, Gandalf serves 18% more full-attention hits
+from the SSD (265M vs. 225M), i.e., 12.3 hits per chunk written
+compared to 7.0 for LRU-K. Together, Gandalf writes 92TB to the
+SSD instead of 153TB, which extends the SSD lifetime by 1.7× (98
+vs. 59 days) at a similar miss ratio (0.099 vs. 0.098).
+Attention type-aware placement. Gandalf places linear states
+in DRAM and full-attention KV in the SSD. Figure 11 shows where
+the cache hits of each kind are served from, for Gandalf and LRU-K
+at 𝐾 = 1 in the same setting as above. Gandalf serves 87% of its
+full-attention KV hits from the SSD and 90% of its linear-state hits
+from DRAM. LRU-K, which places objects by recency regardless of
+their kind, serves 74% of its full-attention KV hits from the SSD and
+only 67% of its linear-state hits from DRAM since its DRAM also
+holds full-attention KV that Gandalf would have moved to the
+SSD. To serve the remaining 33% (27.0k hits) from the SSD, LRU-K
+writes 120.6k linear states to it, 4.5 writes per hit, whereas Gan-
+dalf serves 8.0k linear-state hits from the SSD with 13.7k writes,
+1.7 writes per hit.
+In summary, the improvement of Gandalf comes from leveraging
+attention type as a proxy for reusability, which: (1) avoids writing
+linear states at the end of each rounds to the SSD, (2) avoids writing
+rarely reused full-attention KV to the SSD, and (3) places linear states
+in DRAM and full-attention KV in the SSD.
+5.7 Comparing Gandalf to each baseline.
+Figure 12 breaks down each policy’s SSD writes on TraceA (2
+hours duration) with Kimi-K3, 100GB of DRAM and a 1TB SSD,
+with Gandalf at 𝛼 = 1, HotPrefix at 𝐹 = 1, LRU-K at 𝐾 = 3, and
+Marconi at 𝛼 = 0.
