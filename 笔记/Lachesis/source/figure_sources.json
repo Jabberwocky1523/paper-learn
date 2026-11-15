@@ -1,0 +1,122 @@
+[
+  {
+    "figure": 1,
+    "pdf_page": 2,
+    "crop_points": [
+      50,
+      68,
+      560,
+      303
+    ],
+    "path": "笔记/Lachesis/images/figure-01.png",
+    "dpi": 200
+  },
+  {
+    "figure": 4,
+    "pdf_page": 5,
+    "crop_points": [
+      50,
+      68,
+      560,
+      321
+    ],
+    "path": "笔记/Lachesis/images/figure-04.png",
+    "dpi": 200
+  },
+  {
+    "figure": 5,
+    "pdf_page": 6,
+    "crop_points": [
+      50,
+      67,
+      560,
+      271
+    ],
+    "path": "笔记/Lachesis/images/figure-05.png",
+    "dpi": 200
+  },
+  {
+    "figure": 6,
+    "pdf_page": 7,
+    "crop_points": [
+      316,
+      67,
+      560,
+      201
+    ],
+    "path": "笔记/Lachesis/images/figure-06.png",
+    "dpi": 200
+  },
+  {
+    "figure": 7,
+    "pdf_page": 7,
+    "crop_points": [
+      316,
+      229,
+      560,
+      367
+    ],
+    "path": "笔记/Lachesis/images/figure-07.png",
+    "dpi": 200
+  },
+  {
+    "figure": 8,
+    "pdf_page": 8,
+    "crop_points": [
+      315,
+      69,
+      560,
+      402
+    ],
+    "path": "笔记/Lachesis/images/figure-08.png",
+    "dpi": 200
+  },
+  {
+    "figure": 9,
+    "pdf_page": 10,
+    "crop_points": [
+      50,
+      67,
+      562,
+      236
+    ],
+    "path": "笔记/Lachesis/images/figure-09.png",
+    "dpi": 200
+  },
+  {
+    "figure": 10,
+    "pdf_page": 10,
+    "crop_points": [
+      50,
+      264,
+      562,
+      438
+    ],
+    "path": "笔记/Lachesis/images/figure-10.png",
+    "dpi": 200
+  },
+  {
+    "figure": 11,
+    "pdf_page": 11,
+    "crop_points": [
+      315,
+      69,
+      560,
+      240
+    ],
+    "path": "笔记/Lachesis/images/figure-11.png",
+    "dpi": 200
+  },
+  {
+    "figure": 12,
+    "pdf_page": 11,
+    "crop_points": [
+      315,
+      280,
+      560,
+      465
+    ],
+    "path": "笔记/Lachesis/images/figure-12.png",
+    "dpi": 200
+  }
+]
